@@ -82,7 +82,7 @@ Here's how you can create a new dataframe:
  .. code-block:: text
 
     4×2 DataFrame
-    Row │ first_name  age    
+    Row │ name        age
         │ String      String 
     ────┼────────────────────
       1 │ Ali         25
