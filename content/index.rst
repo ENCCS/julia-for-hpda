@@ -44,6 +44,7 @@ computing.
    development
    scientific-computing
    data-science
+   linear-algebra
 
 
 .. toctree::

@@ -1,6 +1,6 @@
 .. _linear_algebra:
 
-Linear Algebra
+Linear algebra
 =================================
 
 .. questions::
@@ -23,7 +23,7 @@ virginica with 50 datapoints of each species. There are four
 measurements for datapoint, namely sepal length, sepal width, petal
 length and petal width (in centimeters).
 
-.. figure:: img/iris.jpg
+.. figure:: img/iris_resize.jpg
    :align: center
 
    Image by David Iliff.
@@ -31,7 +31,6 @@ length and petal width (in centimeters).
 To obtain the data we use the RDatasets package:
 
 .. code-block:: julia
-
 
    using DataFrames, LinearAlgebra, Statistics, RDatasets, Plots
    df = dataset("datasets", "iris")
@@ -47,9 +46,7 @@ above) as well as the labels separately:
 .. code-block:: julia
 
    Xdf = df[:,1:4]
-
-   X = Matrix(Xdf)   
-   
+   X = Matrix(Xdf)
    y = df[:,5]
 
 Firt we center the data by substracting the mean and in addition we
@@ -58,13 +55,9 @@ normalize by dividing by the standard deviation:
 .. code-block:: julia
 
    m = mean(X, dims=1)
-
    r = size(X)[1]
-
    X = X - ones(r,1)*m
-
    s = ones(1, 4)./std(X, dims=1)
-
    X = X.*s
 
 Now compute the covariance matrix together with its eigenvectors and eigenvalues:
@@ -72,10 +65,10 @@ Now compute the covariance matrix together with its eigenvectors and eigenvalues
 .. code-block:: julia
 
    M = transpose(X)*X
-
    P = eigvecs(M)
-
    E = eigvals(M)
+
+.. code-block:: text
 
    4-element Vector{Float64}:
       3.08651062786422
@@ -97,13 +90,16 @@ We may perform dimensionality reduction by projecting the data to this subspace:
 
 .. code-block:: julia
 
-    # projection of dataset onto orthonormal basis of eigenvectors (the three with largest eigenvalues)
+    # projection of dataset onto orthonormal basis of eigenvectors
+    # the three with largest eigenvalues
     Xp = X*P[:,2:4]
 
-    # This results in three least important directions, interesting comparison
+    # This following results in three least important directions, interesting comparison
     # Xp = X*P[:,1:3]
 
 Plotting the result:
+
+.. code-block:: julia
 
    setosa = Xp'[:,y.=="setosa"]
    versicolor = Xp'[:,y.=="versicolor"]
@@ -120,4 +116,4 @@ Plotting the result:
 .. figure:: img/iris_scatter_plot.png
    :align: center
 
-   Scatter plot of the data projected data.
+   Scatter plot of the projected data.
