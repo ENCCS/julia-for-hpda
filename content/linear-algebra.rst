@@ -169,11 +169,12 @@ TODO:
 Loading a dataset
 ^^^^^^^^^^^^^^^^^
 
-We start by downoading Fisher's iris dataset. This dataset contains
-measurements from 3 different species of the plant iris: setosa, versicolor and
-virginica with 50 datapoints of each species. There are four
-measurements for datapoint, namely sepal length, sepal width, petal
-length and petal width (in centimeters).
+To prepare our illustration of PCA, we start by downoading Fisher's
+iris dataset. This dataset contains measurements from 3 different
+species of the plant iris: setosa, versicolor and virginica with 50
+datapoints of each species. There are four measurements for datapoint,
+namely sepal length, sepal width, petal length and petal width (in
+centimeters).
 
 .. figure:: img/iris_resize.jpg
    :align: center
