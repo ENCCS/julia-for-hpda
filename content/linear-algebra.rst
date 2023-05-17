@@ -13,28 +13,6 @@ Linear algebra
    - 40 min teaching
    - 20 min exercises
 
-
-Loading a dataset
-^^^^^^^^^^^^^^^^^
-
-We start by downoading Fisher's iris dataset. This dataset contains
-measurements from 3 different species of the plant iris: setosa, versicolor and
-virginica with 50 datapoints of each species. There are four
-measurements for datapoint, namely sepal length, sepal width, petal
-length and petal width (in centimeters).
-
-.. figure:: img/iris_resize.jpg
-   :align: center
-
-   Image of iris by David Iliff.
-
-To obtain the data we use the RDatasets package:
-
-.. code-block:: julia
-
-   using DataFrames, LinearAlgebra, Statistics, RDatasets, Plots
-   df = dataset("datasets", "iris")
-
 Matrix and vector operations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -187,6 +165,27 @@ TODO:
   * QR factorization, diagonalization or similar, change of basis
   * random matrices
   * Sparse operations (with random examples?)
+
+Loading a dataset
+^^^^^^^^^^^^^^^^^
+
+We start by downoading Fisher's iris dataset. This dataset contains
+measurements from 3 different species of the plant iris: setosa, versicolor and
+virginica with 50 datapoints of each species. There are four
+measurements for datapoint, namely sepal length, sepal width, petal
+length and petal width (in centimeters).
+
+.. figure:: img/iris_resize.jpg
+   :align: center
+
+   Image of iris by David Iliff.
+
+To obtain the data we use the RDatasets package:
+
+.. code-block:: julia
+
+   using DataFrames, LinearAlgebra, Statistics, RDatasets, Plots
+   df = dataset("datasets", "iris")
 
 Principal Component Analysis (PCA)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
