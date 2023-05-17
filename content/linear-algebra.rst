@@ -81,6 +81,7 @@ Recall that matrices and vectors may be defined as follows:
 
 Standard operations such as rank, determinant, trace, matrix multiplication,
 transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so on:
+
 .. code-block:: julia
 
    # rank of matrix
@@ -161,7 +162,6 @@ transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so 
      0.529221   0.154329  -0.717333
 
 TODO:
-
   * QR factorization, diagonalization or similar, change of basis
   * random matrices
   * Sparse operations (with random examples?)
