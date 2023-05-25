@@ -55,6 +55,7 @@ Vectorization is done with the dot syntax similar to Matlab.
    @. A+A^2-sin(A)*sin(B)
 
 .. code-block:: text
+
    julia> @. A+A^2-sin(A)*sin(B)
 
    4-element Vector{Float64}:
@@ -66,6 +67,7 @@ Vectorization is done with the dot syntax similar to Matlab.
 An example where vectorization, random vectors and Plot are used:
 
 .. code-block:: julia
+
    using Plots
 
    x = range(0, 10, length=100)
