@@ -83,6 +83,11 @@ An example where vectorization, random vectors and Plot are used:
 
    diaplay(plt)
 
+.. figure:: img/sine_with_noise.png
+   :align: center
+
+   Sine function with noise.
+
 Adding elements to existing arrays (appending arrays).
 
 .. code-block:: julia
