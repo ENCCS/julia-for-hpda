@@ -16,8 +16,7 @@ Linear algebra
 List comprehension and vectorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-One can create vectors in a simple way similar to Python and
-vectorization is done with the dot syntax similar to Matlab.
+One can create vectors in a simple way similar to Python.
 
 .. code-block:: julia
 
@@ -36,6 +35,10 @@ vectorization is done with the dot syntax similar to Matlab.
    for x in zip(A,B)
        println(x[1]*x[2])
    end
+
+Vectorization is done with the dot syntax similar to Matlab.
+
+.. code-block:: julia
 
    # vectorization
    A.^2 # [1,4,9,16]
@@ -80,6 +83,51 @@ An example where vectorization, random vectors and Plot are used:
 
    diaplay(plt)
 
+Adding elements to existing arrays (appending arrays).
+
+.. code-block:: julia
+
+   # pushing elements to vector
+   U = [1,2,3,4]
+   push!(U, 55) # [1,2,3,4,55]
+   pop!(U) # 55
+   U # [1,2,3,4]
+
+   # Array of type Any
+   U = []
+   push!(U, 5) # [5]
+   u = [1,2,3]
+   push!(U, u) # [5, [1,2,3]]
+
+   # references
+   u = [1,2,3,4]
+   v = u
+   v[2] = 33
+   v # [1,33,3,4]
+   u # [1,33,3,4]
+
+   # using copy
+   u = [1,2,3,4]
+   v = copy(u)
+   v[2] = 33
+   v # [1,33,3,4]
+   u # [1,2,3,4]
+
+   # curiosity: push! stores a reference to the object pushed, not a copy
+   u[2] = 77
+   U # [5, [1,77,3]]
+
+   # Can use copy if want other behavior
+   U = []
+   push!(U, 5) # [5]
+   u = [1,2,3]
+   push!(U, u) # [5, copy(u)]
+   u[2] = 77
+   U # is still [5, [1,2,3]]
+   # however
+   v = U[2]
+   v[2] = 77
+   U # [5, [1,77,3]]
 
 Matrix and vector operations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -229,10 +277,42 @@ transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so 
     -0.211254   0.228475  -0.539484
      0.529221   0.154329  -0.717333
 
-TODO:
-  * QR factorization, diagonalization or similar, change of basis
-  * random matrices
-  * Sparse operations (with random examples?)
+Timing
+^^^^^^
+
+Some examples of timing and benchmarking.
+
+.. code-block:: julia
+
+   function my_product(A, B)
+       for x in zip(A,B)
+           push!(C, x[1]*x[2])
+       end
+   C
+   end
+
+   A = randn(10^8)
+   B = randn(10^8)
+   C = Float64[]
+
+   @time my_product(A, B);
+   @time A.*B;
+
+   tic = time()
+   C = my_product(A, B)
+   toc = time()
+   println(toc - tic)
+
+.. code-block:: julia
+
+   4.496966 seconds (100.01 M allocations: 1.563 GiB, 31.38% gc time, 0.21% compilation time)
+   0.195021 seconds (4 allocations: 762.940 MiB, 1.21% gc time)
+   3.4010000228881836
+
+.. questions::
+
+   - What does @time do? Why is there a relatively large difference
+     above between manual timing and timing with @time?
 
 Loading a dataset
 ^^^^^^^^^^^^^^^^^
@@ -337,3 +417,11 @@ Plotting the result:
    :align: center
 
    Scatter plot of the projected data.
+
+TODO:
+  * QR factorization?
+  * random matrices
+  * Sparse operations (with random examples)
+  * Compare execution time with sparse matrix computations and normal
+  * Plot histograms of different distributions from random library
+  * Make some excersizes on these themes
