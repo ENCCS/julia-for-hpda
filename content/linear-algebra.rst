@@ -5,13 +5,81 @@ Linear algebra
 
 .. questions::
 
+   - How can I create vectors and matrices in Julia?
    - How can I perform vector and matrix operations in Julia?
-   - Can I easily use Julia for typical linear algebra tasks?
      
 .. instructor-note::
 
    - 40 min teaching
    - 20 min exercises
+
+List comprehension and vectorization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+One can create vectors in a simple way similar to Python and
+vectorization is done with the dot syntax similar to Matlab.
+
+.. code-block:: julia
+
+   # list comprehension
+   [i^2 for i in range(1,40)] # 40-element Vector
+
+   # conditional list comprehension
+   [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
+
+   f(x,y)=x*y # f (generic function with 1 method)
+   A = [1,2,3,4]
+   B = [2,3,4,5]
+   f.(A, B) # 2,6,12,20
+
+   # another way
+   for x in zip(A,B)
+       println(x[1]*x[2])
+   end
+
+   # vectorization
+   A.^2 # [1,4,9,16]
+   A .+ B
+   A + B == A .+ B # true
+
+   sin(A)
+   # ERROR: MethodError: no method matching sin(::Vector{Int64})
+
+   sin.(A) # 4-element Vector
+
+   # vectorize everywhere
+   @. sin(A) + cos(A)
+   @. A+A^2-sin(A)*sin(B)
+
+.. code-block:: text
+   julia> @. A+A^2-sin(A)*sin(B)
+
+   4-element Vector{Float64}:
+     1.2348525987657073
+     5.871679939797543
+    12.106799974237582
+    19.27428371612359
+
+An example where vectorization, random vectors and Plot are used:
+
+.. code-block:: julia
+   using Plots
+
+   x = range(0, 10, length=100)
+   # vector has length 100
+   # from 0 to 10 in 99 steps of size 10/99=0.101...
+
+   y = sin.(x)
+   y_noisy = @. sin(x) + 0.1*randn() # normally distributed noise
+
+   plt = plot(x, y, label="sin(x)")
+   plot!(x, y_noisy, seriestype=:scatter, label="data")
+
+   # to save figure in file
+   # savefig("sine_with_noise.png")
+
+   diaplay(plt)
+
 
 Matrix and vector operations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -257,11 +325,11 @@ Plotting the result:
    versicolor = Xp'[:,y.=="versicolor"]
    virginica = Xp'[:,y.=="virginica"]
 
-   p = scatter(setosa[1,:],setosa[2,:],setosa[3,:],marker=:circle,linewidth=0)
-   scatter!(versicolor[1,:],versicolor[2,:],versicolor[3,:],marker=:circle,linewidth=0)
-   scatter!(virginica[1,:],virginica[2,:],virginica[3,:],marker=:circle,linewidth=0)
 
-   plt = plot!(p,xlabel="PC1",ylabel="PC2",zlabel="PC3")
+   plt = plot(setosa[1,:],setosa[2,:],setosa[3,:], seriestype=:scatter, label="setosa")
+   plot!(versicolor[1,:],versicolor[2,:],versicolor[3,:], seriestype=:scatter, label="versicolor")
+   plot!(virginica[1,:],virginica[2,:],virginica[3,:], seriestype=:scatter, label="virginica")
+   plot!(xlabel="PC1", ylabel="PC2", zlabel="PC3")
 
    display(plt)
 
