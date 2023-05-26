@@ -153,6 +153,23 @@ Recall that matrices and vectors may be defined as follows:
    # another way to make matrices
    M = [5 -3 2;15 -9 6;10 -6 4]
 
+   # common matrices and vectors:
+
+   # zeros
+   zeros(5) # [0,0,0,0,0]
+   zeros(5,5) # 5x5-matrix of zeros
+
+   # ones
+   ones(5) # [1,1,1,1,1]
+   zeros(5,5) # 5x5-matrix of ones
+
+   # random matrix
+   M = randn(5,5) # normally distributed 5x5-matrix
+
+   # identity matrix (may not need this, see operator I below)
+   I(5) # 5x5 identity matrix
+   I(5)*M == M # true
+
 .. code-block:: text
 
    julia> A
