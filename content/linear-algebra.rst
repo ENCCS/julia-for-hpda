@@ -550,9 +550,13 @@ Below we will consider the Gram-Schmidt process:
 
 The algorithm in pseudocode goes as follows. First define the
 orthogonal projection of a vector :math:`a` on a vector :math:`q` as
-:math:`\textrm{proj}_q(a)=\frac{\langle a, u \rangle}{||u||}` where
-:math:`\langle .,. \rangle` is the dot product and :math:`|| \cdot ||`
-is the norm. For linearly independent vectors, the algorithm goes:
+.. math::
+
+   \textrm{proj}_q(a)=\frac{\langle a, u \rangle}{||u||},
+
+where :math:`\langle .,. \rangle` is the dot product and :math:`||
+\cdot ||` is the norm. For linearly independent vectors, the algorithm
+goes:
 
   * :math:`\tilde{q}_1 = a_1`
   * :math:`q_1 = \tilde{q}_1/||\tilde{q}_1||`
