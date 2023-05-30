@@ -552,7 +552,7 @@ The algorithm in pseudocode goes as follows. First define the
 orthogonal projection of a vector :math:`a` on a vector :math:`q` as
 :math:`\textrm{proj}_q(a)=\frac{\langle a, u \rangle}{||u||}` where
 :math:`\langle .,. \rangle` is the dot product and :math:`|| \cdot ||`
-the norm. For linearly independent vectors, the algorithm goes:
+is the norm. For linearly independent vectors, the algorithm goes:
 
   * :math:`\tilde{q}_1 = a_1`
   * :math:`q_1 = \tilde{q}_1/||\tilde{q}_1||`
@@ -561,8 +561,10 @@ the norm. For linearly independent vectors, the algorithm goes:
 
 and so on. That is for :math:`i=1,2,3,\ldots,k`:
 
-  * Compute :math:`\tilde{q}_i`: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} proj_{q_j}(a_i)`
-  * Normalize: :math:`q_i = q_i/||q_i||`.
+  * Compute: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} proj_{q_j}(a_i)`
+  * Normalize: :math:`q_i = q_i/||q_i||`,
+
+and return :math:`{q_1,\dots,q_k}`.
 
 If at some step, :math:`||\tilde{q}_i|| = 0`, we cannot normalize,
 linear dependence has been detected and we return
