@@ -36,6 +36,11 @@ One can create vectors in a simple way similar to Python.
        println(x[1]*x[2])
    end
 
+   # range notation
+   1:88
+   range(1,88) == 1:88 # true
+   1:0.23:12 # from 1.0 to 11.81 in steps 0.23
+
 Vectorization is done with the dot syntax similar to Matlab.
 
 .. code-block:: julia
@@ -227,6 +232,13 @@ transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so 
    # rank of matrix
    rank(A) # full rank 3
 
+   # rank is numerical rank
+   # counting how many singular values of
+   # A have magnitude greater than a tolerance tol
+   rank([[1,2,3] [1,2,3] + [2,5,7]*0.5]) # rank 2
+   rank([[1,2,3] [1,2,3] + [2,5,7]*1e-14]) # rank 2
+   rank([[1,2,3] [1,2,3] + [2,5,7]*1e-15]) # rank 1
+
    # determinant
    det(A) # 16
 
@@ -338,6 +350,40 @@ Some examples of timing and benchmarking.
    - What does @time do? Why is there a relatively large difference
      above between manual timing and timing with @time?
 
+Random matrices and sparse matrices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is how you can create random matrices and vectors with various
+distributions.
+
+.. code-block:: julia
+
+   # normal distribution as above
+   randn(100, 100) # 100x100-matrix
+
+   # uniform distribution
+   rand() # uniformly distributed random number in [0,1]
+   rand(5) # uniform 5-vector
+   rand(5,5) # uniform 5x5-matrix
+   rand(1:88) # random element of 1:88
+   rand(1:88, 5) # 5-vector
+   rand("abc", 5, 5) # 5x5-matrix random over [a,b,c]
+
+More involved computations with random variables can be done with the
+Distributions package.
+
+.. code-block:: julia
+
+   using Distributions
+   m = [0,0,1.0] # mean
+   S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
+   X = MvNormal(m, S) # multivariate normal distribution
+   rand(X) # sample
+
+   # binomial distribution
+   Y = Multinomial(10, [0.3,0.7])
+   rand(Y) # sample
+
 Loading a dataset
 ^^^^^^^^^^^^^^^^^
 
@@ -442,10 +488,128 @@ Plotting the result:
 
    Scatter plot of the projected data.
 
-TODO:
-  * QR factorization?
-  * random matrices
-  * Sparse operations (with random examples)
-  * Compare execution time with sparse matrix computations and normal
-  * Plot histograms of different distributions from random library
-  * Make some excersizes on these themes
+Exercises
+^^^^^^^^^
+
+.. exercise:: Sparse matrix computations
+
+   Create a sparse 5000x5000-matrix S with roughly 5000 non-zero
+   elements uniformly distributed on [0,1]. Compute S^10 and time the
+   computation. Compare with S as a Matrix and a SparseMatrixCSC.
+
+   .. solution:: Here is a suggestion
+
+      .. code-block:: julia
+         using SparseArrays
+
+         n = 5000
+         S = sprand(n, n, 1/n) # sparse nxn-matrix with density 1/n
+         B = Matrix(S) # as Matrix
+
+         @time S^10;
+         @time B^10;
+
+The following exercise is adapted from the `Julia language companion
+<https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>` of the
+`book
+<https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`
+*Introduction to Applied Linear Algebra – Vectors, Matrices, and Least
+Squares* by Stephen Boyd and Lieven Vandenbergh.
+
+Given a set of linearly independent vectors :math:`{a_1,\dots,a_k}`
+return an orthogonal basis of their span.
+
+If the vectors are linearly dependent, return an orthogonal basis
+of :math:`{a_1,\dots,a_{i-1}}` where :math:`a_i` is the first
+vector linearly dependent on the previous ones. It is reasonable to
+consider numerical linear dependence up to a small tolerance, that
+is there is a linear combination of the vectors that is almost
+zero.
+
+The algorithm in pseudocode goes as follows. Firs define the
+orthogonal projection of a vector :math:`a` on a vector :math:`q`
+as :math:`proj_q(a)=\frac{\langle a, u \rangle}{||u||}` where
+:math:`\langle .,. \rangle` is the dot product and :math:`|| \cdot
+||` the norm. For linearly independent vectors, the algorithm goes:
+
+  * :math:`\tilde{q}_1 = a_1`
+  * :math:`q_1 = \tilde{q}_1/||\tilde{q}_1||`
+  * :math:`\tilde{q}_2 = q_1 - proj_{q_1}(a_2)`
+  * :math:`q_2 = \tilde{q}_2/||\tilde{q}_2||`,
+
+and so on. That is for :math:`i=1,2,3,\ldots,k`:
+
+  * Compute :math:`\tilde{q}_i`: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} proj_{q_j}(a_i)`
+  * Normalize: :math:`q_i = q_i/||q_i||`.
+
+If at some step, :math:`||\tilde{q}_i|| = 0`, we cannot normalize,
+linear dependence has been detected and we return
+:math:`q_1,\dots,q_{i-1}`.
+
+.. exercise:: Gram-Schmidt process
+
+   Implement the Gram-Schmidt process in Julia.
+
+   .. solution:: Here is a suggestion
+
+      .. code-block:: julia
+
+         # input is a vector of vectors a = [a_1, a_2, a_3]
+	 # for vectors a_1, a_2, a_3
+
+	 using LinearAlgebra
+
+         function gram_schmidt(a; tol = 1e-10)
+
+         q = []
+         for i = 1:length(a)
+             qtilde = a[i]
+             for j = 1:i-1
+                 qtilde -= (q[j]'*a[i]) * q[j]
+             end
+             if norm(qtilde) < tol
+                println("Vectors are linearly dependent.")
+                return q
+             end
+             push!(q, qtilde/norm(qtilde))
+         end;
+         return q
+         end
+
+
+.. exercise:: Check Gram-Schmidt
+
+   Write a check for your Gram-Schimdt program that the output
+   consists of orhogonal vectors. Also, for linearly independent input
+   vectors, check that the spans of input and output are the same.
+
+   .. solution:: Quick and dirty suggestion
+
+      using LinearAlgebra
+
+      a_1 = [1,2,3,4];
+      a_2 = [2,3,4,5];
+      a_3 = [3,4,5,7];
+      a = [a_1, a_2, a_3];
+
+      Q = gram_schmidt(a);
+
+     # create matrices
+     M = [Q[1] Q[2] Q[3]]
+     N = [Q[1] Q[2] Q[3] a_1 a_2 a_3]
+
+     # test orthogonality, should be 3x3-identity matrix
+     M'*M
+     # test span with numerical rank, should be 3
+     rank(N)
+
+.. exercise:: Factorizations
+
+   Perform various factorizations on a matrix using standard
+   libraries: QR-factorization, LU-factorization, Diagonalization,
+   Singular-Value-Decomposition.
+
+.. exercise:: Distributions and histograms
+
+   Plot histograms of some distributions: normal, uniform, binormial,
+   multibomial, exponential, Poisson or other distributions of choice.
