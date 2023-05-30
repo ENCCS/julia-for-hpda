@@ -538,15 +538,14 @@ Squares* by Stephen Boyd and Lieven Vandenberghe.
 
 Below we will consider the Gram-Schmidt process:
 
-  * Given a set of linearly independent vectors
-    :math:`{a_1,\dots,a_k}` return an orthogonal basis of their span.
+Given a set of linearly independent vectors :math:`{a_1,\dots,a_k}`
+return an orthogonal basis of their span.
 
-  * If the vectors are linearly dependent, return an orthogonal basis
-    of :math:`{a_1,\dots,a_{i-1}}` where :math:`a_i` is the first
-    vector linearly dependent on the previous ones. It is reasonable
-    to consider numerical linear dependence up to a small tolerance,
-    that is there is a linear combination of the vectors that is
-    almost zero.
+If the vectors are linearly dependent, return an orthogonal basis of
+:math:`{a_1,\dots,a_{i-1}}` where :math:`a_i` is the first vector
+linearly dependent on the previous ones. It is reasonable to consider
+numerical linear dependence up to a small tolerance, that is there is
+a linear combination of the vectors that is almost zero.
 
 The algorithm in pseudocode goes as follows. First define the
 orthogonal projection of a vector :math:`a` on a vector :math:`q` as
