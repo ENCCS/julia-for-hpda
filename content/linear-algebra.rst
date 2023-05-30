@@ -549,6 +549,7 @@ a linear combination of the vectors that is almost zero.
 
 The algorithm in pseudocode goes as follows. First define the
 orthogonal projection of a vector :math:`a` on a vector :math:`q` as
+
 .. math::
 
    \textrm{proj}_q(a)=\frac{\langle a, u \rangle}{||u||},
