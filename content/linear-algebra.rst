@@ -534,23 +534,25 @@ companion<https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`
 of the
 `book<https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`
 *Introduction to Applied Linear Algebra – Vectors, Matrices, and Least
-Squares* by Stephen Boyd and Lieven Vandenbergh.
+Squares* by Stephen Boyd and Lieven Vandenberghe.
 
-Given a set of linearly independent vectors :math:`{a_1,\dots,a_k}`
-return an orthogonal basis of their span.
+Below we will consider the Gram-Schmidt process:
 
-If the vectors are linearly dependent, return an orthogonal basis
-of :math:`{a_1,\dots,a_{i-1}}` where :math:`a_i` is the first
-vector linearly dependent on the previous ones. It is reasonable to
-consider numerical linear dependence up to a small tolerance, that
-is there is a linear combination of the vectors that is almost
-zero.
+  * Given a set of linearly independent vectors
+    :math:`{a_1,\dots,a_k}` return an orthogonal basis of their span.
 
-The algorithm in pseudocode goes as follows. Firs define the
-orthogonal projection of a vector :math:`a` on a vector :math:`q`
-as :math:`proj_q(a)=\frac{\langle a, u \rangle}{||u||}` where
-:math:`\langle .,. \rangle` is the dot product and :math:`|| \cdot
-||` the norm. For linearly independent vectors, the algorithm goes:
+  * If the vectors are linearly dependent, return an orthogonal basis
+    of :math:`{a_1,\dots,a_{i-1}}` where :math:`a_i` is the first
+    vector linearly dependent on the previous ones. It is reasonable
+    to consider numerical linear dependence up to a small tolerance,
+    that is there is a linear combination of the vectors that is
+    almost zero.
+
+The algorithm in pseudocode goes as follows. First define the
+orthogonal projection of a vector :math:`a` on a vector :math:`q` as
+:math:`\textrm{proj}_q(a)=\frac{\langle a, u \rangle}{||u||}` where
+:math:`\langle .,. \rangle` is the dot product and :math:`|| \cdot ||`
+the norm. For linearly independent vectors, the algorithm goes:
 
   * :math:`\tilde{q}_1 = a_1`
   * :math:`q_1 = \tilde{q}_1/||\tilde{q}_1||`
