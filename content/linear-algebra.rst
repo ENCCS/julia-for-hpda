@@ -233,8 +233,8 @@ transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so 
    rank(A) # full rank 3
 
    # rank is numerical rank
-   # counting how many singular values of
-   # A have magnitude greater than a tolerance tol
+   # counting how many singular values of A
+   # have magnitude greater than a tolerance
    rank([[1,2,3] [1,2,3] + [2,5,7]*0.5]) # rank 2
    rank([[1,2,3] [1,2,3] + [2,5,7]*1e-14]) # rank 2
    rank([[1,2,3] [1,2,3] + [2,5,7]*1e-15]) # rank 1
@@ -380,9 +380,28 @@ Distributions package.
    X = MvNormal(m, S) # multivariate normal distribution
    rand(X) # sample
 
-   # binomial distribution
-   Y = Multinomial(10, [0.3,0.7])
+   # binomial and multinomial distribution
+   Y = Binomial(10, 0.3)
    rand(Y) # sample
+   Y = Multinomial(10, [0.3,0.6, 0.1])
+   rand(Y) # sample
+
+   # discrete multivariate
+   rand(5, 5) .< 0.1 # 0.1 chance of 1
+
+Sparse matrices may be constructed with the SparseArrays package.
+
+.. code-block:: julia
+
+   using SparseArrays
+
+   # 100x100-matrix with density 10% (non-zero elements)
+   M = rand(100,100) .< 0.1
+   S = sparse(M) # SparseMatrixCSC
+
+   # 100x100-matrix with density 10%, as sparse matrix directly
+   S = sprand(100, 100, 0.1)
+
 
 Loading a dataset
 ^^^^^^^^^^^^^^^^^
@@ -500,6 +519,7 @@ Exercises
    .. solution:: Here is a suggestion
 
       .. code-block:: julia
+
          using SparseArrays
 
          n = 5000
@@ -509,10 +529,10 @@ Exercises
          @time S^10;
          @time B^10;
 
-The following exercise is adapted from the `Julia language companion
-<https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>` of the
-`book
-<https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`
+The following exercise is adapted from the `Julia language
+companion<https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`
+of the
+`book<https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`
 *Introduction to Applied Linear Algebra – Vectors, Matrices, and Least
 Squares* by Stephen Boyd and Lieven Vandenbergh.
 
