@@ -625,7 +625,7 @@ linear dependence has been detected and we return
      # test span with numerical rank, should be 3
      rank(N)
 
-.. exercise:: Factorizations
+.. exercise:: Matrix factorizations
 
    Perform various factorizations on a matrix using standard
    libraries: QR-factorization, LU-factorization, Diagonalization,
