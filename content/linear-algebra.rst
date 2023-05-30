@@ -529,10 +529,10 @@ Exercises
          @time S^10;
          @time B^10;
 
-The following exercise is adapted from the `Julia language
-companion<https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`
-of the
-`book<https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`
+The following exercise is adapted from the `Julia language companion
+<https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
+the `book
+<https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`_
 *Introduction to Applied Linear Algebra – Vectors, Matrices, and Least
 Squares* by Stephen Boyd and Lieven Vandenberghe.
 
@@ -556,12 +556,12 @@ is the norm. For linearly independent vectors, the algorithm goes:
 
   * :math:`\tilde{q}_1 = a_1`
   * :math:`q_1 = \tilde{q}_1/||\tilde{q}_1||`
-  * :math:`\tilde{q}_2 = q_1 - proj_{q_1}(a_2)`
+  * :math:`\tilde{q}_2 = q_1 - \textrm{proj}_{q_1}(a_2)`
   * :math:`q_2 = \tilde{q}_2/||\tilde{q}_2||`,
 
 and so on. That is for :math:`i=1,2,3,\ldots,k`:
 
-  * Compute: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} proj_{q_j}(a_i)`
+  * Compute: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} \textrm{proj}_{q_j}(a_i)`
   * Normalize: :math:`q_i = q_i/||q_i||`,
 
 and return :math:`{q_1,\dots,q_k}`.
@@ -604,8 +604,9 @@ linear dependence has been detected and we return
 .. exercise:: Check Gram-Schmidt
 
    Write a check for your Gram-Schimdt program that the output
-   consists of orhogonal vectors. Also, for linearly independent input
-   vectors, check that the spans of input and output are the same.
+   consists of orthonormal vectors. Also, for linearly independent
+   input vectors, check that the spans of input and output are the
+   same.
 
    .. solution:: Quick and dirty suggestion
 
@@ -635,5 +636,6 @@ linear dependence has been detected and we return
 
 .. exercise:: Distributions and histograms
 
-   Plot histograms of some distributions: normal, uniform, binormial,
-   multibomial, exponential, Poisson or other distributions of choice.
+   Plot histograms of some distributions: normal, uniform, binomial,
+   multinomial, exponential, Cauchy, Poisson or other distributions of
+   choice.
