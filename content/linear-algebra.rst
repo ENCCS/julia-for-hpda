@@ -643,3 +643,9 @@ linear dependence has been detected and we return
    Plot histograms of some distributions: normal, uniform, binomial,
    multinomial, exponential, Cauchy, Poisson or other distributions of
    choice.
+
+Ideas:
+
+  * Ta med en mer exotisk distribution i random matrices avsnittet (Poisson, Dirichlet, exponential).
+  * @time räknar kompileringstid. Kör två gånger i exemplen ovan.
+  * Använd @btime som jämförelse med using BenchMarks. Tar inte med kompileringstid.
