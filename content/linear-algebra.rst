@@ -10,8 +10,8 @@ Linear algebra
      
 .. instructor-note::
 
-   - 40 min teaching
-   - 20 min exercises
+   - 60 min teaching
+   - 30 min exercises
 
 List comprehension and vectorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
