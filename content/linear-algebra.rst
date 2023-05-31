@@ -614,23 +614,25 @@ linear dependence has been detected and we return
 
    .. solution:: Quick and dirty suggestion
 
-      using LinearAlgebra
+      .. code-block:: julia
 
-      a_1 = [1,2,3,4];
-      a_2 = [2,3,4,5];
-      a_3 = [3,4,5,7];
-      a = [a_1, a_2, a_3];
+         using LinearAlgebra
 
-      Q = gram_schmidt(a);
+         a_1 = [1,2,3,4];
+         a_2 = [2,3,4,5];
+         a_3 = [3,4,5,7];
+         a = [a_1, a_2, a_3];
 
-      # create matrices
-      M = [Q[1] Q[2] Q[3]]
-      N = [Q[1] Q[2] Q[3] a_1 a_2 a_3]
+         Q = gram_schmidt(a);
 
-      # test orthogonality, should be 3x3-identity matrix
-      M'*M
-      # test span with numerical rank, should be 3
-      rank(N)
+         # create matrices
+         M = [Q[1] Q[2] Q[3]]
+         N = [Q[1] Q[2] Q[3] a_1 a_2 a_3]
+
+         # test orthogonality, should be 3x3-identity matrix
+         M'*M
+         # test span with numerical rank, should be 3
+         rank(N)
 
 .. exercise:: Matrix factorizations
 
