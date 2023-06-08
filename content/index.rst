@@ -45,7 +45,7 @@ computing.
    scientific-computing
    data-science
    linear-algebra
-
+   regression
 
 .. toctree::
    :maxdepth: 1
