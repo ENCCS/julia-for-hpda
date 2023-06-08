@@ -7,7 +7,7 @@ Regression, time-series prediction and analysis
 
    - How can I perform regression in Julia?
    - How can I perform time-series analysis and prediciton in Julia?
-     
+
 .. instructor-note::
 
    - 120 min teaching
@@ -16,12 +16,11 @@ Regression, time-series prediction and analysis
 Loading data
 ^^^^^^^^^^^^
 
-.. code-block:: julia
-
 We will now have a look at a climate data set containing daily mean
 temperature, humidity, wind speed and mean pressure at a location in
 Dehli India over a period of several years.
 
+.. code-block:: julia
 
    using DataFrames, CSV, DataFrames, Plots
 
