@@ -13,8 +13,8 @@ Linear algebra
    - 60 min teaching
    - 30 min exercises
 
-List comprehension and vectorization
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+List comprehension, slicing and vectorization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 One can create vectors in a simple way similar to Python.
 
@@ -40,6 +40,16 @@ One can create vectors in a simple way similar to Python.
    1:88
    range(1,88) == 1:88 # true
    1:0.23:12 # from 1.0 to 11.81 in steps 0.23
+
+   # slicing
+   X = X = [x^2 for x in range(1,11)]
+   X[4:9] # 16,25,36,49,64,81
+   X[8:end] # 64,81,100,121
+   # uniform distribution on [0,1]
+   X = rand(5,5) # random 5x5-matrix
+   X[1,:] # first row
+   X[:,3] # third column
+   X[2,4] # element in row 2, column 4
 
 Vectorization is done with the dot syntax similar to Matlab.
 
