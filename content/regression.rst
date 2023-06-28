@@ -81,7 +81,7 @@ Multivariate linear models are very similar.
 
 .. code-block:: julia
 
-using Plots, GLM, DataFrames
+   using Plots, GLM, DataFrames
 
    n = 4
    C = randn(n+1,1)
