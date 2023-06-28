@@ -20,11 +20,44 @@ One can create vectors in a simple way similar to Python.
 
 .. code-block:: julia
 
+   # range notation
+   1:88
+   range(1,88) == 1:88 # true
+   1:0.23:12 # from 1.0 to 11.81 in steps 0.23
+
    # list comprehension
    [i^2 for i in range(1,40)] # 40-element Vector
 
    # conditional list comprehension
    [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
+
+   # if else in list comprehension
+   [if x > 3 x else x^2 end for x in 1:5] # 1,4,9,4,5
+   # note the whole if-else clause if x > 3 x else x^2 end
+
+   # another way to do conditionals
+   [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
+
+   # similar
+   [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
+   # 1,2,6,8,15
+
+
+
+   # loop over product set
+   [x - y for x in 1:10, y in 1:10]
+
+.. code-block:: text
+
+   10×10 Matrix{Int64}:
+    0  -1  -2  -3  -4  -5  -6  -7  -8  -9
+    1   0  -1  -2  -3  -4  -5  -6  -7  -8
+    2   1   0  -1  -2  -3  -4  -5  -6  -7
+    ...                 ...
+    8   7   6   5   4   3   2   1   0  -1
+    9   8   7   6   5   4   3   2   1   0
+
+.. code-block:: julia
 
    f(x,y)=x*y # f (generic function with 1 method)
    A = [1,2,3,4]
@@ -36,10 +69,9 @@ One can create vectors in a simple way similar to Python.
        println(x[1]*x[2])
    end
 
-   # range notation
-   1:88
-   range(1,88) == 1:88 # true
-   1:0.23:12 # from 1.0 to 11.81 in steps 0.23
+   # and another way
+   [x*y for (x, y) in zip(A, B)]
+
 
    # slicing
    X = X = [x^2 for x in range(1,11)]
