@@ -13,6 +13,75 @@ Regression, time-series prediction and analysis
    - 120 min teaching
    - 60 min exercises
 
+Linear regression with synthetic data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We begin with some simple examples of linear regression on generated data. For the models we will use the package GLM (Generlized Linear Models).
+
+.. code-block:: julia
+
+   using Plots, GLM, DataFrames
+
+   X = Vector(range(0, 10, length=20))
+   y = 5*X .+ 3.4
+   y_noisy = @. 5*X .+ 3.4 + randn()
+
+   plt = plot(X, y, label="linear")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   savefig("linear_synth_1.png")
+
+   display(plt)
+
+.. figure:: img/iris_resize.jpg
+   :align: center
+
+.. code-block:: julia
+
+   df = DataFrame(cX=X, cy=y_noisy)
+
+   lm1 = fit(LinearModel, @formula(cy ~ cX), df)
+
+   # alternative syntax
+   # lm(@formula(cy ~ cX), df)
+   # glm(@formula(cy ~ cX), df, Normal(), IdentityLink())
+   # lm(@formula(cy ~ cX), df)
+
+.. code-block:: text
+   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+
+   cy ~ 1 + cX
+
+   Coefficients:
+   ───────────────────────────────────────────────────────────────────────
+                  Coef.  Std. Error      t  Pr(>|t|)  Lower 95%  Upper 95%
+   ───────────────────────────────────────────────────────────────────────
+   Intercept)  3.46467   0.448322    7.73    <1e-06    2.52278    4.40656
+   cX           5.05127   0.0766497  65.90    <1e-22    4.89024    5.21231
+   ───────────────────────────────────────────────────────────────────────
+
+.. code-block:: julia
+
+   # note the formula argument
+   # given slope 1/5 and intercept -3.4/5
+   fit(LinearModel, @formula(cX ~ cy), df)
+
+Plotting the result.
+
+.. code-block:: julia
+
+   y_pred = predic(lm1)
+
+   # explicitly
+   # coeffs = coeftable(lm1).cols[1] # intercept and slope
+   # y_pred = coeffs[1] + coeffs[2]*X
+
+.. figure:: img/linear_synth_2.jpg
+   :align: center
+
+   Image of linear model prediction. Example shown is intercept 2.9 and slope 5.1 (result depends on random added noise).
+
+
 Loading data
 ^^^^^^^^^^^^
 
