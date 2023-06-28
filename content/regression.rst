@@ -61,8 +61,7 @@ We begin with some simple examples of linear regression on generated data. For t
 .. code-block:: julia
 
    # note the formula argument
-   # given slope 1/5 and intercept -3.4/5
-   fit(LinearModel, @formula(cX ~ cy), df)
+   fit(LinearModel, @formula(cX ~ cy), df) # modelling line with slope 1/5 and intercept -3.4/5
 
 Plotting the result.
 
@@ -70,9 +69,14 @@ Plotting the result.
 
    y_pred = predic(lm1)
 
-   # explicitly
+   # alternative: do it explicitly
    # coeffs = coeftable(lm1).cols[1] # intercept and slope
    # y_pred = coeffs[1] + coeffs[2]*X
+
+   plot!(X, y_pred, label="predicted")
+
+   display(plt)
+
 
 .. figure:: img/linear_synth_2.png
    :align: center
