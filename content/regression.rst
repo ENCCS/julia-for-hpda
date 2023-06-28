@@ -24,7 +24,7 @@ We begin with some simple examples of linear regression on generated data. For t
 
    X = Vector(range(0, 10, length=20))
    y = 5*X .+ 3.4
-   y_noisy = @. 5*X .+ 3.4 + randn()
+   y_noisy = @. 5*X + 3.4 + randn()
 
    plt = plot(X, y, label="linear")
    plot!(X, y_noisy, seriestype=:scatter, label="data")
@@ -77,6 +77,44 @@ Plotting the result.
 
    display(plt)
 
+Multivariate linear models are very similar.
+
+.. code-block:: julia
+
+using Plots, GLM, DataFrames
+
+   n = 4
+   C = randn(n+1,1)
+   X = rand(100,n)
+
+   y = X*C[2:end] .+ C[1]
+   y_noisy = y .+ 0.01*randn(100,1)
+
+   df = DataFrame(cX1=X[:,1], cX2=X[:,2], cX3=X[:,3], cX4=X[:,4], cy=y_noisy[:,1])
+
+
+   lm2 = lm(@formula(cy ~ cX1+cX2+cX3+cX4), df)
+
+   println(lm2)
+   println()
+   print(C)
+
+.. code-block:: text
+
+   cy ~ 1 + cX1 + cX2 + cX3 + cX4
+
+   Coefficients:
+   ───────────────────────────────────────────────────────────────────────────
+                    Coef.  Std. Error        t  Pr(>|t|)  Lower 95%  Upper 95%
+   ───────────────────────────────────────────────────────────────────────────
+   (Intercept)  -1.02879   0.0035902   -286.55    <1e-99  -1.03592   -1.02166
+   cX1          -0.935462  0.0034155   -273.89    <1e-99  -0.942242  -0.928681
+   cX2           0.183037  0.00345387    52.99    <1e-71   0.17618    0.189894
+   cX3          -0.737696  0.00390208  -189.05    <1e-99  -0.745443  -0.729949
+   cX4          -1.59192   0.00327437  -486.18    <1e-99  -1.59842   -1.58542
+   ───────────────────────────────────────────────────────────────────────────
+
+   [-1.022984643687018; -0.9366244594383493; 0.18095529608948402; -0.7396860440808664; -1.595858344253308;;]
 
 .. figure:: img/linear_synth_2.png
    :align: center
