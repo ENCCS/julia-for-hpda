@@ -29,11 +29,9 @@ We begin with some simple examples of linear regression on generated data. For t
    plt = plot(X, y, label="linear")
    plot!(X, y_noisy, seriestype=:scatter, label="data")
 
-   savefig("linear_synth_1.png")
-
    display(plt)
 
-.. figure:: img/iris_resize.jpg
+.. figure:: img/linear_synth_1.png
    :align: center
 
 .. code-block:: julia
@@ -76,7 +74,7 @@ Plotting the result.
    # coeffs = coeftable(lm1).cols[1] # intercept and slope
    # y_pred = coeffs[1] + coeffs[2]*X
 
-.. figure:: img/linear_synth_2.jpg
+.. figure:: img/linear_synth_2.png
    :align: center
 
    Image of linear model prediction. Example shown is intercept 2.9 and slope 5.1 (result depends on random added noise).

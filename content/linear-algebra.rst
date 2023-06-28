@@ -97,6 +97,10 @@ Vectorization is done with the dot syntax similar to Matlab.
 
    sin.(A) # 4-element Vector
 
+   # add constant to vector
+   A + 3 # ERROR: MethodError: no method matching +(::Vector{Int64}, ::Int64)
+   A .+ 3 # 4,5,6,7
+
    # vectorize everywhere
    @. sin(A) + cos(A)
    @. A+A^2-sin(A)*sin(B)
@@ -440,6 +444,9 @@ Sparse matrices may be constructed with the SparseArrays package.
    # 100x100-matrix with density 10% (non-zero elements)
    M = rand(100,100) .< 0.1
    S = sparse(M) # SparseMatrixCSC
+
+   typeof(M) # BitMatrix (alias for BitArray{2})
+   typeof(S) # SparseMatrixCSC{Bool, Int64}
 
    # 100x100-matrix with density 10%, as sparse matrix directly
    S = sprand(100, 100, 0.1)
