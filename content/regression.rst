@@ -37,7 +37,6 @@ We begin with some simple examples of linear regression on generated data. For t
 .. code-block:: julia
 
    df = DataFrame(cX=X, cy=y_noisy)
-
    lm1 = fit(LinearModel, @formula(cy ~ cX), df)
 
    # alternative syntax
@@ -46,6 +45,7 @@ We begin with some simple examples of linear regression on generated data. For t
    # lm(@formula(cy ~ cX), df)
 
 .. code-block:: text
+
    StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
 
    cy ~ 1 + cX
@@ -77,7 +77,7 @@ Plotting the result.
 .. figure:: img/linear_synth_2.png
    :align: center
 
-   Image of linear model prediction. Example shown is intercept 2.9 and slope 5.1 (result depends on random added noise).
+   Image of linear model prediction. The example shown has intercept 2.9 and slope 5.1 (the result depends on random added noise).
 
 
 Loading data
