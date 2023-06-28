@@ -77,6 +77,11 @@ Plotting the result.
 
    display(plt)
 
+.. figure:: img/linear_synth_2.png
+   :align: center
+
+   Image of linear model prediction. The example shown has intercept 2.9 and slope 5.1 (the result depends on random added noise).
+
 Multivariate linear models are very similar.
 
 .. code-block:: julia
@@ -116,10 +121,7 @@ Multivariate linear models are very similar.
 
    [-1.022984643687018; -0.9366244594383493; 0.18095529608948402; -0.7396860440808664; -1.595858344253308;;]
 
-.. figure:: img/linear_synth_2.png
-   :align: center
 
-   Image of linear model prediction. The example shown has intercept 2.9 and slope 5.1 (the result depends on random added noise).
 
 
 Loading data
