@@ -205,11 +205,11 @@ It is straight forward to incorporate linear models with basis functions, that i
 
    Fitting trigonomtric functions to data.
 
-Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of the data in the last example.
+Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of the data in the last example using the package FFTW.
 
 .. code-block:: julia
 
-   using Plots, GLM, DataFrames
+   using Plots, GLM, DataFrames, FFTW
 
    L = 100
    Fs = 100
@@ -230,7 +230,10 @@ Note the similarity to Fourier analysis. Let's see how you do the Fourier transf
 
    print(lm1)
 
+   # use function fft (Fast Fourier Transform)
    y_fft = fft(y_noisy)
+   
+   # some housekeeping
    P2 = abs.(y_fft/L)
    P1 = P2[1:Int(L/2)+1]
    P1[2:end-1] = 2*P1[2:end-1]
@@ -268,7 +271,7 @@ Note the similarity to Fourier analysis. Let's see how you do the Fourier transf
 .. figure:: img/linear_freqs.png
    :align: center
 
-   The Fourier Coeffients from fft, the frequencies are 1 and 5.
+   The Fourier coeffients from FFT, the frequencies are 1 and 5.
 
 Loading data
 ^^^^^^^^^^^^
