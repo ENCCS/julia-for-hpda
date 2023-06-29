@@ -121,6 +121,92 @@ Multivariate linear models are very similar.
 
    [-1.022984643687018; -0.9366244594383493; 0.18095529608948402; -0.7396860440808664; -1.595858344253308;;]
 
+It is straight forward to incorporate linear models with basis functions, that is to model a function as a linear combination of given functions such polynomials or trigonometric functions.
+
+.. code-block:: julia
+
+   using Plots, GLM, DataFrames
+
+   # try this polynomial
+   X = range(-6, 6, length=40)
+   y = X.^5 .- 34*X.^3 .+ 225*X
+   y_noisy = y .+ randn(40,)
+
+   # model sensitive to noise
+   # if more noise, need more points (keep noise down for clarity in graph)
+
+   plt = plot(X, y, label="polynomial")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   display(plt)
+
+   df = DataFrame(cX=X, cy=y_noisy)
+
+   lm1 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+
+.. code-block:: text
+
+   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+
+   cy ~ 1 + :(cX ^ 5) + :(cX ^ 4) + :(cX ^ 3) + :(cX ^ 2) + cX
+
+   Coefficients:
+   ───────────────────────────────────────────────────────────────────────────────────────
+                        Coef.   Std. Error         t  Pr(>|t|)     Lower 95%     Upper 95%
+   ───────────────────────────────────────────────────────────────────────────────────────
+   (Intercept)   -0.0354375    0.343821        -0.10    0.9185   -0.734166      0.663291
+   cX ^ 5         1.00118      0.000551333   1815.92    <1e-85    1.00006       1.0023
+   cX ^ 4        -0.000992084  0.00169158      -0.59    0.5614   -0.00442979    0.00244563
+   cX ^ 3       -34.054        0.0236797    -1438.11    <1e-82  -34.1021      -34.0058
+   cX ^ 2         0.0230557    0.0571179        0.40    0.6890   -0.0930219     0.139133
+   cX           225.511        0.226822       994.22    <1e-76  225.05        225.972
+   ───────────────────────────────────────────────────────────────────────────────────────
+
+.. figure:: img/linear_basis_1.png
+   :align: center
+
+   Fitting a polynomial to data.
+
+.. code-block:: julia
+
+   # try a cosine combination
+   X = range(-6, 6, length=100)
+   y = cos.(X) .+ cos.(2*X)
+   y_noisy = y .+ 0.1*randn(100,)
+
+   plt = plot(X, y, label="waveform")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   display(plt)
+
+   df = DataFrame(X=X, y=y_noisy)
+
+   lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
+
+.. code-block:: text
+
+StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+
+   y ~ 1 + :(cos(X)) + :(cos(2X)) + :(cos(3X)) + :(cos(4X))
+
+   Coefficients:
+   ────────────────────────────────────────────────────────────────────────────
+                     Coef.  Std. Error      t  Pr(>|t|)    Lower 95%  Upper 95%
+   ────────────────────────────────────────────────────────────────────────────
+   (Intercept)   0.0130408   0.0108222   1.21    0.2312  -0.00844393  0.0345256
+   cos(X)        0.981561    0.015653   62.71    <1e-78   0.950486    1.01264
+   cos(2X)       0.984984    0.0156219  63.05    <1e-78   0.953971    1.016
+   cos(3X)      -0.0135547   0.015573   -0.87    0.3863  -0.044471    0.0173616
+   cos(4X)       0.0148532   0.0155105   0.96    0.3407  -0.015939    0.0456454
+   ────────────────────────────────────────────────────────────────────────────
+
+.. figure:: img/linear_basis_2.png
+   :align: center
+
+   Fitting trigonomtric functions to data.
+
+Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of the data in the last example.
+
 
 
 
@@ -150,19 +236,25 @@ Dehli India over a period of several years.
 
    Plots of measurements.
 
-
+TODO:
 
 Linear regression
 ^^^^^^^^^^^^^^^^^
 
-Ideas:
-
-  * Exlplain simple linear regression
+  * Linear regression real data
+  * Linear regression basis functions (polynomial and cos, sin)
+  * Link to Fourier Analysis
   * Use cos, sin or something as basis functions for climate data
 
 Non-linear regression
 ^^^^^^^^^^^^^^^^^^^^^
 
+  * Climate data
+  * other data set?
+
 Some standard time-series models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+  * Linear models (including with dummy variables)
+  * Autoregression
+  * etc.
