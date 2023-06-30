@@ -273,6 +273,89 @@ Note the similarity to Fourier analysis. Let's see how you do the Fourier transf
 
    The Fourier coeffients from FFT, the frequencies are 1 and 5.
 
+Linear regression on real data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Let us illustrate linear regression on real data sets.
+
+The first dataset comes from the RDatasets package and are data from chemical experiments for the production of formeldyhyde. The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
+
+Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
+
+.. code-block:: julia
+
+   using GLM, RDatasets, Plots
+
+   df = dataset("datasets", "Formaldehyde")
+
+   plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
+   display(plt)
+
+   model = fit(LinearModel, @formula(OptDen ~ Carb), df)
+
+   y_pred = predict(model)
+
+   plot!(df.Carb, y_pred, label="model")
+
+   display(plt)
+
+.. figure:: img/linear_formaldehyde.png
+   :align: center
+
+The second dataset we will use comes from the Rdatasets package and consists of measurements on black cherry trees: girth, height and volume (see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).).
+
+.. code-block:: julia
+
+   using GLM, RDatasets, StatsBase, Plots
+
+   # Girth Height and Volume of Black Cherry Trees
+   trees = dataset("datasets", "trees")
+   df = trees
+
+   n_rows = size(df)[1]
+   rows_train = sample(1:n_rows, Int(round(n_rows*0.8)), replace=false)
+   rows_test = [x for x in 1:n_rows if ~(x in rows_train)]
+
+   L_train = df[rows_train,:]
+   L_test = df[rows_test,:]
+
+   # reasonable to look at logarithms since can expect something like V~h*r^2 and
+   # log V = constant + log h + 2log r
+   model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
+
+   Z = L_train
+   y_pred = predict(model, Z)
+
+   # Root Mean Squared Error
+   rmse = sqrt(sum((exp.(y_pred) - Z.Volume).^2)/size(Z)[1])
+
+   println(rmse)
+   df
+
+.. code-block:: text
+
+   2.2631848027992776 # rmse
+
+   31×3 DataFrame
+    Row │ Girth    Height  Volume
+        │ Float64  Int64   Float64
+   ─────┼──────────────────────────
+      1 │     8.3      70     10.3
+      2 │     8.6      65     10.3
+      3 │     8.8      63     10.2
+      4 │    10.5      72     16.4
+      5 │    10.7      81     18.8
+      6 │    10.8      83     19.7
+      7 │    11.0      66     15.6
+      8 │    11.0      75     18.2
+      9 │    11.1      80     22.6
+     10 │    11.2      75     19.9
+     11 │    11.3      79     24.2
+
+   And so on (31 data points).
+
+
+
 Loading data
 ^^^^^^^^^^^^
 
@@ -304,9 +387,6 @@ TODO:
 Linear regression
 ^^^^^^^^^^^^^^^^^
 
-  * Linear regression real data
-  * Linear regression basis functions (polynomial and cos, sin)
-  * Link to Fourier Analysis
   * Use cos, sin or something as basis functions for climate data
 
 Non-linear regression
