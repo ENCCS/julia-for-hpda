@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'Julia for High-Performance Scientific Computing'
-copyright = '2022, EuroCC National Competence Center Sweden'
+copyright = '2023, EuroCC National Competence Center Sweden'
 author = 'Kjartan Thor Wikfeldt'
 github_user = 'enccs'
 github_repo_name = 'Julia-for-HPC'  # auto-detected from dirname if blank
