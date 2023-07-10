@@ -360,7 +360,10 @@ Loading data
 
 We will now have a look at a climate data set containing daily mean
 temperature, humidity, wind speed and mean pressure at a location in
-Dehli India over a period of several years.
+Dehli India over a period of several years. In the context of the
+Dehli dataset we have borrowed some elements of Sebastian Callh's personal
+blog post *Forecasting the weather with neural ODEs* found `here
+<https://sebastiancallh.github.io/post/neural-ode-weather-forecast/>`_.
 
 .. code-block:: julia
 
