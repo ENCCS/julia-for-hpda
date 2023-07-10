@@ -409,7 +409,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    display(plt)
 
-.. figure:: img/climate_plots_first.png
+.. figure:: img/climate_plots_second.png
    :align: center
 
    Plots of cleaned up data.
