@@ -442,8 +442,8 @@ Since the data is periodic we may attempt a simple model based on Fourier transf
 
    display(plt)
 
-   .. figure:: img/climate_plots_months.png
-      :align: center
+.. figure:: img/climate_plots_months.png
+   :align: center
 
    Aggregated data, mean value for each month.
 
@@ -540,6 +540,7 @@ Non-linear regression
   * Climate data (predict temperature from the others)
   * Do it with linear model first
   * other data set? If needed to illustrate.
+  * Need a case where non-linear is needed and linear does not suffice.
 
 Some standard time-series models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
