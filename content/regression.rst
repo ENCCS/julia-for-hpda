@@ -355,7 +355,6 @@ The second dataset we will use comes from the Rdatasets package and consists of 
    And so on (31 data points).
 
 
-
 Loading data
 ^^^^^^^^^^^^
 
@@ -367,8 +366,10 @@ Dehli India over a period of several years.
 
    using DataFrames, CSV, DataFrames, Plots
 
-   df_train = CSV.read("C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv", DataFrame)
-   df_test = CSV.read("C:/Users/davidek/julia_kurser/DailyDelhiClimateTest.csv", DataFrame)
+   # full path to data files
+   # uploaded in julia-for-hpda/content/data
+   df_train = CSV.read("C:/Users/username/DailyDelhiClimateTrain.csv", DataFrame)
+   df_test = CSV.read("C:/Users/username/DailyDelhiClimateTest.csv", DataFrame)
    df_train
 
    M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
@@ -381,6 +382,42 @@ Dehli India over a period of several years.
    :align: center
 
    Plots of measurements.
+
+The mean pressure data field seems to contain some unreasonably large values. Let us filter those out and consider these missing data.
+
+.. code-block:: julia
+
+   using DataFrames, CSV, DataFrames, Plots
+
+   # full path to data files
+   # uploaded in julia-for-hpda/content/data
+   df_train = CSV.read("C:/Users/username/DailyDelhiClimateTrain.csv", DataFrame)
+   df_test = CSV.read("C:/Users/username/DailyDelhiClimateTest.csv", DataFrame)
+
+   M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
+
+   plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
+   plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
+
+   # remove mean pressures above 1050 hPa and below 950 hPa
+   pressure_mod = [ abs(x-1000) < 50 ? x : NaN for x in df_train.meanpressure]
+
+   Mmod = [df_train.meantemp df_train.humidity df_train.wind_speed pressure_mod]
+
+   # color=[1 2 3 4] gives default colors
+   plt = plot(Mmod, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (days)", ylabel=plotylabels, size=(800,800))
+
+   display(plt)
+
+.. figure:: img/climate_plots_first.png
+   :align: center
+
+   Plots of cleaned up data.
+
+Simple basis functions
+^^^^^^^^^^^^^^^^^^^^^^
+
+
 
 TODO:
 
