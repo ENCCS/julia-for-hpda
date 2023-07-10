@@ -417,27 +417,132 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    Plots of cleaned up data.
 
-Simple basis functions
-^^^^^^^^^^^^^^^^^^^^^^
+Simple Fourier based models
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Since the data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
+
+.. code-block:: julia
+
+   # clean up data
+   df_train[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df_train.meanpressure) for x in df_train.meanpressure]
+
+   # add year and month fields
+   df_train[:,:year] = Float64.(year.(df_train[:,:date]))
+   df_train[:,:month] = Float64.(month.(df_train[:,:date]))
+
+   df_test[:,:year] = Float64.(year.(df_test[:,:date]))
+   df_test[:,:month] = Float64.(month.(df_test[:,:date]))
+
+   df_train_m = combine(groupby(df_train, [:year, :month]), :meantemp => mean, :humidity => mean,
+   :wind_speed => mean, :meanpressure => mean)
+
+   M_m = [df_train_m.meantemp_mean df_train_m.humidity_mean df_train_m.wind_speed_mean df_train_m.meanpressure_mean]
+   plt = scatter(M_m, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (months)", ylabel=plotylabels, size=(800,800))
+
+   display(plt)
+
+   .. figure:: img/climate_plots_months.png
+      :align: center
+
+   Aggregated data, mean value for each month.
+
+Now, the Fourier transform gives us the frequency components of the signals. Let us take the mean temperature as an example.
+
+.. code-block:: julia
+
+   using FFTW
+
+   # just to have even number of samples for simplicity
+   df_train_m = df_train_m[2:end,:]
+
+   # normalize for better exposition of frequencies
+   the_mean = mean(df_train_m.meantemp_mean)
+   y = df_train_m.meantemp_mean .- the_mean
+
+   L = size(df_train_m)[1]
+   Fs = 1
+   T = 1/Fs
+
+   y_fft = fft(y)
+   P2 = abs.(y_fft/L)
+   P1 = P2[1:Int(L/2)+1]
+   P1[2:end-1] = 2*P1[2:end-1]
+
+   f = (Fs/L)*(0:Int(L/2))
+
+   plt = plot(f, P1, label="freqs")
+
+   savefig("climate_fft.png")
+
+   display(plt)
+
+.. figure:: img/climate_plots_fft.png
+   :align: center
+
+   Plots of frequency content of temperature data.
+
+We use the frequency information for interpolation and extrapolation and thereby build a model of the data.
+To decrease overfitting, we may project to a lower dimensional subspace of basis functions (essentially trigonmetric functions) by setting a parameter proj_lim below.
+
+.. code-block:: julia
+
+   # up sample function to finer grid (interpolation)
+   upsample = 2
+   L_u = floor(Int64, L*upsample)
+   t_u = (0:L_u-1)*L/L_u
+
+   # proj_lim 0 means no projection 
+   function get_model(proj_lim)
+
+     y_fft_tmp = y_fft.*[ abs(x) < proj_lim*L ? 0.0 : 1.0 for x in y_fft]
+
+     # center frequencies on constant component (zero frequency)
+     y_fft_shift = fftshift(y_fft_tmp)
+
+     # fill in zeros (padding) for higher frequencies for upsampling
+     npad = floor(Int64, L_u/2 - L/2)
+
+     y_fft_pad = [zeros(npad); y_fft_shift; zeros(npad)]
+
+     # up sampling by applying inverse Fourier transform to paddded frequency vector
+     # same as interpolating using linear combination of trignometric functions
+     pred = real(ifft(fftshift(y_fft_pad)))*L_u/L
+
+     # put back constant component
+     pred = pred .+ the_mean
+
+   end
+
+   pred0 = get_model(0.0)
+   pred1 = get_model(1.0)
+   pred2 = get_model(2.0)
+
+   y = y .+ the_mean
+
+   t = (0:L-1)
+   plt = scatter([x x x], [y y y], layout=(3,1), label=["data" "data" "data"])
+   plot!([t_u t_u t_u], [pred2 pred1 pred0], layout=(3,1), label=["model crude" "model fine" "model overfit"], title=["meantemp crude" "meantemp fine" "meantemp overfit"], xlabel="time (months)", ylabel="C°", size=(800,800))
+
+   display(plt)
+
+.. figure:: img/climate_fft_model.png
+   :align: center
+
+   Three models of varying crudeness and overfit.
 
 
 TODO:
 
-Linear regression
-^^^^^^^^^^^^^^^^^
-
-  * Use cos, sin or something as basis functions for climate data
-
 Non-linear regression
 ^^^^^^^^^^^^^^^^^^^^^
 
-  * Climate data
-  * other data set?
+  * Climate data (predict temperature from the others)
+  * Do it with linear model first
+  * other data set? If needed to illustrate.
 
 Some standard time-series models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   * Linear models (including with dummy variables)
-  * Autoregression
-  * etc.
+  * Autoregression (linear and non-linear)
