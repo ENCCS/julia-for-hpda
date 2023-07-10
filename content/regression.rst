@@ -473,11 +473,9 @@ Now, the Fourier transform gives us the frequency components of the signals. Let
 
    plt = plot(f, P1, label="freqs")
 
-   savefig("climate_fft.png")
-
    display(plt)
 
-.. figure:: img/climate_plots_fft.png
+.. figure:: img/climate_fft.png
    :align: center
 
    Plots of frequency content of temperature data.
@@ -547,3 +545,6 @@ Some standard time-series models
 
   * Linear models (including with dummy variables)
   * Autoregression (linear and non-linear)
+
+Exercises
+^^^^^^^^^
