@@ -478,10 +478,10 @@ Now, the Fourier transform gives us the frequency components of the signals. Let
 .. figure:: img/climate_fft.png
    :align: center
 
-   Plots of frequency content of temperature data.
+   Plots of frequency content of temperature data. There is a peak at roughly 1/12 corresonding to a period of 1 year.
 
 We use the frequency information for interpolation and extrapolation and thereby build a model of the data.
-To decrease overfitting, we may project to a lower dimensional subspace of basis functions (essentially trigonmetric functions) by setting a parameter proj_lim below.
+To decrease overfitting, we may project to a lower dimensional subspace of basis functions (essentially trigonmetric functions) by setting a limit parameter proj_lim below.
 
 .. code-block:: julia
 
@@ -490,6 +490,7 @@ To decrease overfitting, we may project to a lower dimensional subspace of basis
    L_u = floor(Int64, L*upsample)
    t_u = (0:L_u-1)*L/L_u
 
+   # set limit for projection
    # proj_lim 0 means no projection 
    function get_model(proj_lim)
 
@@ -548,3 +549,5 @@ Some standard time-series models
 
 Exercises
 ^^^^^^^^^
+
+  * Do prediction using Iris data set and some different models
