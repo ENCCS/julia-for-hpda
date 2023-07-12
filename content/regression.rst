@@ -555,6 +555,33 @@ Now we will consider the problem of predicting one of the climate variables from
 
    Evolution of prediction during training.
 
+.. code-block:: text
+
+   Epoch: 997, rmse train/test: 2.401997981277437 2.933315445135163
+   Epoch: 998, rmse train/test: 2.4018819530994313 2.933265840346145
+   Epoch: 999, rmse train/test: 2.40176617679199 2.9332149025558074
+   Epoch: 1000, rmse train/test: 2.401650646723321 2.9331655702024872
+   mean temp
+   rmse train: 2.401650646723321
+   rmse_test: 2.9331655702024872
+
+Let us also check how well a linear model is doing in this case (it turns out it is doing almost as good as the non-linear model).
+
+.. code-block:: julia
+
+   using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, Flux, StatsBase
+
+.. code-block:: text
+
+   mean temp
+   rmse train: 2.654280437247272
+   rmse_test: 3.1429118309689383
+
+.. figure:: img/climate_linear_reg.gif
+   :align: center
+
+   Linear model predictions.
+
 TODO:
 
 Non-linear regression
