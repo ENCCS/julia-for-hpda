@@ -545,7 +545,7 @@ Now we will consider the problem of predicting one of the climate variables from
 
    Data points and predictions.
 
-.. figure:: img/climate_nonlinear_reg.png
+.. figure:: img/climate_reg_losses.png
    :align: center
 
    The losses during training.
