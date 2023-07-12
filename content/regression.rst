@@ -551,13 +551,11 @@ Now we will consider the problem of predicting one of the climate variables from
    y = df.meantemp
    X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
 
-   # permuted index set of data points
-   # z = shuffle(eachindex(y))
-   # or straight split
    z = eachindex(y)
 
    # 70:30 split in training and testing
-   train, test = partition(z, 0.7)
+   # shuffle or straight split
+   train, test = partition(z, 0.7, shuffle=false)
    X_train = X[train, :]
    y_train = y[train, :]
    X_test = X[test, :]
@@ -689,13 +687,11 @@ Let us also check how well a linear model is doing in this case. It turns out it
    y = df.meantemp
    X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
 
-   # permuted index set of data points
-   # z = shuffle(eachindex(y))
-   # or straight split
    z = eachindex(y)
 
    # 70:30 split in training and testing
-   train, test = partition(z, 0.7)
+   # shuffle or straight split
+   train, test = partition(z, 0.7, shuffle=false)
    X_train = X[train, :]
    y_train = y[train, :]
    X_test = X[test, :]
@@ -753,8 +749,6 @@ TODO:
 Non-linear regression
 ^^^^^^^^^^^^^^^^^^^^^
 
-  * Climate data (predict temperature from the others)
-  * Do it with linear model first
   * Need a case where non-linear is needed and linear does not suffice.
   * One synthetic non-linear regression example? Use to illustrate overfitting.
   * One more non-linear regression example on different dataset
@@ -762,7 +756,7 @@ Non-linear regression
 Exercises
 ^^^^^^^^^
 
-  * Do prediction using Iris data set and some different models
+  * Do prediction using Iris data set (or other) and some different models
 
 Some standard time-series models (extra material if time permits)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
