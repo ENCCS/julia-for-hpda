@@ -531,6 +531,30 @@ To decrease overfitting, we may project to a lower dimensional subspace of basis
    Three models of varying crudeness and overfit.
 
 
+Non-linear regression
+^^^^^^^^^^^^^^^^^^^^^
+
+Now we will consider the problem of predicting one of the climate variables from the others, for example temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a neural network in Julia using the package Flux.
+
+.. code-block:: julia
+
+   using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, Flux, StatsBase
+
+.. figure:: img/climate_nonlinear_reg.png
+   :align: center
+
+   Data points and predictions.
+
+.. figure:: img/climate_nonlinear_reg.png
+   :align: center
+
+   The losses during training.
+
+.. figure:: img/anim_points_training.gif
+   :align: center
+
+   Evolution of prediction during training.
+
 TODO:
 
 Non-linear regression
@@ -538,16 +562,17 @@ Non-linear regression
 
   * Climate data (predict temperature from the others)
   * Do it with linear model first
-  * other data set? If needed to illustrate.
   * Need a case where non-linear is needed and linear does not suffice.
-
-Some standard time-series models
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  * Linear models (including with dummy variables)
-  * Autoregression (linear and non-linear)
+  * One synthetic non-linear regression example? Use to illustrate overfitting.
+  * One more non-linear regression example on different dataset
 
 Exercises
 ^^^^^^^^^
 
   * Do prediction using Iris data set and some different models
+
+Some standard time-series models (extra material if time permits)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  * Linear models (including with dummy variables)
+  * Autoregression (linear and non-linear)
