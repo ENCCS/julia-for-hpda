@@ -577,7 +577,7 @@ Let us also check how well a linear model is doing in this case (it turns out it
    rmse train: 2.654280437247272
    rmse_test: 3.1429118309689383
 
-.. figure:: img/climate_linear_reg.gif
+.. figure:: img/climate_linear_reg.png
    :align: center
 
    Linear model predictions.
