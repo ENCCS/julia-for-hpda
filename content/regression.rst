@@ -744,19 +744,95 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
    Linear model predictions.
 
+Let us now illustrate how to use the package MLJ for non-linear regression. We will use a data set called
+*Airfoil Self-Noise* which may be downloaded from the UC Irvine Machine Learning repository `here <http://archive.ics.uci.edu/dataset/291/airfoil+self+noise/>`_
+This is a data set from NASA created by T. Brooks, D. Pope and M. Marcolini obtained from aerodynamic and acoustic tests of airfoil blade sections.
+The fields of this data set are:
+
+  * frequency (Hz),
+  * angle of attack (degrees),
+  * chord length (m),
+  * free-stream velocity (m/s),
+  * suction side displacement thickness (m),
+  * scaled sound pressure level (db),
+
+and we will consider the problem of predicting scaled sound pressure level from the others.
+
+.. code-block:: julia
+
+   using GLM, RDatasets, MLJ, Flux
+   import MLJDecisionTreeInterface
+   using BetaML
+   using MLJ: shuffle, partition
+   import DataFrames
+   using CSV
+   using HTTP
+
+   # switch to UC Irvin?
+   req = HTTP.get("https://raw.githubusercontent.com/rupakc/UCI-Data-Analysis/master/Airfoil%20Dataset/airfoil_self_noise.dat");
+
+   df = CSV.read(req.body, DataFrames.DataFrame; header=[
+                      "Frequency","Attack_Angle","Chord_Length",
+                      "Free_Velocity","Suction_Side","Scaled_Sound"
+                      ]
+                 );
+   y_column = :Scaled_Sound
+   X_columns = 1:5
+   formula_lin = @formula(Scaled_Sound ~ 1 + Frequency + Attack_Angle + Chord_Length + Free_Velocity + Suction_Side)
+
+
+   train, test = partition(1:size(df, 1), 0.7, shuffle=true)
+   df_train = df[train,:]
+   df_test = df[test,:]
+
+   model_lin = GLM.fit(LinearModel, formula_lin, df_train)
+
+   X_test = Matrix(df_test[:, X_columns])
+
+   y_test = df_test[:, y_column]
+   y_test_pred = GLM.predict(model_lin, [ones(size(df_test, 1)) X_test])
+
+   rmse_lin = rms(y_test, y_test_pred)
+
+   # non-linear model
+
+   # what does colname -> true do?
+   y, X = unpack(df, ==(y_column), colname -> true)
+   X = MLJ.transform(MLJ.fit!(machine(Standardizer(), X)), X)
+   train, test = partition(collect(eachindex(y)), 0.7, shuffle=true);
+
+   DecisionTreeRegressor = @load DecisionTreeRegressor pkg=DecisionTree
+   dcrm = machine(DecisionTreeRegressor(), X, y)
+   MLJ.fit!(dcrm, rows=train)
+   pred_dcrm = MLJ.predict(dcrm, rows=test)
+
+   rmse_nlin = rms(pred_dcrm, y[test])
+
+   # Non-linear model is significantly better than linear model.
+   println()
+   println("rmse linear $rmse_lin")
+   println("rmse non-linear $rmse_nlin")
+   println()
+
+.. code-block:: text
+
+   rmse linear 5.003216839003985
+   rmse non-linear 2.9503907573431922
+
+
+
 TODO:
 
 Non-linear regression
 ^^^^^^^^^^^^^^^^^^^^^
 
-  * Need a case where non-linear is needed and linear does not suffice.
-  * One synthetic non-linear regression example? Use to illustrate overfitting.
-  * One more non-linear regression example on different dataset
+  * One synthetic non-linear regression example before air foil? Use to illustrate overfitting.
+  * Download and save air foil data set to repo. Synch in code.
 
 Exercises
 ^^^^^^^^^
 
-  * Do prediction using Iris data set (or other) and some different models
+  * Do prediction using air foil data set and some different models
 
 Some standard time-series models (extra material if time permits)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
