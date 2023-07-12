@@ -539,6 +539,85 @@ Now we will consider the problem of predicting one of the climate variables from
 .. code-block:: julia
 
    using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, Flux, StatsBase
+   using MLJ: shuffle, partition
+   using Flux: train!
+
+   df = CSV.read("C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv", DataFrame)
+
+   # clean up data
+   df[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df.meanpressure) for x in df.meanpressure]
+
+   topredict = "mean temp"
+   y = df.meantemp
+   X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
+
+   # permuted index set of data points
+   # z = shuffle(eachindex(y))
+   # or straight split
+   z = eachindex(y)
+
+   # 70:30 split in training and testing
+   train, test = partition(z, 0.7)
+   X_train = X[train, :]
+   y_train = y[train, :]
+   X_test = X[test, :]
+   y_test = y[test, :]
+
+   function draw_results(X_train, X_test, y_train, y_test, model)
+       y_pred_train = model(X_train')'
+
+       plt = scatter(train, y_train, title="Non-linear model of "*topredict, label="data train")
+       scatter!(train, y_pred_train, label="prediction train")
+
+       y_pred_test = model(X_test')'
+
+       scatter!(test, y_test, label="data test")
+       scatter!(test, y_pred_test, label="prediction test")
+
+       display(plt)
+
+       rmse_train = sqrt(Flux.Losses.mse(y_train, y_pred_train))
+       rmse_test = sqrt(Flux.Losses.mse(y_test, y_pred_test))
+
+       println(topredict)
+       println("rmse train: ", rmse_train)
+       println("rmse_test: ", rmse_test)
+   end
+
+   draw_results_lin(X_train, X_test, y_train, y_test, model_lin)
+
+   init=Flux.glorot_uniform()
+   model = Chain(
+               Dense(3, 10, tanh, init=init, bias=true),
+               # Dense(10, 10, tanh, init=init, bias=true),
+               # Dropout(0.04),
+               Dense(10, 1, init=init, bias=true)
+   )
+
+   ps = Flux.params(model)
+   loss(tX, ty) = Flux.Losses.mse(model(tX'), ty')
+   opt = ADAM(0.01) # learning rate 0.01
+
+   data = [(X_train, y_train)]
+   n_epochs = 1000
+
+   train_loss = []
+   test_loss = []
+
+   for epoch in 1:n_epochs
+       train!(loss, ps, data, opt)
+       ltrain = sqrt(loss(X_train, y_train))
+       ltest = sqrt(loss(X_test, y_test))
+       push!(train_loss, ltrain)
+       push!(test_loss, ltest)
+       println("Epoch: $epoch, rmse train/test: ", ltrain, " ", ltest)
+   end
+
+   draw_results(X_train, X_test, y_train, y_test, model)
+
+   plt = plot(train_loss, title="Losses (root mean square error)", label="training", xlabel="epochs")
+   plot!(test_loss, label="test")
+   display(plt)
 
 .. figure:: img/climate_nonlinear_reg.png
    :align: center
@@ -550,11 +629,6 @@ Now we will consider the problem of predicting one of the climate variables from
 
    The losses during training.
 
-.. figure:: img/anim_points_training.gif
-   :align: center
-
-   Evolution of prediction during training.
-
 .. code-block:: text
 
    Epoch: 997, rmse train/test: 2.401997981277437 2.933315445135163
@@ -565,11 +639,103 @@ Now we will consider the problem of predicting one of the climate variables from
    rmse train: 2.401650646723321
    rmse_test: 2.9331655702024872
 
-Let us also check how well a linear model is doing in this case (it turns out it is doing almost as good as the non-linear model).
+It is interesting to animate the predictions during the training of the neural network. This will also give us a quick look at animation in Julia.
+
+.. code-block:: julia
+
+   # instead of the training loop above
+   # do this to save an animation as a gif
+
+   anim = @animate for epoch in 1:n_epochs
+
+       train!(loss, ps, data, opt)
+       ltrain = sqrt(loss(X_train, y_train))
+       ltest = sqrt(loss(X_test, y_test))
+       push!(train_loss, ltrain)
+       push!(test_loss, ltest)
+       println("Epoch: $epoch, rmse train/test: ", ltrain, " ", ltest)
+
+       y_pred_train = model(X_train')'
+       y_pred_test = model(X_test')'
+
+       scatter(train, y_train, title="Non-linear model of "*topredict, label="data train", yrange=[0,40])
+       scatter!(train, y_pred_train, label="prediction train")
+       scatter!(test, y_test, label="data test")
+       scatter!(test, y_pred_test, label="prediction test")
+
+   end every 2 # include every second frame
+
+   gif(anim, "anim_points_training.gif")
+
+.. figure:: img/anim_points_training.gif
+   :align: center
+
+   Evolution of prediction during training.
+
+Let us also check how well a linear model is doing in this case. It turns out it is doing almost as good as the non-linear model, and perhaps better at capturing the peaks.
 
 .. code-block:: julia
 
    using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, Flux, StatsBase
+   using MLJ: shuffle, partition
+   using Flux: train!
+
+   df = CSV.read("C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv", DataFrame)
+
+   # clean up data
+   df[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df.meanpressure) for x in df.meanpressure]
+
+   topredict = "mean temp"
+   y = df.meantemp
+   X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
+
+   # permuted index set of data points
+   # z = shuffle(eachindex(y))
+   # or straight split
+   z = eachindex(y)
+
+   # 70:30 split in training and testing
+   train, test = partition(z, 0.7)
+   X_train = X[train, :]
+   y_train = y[train, :]
+   X_test = X[test, :]
+   y_test = y[test, :]
+
+   df_model = DataFrame(cX1=X_train[:,1], cX2=X_train[:,2], cX3=X_train[:,3], cy=y_train[:,1])
+
+   model_lin = lm(@formula(cy ~ 1+cX1+cX2+cX3), df_model)
+
+   function draw_results_lin(X_train, X_test, y_train, y_test, model)
+       model = model_lin
+
+       Z_train = [ones(size(X_train,1)) X_train]
+
+       y_pred_train = predict(model, Z_train)
+       y_train = y_train[:,1]
+
+       plt = scatter(train, y_train, title="Linear model of "*topredict, label="data train")
+       scatter!(train, y_pred_train, label="prediction train")
+
+       Z_test = [ones(size(X_test,1)) X_test]
+
+       y_pred_test = predict(model, Z_test)
+       y_test = y_test[:,1]
+
+       scatter!(test, y_test, label="data test")
+       scatter!(test, y_pred_test, label="prediction test")
+
+       display(plt)
+
+       rmse_train = sqrt(Flux.Losses.mse(y_train, y_pred_train))
+       rmse_test = sqrt(Flux.Losses.mse(y_test, y_pred_test))
+
+       println(topredict)
+       println("rmse train: ", rmse_train)
+       println("rmse_test: ", rmse_test)
+   end
+
+   draw_results_lin(X_train, X_test, y_train, y_test, model_lin)
+
 
 .. code-block:: text
 
