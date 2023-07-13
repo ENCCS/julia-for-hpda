@@ -274,7 +274,7 @@ Note the similarity to Fourier analysis. Let's see how you do the Fourier transf
    The Fourier coeffients from FFT, the frequencies are 1 and 5.
 
 Linear regression on real data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 Let us illustrate linear regression on real data sets.
 
@@ -356,7 +356,7 @@ The second dataset we will use comes from the Rdatasets package and consists of 
 
 
 Loading data
-^^^^^^^^^^^^
+------------
 
 We will now have a look at a climate data set containing daily mean
 temperature, humidity, wind speed and mean pressure at a location in
@@ -418,7 +418,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
    Plots of cleaned up data.
 
 Simple Fourier based models
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
 
 Since the data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
 
@@ -532,7 +532,12 @@ To decrease overfitting, we may project to a lower dimensional subspace of basis
 
 
 Non-linear regression
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
+
+In this section we will have a look at non-linear regression methods.
+
+Climate data
+^^^^^^^^^^^^
 
 Now we will consider the problem of predicting one of the climate variables from the others, for example temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a neural network in Julia using the package Flux.
 
@@ -744,6 +749,9 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
    Linear model predictions.
 
+Airfoil data set
+^^^^^^^^^^^^^^^^
+
 Let us now illustrate how to use the package MLJ for non-linear regression. We will use a data set called
 *Airfoil Self-Noise* which may be downloaded from the UC Irvine Machine Learning repository `here <http://archive.ics.uci.edu/dataset/291/airfoil+self+noise/>`_
 This is a data set from NASA created by T. Brooks, D. Pope and M. Marcolini obtained from aerodynamic and acoustic tests of airfoil blade sections.
@@ -826,6 +834,9 @@ and we will consider the problem of predicting scaled sound pressure level from 
    rmse linear 5.003216839003985
    rmse non-linear 2.9503907573431922
 
+Simple regression example
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To illustrate more usages of MLJ and various regression models consider the following simple example.
 
 .. code-block:: julia
@@ -886,6 +897,9 @@ To illustrate more usages of MLJ and various regression models consider the foll
 
 .. figure:: img/simple_regression_test.png
    :align: center
+
+Exercises
+---------
 
 .. exercise:: simple regression 1
 
@@ -1012,7 +1026,7 @@ To illustrate more usages of MLJ and various regression models consider the foll
 
 .. exercise:: air foil continued
 
-   Return to the Airfoil Self-Noise example above and run the code for it.
+   Return to the `Airfoil data set`_ example above and run the code for it.
 
    Try some different models to model the data. You can list available models a follows at the end of the script.
 
@@ -1034,7 +1048,7 @@ To illustrate more usages of MLJ and various regression models consider the foll
 TODO:
 
 Non-linear regression
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
   * Download and save air foil data set to repo. Synch in code.
   * Fix headers. Seem to be wrong levels used (skipping section -).
@@ -1042,7 +1056,7 @@ Non-linear regression
 
 
 Some standard time-series models (extra material if time permits)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------
 
   * Linear models (including with dummy variables)
   * Autoregression (linear and non-linear)

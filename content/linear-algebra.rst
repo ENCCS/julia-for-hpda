@@ -14,7 +14,7 @@ Linear algebra
    - 30 min exercises
 
 List comprehension, slicing and vectorization
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------
 
 One can create vectors in a simple way similar to Python.
 
@@ -188,7 +188,7 @@ Adding elements to existing arrays (appending arrays).
    U # [5, [1,77,3]]
 
 Matrix and vector operations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
 
 Recall that matrices and vectors may be defined as follows:
 
@@ -360,7 +360,7 @@ transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so 
      0.529221   0.154329  -0.717333
 
 Timing
-^^^^^^
+------
 
 Some examples of timing and benchmarking.
 
@@ -397,7 +397,7 @@ Some examples of timing and benchmarking.
      above between manual timing and timing with @time?
 
 Random matrices and sparse matrices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------
 
 Here is how you can create random matrices and vectors with various
 distributions.
@@ -453,7 +453,7 @@ Sparse matrices may be constructed with the SparseArrays package.
 
 
 Loading a dataset
-^^^^^^^^^^^^^^^^^
+-----------------
 
 To prepare our illustration of PCA, we start by downoading Fisher's
 iris dataset. This dataset contains measurements from 3 different
@@ -475,7 +475,7 @@ To obtain the data we use the RDatasets package:
    df = dataset("datasets", "iris")
 
 Principal Component Analysis (PCA)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------
 
 We will now illustrate how PCA can be performed on the iris
 dataset. First extract the first four columns (the features described
@@ -557,7 +557,7 @@ Plotting the result:
    Scatter plot of the projected data.
 
 Exercises
-^^^^^^^^^
+---------
 
 .. exercise:: Sparse matrix computations
 
