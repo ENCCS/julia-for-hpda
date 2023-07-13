@@ -780,7 +780,6 @@ and we will consider the problem of predicting scaled sound pressure level from 
    using CSV
    using HTTP
 
-   # switch to UC Irvin?
    req = HTTP.get("https://raw.githubusercontent.com/rupakc/UCI-Data-Analysis/master/Airfoil%20Dataset/airfoil_self_noise.dat");
 
    df = CSV.read(req.body, DataFrames.DataFrame; header=[
@@ -1050,7 +1049,6 @@ Exercises
 
 TODO:
 
-  * Download and save air foil data set to repo. Synch in code.
   * Fix formatting exercises.
 
 Some standard time-series models (extra material if time permits)
