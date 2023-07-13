@@ -961,11 +961,11 @@ Exercises
          # or a decision tree
          # model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
-	  You may have to import an MLJ interface such as MLJDecisionTreeInterface.
+      You may have to import an MLJ interface such as MLJDecisionTreeInterface.
 
-	  The list of model from above will be something like:
+      The list of model from above will be something like:
 
-	  .. code-block:: text
+      .. code-block:: text
 
          Model Name: ARDRegressor , Package: ScikitLearn
          Model Name: AdaBoostRegressor , Package: ScikitLearn
