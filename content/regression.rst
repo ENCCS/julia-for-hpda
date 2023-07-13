@@ -819,7 +819,66 @@ and we will consider the problem of predicting scaled sound pressure level from 
    rmse linear 5.003216839003985
    rmse non-linear 2.9503907573431922
 
+To illustrate more usages of MLJ and various regression models consider the following simple example.
 
+.. code-block:: julia
+
+   using MLJ, Flux, MLJFlux, DataFrames
+   import MLJDecisionTreeInterface
+   import MLJScikitLearnInterface
+   using Plots
+
+   Npoints = 200
+   noise_level = 0.1
+   train_frac = 0.7
+
+   X = range(-6, 6, length=Npoints)
+   y = cos.(X) .+ cos.(2*X) .+ 0.01*X.^3
+   y = y .+ noise_level*randn(Npoints,)
+
+   X = DataFrame(cX=X)
+
+   train, test = MLJ.partition(collect(eachindex(y)), train_frac, shuffle=true);
+
+   # model_class = @load DecisionTreeRegressor pkg=DecisionTree
+   # model_class = @load RandomForestRegressor pkg=DecisionTree
+   # model_class = @load NeuralNetworkRegressor pkg=MLJFlux # seems to have only one layer as a default
+   model_class = @load GaussianProcessRegressor pkg=ScikitLearn
+
+   model = model_class()
+   mach = machine(model, X, y)
+   MLJ.fit!(mach, rows=train)
+
+   pred_all = MLJ.predict(mach)
+
+   pred_train = MLJ.predict(mach, rows=train)
+   err_train = rms(pred_train, y[train])
+
+   pred_test = MLJ.predict(mach, rows=test)
+   err_test = rms(pred_test, y[test])
+
+   plt = plot(X.cX, pred_all, label="prediction", title="Simple regression test")
+   scatter!(X.cX[train], y[train], label="train", markersize=3)
+   scatter!(X.cX[test], y[test], label="test", markersize=3)
+   display(plt)
+
+   # expect something like
+   # rmse non-linear train 0.086
+   # rmse non-linear test 0.1311
+
+.. figure:: img/simple_regression_test.png
+   :align: center
+
+
+# print models that can be used to model the data
+#for model in models(matching(X, y))
+#    print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
+#end
+
+println()
+println("rmse non-linear train $err_train")
+println("rmse non-linear test $err_test")
+println()
 
 TODO:
 
