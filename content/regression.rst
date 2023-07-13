@@ -14,7 +14,7 @@ Regression, time-series prediction and analysis
    - 60 min exercises
 
 Linear regression with synthetic data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------
 
 We begin with some simple examples of linear regression on generated data. For the models we will use the package GLM (Generlized Linear Models).
 
@@ -896,6 +896,8 @@ To illustrate more usages of MLJ and various regression models consider the foll
    In the simple regression example above, experiment with the settings to change the sampling frequency, level of noise and and fraction of the data that is used for training (the rest is used for testing).
 
    .. solution:: Change parameters
+   
+      You can change the following parameters.
 
       .. code-block:: julia
 
