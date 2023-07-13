@@ -903,11 +903,11 @@ Exercises
 
 .. exercise:: simple regression 1
 
-   Run the code in the previous example and see what errors you get.
+   Run the code in the `Simple regression example`_ above and see what errors you get.
 
 .. exercise:: simple regression 2
 
-   In the simple regression example above, experiment with the settings to change the sampling frequency, level of noise and and fraction of the data that is used for training (the rest is used for testing).
+   In the `Simple regression example`_, experiment with the settings to change the sampling frequency, level of noise and and fraction of the data that is used for training (the rest is used for testing).
 
    .. solution:: Change parameters
    
@@ -921,7 +921,7 @@ Exercises
 
 .. exercise:: simple regression 3
 
-   In the simple regression example above, make your own synthetic data set and try it out in the script. The performance will depend a lot on the data and the model.
+   In the `Simple regression example`_, make your own synthetic data set and try it out in the script. The performance will depend a lot on the data and the model.
 
    .. solution:: Change function
 
@@ -935,7 +935,7 @@ Exercises
 
 .. exercise:: simple regression 4
 
-   Try some other models to train on the data from the simple regression example. To see a list of available models one can outcomment the following lines.
+   Try some other models to train on the data from the `Simple regression example`_. To see a list of available models one can outcomment the following lines.
 
    .. code-block:: julia
 
