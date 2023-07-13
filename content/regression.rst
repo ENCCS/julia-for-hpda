@@ -950,7 +950,7 @@ Exercises
 
 	  .. code-block:: julia
 
-	     # replace the model_class
+         # replace the model_class
          # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
          # with for exmple random forest
          model_class = @load RandomForestRegressor pkg=DecisionTree
@@ -1045,9 +1045,6 @@ Exercises
 
 
 TODO:
-
-Non-linear regression
----------------------
 
   * Download and save air foil data set to repo. Synch in code.
   * Fix formatting exercises.
