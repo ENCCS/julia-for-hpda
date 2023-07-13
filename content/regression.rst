@@ -951,11 +951,11 @@ Exercises
 	  .. code-block:: julia
 
 	     # replace the model_class
-		 # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
-		 # with for exmple random forest
-	     model_class = @load RandomForestRegressor pkg=DecisionTree
+         # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
+         # with for exmple random forest
+         model_class = @load RandomForestRegressor pkg=DecisionTree
 
-		 # or a decision tree
+         # or a decision tree
          # model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
 	  You may have to import an MLJ interface such as MLJDecisionTreeInterface.
@@ -1028,14 +1028,13 @@ Exercises
 
    Return to the `Airfoil data set`_ example above and run the code for it.
 
-   Try some different models to model the data. You can list available models a follows at the end of the script.
+   Try some different models to model the data. You can list available models as follows at the end of the script.
 
    .. code-block:: julia
 
       for model in models(matching(X, y))
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
-
 
       # get more model suggestions by changing type of the Frequency field from Int64 to Float64
       coerce!(X, :Frequency=>Continuous)
