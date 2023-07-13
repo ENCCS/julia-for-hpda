@@ -780,7 +780,6 @@ and we will consider the problem of predicting scaled sound pressure level from 
    X_columns = 1:5
    formula_lin = @formula(Scaled_Sound ~ 1 + Frequency + Attack_Angle + Chord_Length + Free_Velocity + Suction_Side)
 
-
    train, test = partition(1:size(df, 1), 0.7, shuffle=true)
    df_train = df[train,:]
    df_test = df[test,:]
@@ -801,18 +800,26 @@ and we will consider the problem of predicting scaled sound pressure level from 
    X = MLJ.transform(MLJ.fit!(machine(Standardizer(), X)), X)
    train, test = partition(collect(eachindex(y)), 0.7, shuffle=true);
 
-   DecisionTreeRegressor = @load DecisionTreeRegressor pkg=DecisionTree
-   dcrm = machine(DecisionTreeRegressor(), X, y)
-   MLJ.fit!(dcrm, rows=train)
-   pred_dcrm = MLJ.predict(dcrm, rows=test)
+   model_class = @load DecisionTreeRegressor pkg=DecisionTree
+   model = model_class()
+   mach = machine(model, X, y)
+   MLJ.fit!(mach, rows=train)
+   pred_test = MLJ.predict(mach, rows=test)
 
-   rmse_nlin = rms(pred_dcrm, y[test])
+   rmse_nlin = rms(pred_test, y[test])
 
    # Non-linear model is significantly better than linear model.
    println()
    println("rmse linear $rmse_lin")
    println("rmse non-linear $rmse_nlin")
    println()
+
+   # get more model suggestions by changing type of frequency
+   # coerce!(X, :Frequency=>Continuous)
+
+   # for model in models(matching(X, y))
+   #     print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
+   # end
 
 .. code-block:: text
 
@@ -1001,6 +1008,26 @@ To illustrate more usages of MLJ and various regression models consider the foll
          Model Name: TheilSenRegressor , Package: ScikitLearn
          Model Name: XGBoostRegressor , Package: XGBoost
 
+.. exercise:: air foil continued
+
+   Return to the Airfoil Self-Noise example above and run the code for it.
+
+   Try some different models to model the data. You can list available models a follows at the end of the script.
+
+   .. code-block:: julia
+
+      for model in models(matching(X, y))
+          print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
+      end
+
+
+      # get more model suggestions by changing type of the Frequency field from Int64 to Float64
+      coerce!(X, :Frequency=>Continuous)
+
+      for model in models(matching(X, y))
+          print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
+      end
+
 
 TODO:
 
@@ -1008,11 +1035,9 @@ Non-linear regression
 ^^^^^^^^^^^^^^^^^^^^^
 
   * Download and save air foil data set to repo. Synch in code.
+  * Fix headers. Seem to be wrong levels used (skipping section -).
+  * Link to Airfoil example in exercise about it. Make sections for climate/air foil/synthetic in regression section?
 
-Exercises
-^^^^^^^^^
-
-  * Do prediction using air foil data set and some different models
 
 Some standard time-series models (extra material if time permits)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
