@@ -632,9 +632,9 @@ linear dependence has been detected and we return
       .. code-block:: julia
 
          # input is a vector of vectors a = [a_1, a_2, a_3]
-	 # for vectors a_1, a_2, a_3
+	     # for vectors a_1, a_2, a_3
 
-	 using LinearAlgebra
+	     using LinearAlgebra
 
          function gram_schmidt(a; tol = 1e-10)
 
