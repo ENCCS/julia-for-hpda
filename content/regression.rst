@@ -930,8 +930,8 @@ Exercises
          # replace
          # y = cos.(X) .+ cos.(2*X) .+ 0.01*X.^3
 
-	     # with your own function, for example
-	     y = cos.(X) .+ sin.(2*X).^2 .+ 0.01*X.^3
+         # with your own function, for example
+         y = cos.(X) .+ sin.(2*X).^2 .+ 0.01*X.^3
 
 .. exercise:: simple regression 4
 
