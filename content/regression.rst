@@ -862,30 +862,151 @@ To illustrate more usages of MLJ and various regression models consider the foll
    scatter!(X.cX[test], y[test], label="test", markersize=3)
    display(plt)
 
-   # expect something like
+
+   # print models that can be used to model the data
+   # for model in models(matching(X, y))
+   #     print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
+   # end
+
+   println()
+   println("rmse non-linear train $err_train")
+   println("rmse non-linear test $err_test")
+   println()
+
+   # expect output something like
    # rmse non-linear train 0.086
    # rmse non-linear test 0.1311
 
 .. figure:: img/simple_regression_test.png
    :align: center
 
+.. exercise:: simple regression 1
 
-# print models that can be used to model the data
-#for model in models(matching(X, y))
-#    print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
-#end
+   Run the code in the previous example and see what errors you get.
 
-println()
-println("rmse non-linear train $err_train")
-println("rmse non-linear test $err_test")
-println()
+.. exercise:: simple regression 2
+
+   In the simple regression example above, experiment with the settings to change the sampling frequency, level of noise and and fraction of the data that is used for training (the rest is used for testing).
+
+   .. solution:: Change parameters
+
+      .. code-block:: julia
+
+         Npoints = 200
+         noise_level = 0.1
+         train_frac = 0.7
+
+.. exercise:: simple regression 3
+
+   In the simple regression example above, make your own synthetic data set and try it out in the script. The performance will depend a lot on the data and the model.
+
+   .. solution:: Change function
+
+      .. code-block:: julia
+
+         # replace
+         # y = cos.(X) .+ cos.(2*X) .+ 0.01*X.^3
+
+	     # with your own function, for example
+	     y = cos.(X) .+ sin.(2*X).^2 .+ 0.01*X.^3
+
+.. exercise:: simple regression 4
+
+   Try some other models to train on the data from the simple regression example. To see a list of available models one can outcomment the following lines.
+
+   .. code-block:: julia
+
+      # print models that can be used to model the data
+      for model in models(matching(X, y))
+          print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
+      end
+
+   .. solution:: Change model class
+
+      You can change the model class to one of the models in the previous list.
+
+	  .. code-block:: julia
+
+	     # replace the model_class
+		 # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
+		 # with for exmple random forest
+	     model_class = @load RandomForestRegressor pkg=DecisionTree
+
+		 # or a decision tree
+         # model_class = @load DecisionTreeRegressor pkg=DecisionTree
+
+	  You may have to import an MLJ interface such as MLJDecisionTreeInterface.
+
+	  The list of model from above will be something like:
+
+	  .. code-block:: text
+
+         Model Name: ARDRegressor , Package: ScikitLearn
+         Model Name: AdaBoostRegressor , Package: ScikitLearn
+         Model Name: BaggingRegressor , Package: ScikitLearn
+         Model Name: BayesianRidgeRegressor , Package: ScikitLearn
+         Model Name: ConstantRegressor , Package: MLJModels
+         Model Name: DecisionTreeRegressor , Package: BetaML
+         Model Name: DecisionTreeRegressor , Package: DecisionTree
+         Model Name: DeterministicConstantRegressor , Package: MLJModels
+         Model Name: DummyRegressor , Package: ScikitLearn
+         Model Name: ElasticNetCVRegressor , Package: ScikitLearn
+         Model Name: ElasticNetRegressor , Package: MLJLinearModels
+         Model Name: ElasticNetRegressor , Package: ScikitLearn
+         Model Name: EpsilonSVR , Package: LIBSVM
+         Model Name: EvoTreeGaussian , Package: EvoTrees
+         Model Name: EvoTreeRegressor , Package: EvoTrees
+         Model Name: ExtraTreesRegressor , Package: ScikitLearn
+         Model Name: GaussianProcessRegressor , Package: ScikitLearn
+         Model Name: GradientBoostingRegressor , Package: ScikitLearn
+         Model Name: HuberRegressor , Package: MLJLinearModels
+         Model Name: HuberRegressor , Package: ScikitLearn
+         Model Name: KNNRegressor , Package: NearestNeighborModels
+         Model Name: KNeighborsRegressor , Package: ScikitLearn
+         Model Name: KPLSRegressor , Package: PartialLeastSquaresRegressor
+         Model Name: LADRegressor , Package: MLJLinearModels
+         Model Name: LGBMRegressor , Package: LightGBM
+         Model Name: LarsCVRegressor , Package: ScikitLearn
+         Model Name: LarsRegressor , Package: ScikitLearn
+         Model Name: LassoCVRegressor , Package: ScikitLearn
+         Model Name: LassoLarsCVRegressor , Package: ScikitLearn
+         Model Name: LassoLarsICRegressor , Package: ScikitLearn
+         Model Name: LassoLarsRegressor , Package: ScikitLearn
+         Model Name: LassoRegressor , Package: MLJLinearModels
+         Model Name: LassoRegressor , Package: ScikitLearn
+         Model Name: LinearRegressor , Package: GLM
+         Model Name: LinearRegressor , Package: MLJLinearModels
+         Model Name: LinearRegressor , Package: MultivariateStats
+         Model Name: LinearRegressor , Package: ScikitLearn
+         Model Name: NeuralNetworkRegressor , Package: MLJFlux
+         Model Name: NuSVR , Package: LIBSVM
+         Model Name: OrthogonalMatchingPursuitCVRegressor , Package: ScikitLearn
+         Model Name: OrthogonalMatchingPursuitRegressor , Package: ScikitLearn
+         Model Name: PLSRegressor , Package: PartialLeastSquaresRegressor
+         Model Name: PassiveAggressiveRegressor , Package: ScikitLearn
+         Model Name: QuantileRegressor , Package: MLJLinearModels
+         Model Name: RANSACRegressor , Package: ScikitLearn
+         Model Name: RandomForestRegressor , Package: BetaML
+         Model Name: RandomForestRegressor , Package: DecisionTree
+         Model Name: RandomForestRegressor , Package: ScikitLearn
+         Model Name: RidgeCVRegressor , Package: ScikitLearn
+         Model Name: RidgeRegressor , Package: MLJLinearModels
+         Model Name: RidgeRegressor , Package: MultivariateStats
+         Model Name: RidgeRegressor , Package: ScikitLearn
+         Model Name: RobustRegressor , Package: MLJLinearModels
+         Model Name: SGDRegressor , Package: ScikitLearn
+         Model Name: SVMLinearRegressor , Package: ScikitLearn
+         Model Name: SVMNuRegressor , Package: ScikitLearn
+         Model Name: SVMRegressor , Package: ScikitLearn
+         Model Name: TheilSenRegressor , Package: ScikitLearn
+         Model Name: XGBoostRegressor , Package: XGBoost
+
 
 TODO:
 
 Non-linear regression
 ^^^^^^^^^^^^^^^^^^^^^
 
-  * One synthetic non-linear regression example before air foil? Use to illustrate overfitting.
   * Download and save air foil data set to repo. Synch in code.
 
 Exercises
