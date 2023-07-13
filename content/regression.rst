@@ -1051,9 +1051,7 @@ Non-linear regression
 ---------------------
 
   * Download and save air foil data set to repo. Synch in code.
-  * Fix headers. Seem to be wrong levels used (skipping section -).
-  * Link to Airfoil example in exercise about it. Make sections for climate/air foil/synthetic in regression section?
-
+  * Fix formatting exercises.
 
 Some standard time-series models (extra material if time permits)
 -----------------------------------------------------------------
