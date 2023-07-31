@@ -43,8 +43,9 @@ computing.
 
    development
    scientific-computing
-   data-science
+   dataformats-dataframes
    linear-algebra
+   data-science
    regression
 
 .. toctree::
