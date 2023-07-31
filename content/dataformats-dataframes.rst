@@ -257,7 +257,7 @@ Here's how you can create a new dataframe:
 
 
 Creating and merging DataFrames like in SQL
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Creating DataFrames
 
