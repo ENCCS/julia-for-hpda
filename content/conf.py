@@ -21,7 +21,7 @@ project = 'Julia for High-Performance Scientific Computing'
 copyright = '2023, EuroCC National Competence Center Sweden'
 author = 'Kjartan Thor Wikfeldt'
 github_user = 'enccs'
-github_repo_name = 'Julia-for-HPC'  # auto-detected from dirname if blank
+github_repo_name = 'julia-for-hpda'  # auto-detected from dirname if blank
 github_version = 'master'
 conf_py_path = '/content/' # with leading and trailing slash
 
