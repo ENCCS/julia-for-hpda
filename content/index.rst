@@ -1,7 +1,7 @@
 Julia for high-performance data analytics
 =========================================
 
-Julia is a scientific programming language that is free and open
+Julia is a modern programming language that is free and open
 source - see https://julialang.org/ for downloads, documentation,
 learning resources etc. Bridging high-level interpreted and low-level
 compiled languages, it offers high performance (comparable to C and
@@ -10,24 +10,20 @@ Fortran) without sacrificing simplicity and programming productivity
 
 Julia has a rich ecosystem of libraries aimed
 towards scientific computing and a powerful in-built package manager
-to install and manage their dependencies. Julia is also gaining ground
-in HPC as it supports both threading and distributed-memory
-parallelisation as well as GPU computing.
+to install and manage their dependencies. Thanks to a rapidly growing
+ecosystem of packages for data science and machine learning, Julia is
+quickly gaining ground in both academic and industrial domains which deal
+with large datasets.
 
 This lesson starts with the basics of Julia, its syntax,
 multiple-dispatch paradigm, package development and best practices. It
-then moves on to topics relevant to high-performance scientific
-computing, including an overview of powerful libraries for modeling
-and machine learning, visualization, parallelization and GPU
-computing.
+then moves on to topics relevant to visualisation, high-performance data analytics,
+classical machine learning methods and deep learning.
 
 .. prereq::
 
    - Experience in one or more programming languages.
-   - Familiarity with basic concepts in high-performance computing (HPC) 
-     (including parallelization by threading or multiprocessing) 
-     and programming graphical processing units (GPUs). No direct experience 
-     is required.
+   - Familiarity with basic concepts in data science techniques.
 
 .. toctree::
    :hidden:
@@ -64,11 +60,9 @@ Who is the course for?
 This lesson material is targeted towards students, researchers and developers
 who:
 
- - are already familiar with one or more programming languages (Python, R, C/C++, Fortran, Matlab, ...)
- - want to add a new exciting high-level yet performant language to their repertoire
- - might be mixing a high-level and a low-level language for performance reasons but want to make their life easier
- - need to analyze big data or perform computationally demanding modeling, analysis or simulations
- - want to develop high-performance parallelized and/or GPU code but prefer to stay within a
+ - are already familiar with one or more programming languages (Julia, Python, R, C/C++, Fortran, Matlab, ...)
+ - need to analyze big data or perform computationally demanding modeling or analysis
+ - want to develop high-performance data science software but prefer to stay within a
    productive high-level language.
 
 
