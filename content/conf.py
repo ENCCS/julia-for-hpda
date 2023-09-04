@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'Julia for High-Performance Scientific Computing'
-copyright = '2023, EuroCC National Competence Center Sweden'
-author = 'Kjartan Thor Wikfeldt'
+copyright = '2023, EuroCC National Competence Center Sweden at RISE Research Institutes of Sweden'
+author = 'Kjartan Thor Wikfeldt, Anastasiia Andriievska, David Eklund'
 github_user = 'enccs'
 github_repo_name = 'julia-for-hpda'  # auto-detected from dirname if blank
 github_version = 'master'
@@ -33,10 +33,13 @@ conf_py_path = '/content/' # with leading and trailing slash
 extensions = [
     # githubpages just adds a .nojekyll file
     "sphinx.ext.githubpages",
-    "sphinx_lesson",
+    #"sphinx_lesson",
     #'sphinx.ext.intersphinx',
     #"sphinxcontrib.bibtex",
     "sphinx.ext.todo",
+    # Use the "sphinx_book_theme" theme, which is the default
+    # theme for Sphinx books.
+    "sphinx_book_theme",
 ]
 
 # configure sphinxcontrib.bibtex
@@ -47,7 +50,8 @@ extensions = [
 # jupyter_execute_notebooks = "off"
 # jupyter_execute_notebooks = "auto"   # *only* execute if at least one output is missing.
 # jupyter_execute_notebooks = "force"
-jupyter_execute_notebooks = "cache"
+# jupyter_execute_notebooks = "cache"  # WARNING: 'jupyter_execute_notebooks' is deprecated for 'nb_execution_mode' [mystnb.config]
+nb_execution_mode = "cache"
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -71,7 +75,7 @@ exclude_patterns = [
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "sphinx_book_theme"
 html_logo = "img/ENCCS.jpg"
 html_favicon = "img/favicon.ico"
 html_title = project

@@ -100,7 +100,7 @@ Here's how you can create a new dataframe:
       3 │ Jingfei     14
       4 │ Stefan      45
 
-.. type-along:: Dataframes
+.. todo:: Dataframes
    
    The following code loads the `PalmerPenguins` dataset into a DataFrame. 
    Then it demonstrates how to write and read the data in CSV, JSON, and
@@ -364,7 +364,7 @@ Multiple subplots can be created by:
    plot(p1, p2, p3, p4, layout = (2, 2), legend = false)
 
 
-.. type-along:: Visualizing the Penguin dataset
+.. todo:: Visualizing the Penguin dataset
 
    First load ``Plots`` and set the backend to GR (precompilation of Plots 
    might take some time):
@@ -440,7 +440,7 @@ Exercises
 ---------
 
 
-.. exercise:: Create a custom plotting function
+.. todo:: Create a custom plotting function
 
    Convert the final ``scatter`` plot in the type-along section "Visualizing the Penguin dataset"
    and convert it into a ``create_scatterplot`` function: 
@@ -484,7 +484,7 @@ Exercises
 
 .. _DDCexercise:
 
-.. exercise:: Working with DataFrames in Julia
+.. todo:: Working with DataFrames in Julia
 
    In this exercise, you will practice reading data from CSV files into DataFrames,
    manipulating data in DataFrames, and visualizing data using a plotting package.
@@ -598,9 +598,6 @@ Exercises
 
          plot.png
 
-
-      #??
-
       .. code-block:: julia
 
          # Create line plot of meantemp means
@@ -608,7 +605,7 @@ Exercises
 
       I hope this exercise helps you practice working with DataFrames in Julia!
 
-.. exercise:: Working with the Fourier Transform in Julia
+.. todo:: Working with the Fourier Transform in Julia
 
    In this exercise, you will practice computing the Fourier transform of climate data using the `FFTW` package in Julia.
 
