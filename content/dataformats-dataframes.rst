@@ -3,14 +3,14 @@
 Data Formats and Dataframes
 ===========================
 
-.. questions::
+.. topic:: Questions
 
    - How can I manipulate and wrangle dataframes in Julia?
    - How can I handle missing data in a DataFrame in Julia?
    - How can I merge data in Julia?
    - How can I use the Fourier transform to analyze climate data in Julia?
      
-.. instructor-note::
+.. topic:: Instructor-note
 
    - 40 min teaching
    - 10 min break
@@ -107,8 +107,8 @@ Here's how you can create a new dataframe:
    Parquet formats using the `CSV`, `JSONTables`, and `Parquet` packages respectively. 
 
    .. tabs::
-      .. tab:: DataFrame
 
+      .. tab:: DataFrame
          .. code-block:: julia
 
             using DataFrames
@@ -117,6 +117,7 @@ Here's how you can create a new dataframe:
             df = DataFrame(table)
 
       .. tab:: CSV
+
 
          .. code-block:: julia
 
@@ -147,12 +148,6 @@ Here's how you can create a new dataframe:
    PalmerPenguins package uses the `CSV.jl <https://csv.juliadata.org/stable/>`_ 
    package for fast loading of data. Note further that ``DataFrame`` can 
    accept a ``CSV.File`` object and read it into a dataframe!
-
-   We will do this in a new script ``datascience.jl`` in the same directory as 
-   the ``datascience`` environment created in 
-   :ref:`this earlier exercise <datascience_env>`. We can execute the expressions 
-   in the script line-by-line by hitting `Shift-Enter`.
-   # ??
    
    .. code-block:: julia
    
@@ -285,7 +280,7 @@ Many different plotting libraries exist for Julia and which
 one to use will depend on the specific use case as well as 
 personal preference. 
 
-.. callout:: Some plotting packages in Julia
+.. topic:: Some plotting packages in Julia
       
    - `Plots.jl <http://docs.juliaplots.org/latest/>`_: high-level 
      API for working with several different plotting back-ends, including `GR`, 

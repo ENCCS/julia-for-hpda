@@ -3,12 +3,11 @@
 Data science and machine learning
 =================================
 
-.. questions::
+.. topic:: Questions
 
-   - How can I manipulate and wrangle data in Julia?
    - Can I use Julia for machine learning?
      
-.. instructor-note::
+.. topic:: Instructor-note
 
    - 20 min teaching
    - 30 min exercises
@@ -17,17 +16,14 @@ Data science and machine learning
 Working with data
 -----------------
 
-We will now explore a Julian approach to a use case common to 
-many scientific disciplines: manipulating data, visualization 
-and machine learning.
+Via Data Formats and Dataframes lesson, we explored a Julian approach
+to manipulating and visualization of data.
+
 Julia is a good language to use for data science problems as
 it will perform well and alleviate the need to translate
 computationally demanding parts to another language.
 
-Here we will learn how to work with data using 
-the DataFrames package, visualize it with the Plots and StatsPlots
-packages and get a flavor for how to set up a 
-deep learning workflow using the Flux package.
+Here we will learn and clustering, classification, machine learning and deep learning (toy example). Use penguin data.machine learning.
 
 Download a dataset
 ^^^^^^^^^^^^^^^^^^
@@ -53,56 +49,17 @@ To obtain the data we simply add the PalmerPenguins package.
 Dataframes
 ^^^^^^^^^^
 
-The `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
-package is Julia's version of the ``pandas`` library in Python and 
-the ``data.frame()`` function in R. We will use it here to 
-analyze the penguins dataset, but first we need to install it:
+We will use `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
+package function here to  analyze the penguins dataset, but first we need to install it:
 
 .. code-block:: julia
 
    Pkg.add("DataFrames")
    using DataFrames
 
-
-A dataframe is a 2-dimensional table of rows and columns, much 
-like a Excel spreadsheet. The rows usually represent independent 
-observations, while the columns represent the 
-features (variables) for each observation. Just like in Python and R, 
-the DataFrames.jl package provides functionality for data 
-manipulation and analysis.  
-Here's how you can create a new dataframe:
-
- .. code-block:: julia
-
-   using DataFrames
-   names = ["Ali", "Clara", "Jingfei", "Stefan"]
-   age = ["25", "39", "64", "45"]
-   df = DataFrame(; name=names, age=age)
-
- .. code-block:: text
-
-    4×2 DataFrame
-    Row │ name        age
-        │ String      String 
-    ────┼────────────────────
-      1 │ Ali         25
-      2 │ Clara       39
-      3 │ Jingfei     64
-      4 │ Stefan      45
-
-
-.. type-along:: Dataframes
+.. todo:: Dataframes
 
    We now create a dataframe containing the PalmerPenguins dataset.
-   Note that the ``table`` variable is of type ``CSV.File``; the 
-   PalmerPenguins package uses the `CSV.jl <https://csv.juliadata.org/stable/>`_ 
-   package for fast loading of data. Note further that ``DataFrame`` can 
-   accept a ``CSV.File`` object and read it into a dataframe!
-
-   We will do this in a new script ``datascience.jl`` in the same directory as 
-   the ``datascience`` environment created in 
-   :ref:`this earlier exercise <datascience_env>`. We can execute the expressions 
-   in the script line-by-line by hitting `Shift-Enter`.
    
    .. code-block:: julia
    
@@ -128,32 +85,6 @@ Here's how you can create a new dataframe:
          5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
    
    
-   We can inspect the data using a few basic operations:
-   
-   .. code-block:: julia
-   
-      # slicing
-      df[1, 1:3]
-   
-      # slicing and column name (can also use "island")
-      df[1:20:100, :island]
-   
-      # dot syntax (editing will change the dataframe)
-      df.species
-   
-      # get a copy of a column 
-      df[:, [:sex, :body_mass_g]]
-   
-      # access column directly without copying (editing will change the dataframe)
-      df[!, :bill_length_mm]
-   
-      # get size
-      size(df), ncol(df), nrow(df)
-   
-      # find unique species
-      unique(df.species)
-   
-   
    Summary statistics can be displayed with the ``describe`` function:
    
    .. code-block:: julia
@@ -174,19 +105,12 @@ Here's how you can create a new dataframe:
          6 │ body_mass_g        4201.75  2700    4050.0  6300              2  Union{Missing, Int64}
          7 │ sex                         female          male             11  Union{Missing, String}
 
-   We can see in the output of ``describe`` that the element type of 
-   all the columns is a union of ``missing`` and a numeric type. This
-   implies that our dataset contains missing values.
-   
-   We can remove these by the ``dropmissing`` or ``dropmissing!`` functions
-   (what is the difference between them?):
+   As it was done in the Data Formats and Dataframes lesson, we can
    
    .. code-block:: julia
    
       dropmissing!(df)
    
-
-
 The main features we are interested in for each penguin observation are 
 `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm` and `body_mass_g`.
 What the first three features mean is illustrated in the picture below.
@@ -195,162 +119,6 @@ What the first three features mean is illustrated in the picture below.
    :align: center
 
    Artwork by @allison_horst
-
-
-
-Plotting
-^^^^^^^^
-
-Let us now look at different ways to visualize this data.
-Many different plotting libraries exist for Julia and which 
-one to use will depend on the specific use case as well as 
-personal preference. 
-
-.. callout:: Some plotting packages in Julia
-      
-   - `Plots.jl <http://docs.juliaplots.org/latest/>`_: high-level 
-     API for working with several different plotting back-ends, including `GR`, 
-     `Matplotlib.Pyplot`, `Plotly` and `PlotlyJS`.
-   - `StatsPlots.jl <https://github.com/JuliaPlots/StatsPlots.jl>`_: was moved 
-     out from core `Plots.jl`. Focuses on statistical use-cases and supports 
-     specialized statistical plotting functionalities.
-   - `GadFly.jl <http://gadflyjl.org/stable/>`_: based largely on 
-     `ggplot2 for R <https://ggplot2.tidyverse.org/>`_ and the book 
-     `The Grammar of Graphics <https://www.cs.uic.edu/~wilkinson/TheGrammarOfGraphics/GOG.html>`_.
-     Well suited for statistics and machine learning.
-   - `VegaLite.jl <https://www.queryverse.org/VegaLite.jl/stable/>`_: based on 
-     `Vega-Lite <https://vega.github.io/vega-lite/>`_, a grammar of interactive graphics. 
-     Great for interactive graphics.
-   - `Makie.jl <https://makie.juliaplots.org/stable/>`_ data visualization ecosystem with backends 
-     `GLMakie.jl` (OpenCL), `CairoMakie.jl` (Cairo) and `WGLMakie.jl` (WebGL). 
-     Good for publication-quality plotting but can be a bit slow to load and use.
-
-We will be using `Plots.jl` and `StatsPlots.jl` but we encourage to explore these 
-other packages to find the one that best fits your use case.
-
-First we install `Plots.jl` and `StatsPlots` backend:
-
-.. code-block:: julia
-
-   Pkg.add("Plots")
-   Pkg.add("StatsPlots")   
-
-
-Here's how a simple line plot works:
-
-.. code-block:: julia
-
-   using Plots 
-   gr()  # set the backend to GR
-
-   x = 1:10; y = rand(10, 2) 
-   plot(x, y, title = "Two Lines", label = ["Line 1" "Line 2"], lw = 3) 
-
-In VSCode, the plot should appear in a new plot pane.  
-We can add labels:
-
-.. code-block:: julia
-
-   xlabel!("x label")
-   ylabel!("y label")
-
-To add a line to an existing plot, we mutate it with ``plot!``:
-
-.. code-block:: julia
-
-   z = rand(10)
-   plot!(x, z)
-
-Finally we can save to the plot to a file:
-
-.. code-block:: julia
-
-   savefig("myplot.png")
-
-Multiple subplots can be created by:
-
-.. code-block:: julia
-
-   y = rand(10, 4)
-
-   p1 = plot(x, y); # Make a line plot
-   p2 = scatter(x, y); # Make a scatter plot
-   p3 = plot(x, y, xlabel = "This one is labelled", lw = 3, title = "Subtitle");
-   p4 = histogram(x, y); # Four histograms each with 10 points? Why not!
-   plot(p1, p2, p3, p4, layout = (2, 2), legend = false)
-
-
-.. type-along:: Visualizing the Penguin dataset
-
-   First load ``Plots`` and set the backend to GR (precompilation of Plots 
-   might take some time):
-
-   .. code-block:: julia
-
-      using Plots
-      gr()
-
-   For the Penguin dataset it is more appropriate to use scatter plots, for example:
-
-   .. code-block:: julia
-
-      scatter(df[!, :bill_length_mm], df[!, :bill_depth_mm])
-
-   We can adjust the markers by `this list of named colors <https://juliagraphics.github.io/Colors.jl/stable/namedcolors/>`_
-   and `this list of marker types <https://docs.juliaplots.org/latest/generated/unicodeplots/#unicodeplots-ref13>`_:
-
-   .. code-block:: julia
-
-      scatter(df[!, :bill_length_mm], df[!, :bill_depth_mm], marker = :hexagon, color = :magenta)
-
-   We can also change the plot theme according to `this list of themes <https://docs.juliaplots.org/latest/generated/plotthemes/>`_, 
-   for example:
-
-   .. code-block::
-
-      theme(:dark)
-      # then re-execute the scatter function
-
-   We can add a dimension to the plot by grouping by another column. Let's see if 
-   the different penguin species can be distiguished based on their bill length 
-   and bill depth. We also set different marker shapes and colors based on the 
-   grouping, and adjust the markersize and transparency (``alpha``):
-
-   .. code-block:: julia
-
-      scatter(df[!, :bill_length_mm],
-              df[!, :bill_depth_mm], 
-              xlabel = "bill length (mm)",
-              ylabel = "bill depth (g)",
-              group = df[!, :species],
-              marker = [:circle :ltriangle :star5],
-              color = [:magenta :springgreen :blue],
-              markersize = 5,
-              alpha = 0.8
-              )
-
-   .. figure:: img/penguin_scatter.png
-      :align: center
-      :scale: 50%
-
-   The ``scatter`` function comes from the base `Plots` package. `StatsPlots` provides
-   many other types of plot types, for example ``density``. To use dataframes with `StatsPlots`
-   we need to use the ``@df`` macro which allows passing columns as symbols (this can also be used 
-   for ``scatter`` and other plot functions):
-
-   .. code-block:: julia
-
-      using StatsPlots        
-
-      @df df density(:flipper_length_mm,
-                     xlabel = "flipper length (mm)",
-                     group = :species,
-                     color = [:magenta :springgreen :blue],
-                     )
-
-   .. figure:: img/penguin_density.png
-      :align: center
-      :scale: 50%
 
 
 Machine learning in Julia
@@ -365,7 +133,7 @@ A particular focus in the Julia approach to ML is `"scientific machine learning"
 (a.k.a. physics-informed learning), i.e. machine learning which incorporates scientific models into 
 the learning process instead of relying only on data. The core principle of SciML is `differentiable 
 programming` - the ability to automatically differentiate any code and thus incorporate it into 
-Flux models.
+Flux (predictive) models.
 
 However, Julia is still behind frameworks like PyTorch and Tensorflow/Keras in terms of documentation and API design.
 
@@ -377,6 +145,15 @@ Julia has packages for traditional (non-deep) machine learning:
 - `ScikitLearn.jl <https://scikitlearnjl.readthedocs.io/en/latest/>`_ is a port of the popular Python package.
 - `MLJ.jl <https://alan-turing-institute.github.io/MLJ.jl/dev/>`_ provides a common interface 
   and meta-algorithms for selecting, tuning, evaluating, composing and comparing over 150 machine learning models.
+
+
+- `Machine Learning · Julia Packagesl <https://juliapackages.com/c/machine-learning/>`_: This is a website that lists various Julia packages related to machine learning, such as MLJ.jl, Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many more. 
+  You can browse the packages by their popularity, alphabetical order, or update date. Each package has a brief description and a link to its GitHub repository.
+- `AI · Julia Packages <https://www.juliapackages.com/c/ai>`_: This is another website that lists Julia packages related to artificial intelligence, such as Flux.jl, 
+  AlphaZero.jl, BrainFlow.jl, NeuralNetDiffEq.jl, Transformers.jl, MXNet.jl, and more. You can also sort the packages by different criteria and see their details.
+- `Julia Libraries · Top Julia Machine Learning Libraries - Analytics Vidhya <https://www.analyticsvidhya.com/blog/2021/05/top-julia-machine-learning-libraries/>`_: This is 
+  an article that discusses some useful Julia libraries for machine learning and deep learning applications, such as computer vision and natural language processing. 
+
 
 We will use a few utility functions from ``MLJ.jl`` in our deep learning 
 exercise below, so we will need to add it to our environment:
@@ -405,7 +182,7 @@ To install Flux:
    Pkg.add("Flux")
 
 
-.. type-along:: Training a deep neural network to classify penguins
+.. todo:: Training a deep neural network to classify penguins
 
    To train a model we need four things:
 
@@ -525,7 +302,7 @@ Exercises
 ---------
 
 
-.. exercise:: Create a custom plotting function
+.. todo:: Create a custom plotting function
 
    Convert the final ``scatter`` plot in the type-along section "Visualizing the Penguin dataset"
    and convert it into a ``create_scatterplot`` function: 
@@ -569,7 +346,7 @@ Exercises
 
 .. _DLexercise:
 
-.. exercise:: Improve the deep learning model
+.. todo:: Improve the deep learning model
 
    Improve the performance of the neural network we trained above! 
    The network is not improving much because of the large numerical 
