@@ -26,6 +26,9 @@ If you are new to the Julia language, please make sure to go through this
 going through this HPC lesson independently or attending a workshop where  
 it is taught.
 
+To learn about how to accelerate, parallelise and GPU-port Julia code, 
+please visit the lesson `Julia for high-performance scientific computing <https://enccs.github.io/julia-for-hpc/>`__.
+
 .. prereq::
 
    - Experience in one or more programming languages.
