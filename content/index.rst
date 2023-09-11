@@ -15,14 +15,22 @@ ecosystem of packages for data science and machine learning, Julia is
 quickly gaining ground in both academic and industrial domains which deal
 with large datasets.
 
-This lesson starts with the basics of Julia, its syntax,
-multiple-dispatch paradigm, package development and best practices. It
-then moves on to topics relevant to visualisation, high-performance data analytics,
-classical machine learning methods and deep learning.
+This lesson starts with a discussion of working with data in Julia, how 
+to use the Dataframes.jl package and how to visualise data. It then moves 
+on to linear algebra approaches, followed by classical machine learning 
+approaches as well as deep learning methods. Finally, key aspects of regression, 
+time series prediction and analyses is covered.
+
+If you are new to the Julia language, please make sure to go through this 
+`introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ before 
+going through this HPC lesson independently or attending a workshop where  
+it is taught.
 
 .. prereq::
 
    - Experience in one or more programming languages.
+   - Understanding of basic Julia syntax, best practices and development tools, 
+     corresponding to what is covered in the `ENCCS Julia-intro lesson <https://enccs.github.io/julia-intro/>`__
    - Familiarity with basic concepts in data science techniques.
 
 .. toctree::
@@ -37,8 +45,7 @@ classical machine learning methods and deep learning.
    :maxdepth: 1
    :caption: The lesson
 
-   development
-   scientific-computing
+   motivation
    dataformats-dataframes
    linear-algebra
    data-science
