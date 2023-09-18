@@ -52,6 +52,8 @@ Possibly confusing points
   of the `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ but needs to be
   explained very carefully to avoid confusion.
 
+Schedule
+--------
 
 The following schedule was used for a workshop in October 2023. As a prerequisite, one day was spent
 on the `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ according to the
