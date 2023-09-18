@@ -17,9 +17,9 @@ Mode of teaching
 This lesson uses the VSCode environment as it is the preferred IDE by Julia developers and
 has a powerful language extension for Julia. 
 
-The prerequisite lesson
+The prerequisite
 `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__
-has an introductory hands-on episode "Special features of Julia" where
+has an initial hands-on episode "Special features of Julia" where
 only the Julia REPL is used. This makes learners comfortable with the REPL
 before moving on to the more complicated environment in VSCode.
 
@@ -54,7 +54,7 @@ Possibly confusing points
 
 
 The following schedule was used for a workshop in October 2023. As a prerequisite, one day was spent
-on the lesson `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ according to the
+on the `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ according to the
 `schedule <https://enccs.github.io/julia-intro/guide/#suggested-schedule-for-1-day-workshop/>`__.
 The next three days were scheduled as follows:
 
