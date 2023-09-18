@@ -1,5 +1,5 @@
 Installing packages
--------------------
+===================
 
 A number of Julia packages is used in this lesson. These can be installed on-the-fly 
 during a workshop, but you can also follow the instructions below to install all packages 
@@ -74,3 +74,22 @@ After it completes you should be able to list all installed packages:
    # [ce6b1742] RDatasets v0.7.7
    # [860ef19b] StableRNGs v1.0.0
    # [2913bbd2] StatsBase v0.33.21
+
+Manual installation
+-------------------
+
+It is convenient also to add packages as they are needed.
+This can be done in several ways. For instance, to install the package Plots
+one may do as follows. Open the Julia REPL as above and type:
+
+.. code-block:: julia
+
+   using Pkg
+   Pkg.add("Plots")
+
+Alternatively we may enter the package mode in the REPL by typing ``]``
+and then add the package:
+
+.. code-block:: julia
+
+   (@v1.9) pkg> add Plots
