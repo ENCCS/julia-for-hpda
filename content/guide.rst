@@ -9,7 +9,7 @@ prerequisites are covered in the
 `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ which should
 be required reading for participants prior to attending a workshop.
 In addition, before the workshop the participants need to install the required packages as explained in
-`Installing packages <https://enccs.github.io/julia-for-hpda/setup/>`.
+`Installing packages <https://enccs.github.io/julia-for-hpda/setup/>`__.
 
 Mode of teaching
 ----------------
