@@ -651,7 +651,7 @@ goes:
 and so on. That is for :math:`i=1,2,3,\ldots,k`:
 
   * Compute: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} \textrm{proj}_{q_j}(a_i)`
-  * Normalize: :math:`q_i = q_i/||q_i||`,
+  * Normalize: :math:`q_i = \tilde{q}_i/||\tilde{q}_i||`,
 
 and return :math:`{q_1,\dots,q_k}`.
 
