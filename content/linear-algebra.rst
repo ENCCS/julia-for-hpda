@@ -637,7 +637,7 @@ orthogonal projection of a vector :math:`a` on a vector :math:`q` as
 
 .. math::
 
-   \textrm{proj}_q(a)=\frac{\langle a, q \rangle}{||q||},
+   \textrm{proj}_q(a)=\frac{\langle a, q \rangle}{||q||}q,
 
 where :math:`\langle .,. \rangle` is the dot product and :math:`||
 \cdot ||` is the norm. For linearly independent vectors, the algorithm
