@@ -586,14 +586,14 @@ Exercises
 
       .. code-block:: julia
 
-         using SparseArrays
+         using SparseArrays, BenchmarkTools
 
          n = 5000
          S = sprand(n, n, 1/n) # sparse nxn-matrix with density 1/n
          B = Matrix(S) # as Matrix
 
-         @time S^10;
-         @time B^10;
+         @btime S^10;
+         @btime B^10;
 
 The following exercise is adapted from the `Julia language companion
 <https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
@@ -700,6 +700,9 @@ linear dependence has been detected and we return
          # test span with numerical rank, should be 3
          rank(N)
 
+Extra exercises
+---------------
+
 .. exercise:: Matrix factorizations
 
    Perform various factorizations on a matrix using standard
@@ -712,7 +715,4 @@ linear dependence has been detected and we return
    multinomial, exponential, Cauchy, Poisson or other distributions of
    choice.
 
-Ideas:
 
-  * @time räknar kompileringstid. Kör två gånger i exemplen ovan.
-  * Använd @btime som jämförelse med using BenchMarks. Tar inte med kompileringstid.
