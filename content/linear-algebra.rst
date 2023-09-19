@@ -595,6 +595,11 @@ Exercises
          @btime S^10;
          @btime B^10;
 
+      .. code-block:: text
+
+         545.400 μs (29 allocations: 806.98 KiB)
+         6.343 s (8 allocations: 762.94 MiB)
+
 The following exercise is adapted from the `Julia language companion
 <https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
 the `book
