@@ -873,9 +873,11 @@ To illustrate more usages of MLJ and various regression models consider the foll
    pred_all = MLJ.predict(mach)
 
    pred_train = MLJ.predict(mach, rows=train)
+   # prediction error train
    err_train = rms(pred_train, y[train])
 
    pred_test = MLJ.predict(mach, rows=test)
+   # prediction error test
    err_test = rms(pred_test, y[test])
 
    plt = plot(X.cX, pred_all, label="prediction", title="Simple regression test")
@@ -889,6 +891,7 @@ To illustrate more usages of MLJ and various regression models consider the foll
    #     print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
    # end
 
+   # print root mean square errors of predictions
    println()
    println("rmse non-linear train $err_train")
    println("rmse non-linear test $err_test")
@@ -906,7 +909,7 @@ Exercises
 
 .. exercise:: simple regression 1
 
-   Run the code in the `Simple regression example`_ above and see what errors you get.
+   Run the code in the `Simple regression example`_ above and see what prediction errors you get.
 
 .. exercise:: simple regression 2
 
@@ -953,17 +956,11 @@ Exercises
 
 	  .. code-block:: julia
 
-         # replace the model_class
-         # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
-         # with for exmple random forest
-         model_class = @load RandomForestRegressor pkg=DecisionTree
-
-         # or a decision tree
-         # model_class = @load DecisionTreeRegressor pkg=DecisionTree
+         println(x)
 
       You may have to import an MLJ interface such as MLJDecisionTreeInterface.
 
-      The list of model from above will be something like:
+      The list of models from above will be something like:
 
       .. code-block:: text
 
