@@ -194,6 +194,8 @@ Recall that matrices and vectors may be defined as follows:
 
 .. code-block:: julia
 
+   using LinearAlgebra
+
    # define some column vectors
    v1 = [1.0, 2.0, 3.0]
    v2 = v1.^2
@@ -241,6 +243,7 @@ Recall that matrices and vectors may be defined as follows:
    v1 + v2
    v1 - 0.5*v2
 
+   v3 = [7.0, 11.0, 13.0]
    B = [v3 v2 v1]
 
    # matrix vector multiplication
