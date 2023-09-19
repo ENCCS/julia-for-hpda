@@ -12,11 +12,13 @@ you can for example place under a new directory `julia` in your home directory:
 
    name = "Julia-for-HPDA"
    [deps]
+   BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
    BetaML = "024491cd-cc6b-443e-8034-08ea7eb7db2b"
    CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
    ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
    Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
    DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+   Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
    FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
    Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
    GLM = "38e38edf-8417-5370-95a0-9cbb8c7f171a"
@@ -54,11 +56,13 @@ After it completes you should be able to list all installed packages:
    Pkg.status()
 
    # Status `~/julia/Project.toml`
+   # [6e4b80f9] BenchmarkTools v1.3.2
    # [024491cd] BetaML v0.5.5
    # [336ed68f] CSV v0.10.11
    # [35d6a980] ColorSchemes v3.21.0
    # [5ae59095] Colors v0.12.10
    # [a93c6f00] DataFrames v0.22.7
+   # [31c24e10] Distributions v0.24.18
    # [7a1cc6ca] FFTW v1.7.1
    # [587475ba] Flux v0.12.10
    # [38e38edf] GLM v1.8.3

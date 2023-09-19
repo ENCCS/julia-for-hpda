@@ -753,7 +753,7 @@ Airfoil data set
 ^^^^^^^^^^^^^^^^
 
 Let us now illustrate how to use the package MLJ for non-linear regression. We will use a data set called
-*Airfoil Self-Noise* which may be downloaded from the UC Irvine Machine Learning repository `here <http://archive.ics.uci.edu/dataset/291/airfoil+self+noise/>`_
+*Airfoil Self-Noise* which may be downloaded from the UC Irvine Machine Learning repository `here <http://archive.ics.uci.edu/dataset/291/airfoil+self+noise/>`_.
 This is a data set from NASA created by T. Brooks, D. Pope and M. Marcolini obtained from aerodynamic and acoustic tests of airfoil blade sections.
 
 Below we are downloading the data from Rupak Chakraborty's gihub account where UC Irvine data has been collected.

@@ -366,35 +366,47 @@ Some examples of timing and benchmarking.
 
 .. code-block:: julia
 
+   using BenchmarkTools
+
    function my_product(A, B)
        for x in zip(A,B)
            push!(C, x[1]*x[2])
        end
-   C
+       C
    end
 
    A = randn(10^8)
    B = randn(10^8)
    C = Float64[]
 
+   # @time includes compilation time and garbage collection
    @time my_product(A, B);
    @time A.*B;
 
+   println()
    tic = time()
    C = my_product(A, B)
    toc = time()
-   println(toc - tic)
+   println("Manual time measure: ", toc - tic)
+   println()
+
+   # @btime does not includes compilation time
+   @btime my_product(A, B);
+   @btime A.*B;
 
 .. code-block:: julia
 
-   4.496966 seconds (100.01 M allocations: 1.563 GiB, 31.38% gc time, 0.21% compilation time)
-   0.195021 seconds (4 allocations: 762.940 MiB, 1.21% gc time)
-   3.4010000228881836
+   4.116207 seconds (100.01 M allocations: 1.634 GiB, 13.91% gc time, 0.55% compilation time)
+   0.191240 seconds (4 allocations: 762.940 MiB, 0.63% gc time)
+
+   Manual time measure: 3.63100004196167
+
+   3.062 s (100000000 allocations: 1.49 GiB)
+   186.446 ms (4 allocations: 762.94 MiB)
 
 .. questions::
 
-   - What does @time do? Why is there a relatively large difference
-     above between manual timing and timing with @time?
+   Benchmark time varies quite a lot between runs. Why?
 
 Random matrices and sparse matrices
 -----------------------------------
@@ -431,6 +443,11 @@ Distributions package.
    rand(Y) # sample
    Y = Multinomial(10, [0.3,0.6, 0.1])
    rand(Y) # sample
+
+   # Exponential distribution
+   E = Exponential()
+   # draw 10 samples from E (all will be non-negative)
+   rand(E, 10)
 
    # discrete multivariate
    rand(5, 5) .< 0.1 # 0.1 chance of 1
@@ -697,6 +714,5 @@ linear dependence has been detected and we return
 
 Ideas:
 
-  * Ta med en mer exotisk distribution i random matrices avsnittet (Poisson, Dirichlet, exponential).
   * @time räknar kompileringstid. Kör två gånger i exemplen ovan.
   * Använd @btime som jämförelse med using BenchMarks. Tar inte med kompileringstid.
