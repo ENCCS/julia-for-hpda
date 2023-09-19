@@ -674,7 +674,6 @@ linear dependence has been detected and we return
          # for vectors a_1, a_2, a_3
 
          function gram_schmidt(a; tol = 1e-10)
-
          q = []
          for i = 1:length(a)
              qtilde = a[i]
