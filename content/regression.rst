@@ -954,7 +954,7 @@ Exercises
 
       You can change the model class to one of the models in the previous list.
 
-	  .. code-block:: julia
+      .. code-block:: text
 
          println(x)
 
@@ -1047,9 +1047,3 @@ Exercises
 TODO:
 
   * Fix formatting exercises.
-
-Some standard time-series models (extra material if time permits)
------------------------------------------------------------------
-
-  * Linear models (including with dummy variables)
-  * Autoregression (linear and non-linear)
