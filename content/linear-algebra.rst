@@ -535,11 +535,11 @@ Now compute the covariance matrix together with its eigenvectors and eigenvalues
     136.19054024874245
     434.8561746632673
 
-We see that the first eigenvalue is quite a bit smaller than the for
+We see that the first eigenvalue is quite a bit smaller than for
 instance the last one. Our data lies approximately in a 3-dimensional
 subspace. Most of the variance in the dataset happens in this subspace.
 
-The basis of eigenvectors we got is orthogonal and normalized:
+The basis ``P`` of eigenvectors we got above is orthogonal and normalized:
 
 .. code-block:: julia
 
