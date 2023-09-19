@@ -637,7 +637,7 @@ orthogonal projection of a vector :math:`a` on a vector :math:`q` as
 
 .. math::
 
-   \textrm{proj}_q(a)=\frac{\langle a, q \rangle}{||q||}q,
+   \textrm{proj}_q(a)=\frac{\langle a, q \rangle}{||q||^2}q,
 
 where :math:`\langle .,. \rangle` is the dot product and :math:`||
 \cdot ||` is the norm. For linearly independent vectors, the algorithm
@@ -645,12 +645,12 @@ goes:
 
   * :math:`\tilde{q}_1 = a_1`
   * :math:`q_1 = \tilde{q}_1/||\tilde{q}_1||`
-  * :math:`\tilde{q}_2 = q_1 - \textrm{proj}_{q_1}(a_2)`
+  * :math:`\tilde{q}_2 = a_2 - \textrm{proj}_{q_1}(a_2)`
   * :math:`q_2 = \tilde{q}_2/||\tilde{q}_2||`,
 
 and so on. That is for :math:`i=1,2,3,\ldots,k`:
 
-  * Compute: :math:`\tilde{q}_i = q_{i-1} - \sum_{j=1}^{i-1} \textrm{proj}_{q_j}(a_i)`
+  * Compute: :math:`\tilde{q}_i = a_i - \sum_{j=1}^{i-1} \textrm{proj}_{q_j}(a_i)`
   * Normalize: :math:`q_i = \tilde{q}_i/||\tilde{q}_i||`,
 
 and return :math:`{q_1,\dots,q_k}`.
