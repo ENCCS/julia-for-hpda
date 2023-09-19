@@ -479,7 +479,7 @@ To prepare our illustration of PCA (Principle Component Analysis),
 we start by downoading Fisher's iris dataset. This dataset contains
 measurements from 3 different species of the plant iris: setosa,
 versicolor and virginica with 50 datapoints of each species.
-There are four measurements for datapoint, namely sepal length,
+There are four measurements for each datapoint: sepal length,
 sepal width, petal length and petal width (in centimeters).
 
 .. figure:: img/iris_resize.jpg
@@ -498,8 +498,9 @@ Principal Component Analysis (PCA)
 ----------------------------------
 
 We will now illustrate how PCA can be performed on the iris
-dataset. First extract the first four columns (the features described
-above) as well as the labels separately:
+dataset. For illutrative purposes we will do this explicitly using
+linear algebra operations. First extract the first four columns
+(the features described above) as well as the labels separately:
 
 .. code-block:: julia
 
