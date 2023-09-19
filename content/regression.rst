@@ -1049,7 +1049,3 @@ Exercises
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
 
-
-TODO:
-
-  * Fix formatting exercises.
