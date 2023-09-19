@@ -539,21 +539,31 @@ We see that the first eigenvalue is quite a bit smaller than for
 instance the last one. Our data lies approximately in a 3-dimensional
 subspace. Most of the variance in the dataset happens in this subspace.
 
-The basis ``P`` of eigenvectors we got above is orthogonal and normalized:
+The basis :math:`P` of eigenvectors we got above is orthogonal and normalized:
 
 .. code-block:: julia
 
     transpose(P)*P
-		
+
+.. code-block:: text
+
+   4×4 Matrix{Float64}:
+     1.0          -1.70376e-16   4.7765e-16    2.98372e-16
+    -1.70376e-16   1.0          -4.7269e-16   -1.41867e-16
+     4.7765e-16   -4.7269e-16    1.0           1.55799e-17
+     2.98372e-16  -1.41867e-16   1.55799e-17   1.0
+
 We may perform dimensionality reduction by projecting the data to this subspace: 
 
 .. code-block:: julia
 
     # projection of dataset onto orthonormal basis of eigenvectors
-    # the three with largest eigenvalues
+    # for example three eigenvectors correspondng to the
+	# three largest eigenvalues
     Xp = X*P[:,2:4]
 
-    # This following results in three least important directions, interesting comparison
+    # The following would result picking the three least important directions
+	# interesting comparison to do
     # Xp = X*P[:,1:3]
 
 Plotting the result:
@@ -627,7 +637,7 @@ orthogonal projection of a vector :math:`a` on a vector :math:`q` as
 
 .. math::
 
-   \textrm{proj}_q(a)=\frac{\langle a, u \rangle}{||u||},
+   \textrm{proj}_q(a)=\frac{\langle a, q \rangle}{||q||},
 
 where :math:`\langle .,. \rangle` is the dot product and :math:`||
 \cdot ||` is the norm. For linearly independent vectors, the algorithm
