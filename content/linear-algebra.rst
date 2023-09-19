@@ -74,7 +74,7 @@ One can create vectors in a simple way similar to Python.
 
 
    # slicing
-   X = X = [x^2 for x in range(1,11)]
+   X = [x^2 for x in range(1,11)]
    X[4:9] # 16,25,36,49,64,81
    X[8:end] # 64,81,100,121
    # uniform distribution on [0,1]
@@ -134,7 +134,7 @@ An example where vectorization, random vectors and Plot are used:
    # to save figure in file
    # savefig("sine_with_noise.png")
 
-   diaplay(plt)
+   display(plt)
 
 .. figure:: img/sine_with_noise.png
    :align: center
