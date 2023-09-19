@@ -57,30 +57,30 @@ After it completes you should be able to list all installed packages:
 
    # Status `~/julia/Project.toml`
    # [6e4b80f9] BenchmarkTools v1.3.2
-   # [024491cd] BetaML v0.5.5
+   # [024491cd] BetaML v0.10.3
    # [336ed68f] CSV v0.10.11
-   # [35d6a980] ColorSchemes v3.21.0
+   # [35d6a980] ColorSchemes v3.23.0
    # [5ae59095] Colors v0.12.10
-   # [a93c6f00] DataFrames v0.22.7
-   # [31c24e10] Distributions v0.24.18
+   # [a93c6f00] DataFrames v1.6.1
+   # [31c24e10] Distributions v0.25.100
    # [7a1cc6ca] FFTW v1.7.1
-   # [587475ba] Flux v0.12.10
-   # [38e38edf] GLM v1.8.3
-   # [cd3eb016] HTTP v0.9.17
+   # [587475ba] Flux v0.14.5
+   # [38e38edf] GLM v1.9.0
+   # [cd3eb016] HTTP v1.10.0
    # [b964fa9f] LaTeXStrings v1.3.0
-   # [add582a8] MLJ v0.16.5
-   # [c6f25543] MLJDecisionTreeInterface v0.1.3
-   # [094fc8d1] MLJFlux v0.1.10
-   # [5ae90465] MLJScikitLearnInterface v0.1.10
-   # [91a5bcdd] Plots v1.38.16
+   # [add582a8] MLJ v0.19.5
+   # [c6f25543] MLJDecisionTreeInterface v0.4.0
+   # [094fc8d1] MLJFlux v0.3.1
+   # [5ae90465] MLJScikitLearnInterface v0.5.0
+   # [91a5bcdd] Plots v1.39.0
    # [54e16d92] PrettyPrinting v0.4.1
-   # [d330b81b] PyPlot v2.11.1
+   # [d330b81b] PyPlot v2.11.2
    # [ce6b1742] RDatasets v0.7.7
    # [860ef19b] StableRNGs v1.0.0
-   # [2913bbd2] StatsBase v0.33.21
+   # [2913bbd2] StatsBase v0.34.0
 
-Manual installation
--------------------
+Manual installation and updates
+-------------------------------
 
 It is convenient also to add packages as they are needed.
 This can be done in several ways. For instance, to install the package Plots
@@ -97,3 +97,10 @@ and then add the package:
 .. code-block:: julia
 
    (@v1.9) pkg> add Plots
+
+To update all your packages, you can type ``up`` in the package mode in REPL:
+
+.. code-block:: julia
+
+   (@v1.9) pkg> up
+
