@@ -956,7 +956,13 @@ Exercises
 
       .. code-block:: text
 
-         println(x)
+         # replace the model_class
+         # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
+         # with for exmple random forest
+         model_class = @load RandomForestRegressor pkg=DecisionTree
+
+         # or a decision tree
+         # model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
       You may have to import an MLJ interface such as MLJDecisionTreeInterface.
 
