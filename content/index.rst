@@ -102,7 +102,7 @@ Type-along sections
 ~~~~~~~~~~~~~~~~~~~
 
 Type-along sections are intended for live coding where all participants 
-type-along and appear in a separate text box `Todo`:
+type-along and appear in a separate text box 'Todo':
 
 .. todo:: Defining a variables
 
