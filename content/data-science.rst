@@ -3,11 +3,11 @@
 Data science and machine learning
 =================================
 
-.. topic:: Questions
+.. questions:: Questions
 
    - Can I use Julia for machine learning?
      
-.. topic:: Instructor-note
+.. instructor-note:: Instructor-note
 
    - 20 min teaching
    - 30 min exercises

@@ -659,7 +659,7 @@ If at some step, :math:`||\tilde{q}_i|| = 0`, we cannot normalize,
 linear dependence has been detected and we return
 :math:`q_1,\dots,q_{i-1}`.
 
-.. exercise:: Gram-Schmidt process
+.. todo:: Gram-Schmidt process
 
    Implement the Gram-Schmidt process in Julia.
 
@@ -690,7 +690,7 @@ linear dependence has been detected and we return
          end
 
 
-.. exercise:: Check Gram-Schmidt
+.. todo:: Check Gram-Schmidt
 
    Write a check for your Gram-Schimdt program that the output
    consists of orthonormal vectors. Also, for linearly independent
@@ -722,13 +722,13 @@ linear dependence has been detected and we return
 Extra exercises
 ---------------
 
-.. exercise:: Matrix factorizations
+.. todo:: Matrix factorizations
 
    Perform various factorizations on a matrix using standard
    libraries: QR-factorization, LU-factorization, Diagonalization,
    Singular-Value-Decomposition.
 
-.. exercise:: Distributions and histograms
+.. todo:: Distributions and histograms
 
    Plot histograms of some distributions: normal, uniform, binomial,
    multinomial, exponential, Cauchy, Poisson or other distributions of

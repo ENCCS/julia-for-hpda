@@ -3,14 +3,14 @@
 Data Formats and Dataframes
 ===========================
 
-.. topic:: Questions
+.. questions:: 
 
    - How can I manipulate and wrangle dataframes in Julia?
    - How can I handle missing data in a DataFrame in Julia?
    - How can I merge data in Julia?
    - How can I use the Fourier transform to analyze climate data in Julia?
      
-.. topic:: Instructor-note
+.. instructor-note:: Instructor-note
 
    - 40 min teaching
    - 10 min break
