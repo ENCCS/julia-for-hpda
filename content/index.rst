@@ -102,7 +102,7 @@ Type-along sections
 ~~~~~~~~~~~~~~~~~~~
 
 Type-along sections are intended for live coding where all participants 
-type-along and appear in a separate text box `Todo``:
+type-along and appear in a separate text box `Todo`:
 
 .. todo:: Defining a variables
 
@@ -119,7 +119,7 @@ All lesson episodes (sections) end with one or more exercises for participants
 to practice what they've learned, marked with a hand-writing emoji. Sometimes 
 there's also a solution:
 
-.. todo:: Printing to screen
+.. exercise:: Printing to screen
 
   Which of these commands prints the value of the variable ``x``?
 
