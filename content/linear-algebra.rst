@@ -590,7 +590,7 @@ Plotting the result:
 Exercises
 ---------
 
-.. exercise:: Sparse matrix computations
+.. todo:: Sparse matrix computations
 
    Create a sparse 5000x5000-matrix S with roughly 5000 non-zero
    elements uniformly distributed on [0,1]. Compute S^10 and time the
