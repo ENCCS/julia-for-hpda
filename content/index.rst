@@ -102,9 +102,9 @@ Type-along sections
 ~~~~~~~~~~~~~~~~~~~
 
 Type-along sections are intended for live coding where all participants 
-type-along and appear in a separate text box, marked with a keyboard emoji:
+type-along and appear in a separate text box `Todo``:
 
-.. type-along:: Defining a variables
+.. todo:: Defining a variables
 
   This is how you set a variable in Julia:
 
@@ -119,7 +119,7 @@ All lesson episodes (sections) end with one or more exercises for participants
 to practice what they've learned, marked with a hand-writing emoji. Sometimes 
 there's also a solution:
 
-.. exercise:: Printing to screen
+.. todo:: Printing to screen
 
   Which of these commands prints the value of the variable ``x``?
 
@@ -134,7 +134,7 @@ there's also a solution:
 Important information
 ~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes important information is displayed inside boxes with an exclamation mark emoji:
+Sometimes important information is displayed inside boxes with an exclamation mark:
 
 .. callout:: Important info
 

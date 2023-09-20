@@ -59,6 +59,7 @@ There are numerous Julia packages that are well-suited for HPDA. Here are a few:
 
 These packages provide a wide range of functionalities that can be leveraged for HPDA tasks in Julia. Please note that the suitability of a package depends on the specific requirements of your HPDA task.
 References:
+
   1. Data Science | Julia Packages. https://juliapackages.com/c/data-science
   2. Get involved | JuliaGeo. https://juliageo.org/
   3. Julia Packages. https://juliapackages.com/
@@ -86,7 +87,7 @@ Drawbacks and workarounds
 
 **IO Performance**: When dealing with large datasets, IO performance can become a bottleneck. Julia's IO performance may vary depending on the format of the data.
 
-- Workaround: Use efficient data storage formats like JLD2 or Feather that are designed for high-performance use cases.
+- Workaround: Use efficient data storage formats like https://github.com/JuliaIO/JLD2.jl or https://github.com/JuliaData/Feather.jl that are designed for high-performance use cases.
 
 Remember, while these challenges exist, the Julia community is vibrant and active, and improvements are continuously being made.
 The language is evolving rapidly, and many of these challenges are likely to be addressed as the ecosystem matures.
