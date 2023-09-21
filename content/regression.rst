@@ -39,6 +39,8 @@ We begin with some simple examples of linear regression on generated data. For t
    df = DataFrame(cX=X, cy=y_noisy)
    lm1 = fit(LinearModel, @formula(cy ~ cX), df)
 
+   # the above is the same as @formula(cy ~ cX + 1), which also works
+
    # alternative syntax
    # lm(@formula(cy ~ cX), df)
    # glm(@formula(cy ~ cX), df, Normal(), IdentityLink())
@@ -48,7 +50,7 @@ We begin with some simple examples of linear regression on generated data. For t
 
    StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
 
-   cy ~ 1 + cX # implicitly @formula(cy ~ cX + 1), which also works
+   cy ~ 1 + cX # the constant term (intercept) is there, same as if we do @formula(cy ~ cX + 1)
 
    Coefficients:
    ───────────────────────────────────────────────────────────────────────
@@ -61,7 +63,7 @@ We begin with some simple examples of linear regression on generated data. For t
 .. code-block:: julia
 
    # note the order in the formula argument
-   fit(LinearModel, @formula(cX ~ cy), df) # modelling line with slope 1/5 and intercept -3.4/5
+   fit(LinearModel, @formula(cX ~ cy), df) # this would model line with slope 1/5 and intercept -3.4/5
 
 Plotting the result.
 
