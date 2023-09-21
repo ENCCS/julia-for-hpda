@@ -377,7 +377,7 @@ blog post *Forecasting the weather with neural ODEs* found `here
 
 .. code-block:: julia
 
-   using DataFrames, CSV, DataFrames, Plots
+   using DataFrames, CSV, DataFrames, Plots, Statistics
 
    # full path to data files
    # uploaded in julia-for-hpda/content/data
@@ -400,7 +400,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
 .. code-block:: julia
 
-   using DataFrames, CSV, DataFrames, Plots
+   using DataFrames, CSV, DataFrames, Plots, Statistics
 
    # full path to data files
    # uploaded in julia-for-hpda/content/data
@@ -433,6 +433,8 @@ Simple Fourier based models
 Since the data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
 
 .. code-block:: julia
+
+   using Dates
 
    # clean up data
    df_train[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df_train.meanpressure) for x in df_train.meanpressure]
@@ -518,7 +520,8 @@ To decrease overfitting, we may project to a lower dimensional subspace of basis
      # same as interpolating using linear combination of trignometric functions
      pred = real(ifft(fftshift(y_fft_pad)))*L_u/L
 
-     # put back constant component
+     ifft(fftshift(y_fft_pad))
+
      pred = pred .+ the_mean
 
    end
@@ -530,8 +533,8 @@ To decrease overfitting, we may project to a lower dimensional subspace of basis
    y = y .+ the_mean
 
    t = (0:L-1)
-   plt = scatter([x x x], [y y y], layout=(3,1), label=["data" "data" "data"])
-   plot!([t_u t_u t_u], [pred2 pred1 pred0], layout=(3,1), label=["model crude" "model fine" "model overfit"], title=["meantemp crude" "meantemp fine" "meantemp overfit"], xlabel="time (months)", ylabel="C°", size=(800,800))
+   plt = scatter([t t t], [y y y], layout=(3,1), label=["data" "data" "data"])
+   plot!([t_u t_u t_u], [pred2 pred1 pred0], layout=(3,1), label=["model crude" "model fine" "model overfit"], title=["meantemp crude (limit 2)" "meantemp fine (limit 1)" "meantemp overfit (limit 0)"], xlabel="time (months)", ylabel="C°", size=(800,800))
 
    display(plt)
 
