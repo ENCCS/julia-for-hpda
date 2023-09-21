@@ -600,8 +600,6 @@ Now we will consider the problem of predicting one of the climate variables from
        println("rmse_test: ", rmse_test)
    end
 
-   draw_results_lin(X_train, X_test, y_train, y_test, model_lin)
-
    init=Flux.glorot_uniform()
    model = Chain(
                Dense(3, 10, tanh, init=init, bias=true),
@@ -877,7 +875,7 @@ To illustrate more usages of MLJ and various regression models consider the foll
    # model_class = @load DecisionTreeRegressor pkg=DecisionTree
    # model_class = @load RandomForestRegressor pkg=DecisionTree
    # model_class = @load NeuralNetworkRegressor pkg=MLJFlux # seems to have only one layer as a default
-   model_class = @load GaussianProcessRegressor pkg=ScikitLearn
+   model_class = @load GaussianProcessRegressor pkg=MLJScikitLearnInterface
 
    model = model_class()
    mach = machine(model, X, y)
