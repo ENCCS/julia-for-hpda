@@ -18,6 +18,7 @@ you can for example place under a new directory `julia` in your home directory:
    ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
    Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
    DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+   Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
    Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
    FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
    Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
@@ -59,12 +60,12 @@ After it completes you should be able to list all installed packages:
    # [6e4b80f9] BenchmarkTools v1.3.2
    # [024491cd] BetaML v0.10.3
    # [336ed68f] CSV v0.10.11
-   # [35d6a980] ColorSchemes v3.23.0
+   # [35d6a980] ColorSchemes v3.24.0
    # [5ae59095] Colors v0.12.10
    # [a93c6f00] DataFrames v1.6.1
    # [31c24e10] Distributions v0.25.100
    # [7a1cc6ca] FFTW v1.7.1
-   # [587475ba] Flux v0.14.5
+   # [587475ba] Flux v0.14.6
    # [38e38edf] GLM v1.9.0
    # [cd3eb016] HTTP v1.10.0
    # [b964fa9f] LaTeXStrings v1.3.0
@@ -78,6 +79,7 @@ After it completes you should be able to list all installed packages:
    # [ce6b1742] RDatasets v0.7.7
    # [860ef19b] StableRNGs v1.0.0
    # [2913bbd2] StatsBase v0.34.0
+   # [ade2ca70] Dates
 
 Manual installation and updates
 -------------------------------
