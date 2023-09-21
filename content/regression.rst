@@ -244,6 +244,8 @@ We will use data (waveform) similar to that of the last example.
    f = (Fs/L)*(0:Int(L/2))
 
    plt = plot(f, P1, label="freqs")
+   # zooming in a bit on the frequency graph
+   # plt = plot(f, P1, label="freqs", xlims=(0,10), xticks = 0:10)
 
    display(plt)
 
@@ -275,6 +277,11 @@ We will use data (waveform) similar to that of the last example.
    :align: center
 
    The Fourier coeffients from FFT, the frequencies are 1 and 5.
+
+.. figure:: img/linear_freqs_zoomed.png
+   :align: center
+
+   Zooming in a bit on the frequency graph.
 
 Linear regression on real data
 ------------------------------
