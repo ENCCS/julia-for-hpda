@@ -48,7 +48,7 @@ We begin with some simple examples of linear regression on generated data. For t
 
    StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
 
-   cy ~ 1 + cX
+   cy ~ 1 + cX # implicitly @formula(cy ~ cX + 1), which also works
 
    Coefficients:
    ───────────────────────────────────────────────────────────────────────
@@ -60,18 +60,18 @@ We begin with some simple examples of linear regression on generated data. For t
 
 .. code-block:: julia
 
-   # note the formula argument
+   # note the order in the formula argument
    fit(LinearModel, @formula(cX ~ cy), df) # modelling line with slope 1/5 and intercept -3.4/5
 
 Plotting the result.
 
 .. code-block:: julia
 
-   y_pred = predic(lm1)
+   y_pred = predict(lm1)
 
    # alternative: do it explicitly
    # coeffs = coeftable(lm1).cols[1] # intercept and slope
-   # y_pred = coeffs[1] + coeffs[2]*X
+   # y_pred = coeffs[1] .+ coeffs[2]*X
 
    plot!(X, y_pred, label="predicted")
 
@@ -205,7 +205,8 @@ It is straight forward to incorporate linear models with basis functions, that i
 
    Fitting trigonomtric functions to data.
 
-Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of the data in the last example using the package FFTW.
+Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of data using the package FFTW.
+We will use data (waveform) similar to that of the last example.
 
 .. code-block:: julia
 
