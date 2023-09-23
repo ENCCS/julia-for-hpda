@@ -85,6 +85,8 @@ Comparing ways of forming vectors: using functions, for loops and list comprehen
    f(x,y)=x*y # f (generic function with 1 method)
    A = [1,2,3,4]
    B = [2,3,4,5]
+   # vectorization with dot notation
+   # more on that later
    f.(A, B) # 2,6,12,20
 
    # another way
@@ -102,22 +104,30 @@ similar to Python and Matlab.
 
    # slicing
    X = [x^2 for x in range(1,11)]
+   X[1] # first element 1
+   X[end] # last element 121
    X[4:9] # 16,25,36,49,64,81
    X[8:end] # 64,81,100,121
+
    # uniform distribution on [0,1]
    X = rand(5,5) # random 5x5-matrix
    X[1,:] # first row
    X[:,3] # third column
    X[2,4] # element in row 2, column 4
 
-Vectorization is done with the dot syntax similar to Matlab.
+Vectorization (element wise operation) is done with the dot syntax similar to Matlab.
 
 .. code-block:: julia
 
-   # vectorization
+   # vectorization or element wise operation
+   A = [1,2,3,4]
+   B = [2,3,4,5]
+   A^2 # MethodError
    A.^2 # [1,4,9,16]
    A .+ B
    A + B == A .+ B # true
+   A*B # MethodError
+   A.*B
 
    sin(A)
    # ERROR: MethodError: no method matching sin(::Vector{Int64})
@@ -142,7 +152,7 @@ Vectorization is done with the dot syntax similar to Matlab.
     12.106799974237582
     19.27428371612359
 
-An example where vectorization, random vectors and Plot are used:
+An example where vectorization, random vectors and Plot are combined:
 
 .. code-block:: julia
 
@@ -168,7 +178,8 @@ An example where vectorization, random vectors and Plot are used:
 
    Sine function with noise.
 
-Adding elements to existing arrays (appending arrays).
+We can append existing arrays by pushing new elements at the end
+and we can retrieve (and remove) the last element by popping it.
 
 .. code-block:: julia
 
@@ -184,29 +195,41 @@ Adding elements to existing arrays (appending arrays).
    u = [1,2,3]
    push!(U, u) # [5, [1,2,3]]
 
+Use copy if you want a copy of an existing element rather than a reference to it.
+
+.. code-block:: julia
+
    # references
    u = [1,2,3,4]
-   v = u
-   v[2] = 33
+   v = u # v refers to u
+   v[2] = 33 # when v changes
    v # [1,33,3,4]
-   u # [1,33,3,4]
+   u # [1,33,3,4], so does u
 
    # using copy
    u = [1,2,3,4]
-   v = copy(u)
-   v[2] = 33
+   v = copy(u) # v is a copy of u
+   v[2] = 33 # v changes
    v # [1,33,3,4]
-   u # [1,2,3,4]
+   u # [1,2,3,4], but not u
+
+Copies can be of import when building arrays from mutable objects created earlier.
+
+.. code-block:: julia
 
    # curiosity: push! stores a reference to the object pushed, not a copy
+   U = []
+   push!(U, 5)
+   u = [1,2,3]
+   push!(U, u) # [5, [1,2,3]]
+   u = [1,2,3]
    u[2] = 77
    U # [5, [1,77,3]]
+   u # [1,77,3]
 
    # Can use copy if want other behavior
-   U = []
-   push!(U, 5) # [5]
    u = [1,2,3]
-   push!(U, u) # [5, copy(u)]
+   U = [5, copy(u)]
    u[2] = 77
    U # is still [5, [1,2,3]]
    # however
