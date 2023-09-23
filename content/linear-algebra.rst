@@ -32,11 +32,13 @@ To get started with vectors in Julia, let's see how make a range of integers.
    range(-5,27) == -5:27 # true
 
    # range with non-integer step
-   1:0.23:12 # from 1.0 to 11.81 in steps 0.23
+   # from 1.0 to 11.81 in steps 0.23
+   1:0.23:12
+   Vector(1:0.23:12)
 
 In Julia one can use `list comprehension <https://en.wikipedia.org/wiki/List_comprehension>`_ to
 create vectors in a simple way similar to Python. This notation follows the set-builder notation
-from mathematics, such as :math:'S=\{x \in \mathbb{Z}:x>0\}' for the set of positive integers.
+from mathematics, such as :math:`S=\{x \in \mathbb{Z}:x>0\}` for the set of positive integers.
 
 .. code-block:: julia
 
