@@ -671,6 +671,7 @@ Exercises
          @benchmark S^10
 		 @benchmark B^10
 
+
 The following exercise is adapted from the `Julia language companion
 <https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
 the `book
