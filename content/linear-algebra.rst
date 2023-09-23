@@ -17,6 +17,7 @@ List comprehension, slicing and vectorization
 ---------------------------------------------
 
 To get started with vectors in Julia, let's see how make a range of integers.
+This is similar to notation of Python and Matlab.
 
 .. code-block:: julia
 
@@ -24,7 +25,7 @@ To get started with vectors in Julia, let's see how make a range of integers.
    1:10
 
    for x in 1:10
-      println(x)
+       println(x)
    end
 
    r = -5:27
@@ -59,16 +60,16 @@ We can use several index variables and loop over a product set.
 
 .. code-block:: julia
 
-   # similar
-   [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
-   # 1,2,6,8,15
-
    # loop over product set
    [x - y for x in 1:10, y in 1:10]
 
+   # Extra example
+   # [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
+   # 1,2,6,8,15
+
 .. code-block:: text
 
-   # output of last command
+   # output of [x - y for x in 1:10, y in 1:10]
    10×10 Matrix{Int64}:
     0  -1  -2  -3  -4  -5  -6  -7  -8  -9
     1   0  -1  -2  -3  -4  -5  -6  -7  -8
@@ -76,6 +77,8 @@ We can use several index variables and loop over a product set.
     ...                 ...
     8   7   6   5   4   3   2   1   0  -1
     9   8   7   6   5   4   3   2   1   0
+
+Comparing ways of forming vectors: using functions, for loops and list comprehension.
 
 .. code-block:: julia
 
@@ -92,6 +95,10 @@ We can use several index variables and loop over a product set.
    # and another way
    [x*y for (x, y) in zip(A, B)]
 
+To pick out elements in vectors and matrices one can use slicing, which is also
+similar to Python and Matlab.
+
+.. code-block:: julia
 
    # slicing
    X = [x^2 for x in range(1,11)]
