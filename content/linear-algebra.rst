@@ -16,14 +16,29 @@ Linear algebra
 List comprehension, slicing and vectorization
 ---------------------------------------------
 
-One can create vectors in a simple way similar to Python.
+To get started with vectors in Julia, let's see how make a range of integers.
 
 .. code-block:: julia
 
-   # range notation
-   1:88
-   range(1,88) == 1:88 # true
+   # range notation, list from 1 to 10
+   1:10
+
+   for x in 1:10
+      println(x)
+   end
+
+   r = -5:27
+   Vector(r) # to see what is in there
+   range(-5,27) == -5:27 # true
+
+   # range with non-integer step
    1:0.23:12 # from 1.0 to 11.81 in steps 0.23
+
+In Julia one can use `list comprehension <https://en.wikipedia.org/wiki/List_comprehension>`_ to
+create vectors in a simple way similar to Python. This notation follows the set-builder notation
+from mathematics, such as :math:'S=\{x \in \mathbb{Z}:x>0\}' for the set of positive integers.
+
+.. code-block:: julia
 
    # list comprehension
    [i^2 for i in range(1,40)] # 40-element Vector
@@ -38,17 +53,20 @@ One can create vectors in a simple way similar to Python.
    # another way to do conditionals
    [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
 
+.. code-block:: julia
+
+We can use several index variables and loop over a product set.
+
    # similar
    [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
    # 1,2,6,8,15
-
-
 
    # loop over product set
    [x - y for x in 1:10, y in 1:10]
 
 .. code-block:: text
 
+   # output of last command
    10×10 Matrix{Int64}:
     0  -1  -2  -3  -4  -5  -6  -7  -8  -9
     1   0  -1  -2  -3  -4  -5  -6  -7  -8
@@ -613,6 +631,13 @@ Exercises
 
          545.400 μs (29 allocations: 806.98 KiB)
          6.343 s (8 allocations: 762.94 MiB)
+
+      Or one can use benchmarks to get more detailed information on performance.
+
+	  .. code-block:: julia
+
+         @benchmark S^10
+		 @benchmark B^10
 
 The following exercise is adapted from the `Julia language companion
 <https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
