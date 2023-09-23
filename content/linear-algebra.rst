@@ -659,18 +659,14 @@ Exercises
          @btime S^10;
          @btime B^10;
 
+         # or do @benchmark for more detailed information on performance
+         # @benchmark S^10
+         # @benchmark B^10
+
       .. code-block:: text
 
          545.400 μs (29 allocations: 806.98 KiB)
          6.343 s (8 allocations: 762.94 MiB)
-
-      Or one can use benchmarks to get more detailed information on performance.
-
-	  .. code-block:: julia
-
-         @benchmark S^10
-		 @benchmark B^10
-
 
 The following exercise is adapted from the `Julia language companion
 <https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
