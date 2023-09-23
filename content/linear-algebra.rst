@@ -53,9 +53,9 @@ from mathematics, such as :math:'S=\{x \in \mathbb{Z}:x>0\}' for the set of posi
    # another way to do conditionals
    [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
 
-.. code-block:: julia
-
 We can use several index variables and loop over a product set.
+
+.. code-block:: julia
 
    # similar
    [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
