@@ -571,6 +571,11 @@ Now we will consider the problem of predicting one of the climate variables from
    y = df.meantemp
    X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
 
+   # can convert data to Float32
+   # aviods Warning and faster training
+   # X = Matrix{Float32}(X)
+   # y = Vector{Float32}(y)
+
    z = eachindex(y)
 
    # 70:30 split in training and testing
@@ -619,6 +624,9 @@ Now we will consider the problem of predicting one of the climate variables from
 
    train_loss = []
    test_loss = []
+
+   # to animate training
+   # replace the rest of the code from here with snippet below
 
    for epoch in 1:n_epochs
        train!(loss, ps, data, opt)
@@ -825,6 +833,8 @@ and we will consider the problem of predicting scaled sound pressure level from 
    train, test = partition(collect(eachindex(y)), 0.7, shuffle=true);
 
    model_class = @load DecisionTreeRegressor pkg=DecisionTree
+   # model_class = @load RandomForestRegressor pkg=DecisionTree
+
    model = model_class()
    mach = machine(model, X, y)
    MLJ.fit!(mach, rows=train)
@@ -924,9 +934,11 @@ Exercises
 
    Run the code in the `Simple regression example`_ above and see what prediction errors you get.
 
-.. exercise:: simple regression 2
+.. exercise:: simple regression 2a
 
-   In the `Simple regression example`_, experiment with the settings to change the sampling frequency, level of noise and and fraction of the data that is used for training (the rest is used for testing).
+   In the `Simple regression example`_, experiment with the settings to change the sampling frequency,
+   level of noise imposed on the data and fraction of the data that is used for training
+   (the rest is used for testing).
 
    .. solution:: Change parameters
    
@@ -937,6 +949,33 @@ Exercises
          Npoints = 200
          noise_level = 0.1
          train_frac = 0.7
+
+.. exercise:: simple regression 2b
+
+   In the `Simple regression example`_, reset the settings:
+
+   .. code-block:: julia
+
+      Npoints = 200
+      noise_level = 0.1
+      train_frac = 0.7
+
+   - What happens to the training error (rmse) when you increase the noise level to 1.0 say?
+   - What happens to the test error?
+   - Can you explain the results?
+
+   Reset the settings again.
+
+   - What happens to the errors and the prediction (blue curve in the plot) when you decrease the training fraction to 0.3, 0.2 or 0.1?
+   - Now what happens if you incerease the number of points?
+   - Can you explain the results?
+
+   .. solution:: Change noise
+
+      It seems that the training error is not affected much by the noise but the test error goes up.
+
+      It seems like the prediction gets really bad when the training fraction is below 0.2 but if we add more points
+      we have enough data to get a good predicition.
 
 .. exercise:: simple regression 3
 
@@ -954,7 +993,8 @@ Exercises
 
 .. exercise:: simple regression 4
 
-   Try some other models to train on the data from the `Simple regression example`_. To see a list of available models one can outcomment the following lines.
+   Try some other models to train on the data from the `Simple regression example`_.
+   To see a list of available models one can outcomment the following lines.
 
    .. code-block:: julia
 
@@ -977,7 +1017,8 @@ Exercises
          # or a decision tree
          # model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
-      You may have to import an MLJ interface such as MLJDecisionTreeInterface.
+      For some models you may have to import an MLJ interface such as
+      MLJDecisionTreeInterface which is done in the example code in this case.
 
       The list of models from above will be something like:
 
@@ -1042,6 +1083,21 @@ Exercises
          Model Name: SVMRegressor , Package: ScikitLearn
          Model Name: TheilSenRegressor , Package: ScikitLearn
          Model Name: XGBoostRegressor , Package: XGBoost
+
+.. exercise:: simple regression 5
+
+   In the `Simple regression example`_, try the
+   `decision tree <https://en.wikipedia.org/wiki/Decision_tree_learning>`_ model:
+
+   .. code-block:: julia
+
+      # replace the model_class
+      # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
+      # with for exmple random forest
+      model_class = @load DecisionTreeRegressor pkg=DecisionTree
+
+      Note the locally constant (step wise) behavior of the prediction.
+	  What happens to the prediction curve if you increase the number of data points?
 
 .. exercise:: air foil continued
 

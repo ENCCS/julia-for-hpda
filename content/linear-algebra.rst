@@ -84,12 +84,12 @@ Comparing ways of forming vectors: using functions, for loops and list comprehen
 
 .. code-block:: julia
 
-   f(x,y)=x*y # f (generic function with 1 method)
+   mypairwise(x,y)=x*y
    A = [1,2,3,4]
    B = [2,3,4,5]
    # vectorization with dot notation
    # more on that later
-   f.(A, B) # 2,6,12,20
+   mypairwise.(A, B) # 2,6,12,20
 
    # another way
    for x in zip(A,B)
@@ -619,6 +619,13 @@ We may perform dimensionality reduction by projecting the data to this subspace:
    # The following would result picking the three least important directions
    # interesting comparison to do
    # Xp = X*P[:,1:3]
+
+   # in some implementations (Linux) eigenvectors
+   # P[:,2] and P[:,3] are flipped (ambigous)
+   # to get the same plot change signs
+   # Xp[:,1] = -Xp[:,1]
+   # Xp[:,2] = -Xp[:,2]
+   # write out P matrix in exercise/text.
 
 Plotting the result:
 
