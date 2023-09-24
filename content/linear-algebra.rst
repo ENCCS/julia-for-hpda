@@ -7,11 +7,13 @@ Linear algebra
 
    - How can I create vectors and matrices in Julia?
    - How can I perform vector and matrix operations in Julia?
+   - How to generate random matrices and perform sparse matrix computations?
+   - How does Principle Component Analysis work?
      
 .. instructor-note::
 
-   - 60 min teaching
-   - 30 min exercises
+   - 40 min teaching
+   - 20 min exercises
 
 List comprehension, slicing and vectorization
 ---------------------------------------------
@@ -469,6 +471,8 @@ distributions.
 
 .. code-block:: julia
 
+   # introduce std standard deviation (used in PCA exercise)
+
    # normal distribution as above
    randn(100, 100) # 100x100-matrix
 
@@ -593,7 +597,7 @@ The basis :math:`P` of eigenvectors we got above is orthogonal and normalized:
 
 .. code-block:: julia
 
-    transpose(P)*P
+   transpose(P)*P
 
 .. code-block:: text
 
@@ -607,14 +611,14 @@ We may perform dimensionality reduction by projecting the data to this subspace:
 
 .. code-block:: julia
 
-    # projection of dataset onto orthonormal basis of eigenvectors
-    # for example three eigenvectors correspondng to the
-	# three largest eigenvalues
-    Xp = X*P[:,2:4]
+   # projection of dataset onto orthonormal basis of eigenvectors
+   # for example three eigenvectors correspondng to the
+   # three largest eigenvalues
+   Xp = X*P[:,2:4]
 
-    # The following would result picking the three least important directions
-	# interesting comparison to do
-    # Xp = X*P[:,1:3]
+   # The following would result picking the three least important directions
+   # interesting comparison to do
+   # Xp = X*P[:,1:3]
 
 Plotting the result:
 

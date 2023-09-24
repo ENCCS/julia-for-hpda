@@ -5,12 +5,14 @@ Regression, time-series prediction and analysis
 
 .. questions::
 
-   - How can I perform regression in Julia?
-   - How can I perform time-series analysis and prediciton in Julia?
+   - How can I perform simple linear regression in Julia?
+   - How to do linear regression with non-linear basis functions?
+   - How do to basic Fourier based regression?
+   - How to perform non-linear regression and time-series prediction?
 
 .. instructor-note::
 
-   - 120 min teaching
+   - 90 min teaching
    - 60 min exercises
 
 Linear regression with synthetic data
