@@ -298,40 +298,43 @@ Using basis functions
          Fitting trigonomtric functions to data.
 
 Linear regression on real data
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let us illustrate linear regression on real data sets.
+.. exercise:: Formaldhyde example
 
-The first dataset comes from the RDatasets package and are data from chemical experiments for the production of formeldyhyde. The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
+   Let us illustrate linear regression on real data sets.
 
-Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
+   The first dataset comes from the RDatasets package and are data from chemical experiments for the production of formeldyhyde. The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
 
-.. code-block:: julia
+   Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
 
-   using GLM, RDatasets, Plots
+   .. solution:: A suggestion
 
-   df = dataset("datasets", "Formaldehyde")
+      .. code-block:: julia
 
-   plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
-   display(plt)
+         using GLM, RDatasets, Plots
 
-   model = fit(LinearModel, @formula(OptDen ~ Carb), df)
+         df = dataset("datasets", "Formaldehyde")
 
-   y_pred = predict(model)
+         plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
+         display(plt)
 
-   plot!(df.Carb, y_pred, label="model")
+         model = fit(LinearModel, @formula(OptDen ~ Carb), df)
 
-   display(plt)
+         y_pred = predict(model)
 
-.. figure:: img/linear_formaldehyde.png
-   :align: center
+         plot!(df.Carb, y_pred, label="model")
+
+         display(plt)
+
+      .. figure:: img/linear_formaldehyde.png
+         :align: center
 
 The second dataset we will use comes from the Rdatasets package and consists of measurements on black cherry trees: girth, height and volume (see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).).
 
 .. code-block:: julia
 
    using GLM, RDatasets, StatsBase, Plots
-
    # Girth Height and Volume of Black Cherry Trees
    trees = dataset("datasets", "trees")
    df = trees
