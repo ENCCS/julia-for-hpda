@@ -494,241 +494,6 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    Plots of cleaned up data.
 
-Simple Fourier based models
----------------------------
-
-In the exercises above you fitted trigometric basis functions to data using a linear model.
-
-.. code-block:: julia
-
-   using Plots, GLM, DataFrames
-
-   # try a cosine combination
-   X = range(-6, 6, length=100)
-   y = cos.(X) .+ cos.(2*X)
-   y_noisy = y .+ 0.1*randn(100,)
-
-   plt = plot(X, y, label="waveform")
-   plot!(X, y_noisy, seriestype=:scatter, label="data")
-
-   display(plt)
-
-   df = DataFrame(X=X, y=y_noisy)
-
-   lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
-
-.. code-block:: text
-
-   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
-
-   y ~ 1 + :(cos(X)) + :(cos(2X)) + :(cos(3X)) + :(cos(4X))
-
-   Coefficients:
-   ────────────────────────────────────────────────────────────────────────────
-                     Coef.  Std. Error      t  Pr(>|t|)    Lower 95%  Upper 95%
-   ────────────────────────────────────────────────────────────────────────────
-   (Intercept)   0.0130408   0.0108222   1.21    0.2312  -0.00844393  0.0345256
-   cos(X)        0.981561    0.015653   62.71    <1e-78   0.950486    1.01264
-   cos(2X)       0.984984    0.0156219  63.05    <1e-78   0.953971    1.016
-   cos(3X)      -0.0135547   0.015573   -0.87    0.3863  -0.044471    0.0173616
-   cos(4X)       0.0148532   0.0155105   0.96    0.3407  -0.015939    0.0456454
-   ────────────────────────────────────────────────────────────────────────────
-
-.. figure:: img/linear_basis_2.png
-   :align: center
-
-   Fitting trigonomtric functions to data.
-
-Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of data using the package FFTW.
-We will use data (waveform) similar to that of the last example.
-
-.. code-block:: julia
-
-   using Plots, GLM, DataFrames, FFTW
-
-   L = 100
-   Fs = 100
-   T = 1/Fs
-
-   X = (0:L-1)*T;
-   y = cos.(2*pi*X) .+ cos.(5*2*pi*X)
-   y_noisy = y .+ 0.1*randn(L)
-
-   plt = plot(X, y, label="waveform")
-   plot!(X, y_noisy, seriestype=:scatter, label="data")
-
-   display(plt)
-
-   df = DataFrame(X1=cos.(2*pi*X), X2=cos.(2*2*pi*X), X3=cos.(3*2*pi*X), X4=cos.(4*2*pi*X),  X5=cos.(5*2*pi*X),  X6=cos.(6*2*pi*X), y=y_noisy)
-
-   lm1 = lm(@formula(y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6), df)
-
-   print(lm1)
-
-   # use function fft (Fast Fourier Transform)
-   y_fft = fft(y_noisy)
-
-   # some housekeeping
-   P2 = abs.(y_fft/L)
-   P1 = P2[1:Int(L/2)+1]
-   P1[2:end-1] = 2*P1[2:end-1]
-
-   f = (Fs/L)*(0:Int(L/2))
-
-   plt = plot(f, P1, label="freqs")
-   # zooming in a bit on the frequency graph
-   # plt = plot(f, P1, label="freqs", xlims=(0,10), xticks = 0:10)
-
-   display(plt)
-
-.. code-block:: text
-
-   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
-
-   y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6
-
-   Coefficients:
-   ──────────────────────────────────────────────────────────────────────────────
-                      Coef.  Std. Error      t  Pr(>|t|)   Lower 95%    Upper 95%
-   ──────────────────────────────────────────────────────────────────────────────
-   (Intercept)   0.00221541   0.0102879   0.22    0.8300  -0.0182143   0.0226451
-   X1            0.999929     0.0145493  68.73    <1e-80   0.971037    1.02882
-   X2           -0.00803306   0.0145493  -0.55    0.5822  -0.036925    0.0208589
-   X3           -0.0319954    0.0145493  -2.20    0.0304  -0.0608874  -0.00310339
-   X4           -0.0288931    0.0145493  -1.99    0.0500  -0.0577851  -1.16669e-6
-   X5            1.01005      0.0145493  69.42    <1e-81   0.981157    1.03894
-   X6            0.00464845   0.0145493   0.32    0.7501  -0.0242435   0.0335404
-   ──────────────────────────────────────────────────────────────────────────────
-
-.. figure:: img/linear_basis_3.png
-   :align: center
-
-   A combination of cosines with noise.
-
-.. figure:: img/linear_freqs.png
-   :align: center
-
-   The Fourier coeffients from FFT, the frequencies are 1 and 5.
-
-.. figure:: img/linear_freqs_zoomed.png
-   :align: center
-
-   Zooming in a bit on the frequency graph.
-
-Since the data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
-
-.. code-block:: julia
-
-   using Dates
-
-   # clean up data
-   df_train[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df_train.meanpressure) for x in df_train.meanpressure]
-
-   # add year and month fields
-   df_train[:,:year] = Float64.(year.(df_train[:,:date]))
-   df_train[:,:month] = Float64.(month.(df_train[:,:date]))
-
-   df_test[:,:year] = Float64.(year.(df_test[:,:date]))
-   df_test[:,:month] = Float64.(month.(df_test[:,:date]))
-
-   df_train_m = combine(groupby(df_train, [:year, :month]), :meantemp => mean, :humidity => mean,
-   :wind_speed => mean, :meanpressure => mean)
-
-   M_m = [df_train_m.meantemp_mean df_train_m.humidity_mean df_train_m.wind_speed_mean df_train_m.meanpressure_mean]
-   plt = scatter(M_m, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (months)", ylabel=plotylabels, size=(800,800))
-
-   display(plt)
-
-.. figure:: img/climate_plots_months.png
-   :align: center
-
-   Aggregated data, mean value for each month.
-
-Now, the Fourier transform gives us the frequency components of the signals. Let us take the mean temperature as an example.
-
-.. code-block:: julia
-
-   using FFTW
-
-   # just to have even number of samples for simplicity
-   df_train_m = df_train_m[2:end,:]
-
-   # normalize for better exposition of frequencies
-   the_mean = mean(df_train_m.meantemp_mean)
-   y = df_train_m.meantemp_mean .- the_mean
-
-   L = size(df_train_m)[1]
-   Fs = 1
-   T = 1/Fs
-
-   y_fft = fft(y)
-   P2 = abs.(y_fft/L)
-   P1 = P2[1:Int(L/2)+1]
-   P1[2:end-1] = 2*P1[2:end-1]
-
-   f = (Fs/L)*(0:Int(L/2))
-
-   plt = plot(f, P1, label="freqs")
-
-   display(plt)
-
-.. figure:: img/climate_fft.png
-   :align: center
-
-   Plots of frequency content of temperature data. There is a peak at roughly 1/12 corresonding to a period of 1 year.
-
-We use the frequency information for interpolation and extrapolation and thereby build a model of the data.
-To decrease overfitting, we may project to a lower dimensional subspace of basis functions (essentially trigonmetric functions) by setting a limit parameter proj_lim below.
-
-.. code-block:: julia
-
-   # up sample function to finer grid (interpolation)
-   upsample = 2
-   L_u = floor(Int64, L*upsample)
-   t_u = (0:L_u-1)*L/L_u
-
-   # set limit for projection
-   # proj_lim 0 means no projection 
-   function get_model(proj_lim)
-
-     y_fft_tmp = y_fft.*[ abs(x) < proj_lim*L ? 0.0 : 1.0 for x in y_fft]
-
-     # center frequencies on constant component (zero frequency)
-     y_fft_shift = fftshift(y_fft_tmp)
-
-     # fill in zeros (padding) for higher frequencies for upsampling
-     npad = floor(Int64, L_u/2 - L/2)
-
-     y_fft_pad = [zeros(npad); y_fft_shift; zeros(npad)]
-
-     # up sampling by applying inverse Fourier transform to paddded frequency vector
-     # same as interpolating using linear combination of trignometric functions
-     pred = real(ifft(fftshift(y_fft_pad)))*L_u/L
-
-     ifft(fftshift(y_fft_pad))
-
-     pred = pred .+ the_mean
-
-   end
-
-   pred0 = get_model(0.0)
-   pred1 = get_model(1.0)
-   pred2 = get_model(2.0)
-
-   y = y .+ the_mean
-
-   t = (0:L-1)
-   plt = scatter([t t t], [y y y], layout=(3,1), label=["data" "data" "data"])
-   plot!([t_u t_u t_u], [pred2 pred1 pred0], layout=(3,1), label=["model crude" "model fine" "model overfit"], title=["meantemp crude (limit 2)" "meantemp fine (limit 1)" "meantemp overfit (limit 0)"], xlabel="time (months)", ylabel="C°", size=(800,800))
-
-   display(plt)
-
-.. figure:: img/climate_fft_model.png
-   :align: center
-
-   Three models of varying crudeness and overfit.
-
-
 Non-linear regression
 ---------------------
 
@@ -1302,3 +1067,236 @@ Exercises
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
 
+Simple Fourier based models (extra material)
+--------------------------------------------
+
+In the exercises above you fitted trigometric basis functions to data using a linear model.
+
+.. code-block:: julia
+
+   using Plots, GLM, DataFrames
+
+   # try a cosine combination
+   X = range(-6, 6, length=100)
+   y = cos.(X) .+ cos.(2*X)
+   y_noisy = y .+ 0.1*randn(100,)
+
+   plt = plot(X, y, label="waveform")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   display(plt)
+
+   df = DataFrame(X=X, y=y_noisy)
+
+   lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
+
+.. code-block:: text
+
+   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+
+   y ~ 1 + :(cos(X)) + :(cos(2X)) + :(cos(3X)) + :(cos(4X))
+
+   Coefficients:
+   ────────────────────────────────────────────────────────────────────────────
+                     Coef.  Std. Error      t  Pr(>|t|)    Lower 95%  Upper 95%
+   ────────────────────────────────────────────────────────────────────────────
+   (Intercept)   0.0130408   0.0108222   1.21    0.2312  -0.00844393  0.0345256
+   cos(X)        0.981561    0.015653   62.71    <1e-78   0.950486    1.01264
+   cos(2X)       0.984984    0.0156219  63.05    <1e-78   0.953971    1.016
+   cos(3X)      -0.0135547   0.015573   -0.87    0.3863  -0.044471    0.0173616
+   cos(4X)       0.0148532   0.0155105   0.96    0.3407  -0.015939    0.0456454
+   ────────────────────────────────────────────────────────────────────────────
+
+.. figure:: img/linear_basis_2.png
+   :align: center
+
+   Fitting trigonomtric functions to data.
+
+Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of data using the package FFTW.
+We will use data (waveform) similar to that of the last example.
+
+.. code-block:: julia
+
+   using Plots, GLM, DataFrames, FFTW
+
+   L = 100
+   Fs = 100
+   T = 1/Fs
+
+   X = (0:L-1)*T;
+   y = cos.(2*pi*X) .+ cos.(5*2*pi*X)
+   y_noisy = y .+ 0.1*randn(L)
+
+   plt = plot(X, y, label="waveform")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   display(plt)
+
+   df = DataFrame(X1=cos.(2*pi*X), X2=cos.(2*2*pi*X), X3=cos.(3*2*pi*X), X4=cos.(4*2*pi*X),  X5=cos.(5*2*pi*X),  X6=cos.(6*2*pi*X), y=y_noisy)
+
+   lm1 = lm(@formula(y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6), df)
+
+   print(lm1)
+
+   # use function fft (Fast Fourier Transform)
+   y_fft = fft(y_noisy)
+
+   # some housekeeping
+   P2 = abs.(y_fft/L)
+   P1 = P2[1:Int(L/2)+1]
+   P1[2:end-1] = 2*P1[2:end-1]
+
+   f = (Fs/L)*(0:Int(L/2))
+
+   plt = plot(f, P1, label="freqs")
+   # zooming in a bit on the frequency graph
+   # plt = plot(f, P1, label="freqs", xlims=(0,10), xticks = 0:10)
+
+   display(plt)
+
+.. code-block:: text
+
+   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+
+   y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6
+
+   Coefficients:
+   ──────────────────────────────────────────────────────────────────────────────
+                      Coef.  Std. Error      t  Pr(>|t|)   Lower 95%    Upper 95%
+   ──────────────────────────────────────────────────────────────────────────────
+   (Intercept)   0.00221541   0.0102879   0.22    0.8300  -0.0182143   0.0226451
+   X1            0.999929     0.0145493  68.73    <1e-80   0.971037    1.02882
+   X2           -0.00803306   0.0145493  -0.55    0.5822  -0.036925    0.0208589
+   X3           -0.0319954    0.0145493  -2.20    0.0304  -0.0608874  -0.00310339
+   X4           -0.0288931    0.0145493  -1.99    0.0500  -0.0577851  -1.16669e-6
+   X5            1.01005      0.0145493  69.42    <1e-81   0.981157    1.03894
+   X6            0.00464845   0.0145493   0.32    0.7501  -0.0242435   0.0335404
+   ──────────────────────────────────────────────────────────────────────────────
+
+.. figure:: img/linear_basis_3.png
+   :align: center
+
+   A combination of cosines with noise.
+
+.. figure:: img/linear_freqs.png
+   :align: center
+
+   The Fourier coeffients from FFT, the frequencies are 1 and 5.
+
+.. figure:: img/linear_freqs_zoomed.png
+   :align: center
+
+   Zooming in a bit on the frequency graph.
+
+Since the climate data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
+
+.. code-block:: julia
+
+   using Dates
+
+   # clean up data
+   df_train[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df_train.meanpressure) for x in df_train.meanpressure]
+
+   # add year and month fields
+   df_train[:,:year] = Float64.(year.(df_train[:,:date]))
+   df_train[:,:month] = Float64.(month.(df_train[:,:date]))
+
+   df_test[:,:year] = Float64.(year.(df_test[:,:date]))
+   df_test[:,:month] = Float64.(month.(df_test[:,:date]))
+
+   df_train_m = combine(groupby(df_train, [:year, :month]), :meantemp => mean, :humidity => mean,
+   :wind_speed => mean, :meanpressure => mean)
+
+   M_m = [df_train_m.meantemp_mean df_train_m.humidity_mean df_train_m.wind_speed_mean df_train_m.meanpressure_mean]
+   plt = scatter(M_m, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (months)", ylabel=plotylabels, size=(800,800))
+
+   display(plt)
+
+.. figure:: img/climate_plots_months.png
+   :align: center
+
+   Aggregated data, mean value for each month.
+
+Now, the Fourier transform gives us the frequency components of the signals. Let us take the mean temperature as an example.
+
+.. code-block:: julia
+
+   using FFTW
+
+   # just to have even number of samples for simplicity
+   df_train_m = df_train_m[2:end,:]
+
+   # normalize for better exposition of frequencies
+   the_mean = mean(df_train_m.meantemp_mean)
+   y = df_train_m.meantemp_mean .- the_mean
+
+   L = size(df_train_m)[1]
+   Fs = 1
+   T = 1/Fs
+
+   y_fft = fft(y)
+   P2 = abs.(y_fft/L)
+   P1 = P2[1:Int(L/2)+1]
+   P1[2:end-1] = 2*P1[2:end-1]
+
+   f = (Fs/L)*(0:Int(L/2))
+
+   plt = plot(f, P1, label="freqs")
+
+   display(plt)
+
+.. figure:: img/climate_fft.png
+   :align: center
+
+   Plots of frequency content of temperature data. There is a peak at roughly 1/12 corresonding to a period of 1 year.
+
+We use the frequency information for interpolation and extrapolation and thereby build a model of the data.
+To decrease overfitting, we may project to a lower dimensional subspace of basis functions (essentially trigonmetric functions) by setting a limit parameter proj_lim below.
+
+.. code-block:: julia
+
+   # up sample function to finer grid (interpolation)
+   upsample = 2
+   L_u = floor(Int64, L*upsample)
+   t_u = (0:L_u-1)*L/L_u
+
+   # set limit for projection
+   # proj_lim 0 means no projection
+   function get_model(proj_lim)
+
+     y_fft_tmp = y_fft.*[ abs(x) < proj_lim*L ? 0.0 : 1.0 for x in y_fft]
+
+     # center frequencies on constant component (zero frequency)
+     y_fft_shift = fftshift(y_fft_tmp)
+
+     # fill in zeros (padding) for higher frequencies for upsampling
+     npad = floor(Int64, L_u/2 - L/2)
+
+     y_fft_pad = [zeros(npad); y_fft_shift; zeros(npad)]
+
+     # up sampling by applying inverse Fourier transform to paddded frequency vector
+     # same as interpolating using linear combination of trignometric functions
+     pred = real(ifft(fftshift(y_fft_pad)))*L_u/L
+
+     ifft(fftshift(y_fft_pad))
+
+     pred = pred .+ the_mean
+
+   end
+
+   pred0 = get_model(0.0)
+   pred1 = get_model(1.0)
+   pred2 = get_model(2.0)
+
+   y = y .+ the_mean
+
+   t = (0:L-1)
+   plt = scatter([t t t], [y y y], layout=(3,1), label=["data" "data" "data"])
+   plot!([t_u t_u t_u], [pred2 pred1 pred0], layout=(3,1), label=["model crude" "model fine" "model overfit"], title=["meantemp crude (limit 2)" "meantemp fine (limit 1)" "meantemp overfit (limit 0)"], xlabel="time (months)", ylabel="C°", size=(800,800))
+
+   display(plt)
+
+.. figure:: img/climate_fft_model.png
+   :align: center
+
+   Three models of varying crudeness and overfit.
