@@ -295,82 +295,6 @@ Using basis functions
 
    Fitting trigonomtric functions to data.
 
-Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of data using the package FFTW.
-We will use data (waveform) similar to that of the last example.
-
-.. code-block:: julia
-
-   using Plots, GLM, DataFrames, FFTW
-
-   L = 100
-   Fs = 100
-   T = 1/Fs
-
-   X = (0:L-1)*T;
-   y = cos.(2*pi*X) .+ cos.(5*2*pi*X)
-   y_noisy = y .+ 0.1*randn(L)
-
-   plt = plot(X, y, label="waveform")
-   plot!(X, y_noisy, seriestype=:scatter, label="data")
-
-   display(plt)
-
-   df = DataFrame(X1=cos.(2*pi*X), X2=cos.(2*2*pi*X), X3=cos.(3*2*pi*X), X4=cos.(4*2*pi*X),  X5=cos.(5*2*pi*X),  X6=cos.(6*2*pi*X), y=y_noisy)
-
-   lm1 = lm(@formula(y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6), df)
-
-   print(lm1)
-
-   # use function fft (Fast Fourier Transform)
-   y_fft = fft(y_noisy)
-   
-   # some housekeeping
-   P2 = abs.(y_fft/L)
-   P1 = P2[1:Int(L/2)+1]
-   P1[2:end-1] = 2*P1[2:end-1]
-
-   f = (Fs/L)*(0:Int(L/2))
-
-   plt = plot(f, P1, label="freqs")
-   # zooming in a bit on the frequency graph
-   # plt = plot(f, P1, label="freqs", xlims=(0,10), xticks = 0:10)
-
-   display(plt)
-
-.. code-block:: text
-
-   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
-
-   y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6
-
-   Coefficients:
-   ──────────────────────────────────────────────────────────────────────────────
-                      Coef.  Std. Error      t  Pr(>|t|)   Lower 95%    Upper 95%
-   ──────────────────────────────────────────────────────────────────────────────
-   (Intercept)   0.00221541   0.0102879   0.22    0.8300  -0.0182143   0.0226451
-   X1            0.999929     0.0145493  68.73    <1e-80   0.971037    1.02882
-   X2           -0.00803306   0.0145493  -0.55    0.5822  -0.036925    0.0208589
-   X3           -0.0319954    0.0145493  -2.20    0.0304  -0.0608874  -0.00310339
-   X4           -0.0288931    0.0145493  -1.99    0.0500  -0.0577851  -1.16669e-6
-   X5            1.01005      0.0145493  69.42    <1e-81   0.981157    1.03894
-   X6            0.00464845   0.0145493   0.32    0.7501  -0.0242435   0.0335404
-   ──────────────────────────────────────────────────────────────────────────────
-
-.. figure:: img/linear_basis_3.png
-   :align: center
-
-   A combination of cosines with noise.
-
-.. figure:: img/linear_freqs.png
-   :align: center
-
-   The Fourier coeffients from FFT, the frequencies are 1 and 5.
-
-.. figure:: img/linear_freqs_zoomed.png
-   :align: center
-
-   Zooming in a bit on the frequency graph.
-
 Linear regression on real data
 ------------------------------
 
@@ -517,6 +441,82 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
 Simple Fourier based models
 ---------------------------
+
+Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of data using the package FFTW.
+We will use data (waveform) similar to that of the last example.
+
+.. code-block:: julia
+
+   using Plots, GLM, DataFrames, FFTW
+
+   L = 100
+   Fs = 100
+   T = 1/Fs
+
+   X = (0:L-1)*T;
+   y = cos.(2*pi*X) .+ cos.(5*2*pi*X)
+   y_noisy = y .+ 0.1*randn(L)
+
+   plt = plot(X, y, label="waveform")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   display(plt)
+
+   df = DataFrame(X1=cos.(2*pi*X), X2=cos.(2*2*pi*X), X3=cos.(3*2*pi*X), X4=cos.(4*2*pi*X),  X5=cos.(5*2*pi*X),  X6=cos.(6*2*pi*X), y=y_noisy)
+
+   lm1 = lm(@formula(y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6), df)
+
+   print(lm1)
+
+   # use function fft (Fast Fourier Transform)
+   y_fft = fft(y_noisy)
+
+   # some housekeeping
+   P2 = abs.(y_fft/L)
+   P1 = P2[1:Int(L/2)+1]
+   P1[2:end-1] = 2*P1[2:end-1]
+
+   f = (Fs/L)*(0:Int(L/2))
+
+   plt = plot(f, P1, label="freqs")
+   # zooming in a bit on the frequency graph
+   # plt = plot(f, P1, label="freqs", xlims=(0,10), xticks = 0:10)
+
+   display(plt)
+
+.. code-block:: text
+
+   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+
+   y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6
+
+   Coefficients:
+   ──────────────────────────────────────────────────────────────────────────────
+                      Coef.  Std. Error      t  Pr(>|t|)   Lower 95%    Upper 95%
+   ──────────────────────────────────────────────────────────────────────────────
+   (Intercept)   0.00221541   0.0102879   0.22    0.8300  -0.0182143   0.0226451
+   X1            0.999929     0.0145493  68.73    <1e-80   0.971037    1.02882
+   X2           -0.00803306   0.0145493  -0.55    0.5822  -0.036925    0.0208589
+   X3           -0.0319954    0.0145493  -2.20    0.0304  -0.0608874  -0.00310339
+   X4           -0.0288931    0.0145493  -1.99    0.0500  -0.0577851  -1.16669e-6
+   X5            1.01005      0.0145493  69.42    <1e-81   0.981157    1.03894
+   X6            0.00464845   0.0145493   0.32    0.7501  -0.0242435   0.0335404
+   ──────────────────────────────────────────────────────────────────────────────
+
+.. figure:: img/linear_basis_3.png
+   :align: center
+
+   A combination of cosines with noise.
+
+.. figure:: img/linear_freqs.png
+   :align: center
+
+   The Fourier coeffients from FFT, the frequencies are 1 and 5.
+
+.. figure:: img/linear_freqs_zoomed.png
+   :align: center
+
+   Zooming in a bit on the frequency graph.
 
 Since the data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
 
