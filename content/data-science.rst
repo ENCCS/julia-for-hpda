@@ -37,53 +37,40 @@ of characteristic features of different penguin species.
 
    Artwork by @allison_horst
 
-To obtain the data we simply add the PalmerPenguins package.
+.. todo::
+      
+   To obtain the data we simply add the PalmerPenguins package.
 
-.. code-block:: julia
+   .. code-block:: julia
 
-   Pkg.add("PalmerPenguins")
-   using PalmerPenguins
-
+      using Pkg
+      Pkg.add("PalmerPenguins")
+      using PalmerPenguins
 
 
 Dataframes
 ^^^^^^^^^^
 
-We will use `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
-package function here to  analyze the penguins dataset, but first we need to install it:
-
-.. code-block:: julia
-
-   Pkg.add("DataFrames")
-   using DataFrames
-
 .. todo:: Dataframes
+
+   We will use `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
+   package function here to  analyze the penguins dataset, but first we need to install it:
+
+   .. code-block:: julia
+
+      Pkg.add("DataFrames")
+      using DataFrames
 
    We now create a dataframe containing the PalmerPenguins dataset.
    
    .. code-block:: julia
    
-      using PalmerPenguins
+      # using PalmerPenguins
       table = PalmerPenguins.load()
       df = DataFrame(table)
    
       # the raw data can be loaded by
       #tableraw = PalmerPenguins.load(; raw = true)
-   
-      first(df, 5)
-   
-   .. code-block:: text
-   
-      344×7 DataFrame
-       Row │ species    island     bill_length_mm  bill_depth_mm  flipper_length_mm  body_mass_g  sex     
-           │ String     String     Float64?        Float64?       Int64?             Int64?       String? 
-      ─────┼──────────────────────────────────────────────────────────────────────────────────────────────
-         1 │ Adelie   Torgersen            39.1           18.7                181         3750  male
-         2 │ Adelie   Torgersen            39.5           17.4                186         3800  female
-         3 │ Adelie   Torgersen            40.3           18.0                195         3250  female
-         4 │ Adelie   Torgersen       missing        missing              missing      missing  missing 
-         5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
-   
    
    Summary statistics can be displayed with the ``describe`` function:
    
@@ -119,6 +106,57 @@ What the first three features mean is illustrated in the picture below.
    :align: center
 
    Artwork by @allison_horst
+
+Save environment
+^^^^^^^^^^^^^^^^
+.. todo::
+   To check the current status of your Julia environment, you can use the status command in the package manager. 
+
+   .. code-block:: julia
+
+      using Pkg
+      Pkg.status()
+
+   .. code-block:: text
+      
+      Status `~/.julia/environments/v1.9/Project.toml`
+         [336ed68f] CSV v0.10.11
+         [aaaa29a8] Clustering v0.15.4
+         [a93c6f00] DataFrames v1.6.1
+         [682c06a0] JSON v0.21.4
+         [8b842266] PalmerPenguins v0.1.4
+
+   This will display the list of packages in the current environment along with their versions1.
+
+   To save the state of your environment, Julia uses two files: ``Project.toml and ``Manifest.toml``.
+   The ``Project.tom`` file specifies the packages that you explicitly added to your environment,
+   while the ``Manifest.toml`` file records the exact versions of these packages and all their dependencies1.
+
+   When you add packages using ``Pkg.add()``, Julia automatically updates these files.
+   Therefore, your environment’s state (i.e., the set of loaded packages) is automatically saved.
+   ``Project.toml`` and ``Manifest.toml`` are located in the directory of your current Julia environment; in our case, ``~/.julia/environments/v1.9/``.
+
+   If you want to replicate this environment on another machine or in another folder, you can do the following:
+
+   1. Copy both ``Project.toml`` and ``Manifest.toml`` to the new location.
+   2. In Julia, navigate to that folder and activate the environment using ``Pkg.activate(".")``.
+   3. Use ``Pkg.instantiate()`` to download all the necessary packages1.
+   ``MLJ.jl``
+
+   You can use the CSV.jl package to save your DataFrame as a CSV file, which can be loaded later.
+
+   .. code-block:: julia
+
+         # using Pkg
+         # Pkg.add("CSV")
+         using CSV
+         CSV.write("penguins.csv", df)
+
+   And you can load it back with:
+
+   .. code-block:: julia
+
+         df = CSV.read("penguins.csv", DataFrame)
 
 
 Machine learning in Julia
@@ -162,6 +200,23 @@ exercise below, so we will need to add it to our environment:
 
    using Pkg
    Pkg.add("MLJ")
+
+
+Clustering and Classification
+-----------------------------
+
+In this lesson, we will be exploring the use of Julia for HPDA in a Jupyter notebook environment within Visual Studio Code (VSCode).
+
+To set up your environment, you can follow the instructions provided in the `JuliaIntro lesson <https://enccs.github.io/julia-intro/setup/#optional-installing-jupyterlab-and-a-julia-kernel>`_.
+This guide will walk you through the process of installing Julia, setting up JupyterLab, and adding a Julia kernel.
+Jupyter notebooks offer an interactive computing environment where you can combine code execution, rich text, mathematics, plots, and rich media.
+
+Once your environment is set up, you can start using Julia in Jupyter notebooks within VSCode. This setup provides a powerful interface for writing and debugging your code.
+It also allows you to easily visualize your data and results.
+
+After setting up your environment, we will dive into the adapted lessons about Clustering and Classification from the `Julia MOOC on Julia Academy <https://juliaacademy.com/>`_.
+These lessons provide comprehensive tutorials on various topics in Julia.
+By following these lessons, you will gain a deeper understanding of how to use Julia for high-performance data analysis.
 
 Deep learning
 ^^^^^^^^^^^^^
