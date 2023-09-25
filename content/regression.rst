@@ -40,7 +40,7 @@ Let's start by generating some data along a line and add normally distributed no
 .. figure:: img/linear_synth_1.png
    :align: center
 
-Given data :math:`x_1,x_2,\ldots,x_k` and responses :`y_1,y_2,\ldots,y_k`, the ordinary least squares method
+Given data :math:`x_1,x_2,\ldots,x_k` and responses :math:`y_1,y_2,\ldots,y_k`, the ordinary least squares method
 finds the linear function :math:`l(x) = ax+b` minimizing the sum of squares error :math:`\sum_i (l(x_i)-y_i)^2`.
 
 .. code-block:: julia
