@@ -229,7 +229,10 @@ to get a good fit is not known in advance but for this illustration we pick the 
 Linear regression on real data (extra material)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The second dataset we will use comes from the Rdatasets package and consists of measurements on black cherry trees: girth, height and volume (see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).).
+Let us have a look at linear regression on real data. For this we will use comes from the Rdatasets
+package and the "trees" dataset, which consists of measurements on
+black cherry trees: girth, height and volume
+(see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).
 
 .. code-block:: julia
 
@@ -283,8 +286,35 @@ The second dataset we will use comes from the Rdatasets package and consists of 
 Exercises
 ---------
 
-Using basis functions
-^^^^^^^^^^^^^^^^^^^^^
+.. exercise:: Formaldhyde example
+
+   Let us illustrate linear regression on real data sets.
+
+   The first dataset comes from the RDatasets package and are data from chemical experiments for the production of formeldyhyde. The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
+
+   Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
+
+   .. solution:: A suggestion
+
+      .. code-block:: julia
+
+         using GLM, RDatasets, Plots
+
+         df = dataset("datasets", "Formaldehyde")
+
+         plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
+         display(plt)
+
+         model = fit(LinearModel, @formula(OptDen ~ Carb), df)
+
+         y_pred = predict(model)
+
+         plot!(df.Carb, y_pred, label="model")
+
+         display(plt)
+
+      .. figure:: img/linear_formaldehyde.png
+         :align: center
 
 .. exercise:: Changing hyperparameters
 
@@ -350,39 +380,6 @@ Using basis functions
          :align: center
 
          Fitting trigonomtric functions to data.
-
-Linear regression on real data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. exercise:: Formaldhyde example
-
-   Let us illustrate linear regression on real data sets.
-
-   The first dataset comes from the RDatasets package and are data from chemical experiments for the production of formeldyhyde. The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
-
-   Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
-
-   .. solution:: A suggestion
-
-      .. code-block:: julia
-
-         using GLM, RDatasets, Plots
-
-         df = dataset("datasets", "Formaldehyde")
-
-         plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
-         display(plt)
-
-         model = fit(LinearModel, @formula(OptDen ~ Carb), df)
-
-         y_pred = predict(model)
-
-         plot!(df.Carb, y_pred, label="model")
-
-         display(plt)
-
-      .. figure:: img/linear_formaldehyde.png
-         :align: center
 
 Loading data
 ------------
