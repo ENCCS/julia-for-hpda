@@ -294,6 +294,39 @@ Exercises
 
    Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
 
+   To load and plot the dataset, you can do:
+
+   .. code-block:: julia
+   
+      using GLM, RDatasets, Plots
+
+	  df = dataset("datasets", "Formaldehyde")
+
+   The columns of the dataframe are called `Carb` and `OptDen` for the ammount of Carbohydrate and Optical Density.
+   You can plot the data as follows:
+   
+   .. code-block:: julia
+
+      plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
+
+      display(plt)
+   
+   To model Density as a linear function of Carbohydrate you can do:
+
+   .. code-block:: julia
+   
+      model = fit(LinearModel, @formula(OptDen ~ Carb), df)
+      y_pred = predict(model)
+
+   The `predict` method is used to make model predictions.
+
+   To add the prediction to the plot you can do:
+   
+   .. code-block:: julia
+   
+      plot!(df.Carb, y_pred, label="model")
+	  display(plt)
+
    .. solution:: A suggestion
 
       .. code-block:: julia
@@ -303,6 +336,7 @@ Exercises
          df = dataset("datasets", "Formaldehyde")
 
          plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
+
          display(plt)
 
          model = fit(LinearModel, @formula(OptDen ~ Carb), df)
@@ -339,11 +373,28 @@ Exercises
 .. exercise:: Trigonometric basis functions
 
    Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=cos(x)+cos(2x)`.
-   You can see the solution below.
+   Here is a snippet that generates data for this example:
+   
+   .. code-block:: julia
+   
+      using Plots, GLM, DataFrames
+
+      X = range(-6, 6, length=100)
+      y = cos.(X) .+ cos.(2*X)
+      y_noisy = y .+ 0.1*randn(100,)
+
+   To make a dataframe out of the data and fit a linear model to it, you can do:
+
+   .. code-block:: julia
+   
+      df = DataFrame(X=X, y=y_noisy)
+      lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
 
    .. solution:: A suggestion.
 
       .. code-block:: julia
+
+         using Plots, GLM, DataFrames
 
          # try a cosine combination
          X = range(-6, 6, length=100)
@@ -449,6 +500,8 @@ Simple Fourier based models
 In the exercises above you fitted trigometric basis functions to data using a linear model.
 
 .. code-block:: julia
+
+   using Plots, GLM, DataFrames
 
    # try a cosine combination
    X = range(-6, 6, length=100)
