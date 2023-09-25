@@ -18,7 +18,11 @@ Regression, time-series prediction and analysis
 Linear regression with synthetic data
 -------------------------------------
 
-We begin with some simple examples of linear regression on generated data. For the models we will use the package GLM (Generlized Linear Models).
+We begin with some simple examples of linear regression on generated data.
+For the models we will use the package GLM (Generlized Linear Models),
+which among other things contains linear regression models.
+
+Let's start by generating some data along a line and add normally distributed noise.
 
 .. code-block:: julia
 
@@ -36,7 +40,16 @@ We begin with some simple examples of linear regression on generated data. For t
 .. figure:: img/linear_synth_1.png
    :align: center
 
+Given data :math:`x_1,x_2,\ldots,x_k` and responses :`y_1,y_2,\ldots,y_k`, the ordinary least squares method
+finds the linear function :math:`l(x) = ax+b` minimizing the sum of squares error :math:`\sum_i (l(x_i)-y_i)^2`.
+
 .. code-block:: julia
+
+   using Plots, GLM, DataFrames
+
+   X = Vector(range(0, 10, length=20))
+   y = 5*X .+ 3.4
+   y_noisy = @. 5*X + 3.4 + randn()
 
    df = DataFrame(cX=X, cy=y_noisy)
    lm1 = fit(LinearModel, @formula(cy ~ cX), df)
@@ -44,8 +57,6 @@ We begin with some simple examples of linear regression on generated data. For t
    # the above is the same as @formula(cy ~ cX + 1), which also works
 
    # alternative syntax
-   # lm(@formula(cy ~ cX), df)
-   # glm(@formula(cy ~ cX), df, Normal(), IdentityLink())
    # lm(@formula(cy ~ cX), df)
 
 .. code-block:: text
@@ -67,9 +78,19 @@ We begin with some simple examples of linear regression on generated data. For t
    # note the order in the formula argument
    fit(LinearModel, @formula(cX ~ cy), df) # this would model line with slope 1/5 and intercept -3.4/5
 
-Plotting the result.
+Now let's plot the resulting prediction (green) together with the underlying line (blue) and data points.
 
 .. code-block:: julia
+
+   X = Vector(range(0, 10, length=20))
+   y = 5*X .+ 3.4
+   y_noisy = @. 5*X + 3.4 + randn()
+
+   plt = plot(X, y, label="linear")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
+   df = DataFrame(cX=X, cy=y_noisy)
+   lm1 = fit(LinearModel, @formula(cy ~ cX), df)
 
    y_pred = predict(lm1)
 
@@ -86,7 +107,9 @@ Plotting the result.
 
    Image of linear model prediction. The example shown has intercept 2.9 and slope 5.1 (the result depends on random added noise).
 
-Multivariate linear models are very similar.
+Multivariate linear models are done in a similar way. Now we are fitting a nultivariate linear function that minizes the sum of
+squares error. In the following example we generate a linear function of 4 varaibles with random coefficients (normally distributed).
+On top of that we add normally distributed noise.
 
 .. code-block:: julia
 
@@ -100,7 +123,6 @@ Multivariate linear models are very similar.
    y_noisy = y .+ 0.01*randn(100,1)
 
    df = DataFrame(cX1=X[:,1], cX2=X[:,2], cX3=X[:,3], cX4=X[:,4], cy=y_noisy[:,1])
-
 
    lm2 = lm(@formula(cy ~ cX1+cX2+cX3+cX4), df)
 
@@ -125,7 +147,12 @@ Multivariate linear models are very similar.
 
    [-1.022984643687018; -0.9366244594383493; 0.18095529608948402; -0.7396860440808664; -1.595858344253308;;]
 
-It is straight forward to incorporate linear models with basis functions, that is to model a function as a linear combination of given functions such polynomials or trigonometric functions.
+Linear models with basis functions
+----------------------------------
+
+Using the package GLM, it is straight forward to incorporate linear models with basis functions,
+that is to model a function as a linear combination of given non-linear functions such polynomials
+or trigonometric functions.
 
 .. code-block:: julia
 
@@ -136,17 +163,45 @@ It is straight forward to incorporate linear models with basis functions, that i
    y = X.^5 .- 34*X.^3 .+ 225*X
    y_noisy = y .+ randn(40,)
 
-   # model sensitive to noise
-   # if more noise, need more points (keep noise down for clarity in graph)
-
    plt = plot(X, y, label="polynomial")
    plot!(X, y_noisy, seriestype=:scatter, label="data")
 
    display(plt)
 
+.. figure:: img/linear_basis_1.png
+   :align: center
+
+   A polynomial function with noisy data.
+
+Fitting a polynomial to data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Fitting a linear model with basis functions means that we try to approximate our function with for example a polynomial
+:math:`p(x)=ax^5+bx^4+cx^3+dx^2+ex+f`. We fit this model to the data in a least squares sense, which works since the model
+is linear in the coefficients :math:`a,b,c,d,e,f`, even though non-linear in the data :math:`x`. The degree of the polynomial needed
+to get a good fit is not known in advance but for this illustration we pick the same degree (5) as when generating the data.
+
+.. code-block:: julia
+
+   using Plots, GLM, DataFrames
+
+   # try this polynomial
+   X = range(-6, 6, length=40)
+   y = X.^5 .- 34*X.^3 .+ 225*X
+   y_noisy = y .+ randn(40,)
+
+   plt = plot(X, y, label="polynomial")
+   plot!(X, y_noisy, seriestype=:scatter, label="data")
+
    df = DataFrame(cX=X, cy=y_noisy)
 
-   lm1 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+   lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+
+   y_pred = predict(lm3)
+
+   plot!(X, y_pred, label="predicted")
+
+   display(plt)
 
 .. code-block:: text
 
@@ -166,10 +221,41 @@ It is straight forward to incorporate linear models with basis functions, that i
    cX           225.511        0.226822       994.22    <1e-76  225.05        225.972
    ───────────────────────────────────────────────────────────────────────────────────────
 
-.. figure:: img/linear_basis_1.png
+.. figure:: img/linear_basis_1_pred.png
    :align: center
 
    Fitting a polynomial to data.
+
+Exercises
+---------
+
+Using basis functions
+^^^^^^^^^^^^^^^^^^^^^
+
+.. exercise:: Changing hyperparameters
+
+   Take a look at the code in example `Fitting a polynomial to data`_.
+   This fit is pretty tight.
+
+   - What happens if you increase the noise by say 100 times?
+   - What happens if if you use a degree 6 or 7 polynomial to fit the data instead?
+
+   .. solution::
+
+      You can change the following rows:
+
+      .. code-block:: julia
+
+         # y_noisy = y .+ randn(40,)
+	     y_noisy = y .+ 100*randn(40,)
+
+	     # lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+	     lm3 = lm(@formula(cy ~ cX^7 + cX^6 + cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+
+.. exercise:: Trigonometric basis functions
+
+   Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=cos(x)+cos(2x)`.
+   You can see the solution below.
 
 .. code-block:: julia
 
@@ -933,6 +1019,7 @@ Exercises
 .. exercise:: simple regression 1
 
    Run the code in the `Simple regression example`_ above and see what prediction errors you get.
+   Look through the code and think about what the various steps do.
 
 .. exercise:: simple regression 2a
 
@@ -1097,7 +1184,7 @@ Exercises
       model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
       Note the locally constant (step wise) behavior of the prediction.
-	  What happens to the prediction curve if you increase the number of data points?
+      What happens to the prediction curve if you increase the number of data points?
 
 .. exercise:: air foil continued
 
