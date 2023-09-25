@@ -82,6 +82,8 @@ Now let's plot the resulting prediction (green) together with the underlying lin
 
 .. code-block:: julia
 
+   using Plots, GLM, DataFrames
+
    X = Vector(range(0, 10, length=20))
    y = 5*X .+ 3.4
    y_noisy = @. 5*X + 3.4 + randn()
@@ -150,7 +152,7 @@ On top of that we add normally distributed noise.
 Linear models with basis functions
 ----------------------------------
 
-Using the package GLM, it is straight forward to incorporate linear models with basis functions,
+Using the package GLM, we can incorporate linear models with basis functions in a convenient way,
 that is to model a function as a linear combination of given non-linear functions such polynomials
 or trigonometric functions.
 
@@ -202,6 +204,8 @@ to get a good fit is not known in advance but for this illustration we pick the 
    plot!(X, y_pred, label="predicted")
 
    display(plt)
+
+   lm3
 
 .. code-block:: text
 
@@ -286,20 +290,23 @@ black cherry trees: girth, height and volume
 Exercises
 ---------
 
+Let us illustrate linear regression on real data sets. The first dataset comes from the RDatasets package
+and are data from chemical experiments for the production of formeldyhyde.
+The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
+
+Sources:
+
+  - Bennett, N. A. and N. L. Franklin (1954), Statistical Analysis in Chemistry and the Chemical Industry, New York: Wiley.
+  - McNeil, D. R. (1977), Interactive Data Analysis, New York: Wiley.
+
 .. exercise:: Formaldehyde example
 
-   Let us illustrate linear regression on real data sets.
-
-   The first dataset comes from the RDatasets package and are data from chemical experiments for the production of formeldyhyde. The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
-
-   Sources: Bennett, N. A. and N. L. Franklin (1954) Statistical Analysis in Chemistry and the Chemical Industry. New York: Wiley and McNeil, D. R. (1977) Interactive Data Analysis. New York: Wiley.
-
-   To load and plot the dataset, you can do:
+   To load the dataset, you can do:
 
    .. code-block:: julia
 
       using GLM, RDatasets, Plots
-	  df = dataset("datasets", "Formaldehyde")
+      df = dataset("datasets", "Formaldehyde")
 
    The columns of the dataframe are called `Carb` and `OptDen` for the ammount of Carbohydrate and Optical Density.
    You can plot the data as follows:
@@ -309,19 +316,21 @@ Exercises
       plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
       display(plt)
 
-   To model Density as a linear function of Carbohydrate you can do:
+   To model Density as a linear function of Carbohydrate you can do as follows.
+   The `predict` method is used to make model predictions.
 
    .. code-block:: julia
 
       model = fit(LinearModel, @formula(OptDen ~ Carb), df)
       y_pred = predict(model)
 
-   The `predict` method is used to make model predictions. To add the prediction to the plot you can do:
+   To add the prediction to the plot and print the model results you can do:
    
    .. code-block:: julia
    
       plot!(df.Carb, y_pred, label="model")
       display(plt)
+      model
 
    .. solution:: A suggestion
 
@@ -343,6 +352,8 @@ Exercises
 
          display(plt)
 
+         model
+
       .. figure:: img/linear_formaldehyde.png
          :align: center
 
@@ -353,6 +364,8 @@ Exercises
 
    - What happens if you increase the noise by say 100 times?
    - What happens if if you use a degree 6 or 7 polynomial to fit the data instead?
+
+   You can try the second experiment with the original noise level.
 
    .. solution::
 
