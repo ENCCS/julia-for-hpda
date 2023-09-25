@@ -1,7 +1,7 @@
 .. _regression:
 
-Regression, time-series prediction and analysis
-================================================
+Regression and time-series prediction
+=====================================
 
 .. questions::
 
@@ -286,7 +286,7 @@ black cherry trees: girth, height and volume
 Exercises
 ---------
 
-.. exercise:: Formaldhyde example
+.. exercise:: Formaldehyde example
 
    Let us illustrate linear regression on real data sets.
 
