@@ -297,35 +297,31 @@ Exercises
    To load and plot the dataset, you can do:
 
    .. code-block:: julia
-   
-      using GLM, RDatasets, Plots
 
+      using GLM, RDatasets, Plots
 	  df = dataset("datasets", "Formaldehyde")
 
    The columns of the dataframe are called `Carb` and `OptDen` for the ammount of Carbohydrate and Optical Density.
    You can plot the data as follows:
-   
+
    .. code-block:: julia
 
       plt = plot(df.Carb, df.OptDen, seriestype=:scatter, label="formaldehyde data")
-
       display(plt)
-   
+
    To model Density as a linear function of Carbohydrate you can do:
 
    .. code-block:: julia
-   
+
       model = fit(LinearModel, @formula(OptDen ~ Carb), df)
       y_pred = predict(model)
 
-   The `predict` method is used to make model predictions.
-
-   To add the prediction to the plot you can do:
+   The `predict` method is used to make model predictions. To add the prediction to the plot you can do:
    
    .. code-block:: julia
    
       plot!(df.Carb, y_pred, label="model")
-	  display(plt)
+      display(plt)
 
    .. solution:: A suggestion
 
