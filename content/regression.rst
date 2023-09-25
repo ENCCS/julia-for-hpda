@@ -247,53 +247,55 @@ Using basis functions
       .. code-block:: julia
 
          # y_noisy = y .+ randn(40,)
-	     y_noisy = y .+ 100*randn(40,)
+         y_noisy = y .+ 100*randn(40,)
 
-	     # lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
-	     lm3 = lm(@formula(cy ~ cX^7 + cX^6 + cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+         # lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+         lm3 = lm(@formula(cy ~ cX^7 + cX^6 + cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
 
 .. exercise:: Trigonometric basis functions
 
    Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=cos(x)+cos(2x)`.
    You can see the solution below.
 
-.. code-block:: julia
+   .. solution:: A suggestion.
 
-   # try a cosine combination
-   X = range(-6, 6, length=100)
-   y = cos.(X) .+ cos.(2*X)
-   y_noisy = y .+ 0.1*randn(100,)
+      .. code-block:: julia
 
-   plt = plot(X, y, label="waveform")
-   plot!(X, y_noisy, seriestype=:scatter, label="data")
+         # try a cosine combination
+         X = range(-6, 6, length=100)
+         y = cos.(X) .+ cos.(2*X)
+         y_noisy = y .+ 0.1*randn(100,)
 
-   display(plt)
+         plt = plot(X, y, label="waveform")
+         plot!(X, y_noisy, seriestype=:scatter, label="data")
 
-   df = DataFrame(X=X, y=y_noisy)
+         display(plt)
 
-   lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
+         df = DataFrame(X=X, y=y_noisy)
 
-.. code-block:: text
+         lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
 
-   StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
+      .. code-block:: text
 
-   y ~ 1 + :(cos(X)) + :(cos(2X)) + :(cos(3X)) + :(cos(4X))
+         StatsModels.TableRegressionModel{LinearModel{GLM.LmResp{Vector{Float64}}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
 
-   Coefficients:
-   ────────────────────────────────────────────────────────────────────────────
-                     Coef.  Std. Error      t  Pr(>|t|)    Lower 95%  Upper 95%
-   ────────────────────────────────────────────────────────────────────────────
-   (Intercept)   0.0130408   0.0108222   1.21    0.2312  -0.00844393  0.0345256
-   cos(X)        0.981561    0.015653   62.71    <1e-78   0.950486    1.01264
-   cos(2X)       0.984984    0.0156219  63.05    <1e-78   0.953971    1.016
-   cos(3X)      -0.0135547   0.015573   -0.87    0.3863  -0.044471    0.0173616
-   cos(4X)       0.0148532   0.0155105   0.96    0.3407  -0.015939    0.0456454
-   ────────────────────────────────────────────────────────────────────────────
+         y ~ 1 + :(cos(X)) + :(cos(2X)) + :(cos(3X)) + :(cos(4X))
 
-.. figure:: img/linear_basis_2.png
-   :align: center
+         Coefficients:
+      ────────────────────────────────────────────────────────────────────────────
+                        Coef.  Std. Error      t  Pr(>|t|)    Lower 95%  Upper 95%
+      ────────────────────────────────────────────────────────────────────────────
+      (Intercept)   0.0130408   0.0108222   1.21    0.2312  -0.00844393  0.0345256
+      cos(X)        0.981561    0.015653   62.71    <1e-78   0.950486    1.01264
+      cos(2X)       0.984984    0.0156219  63.05    <1e-78   0.953971    1.016
+      cos(3X)      -0.0135547   0.015573   -0.87    0.3863  -0.044471    0.0173616
+      cos(4X)       0.0148532   0.0155105   0.96    0.3407  -0.015939    0.0456454
+      ────────────────────────────────────────────────────────────────────────────
 
-   Fitting trigonomtric functions to data.
+   .. figure:: img/linear_basis_2.png
+      :align: center
+
+      Fitting trigonomtric functions to data.
 
 Linear regression on real data
 ------------------------------
