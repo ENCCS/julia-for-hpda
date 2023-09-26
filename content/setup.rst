@@ -5,6 +5,9 @@ A number of Julia packages is used in this lesson. These can be installed on-the
 during a workshop, but you can also follow the instructions below to install all packages 
 in your global Julia environment.
 
+Creating an environment (optional)
+----------------------------------
+
 Copy-paste the following text into a file called Project.toml, which 
 you can for example place under a new directory `julia` in your home directory:
 
@@ -80,6 +83,30 @@ After it completes you should be able to list all installed packages:
    # [860ef19b] StableRNGs v1.0.0
    # [2913bbd2] StatsBase v0.34.0
    # [ade2ca70] Dates
+
+Activating your environment in VS Code
+-------------------------------------
+
+When using Visual Studio Code for julia development and using your own environment,
+you need to activate it. Start a Julia REPL in VS Code, for example by runnig a script.
+Start the package mode by typing ``]``. Typically you will be in the stardard environment v1.9:
+
+.. code-block:: julia
+
+   (@v1.9) pkg>
+
+To activate another environment, type
+
+.. code-block:: julia
+
+   (@v1.9) pkg>activate path-to-projectfile
+
+where you specify the path to the directory where you put your Project.toml file.
+
+The same procedure applies when running Julia from the terminal and you want to switch
+enviroments. For example, if you start Julia from the terminal by simply typing ``julia``
+(without the ``--project`` argument) you will end up in the standard environment and can
+switch enviroment as described above.
 
 Manual installation and updates
 -------------------------------
