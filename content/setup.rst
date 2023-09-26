@@ -101,7 +101,7 @@ After it completes you should be able to list all installed packages:
    # [ade2ca70] Dates
 
 Activating your environment in VS Code
--------------------------------------
+--------------------------------------
 
 When using Visual Studio Code for julia development and using your own environment,
 you need to activate it. Start a Julia REPL in VS Code, for example by runnig a script.
