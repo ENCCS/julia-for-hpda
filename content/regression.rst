@@ -513,7 +513,20 @@ In this section we will have a look at non-linear regression methods.
 Climate data
 ^^^^^^^^^^^^
 
-Now we will consider the problem of predicting one of the climate variables from the others, for example temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a neural network in Julia using the package Flux.
+Now we will consider the problem of predicting one of the climate variables from the others, for example
+temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a
+neural network in Julia using the package Flux.
+
+.. info:: Some terminology relating to neural networks
+
+   Neural networks can be used to approximate non-linear functions. We difine the newtwork as a chain (composition)
+   of so-called dense layers. The performance of the network on the training data is measured in terms of the loss
+   function. In our case this is the mean squared error (mse), which is an anaolog of the sum of squares error
+   used in linear regression. The square root of the mean squared error is called root mean squared error (rmse).
+   The training of the network is the process of minimizing the loss function. Here, this is done with the
+   gradient descent method using an optimizer (in this case ADAM). Gradient descent is an iterative method
+   which repeatedly takes a step in the negative gradient direction of the loss function. Each such iteration
+   is known as an epoch.
 
 .. code-block:: julia
 
@@ -521,7 +534,7 @@ Now we will consider the problem of predicting one of the climate variables from
    using MLJ: shuffle, partition
    using Flux: train!
 
-   data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    df = CSV.read(data_path, DataFrame)
 
    # clean up data
@@ -668,7 +681,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
    using MLJ: shuffle, partition
    using Flux: train!
 
-   data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    df = CSV.read(data_path, DataFrame)
 
    # clean up data
@@ -676,7 +689,8 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
    topredict = "mean temp"
    y = df.meantemp
-   X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
+   X = [df.humidity df.wind_speed df.meanpressure]
+   # X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
 
    z = eachindex(y)
 
@@ -698,7 +712,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
        Z_train = [ones(size(X_train,1)) X_train]
 
        y_pred_train = predict(model, Z_train)
-       y_train = y_train[:,1]
+       # y_train = y_train[:,1]
 
        plt = scatter(train, y_train, title="Linear model of "*topredict, label="data train")
        scatter!(train, y_pred_train, label="prediction train")
@@ -706,7 +720,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
        Z_test = [ones(size(X_test,1)) X_test]
 
        y_pred_test = predict(model, Z_test)
-       y_test = y_test[:,1]
+       # y_test = y_test[:,1]
 
        scatter!(test, y_test, label="data test")
        scatter!(test, y_pred_test, label="prediction test")
@@ -752,9 +766,9 @@ The fields of this data set are:
   * chord length (m),
   * free-stream velocity (m/s),
   * suction side displacement thickness (m),
-  * scaled sound pressure level (db),
+  * scaled sound pressure level (db).
 
-and we will consider the problem of predicting scaled sound pressure level from the others.
+We will consider the problem of predicting scaled sound pressure level from the others.
 
 .. code-block:: julia
 
@@ -1084,8 +1098,8 @@ Exercises
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
 
-Simple Fourier based models (extra material)
---------------------------------------------
+Some Fourier based models (extra material)
+------------------------------------------
 
 In the exercises above you fitted trigometric basis functions to data using a linear model.
 
