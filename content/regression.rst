@@ -454,7 +454,7 @@ blog post *Forecasting the weather with neural ODEs* found `here
 
 .. code-block:: julia
 
-   using DataFrames, CSV, DataFrames, Plots, Statistics
+   using DataFrames, CSV, Plots, Statistics
 
    # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    # full path to data files
@@ -477,7 +477,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
 .. code-block:: julia
 
-   using DataFrames, CSV, DataFrames, Plots, Statistics
+   using DataFrames, CSV, Plots, Statistics
 
    # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    # full path to data files
@@ -491,6 +491,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    # remove mean pressures above 1050 hPa and below 950 hPa
    pressure_mod = [ abs(x-1000) < 50 ? x : NaN for x in df_train.meanpressure]
+   # pressure_mod = [ (950 < x) & (x < 1050) ? x : NaN for x in df_train.meanpressure]
 
    Mmod = [df_train.meantemp df_train.humidity df_train.wind_speed pressure_mod]
 
@@ -516,7 +517,7 @@ Now we will consider the problem of predicting one of the climate variables from
 
 .. code-block:: julia
 
-   using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, Flux, StatsBase
+   using DataFrames, CSV, Plots, Statistics, Dates, GLM, Flux, StatsBase
    using MLJ: shuffle, partition
    using Flux: train!
 
@@ -528,7 +529,11 @@ Now we will consider the problem of predicting one of the climate variables from
 
    topredict = "mean temp"
    y = df.meantemp
-   X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
+   mhumid = mean(df.humidity)
+   mspeed = mean(df.wind_speed)
+   mpress = mean(df.meanpressure)
+   X = [(df.humidity .- mhumid) (df.wind_speed .- mspeed) (df.meanpressure .- mpress)]
+   # X = [(df.humidity .- 50) (df.wind_speed .- 5) (df.meanpressure .- 1000)]
 
    # can convert data to Float32
    # aviods Warning and faster training
@@ -614,13 +619,13 @@ Now we will consider the problem of predicting one of the climate variables from
 
 .. code-block:: text
 
-   Epoch: 997, rmse train/test: 2.401997981277437 2.933315445135163
-   Epoch: 998, rmse train/test: 2.4018819530994313 2.933265840346145
-   Epoch: 999, rmse train/test: 2.40176617679199 2.9332149025558074
-   Epoch: 1000, rmse train/test: 2.401650646723321 2.9331655702024872
+   Epoch: 997, rmse train/test: 2.5457162727794627 2.976820601944131
+   Epoch: 998, rmse train/test: 2.5455743026361106 2.976745963344427
+   Epoch: 999, rmse train/test: 2.5454323141134845 2.9766709624395236
+   Epoch: 1000, rmse train/test: 2.545290506223516 2.976596231134482
    mean temp
-   rmse train: 2.401650646723321
-   rmse_test: 2.9331655702024872
+   rmse train: 2.545290506223516
+   rmse_test: 2.976596231134482
 
 It is interesting to animate the predictions during the training of the neural network. This will also give us a quick look at animation in Julia.
 
@@ -659,7 +664,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
 .. code-block:: julia
 
-   using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, Flux, StatsBase
+   using DataFrames, CSV, Plots, Statistics, Dates, GLM, Flux, StatsBase
    using MLJ: shuffle, partition
    using Flux: train!
 
