@@ -446,8 +446,9 @@ Loading data
 
 We will now have a look at a climate data set containing daily mean
 temperature, humidity, wind speed and mean pressure at a location in
-Dehli India over a period of several years. In the context of the
-Dehli dataset we have borrowed some elements of Sebastian Callh's personal
+Dehli India over a period of several years. The data set is available
+`here <https://www.kaggle.com/datasets/sumanthvrao/daily-climate-time-series-data/>`_.
+In the context of the Dehli dataset we have borrowed some elements of Sebastian Callh's personal
 blog post *Forecasting the weather with neural ODEs* found `here
 <https://sebastiancallh.github.io/post/neural-ode-weather-forecast/>`_.
 
@@ -455,10 +456,10 @@ blog post *Forecasting the weather with neural ODEs* found `here
 
    using DataFrames, CSV, DataFrames, Plots, Statistics
 
+   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    # full path to data files
    # uploaded in julia-for-hpda/content/data
-   df_train = CSV.read("C:/Users/username/DailyDelhiClimateTrain.csv", DataFrame)
-   df_test = CSV.read("C:/Users/username/DailyDelhiClimateTest.csv", DataFrame)
+   df_train = CSV.read(data_path, DataFrame)
    df_train
 
    M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
@@ -478,10 +479,10 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    using DataFrames, CSV, DataFrames, Plots, Statistics
 
+   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    # full path to data files
    # uploaded in julia-for-hpda/content/data
-   df_train = CSV.read("C:/Users/username/DailyDelhiClimateTrain.csv", DataFrame)
-   df_test = CSV.read("C:/Users/username/DailyDelhiClimateTest.csv", DataFrame)
+   df_train = CSV.read(data_path, DataFrame)
 
    M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
 
@@ -519,7 +520,8 @@ Now we will consider the problem of predicting one of the climate variables from
    using MLJ: shuffle, partition
    using Flux: train!
 
-   df = CSV.read("C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv", DataFrame)
+   data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   df = CSV.read(data_path, DataFrame)
 
    # clean up data
    df[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df.meanpressure) for x in df.meanpressure]
@@ -661,7 +663,8 @@ Let us also check how well a linear model is doing in this case. It turns out it
    using MLJ: shuffle, partition
    using Flux: train!
 
-   df = CSV.read("C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv", DataFrame)
+   data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   df = CSV.read(data_path, DataFrame)
 
    # clean up data
    df[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df.meanpressure) for x in df.meanpressure]
@@ -1201,7 +1204,10 @@ Since the climate data is periodic we may attempt a simple model based on Fourie
 
 .. code-block:: julia
 
-   using Dates
+   using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, StatsBase
+
+   data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   df = CSV.read(data_path, DataFrame)
 
    # clean up data
    df_train[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df_train.meanpressure) for x in df_train.meanpressure]
