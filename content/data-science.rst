@@ -128,7 +128,7 @@ Save environment
 
    This will display the list of packages in the current environment along with their versions1.
 
-   To save the state of your environment, Julia uses two files: ``Project.toml and ``Manifest.toml``.
+   To save the state of your environment, Julia uses two files: ``Project.toml`` and ``Manifest.toml``.
    The ``Project.tom`` file specifies the packages that you explicitly added to your environment,
    while the ``Manifest.toml`` file records the exact versions of these packages and all their dependencies1.
 
