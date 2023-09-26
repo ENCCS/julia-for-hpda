@@ -806,10 +806,10 @@ We will consider the problem of predicting scaled sound pressure level from the 
 
    # non-linear model
 
-   # what does colname -> true do?
-   y, X = unpack(df, ==(y_column), colname -> true)
-   X = MLJ.transform(MLJ.fit!(machine(Standardizer(), X)), X)
-   train, test = partition(collect(eachindex(y)), 0.7, shuffle=true);
+   X = df[:, X_columns]
+   y = df[:,y_column]
+   # X = MLJ.transform(MLJ.fit!(machine(Standardizer(), X)), X)
+   train, test = partition(eachindex(y), 0.7, shuffle=true)
 
    model_class = @load DecisionTreeRegressor pkg=DecisionTree
    # model_class = @load RandomForestRegressor pkg=DecisionTree
@@ -846,7 +846,7 @@ To illustrate more usages of MLJ and various regression models consider the foll
 
 .. code-block:: julia
 
-   using MLJ, Flux, MLJFlux, DataFrames
+   using MLJ, DataFrames
    import MLJDecisionTreeInterface
    import MLJScikitLearnInterface
    using Plots
@@ -861,11 +861,10 @@ To illustrate more usages of MLJ and various regression models consider the foll
 
    X = DataFrame(cX=X)
 
-   train, test = MLJ.partition(collect(eachindex(y)), train_frac, shuffle=true);
+   train, test = MLJ.partition(eachindex(y), train_frac, shuffle=true);
 
    # model_class = @load DecisionTreeRegressor pkg=DecisionTree
    # model_class = @load RandomForestRegressor pkg=DecisionTree
-   # model_class = @load NeuralNetworkRegressor pkg=MLJFlux # seems to have only one layer as a default
    model_class = @load GaussianProcessRegressor pkg=MLJScikitLearnInterface
 
    model = model_class()
@@ -997,8 +996,8 @@ Exercises
          # or a decision tree
          # model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
-      For some models you may have to import an MLJ interface such as
-      MLJDecisionTreeInterface which is done in the example code in this case.
+      For some models you may have to install the package mentioned or import
+      an MLJ interface (MLJDecisionTreeInterface, MLJScikitLearnInterface or similar).
 
       The list of models from above will be something like:
 
@@ -1097,6 +1096,9 @@ Exercises
       for model in models(matching(X, y))
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
+
+      For some models you may have to install the package mentioned or import
+      an MLJ interface (MLJDecisionTreeInterface, MLJScikitLearnInterface or similar).
 
 Some Fourier based models (extra material)
 ------------------------------------------
