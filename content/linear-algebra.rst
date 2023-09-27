@@ -537,8 +537,7 @@ recall here the notion of eigenvectors and eigenvalues of a square matrix
    A vector :math:`u \neq 0` is called an eigenvector of :math:`M`
    with eigenvalue :math:`\lambda` if :math:`Mu=\lambda u`. Let us for
    illustration say that :math:`\lambda=2`. Then the linear map :math:`M`
-   maps :math:`u` to a vector in the same direction as :math:`u` but twice
-   as long.
+   maps :math:`u` to a vector in the same direction but twice as long.
 
 Loading a dataset
 -----------------
@@ -575,7 +574,7 @@ it down to a smaller dimensional space.
    points are as close to the linear space as possible measured in the sum of
    squared distances. The approximating linear space is spanned by so-called
    principal components which are ordered in terms of imporance: the first
-   principal compoent, the second principal component and so on.
+   principal component, the second principal component and so on.
 
    It turns out the the principal compoenents are eigenvectors of the so-called
    covaraince matrix of the data. The corresponding eigenvalues rank the principal
@@ -610,19 +609,19 @@ Now compute the covariance matrix together with its eigenvectors and eigenvalues
    M = transpose(X)*X
    P = eigvecs(M)
    E = eigvals(M)
-   # divide E by size(X)[1]=150 to get variance
+   # divide E by r=150 to get variance
 
 .. code-block:: text
 
    4-element Vector{Float64}:
-      3.08651062786422
-     21.866774460125956
-    136.19054024874245
-    434.8561746632673
+      3.5514288530439346
+     11.65321550639499
+     36.1579414413664
+    630.0080141991946
 
 We see that the first eigenvalue is quite a bit smaller than for
 instance the last one. Our data lies approximately in a 3-dimensional
-subspace. Most of the variance in the dataset happens in this subspace.
+subspace. Most of the variance in the data set happens in this subspace.
 
 .. callout:: Eigenvectors
 
@@ -657,12 +656,12 @@ We may perform dimensionality reduction by projecting the data to this subspace:
 
 .. code-block:: julia
 
-   # projection of dataset onto orthonormal basis of eigenvectors
-   # for example three eigenvectors correspondng to the
+   # projection of data set onto orthonormal basis of eigenvectors
+   # for example three eigenvectors corresponding to the
    # three largest eigenvalues
    Xp = X*P[:,2:4]
 
-   # The following would result picking the three least important directions
+   # The following would result in picking the three least important directions
    # interesting comparison to do
    # Xp = X*P[:,1:3]
 
@@ -703,7 +702,7 @@ Exercises
 
 .. todo:: PCA
 
-   We will look at PCA for simple dataset in two dimensions.
+   We will look at PCA for a simple dataset in two dimensions.
    Generate data with a normal distribution as follows:
 
    .. code-block:: julia
@@ -730,7 +729,7 @@ Exercises
       M = X'*X
       P = eigvecs(M)
       E = eigvals(M)
-	  u = P[:,1]
+      u = P[:,1]
       v = P[:,2]
       e1 = E[1]
       e2 = E[2]
@@ -738,6 +737,7 @@ Exercises
    Now plot the data together with its principal components with green and red arrows as follows:
 
    .. code-block:: julia
+
       plt = plot(X[:,1], X[:,2], seriestype=:scatter, markersize=1, label="data", xlims=[-10,10], ylims=[-10,10], aspect_ratio=:equal)
       scale = 7
       plot!([0,scale*v[1]],[0,scale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
