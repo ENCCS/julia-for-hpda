@@ -570,8 +570,6 @@ normalize by dividing by the standard deviation:
    m = mean(X, dims=1)
    r = size(X)[1]
    X = X - ones(r,1)*m
-   s = ones(1, 4)./std(X, dims=1)
-   X = X.*s
 
 Now compute the covariance matrix together with its eigenvectors and eigenvalues:
 
@@ -580,6 +578,7 @@ Now compute the covariance matrix together with its eigenvectors and eigenvalues
    M = transpose(X)*X
    P = eigvecs(M)
    E = eigvals(M)
+   # divide E by size(X)[1]=150 to get variance
 
 .. code-block:: text
 
@@ -592,6 +591,21 @@ Now compute the covariance matrix together with its eigenvectors and eigenvalues
 We see that the first eigenvalue is quite a bit smaller than for
 instance the last one. Our data lies approximately in a 3-dimensional
 subspace. Most of the variance in the dataset happens in this subspace.
+
+.. info:: Eigenvectors
+
+   The eigenvectors of :math:`M` are only determined up to sign and implementations
+   vary. For reference we list the eigenvectors :math:`M` we got while running this example:
+
+   .. code-block:: text
+
+      4×4 Matrix{Float64}:
+        0.315487  -0.58203     0.656589  -0.361387
+       -0.319723   0.597911    0.730161   0.0845225
+       -0.479839   0.0762361  -0.173373  -0.856671
+        0.753657   0.545831   -0.075481  -0.358289
+
+   Your output may have some columns with the opposite sign.
 
 The basis :math:`P` of eigenvectors we got above is orthogonal and normalized:
 
@@ -620,13 +634,6 @@ We may perform dimensionality reduction by projecting the data to this subspace:
    # interesting comparison to do
    # Xp = X*P[:,1:3]
 
-   # in some implementations (Linux) eigenvectors
-   # P[:,2] and P[:,3] are flipped (ambigous)
-   # to get the same plot change signs
-   # Xp[:,1] = -Xp[:,1]
-   # Xp[:,2] = -Xp[:,2]
-   # write out P matrix in exercise/text.
-
 Plotting the result:
 
 .. code-block:: julia
@@ -646,7 +653,7 @@ Plotting the result:
 .. figure:: img/iris_scatter_plot.png
    :align: center
 
-   Scatter plot of the projected data.
+   Scatter plot of the projected data. The plot is affected by the choice of eigenvectors (signs).
 
 Exercises
 ---------
