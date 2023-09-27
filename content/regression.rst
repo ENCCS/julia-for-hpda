@@ -334,8 +334,6 @@ Sources:
 
    .. solution:: A suggestion
 
-      The whole script:
-
       .. code-block:: julia
 
          using GLM, RDatasets, Plots
@@ -402,8 +400,6 @@ Sources:
       lm1 = lm(@formula(y ~ 1 + cos(X) + cos(2*X) + cos(3*X) + cos(4*X)), df)
 
    .. solution:: A suggestion.
-
-      The script may look something like this:
 
       .. code-block:: julia
 

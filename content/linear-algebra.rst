@@ -744,18 +744,12 @@ Exercises
       plot!([0,scale*u[1]],[0,scale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
       display(plt)
 
-   Questions:
-
    - Is ``M*u`` equal to ``e1*u`` as it should? Is ``M*v`` equal to ``e2*v``?
    - Run the whole script a few times (you can copy the script from the solution below).
    - You might observe that the principal components are flipped from time to time when you rerun the script. Why is that?
    - Change the number of points to ``n = 100``. What happens with the principal components if you run the script a few times? 
 
-   The whole script is found below.
-
    .. solution:: The whole script
-
-      The whole script:
 
       .. code-block:: julia
 
@@ -816,12 +810,12 @@ Exercises
 
 .. todo:: Sparse matrix computations
 
-   Create a sparse 5000x5000-matrix S with roughly 5000 non-zero
-   elements uniformly distributed on [0,1]. Compute S^10 and time the
+   Create a sparse (5000x5000)-matrix S with roughly 5000 non-zero
+   elements uniformly distributed on [0,1]. Compute ``S^10`` and time the
    computation. Compare with S as a Matrix and a SparseMatrixCSC.
 
-   Recall that sparse :math:`(a,b)`-matrix matrices can be formed with
-   ``sprand(a,b,d)``, where ``d`` is the density.
+   Recall that sparse :math:`(a \times b)`-matrix matrices can be formed with
+   ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
 
    .. solution:: Here is a suggestion
 
