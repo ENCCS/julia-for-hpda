@@ -492,8 +492,8 @@ Distributions package.
    using Distributions
    m = [0,0,1.0] # mean
    S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
-   X = MvNormal(m, S) # multivariate normal distribution
-   rand(X) # sample
+   D = MvNormal(m, S) # multivariate normal distribution
+   rand(D) # sample
 
    # binomial and multinomial distribution
    Y = Binomial(10, 0.3)
@@ -658,11 +658,107 @@ Plotting the result:
 Exercises
 ---------
 
+.. todo:: Eigenvalues
+
+   We will look at PCA for simple dataset in two dimensions.
+   Generate data with a normal distribution as follows:
+
+   .. code-block:: julia
+
+      using Distributions, Plots, LinearAlgebra
+
+      n = 1000
+      m = [0.0, 0.0] # mean
+      S = [[2.0 1.0];[1.0 2.0]]
+      D = MvNormal(m, S) # multivariate normal distribution
+      X =rand(D, n)' # sample
+
+   Now plot your data:
+
+   .. code-block:: julia
+
+      plt = plot(X[:,1], X[:,2], seriestype=:scatter, markersize=1, label="data", xlims=[-10,10], ylims=[-10,10], aspect_ratio=:equal)
+      display(plt)
+
+   Compute the (scaled) covariance matrix of the data and its eigenvectors and eigenvalues:
+
+   .. code-block:: julia
+
+      M = X'*X
+      P = eigvecs(M)
+      E = eigvals(M)
+	  u = P[:,1]
+      v = P[:,2]
+      e1 = E[1]
+      e2 = E[2]
+
+   Now plot the data together with its principal components with green and red arrows as follows:
+
+   .. code-block:: julia
+      plt = plot(X[:,1], X[:,2], seriestype=:scatter, markersize=1, label="data", xlims=[-10,10], ylims=[-10,10], aspect_ratio=:equal)
+      scale = 7
+      plot!([0,scale*v[1]],[0,scale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
+      plot!([0,scale*u[1]],[0,scale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
+      display(plt)
+
+   -  Is `M*u` equal to `e1*u` as it should? Is `M*v` equal to `e2*v`?
+   -  Run the whole script a few times (you can copy the script from the solution below).
+   -  Change the number of points to `n = 100`. What happens with the principal components if you run the script a few times? 
+   -  When you run the whole script, you might observe that the principal components are flipped from time to time. Why is that?
+
+   .. solution:: The whole script
+
+      .. code-block:: julia
+
+         using Distributions, Plots, LinearAlgebra
+
+         n = 1000
+         m = [0.0, 0.0] # mean
+         S = [[2.0 1.0];[1.0 2.0]]
+         D = MvNormal(m, S) # multivariate normal distribution
+         X =rand(D, n)' # sample
+
+         # covariance matrix and eigenvectors
+         M = X'*X
+         P = eigvecs(M)
+         E = eigvals(M)
+
+         # eigenvectors and eigenvalues
+         u = P[:,1]
+         v = P[:,2]
+         e1 = E[1]
+         e2 = E[2]
+
+         # plot points
+         ls = [-10,10]
+         plt = plot(X[:,1], X[:,2], seriestype=:scatter, markersize=1, label="data", xlims=[-10,10], ylims=[-10,10], aspect_ratio=:equal)
+
+         # plot arrows, scale up the arrows for appearence
+         scale = 7
+         plot!([0,scale*v[1]],[0,scale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
+         plot!([0,scale*u[1]],[0,scale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
+         display(plt)
+
+         # are u and v really eigenvectors of M with eigenvalues E?
+         println(M*u, " # M*u")
+         println(e1*u, " # e1*u")
+         println()
+         println(M*v, " # M*v")
+         println(e2*v, " # e2*v")
+
+      .. figure:: img/pca_exercise.png
+         :align: center
+
+         Plots of the data and principal components.
+
 .. todo:: Sparse matrix computations
 
    Create a sparse 5000x5000-matrix S with roughly 5000 non-zero
    elements uniformly distributed on [0,1]. Compute S^10 and time the
    computation. Compare with S as a Matrix and a SparseMatrixCSC.
+
+   Recall that sparse :math:`(a,b)`-matrix matrices can be formed with
+   ``sprand(a,b,d)``, where ``d`` is the density.
 
    .. solution:: Here is a suggestion
 
