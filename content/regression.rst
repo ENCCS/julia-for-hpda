@@ -296,8 +296,8 @@ The data columns are ammount of Carbohydrate (ml) and Optical Density of a purpl
 
 Sources:
 
-  - Bennett, N. A. and N. L. Franklin (1954), Statistical Analysis in Chemistry and the Chemical Industry, New York: Wiley.
-  - McNeil, D. R. (1977), Interactive Data Analysis, New York: Wiley.
+- Bennett, N. A. and N. L. Franklin (1954), Statistical Analysis in Chemistry and the Chemical Industry, New York: Wiley.
+- McNeil, D. R. (1977), Interactive Data Analysis, New York: Wiley.
 
 .. todo:: Formaldehyde example
 

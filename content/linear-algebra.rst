@@ -744,10 +744,14 @@ Exercises
       plot!([0,scale*u[1]],[0,scale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
       display(plt)
 
-   -  Is ``M*u`` equal to ``e1*u`` as it should? Is ``M*v`` equal to ``e2*v``?
-   -  Run the whole script a few times (you can copy the script from the solution below).
-   -  Change the number of points to ``n = 100``. What happens with the principal components if you run the script a few times? 
-   -  When you run the whole script, you might observe that the principal components are flipped from time to time. Why is that?
+   Questions:
+
+   - Is ``M*u`` equal to ``e1*u`` as it should? Is ``M*v`` equal to ``e2*v``?
+   - Run the whole script a few times (you can copy the script from the solution below).
+   - You might observe that the principal components are flipped from time to time when you rerun the script. Why is that?
+   - Change the number of points to ``n = 100``. What happens with the principal components if you run the script a few times? 
+
+   Here is a solution.
 
    .. solution:: The whole script
 
@@ -796,8 +800,8 @@ Exercises
 
       Some answers/comments on the questions:
 
-      -  When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
-      -  Even when the number of points is 1000, the principal directions are only defined up to sign: that is why they may get flipped when you rerun the script.
+      - The principal directions are only defined up to sign: that is why they may get flipped when you rerun the script.
+      - When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
 
 .. todo::
 
@@ -806,7 +810,7 @@ Exercises
    .. code-block:: julia
 
       using Pkg
-	  Pkg.add("BenchmarkTools")
+      Pkg.add("BenchmarkTools")
 
 .. todo:: Sparse matrix computations
 
