@@ -248,11 +248,11 @@ Recall that matrices and vectors may be defined as follows:
 
    using LinearAlgebra
 
-   # define some column vectors
+   # define some row vectors
    v1 = [1.0, 2.0, 3.0]
    v2 = v1.^2
 
-   # combine column vectors into 3x3 matrix
+   # combine row vectors into 3x3 matrix
    A = [v1 v2 [7.0, 6.0, 5.0]]
 
    # another way to make matrices
@@ -266,7 +266,7 @@ Recall that matrices and vectors may be defined as follows:
 
    # ones
    ones(5) # [1,1,1,1,1]
-   zeros(5,5) # 5x5-matrix of ones
+   ones(5,5) # 5x5-matrix of ones
 
    # random matrix
    M = randn(5,5) # normally distributed 5x5-matrix
