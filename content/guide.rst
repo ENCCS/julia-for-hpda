@@ -28,13 +28,13 @@ Demonstrations, type-alongs and exercises
 -----------------------------------------
 
 The instructor walks through the material and demonstrates all the coding found 
-outside the special type-along boxes. It's important to not rush and to clearly 
+outside the special type-along `todo` boxes. It's important to not rush and to clearly 
 explain what is being written. It should be clear that learners are not expected 
 to type-along during these sessions. The instructor can either type things out or 
 copy-paste from the code blocks.
 
-Some episodes have type-along sections demarkated with light-green boxes with a keyboard
-emoji. It should be clearly explained that learners are expected to type-along during 
+Some episodes have `todo` sections demarkated with light-violet boxes.
+It should be clearly explained that learners are expected to type-along during 
 these sessions. Here's it's better for the instructor to type things out rather than 
 copy-pasting everything, although larger code blocks should be copy-pasted to avoid 
 error-prone and boring typing.
