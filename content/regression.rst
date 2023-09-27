@@ -299,7 +299,7 @@ Sources:
   - Bennett, N. A. and N. L. Franklin (1954), Statistical Analysis in Chemistry and the Chemical Industry, New York: Wiley.
   - McNeil, D. R. (1977), Interactive Data Analysis, New York: Wiley.
 
-.. exercise:: Formaldehyde example
+.. todo:: Formaldehyde example
 
    To load the dataset, you can do:
 
@@ -357,7 +357,7 @@ Sources:
       .. figure:: img/linear_formaldehyde.png
          :align: center
 
-.. exercise:: Changing hyperparameters
+.. todo:: Changing hyperparameters
 
    Take a look at the code in example `Fitting a polynomial to data`_.
    This fit is pretty tight.
@@ -379,7 +379,7 @@ Sources:
          # lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
          lm3 = lm(@formula(cy ~ cX^7 + cX^6 + cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
 
-.. exercise:: Trigonometric basis functions
+.. todo:: Trigonometric basis functions
 
    Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=cos(x)+cos(2x)`.
    Here is a snippet that generates data for this example:
@@ -908,12 +908,12 @@ To illustrate more usages of MLJ and various regression models consider the foll
 Exercises
 ---------
 
-.. exercise:: simple regression 1
+.. todo:: simple regression 1
 
    Run the code in the `Simple regression example`_ above and see what prediction errors you get.
    Look through the code and think about what the various steps do.
 
-.. exercise:: simple regression 2a
+.. todo:: simple regression 2a
 
    In the `Simple regression example`_, experiment with the settings to change the sampling frequency,
    level of noise imposed on the data and fraction of the data that is used for training
@@ -929,7 +929,7 @@ Exercises
          noise_level = 0.1
          train_frac = 0.7
 
-.. exercise:: simple regression 2b
+.. todo:: simple regression 2b
 
    In the `Simple regression example`_, reset the settings:
 
@@ -956,7 +956,7 @@ Exercises
       It seems like the prediction gets really bad when the training fraction is below 0.2 but if we add more points
       we have enough data to get a good predicition.
 
-.. exercise:: simple regression 3
+.. todo:: simple regression 3
 
    In the `Simple regression example`_, make your own synthetic data set and try it out in the script. The performance will depend a lot on the data and the model.
 
@@ -970,7 +970,7 @@ Exercises
          # with your own function, for example
          y = cos.(X) .+ sin.(2*X).^2 .+ 0.01*X.^3
 
-.. exercise:: simple regression 4
+.. todo:: simple regression 4
 
    Try some other models to train on the data from the `Simple regression example`_.
    To see a list of available models one can outcomment the following lines.
@@ -1063,7 +1063,7 @@ Exercises
          Model Name: TheilSenRegressor , Package: ScikitLearn
          Model Name: XGBoostRegressor , Package: XGBoost
 
-.. exercise:: simple regression 5
+.. todo:: simple regression 5
 
    In the `Simple regression example`_, try the
    `decision tree <https://en.wikipedia.org/wiki/Decision_tree_learning>`_ model:
@@ -1078,7 +1078,7 @@ Exercises
       Note the locally constant (step wise) behavior of the prediction.
       What happens to the prediction curve if you increase the number of data points?
 
-.. exercise:: air foil continued
+.. todo:: air foil continued
 
    Return to the `Airfoil data set`_ example above and run the code for it.
 
