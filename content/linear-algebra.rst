@@ -658,6 +658,16 @@ Plotting the result:
 Exercises
 ---------
 
+.. typealong::
+
+   To do the exercsises you need the packages Plots and Distributions.
+
+   .. code-block:: julia
+
+      using Pkg
+	  Pkg.add("Plots")
+	  Pkg.add("Distributions")
+
 .. todo:: Eigenvalues
 
    We will look at PCA for simple dataset in two dimensions.
@@ -756,6 +766,15 @@ Exercises
 	  -  When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
 	  -  Even when the number of points is 1000, the principal directions are only defined up to sign: that is why they may get flipped when you rerun the script.
 
+.. callout::
+
+   To do the next exercsise you need the package BenchmarkTools.
+
+   .. code-block:: julia
+
+      using Pkg
+	  Pkg.add("BenchmarkTools")
+
 .. todo:: Sparse matrix computations
 
    Create a sparse 5000x5000-matrix S with roughly 5000 non-zero
@@ -786,6 +805,9 @@ Exercises
 
          545.400 μs (29 allocations: 806.98 KiB)
          6.343 s (8 allocations: 762.94 MiB)
+
+Extra exercises
+---------------
 
 The following exercise is adapted from the `Julia language companion
 <https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf>`_ of
@@ -892,8 +914,6 @@ linear dependence has been detected and we return
          # test span with numerical rank, should be 3
          rank(N)
 
-Extra exercises
----------------
 
 .. todo:: Matrix factorizations
 
