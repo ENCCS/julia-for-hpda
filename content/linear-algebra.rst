@@ -548,12 +548,44 @@ To obtain the data we use the RDatasets package:
    using DataFrames, LinearAlgebra, Statistics, RDatasets, Plots
    df = dataset("datasets", "iris")
 
+Eigenvectors and eigenvalues
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Below we will discuss Principal Component Analysis and in that context we
+recall here the notion of eigenvectors and eigenvalues of a square matrix
+:math:`M`.
+
+.. callout::
+   A vector :math:`u \neq 0` is called an eigenvector of :math:`M`
+   with eigenvalue :math:`\lambda` if :math:`Mu=\lambda u`. Let us for
+   illustration say that :math:`\lambda=2`. Then the linear map :math:`M`
+   maps :math:`u` to a vector in the same direction as :math:`u` but twice
+   as long.
+
 Principal Component Analysis (PCA)
 ----------------------------------
 
+PCA can be used for reducing the dimension of your data set by projecting
+it down to a smaller dimensional space.
+
+.. callout::
+   More in detail, PCA finds the best linear space of a specified dimension
+   that approximates the dataset in a least squares sense. This means that the
+   points are as close to the linear space as possible measured in the sum of
+   squared distances. The approximating linear space is spanned by so-called
+   principal components which are ordered in terms of imporance: the first
+   principal compoent, the second principal component and so on.
+
+   It turns out the the principal compoenents are eigenvectors of the so-called
+   covaraince matrix of the data. The corresponding eigenvalues rank the principal
+   components in importance, where the biggest eigenvalue marks the first principal
+   component.
+
 We will now illustrate how PCA can be performed on the iris
 dataset. For illutrative purposes we will do this explicitly using
-linear algebra operations. First extract the first four columns
+linear algebra operations.
+
+First extract the first four columns of the data set
 (the features described above) as well as the labels separately:
 
 .. code-block:: julia
@@ -562,8 +594,7 @@ linear algebra operations. First extract the first four columns
    X = Matrix(Xdf)
    y = df[:,5]
 
-Firt we center the data by substracting the mean and in addition we
-normalize by dividing by the standard deviation:
+Firt we center the data by substracting the mean:
 
 .. code-block:: julia
 
