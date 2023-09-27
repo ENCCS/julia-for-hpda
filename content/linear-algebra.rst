@@ -658,7 +658,7 @@ Plotting the result:
 Exercises
 ---------
 
-.. typealong::
+.. todo::
 
    To do the exercsises you need the packages Plots and Distributions.
 
@@ -766,7 +766,7 @@ Exercises
 	  -  When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
 	  -  Even when the number of points is 1000, the principal directions are only defined up to sign: that is why they may get flipped when you rerun the script.
 
-.. callout::
+.. todo::
 
    To do the next exercsise you need the package BenchmarkTools.
 
