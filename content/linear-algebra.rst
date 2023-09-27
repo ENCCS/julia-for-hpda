@@ -751,6 +751,11 @@ Exercises
 
          Plots of the data and principal components.
 
+      Some answers/comments on the questions:
+
+	  -  When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
+	  -  Even when the number of points is 1000, the principal directions are only defined up to sign: that is why they may get flipped when you rerun the script.
+
 .. todo:: Sparse matrix computations
 
    Create a sparse 5000x5000-matrix S with roughly 5000 non-zero
