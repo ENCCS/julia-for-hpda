@@ -751,9 +751,11 @@ Exercises
    - You might observe that the principal components are flipped from time to time when you rerun the script. Why is that?
    - Change the number of points to ``n = 100``. What happens with the principal components if you run the script a few times? 
 
-   Here is a solution.
+   The whole script is found below.
 
    .. solution:: The whole script
+
+      The whole script:
 
       .. code-block:: julia
 
