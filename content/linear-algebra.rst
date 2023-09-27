@@ -592,7 +592,7 @@ We see that the first eigenvalue is quite a bit smaller than for
 instance the last one. Our data lies approximately in a 3-dimensional
 subspace. Most of the variance in the dataset happens in this subspace.
 
-.. info:: Eigenvectors
+.. callout:: Eigenvectors
 
    The eigenvectors of :math:`M` are only determined up to sign and implementations
    vary. For reference we list the eigenvectors :math:`M` we got while running this example:
