@@ -128,59 +128,6 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    ones(5) # [1,1,1,1,1]
    ones(5,5) # 5x5-matrix of ones
 
-Random and sparse matrices
---------------------------
-
-To form random matrices we can use standard library functions.
-
-.. code-block:: julia
-
-   # random matrices
-   rand() # uniformly distributed random number in [0,1]
-   rand(5) # uniform 5-vector
-   rand(5,5) # uniform 5x5-matrix
-   randn(10) # normally distributed 10-vector
-
-For a wider array of distributions we can use the package Distributions.
-
-.. code-block:: julia
-
-   using Distributions
-
-   m = [0,0,1.0] # mean
-   S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
-   D = MvNormal(m, S) # multivariate normal distribution
-   rand(D) # sample
-
-Sparse matrices (lots of zeros) and effective operations on them
-can be done using the SparseArrays package.
-
-.. code-block:: julia
-
-   using SparseArrays
-
-   # 100x100-matrix with density 10% (non-zero elements)
-   M = rand(100,100) .< 0.1
-   S = sparse(M) # SparseMatrixCSC
-
-   typeof(M) # BitMatrix (alias for BitArray{2})
-   typeof(S) # SparseMatrixCSC{Bool, Int64}
-
-   # 100x100-matrix with density 10%, as sparse matrix directly
-   S = sprand(100, 100, 0.1)
-
-To benchmark and time computations we can use the BenchmarkTools package.
-
-.. code-block:: julia
-
-   using BenchmarkTools
-
-   # @time includes compilation time and garbage collection
-   @time M^2;
-
-   # @btime does not includes compilation time
-   @btime M^2;
-
 Eigenvectors and eigenvalues
 ----------------------------
 
@@ -380,7 +327,7 @@ Exercises
       m = [0.0, 0.0] # mean
       S = [[2.0 1.0];[1.0 2.0]]
       D = MvNormal(m, S) # multivariate normal distribution
-      X =rand(D, n)' # sample
+      X = rand(D, n)' # sample
 
    Now plot your data:
 
@@ -468,12 +415,78 @@ Exercises
 
 .. todo::
 
+   Try the following code lines to form random matrices
+   using  standard library functions.
+
+   .. code-block:: julia
+
+      # random matrices
+      rand() # uniformly distributed random number in [0,1]
+      rand(5) # uniform 5-vector
+      rand(5,5) # uniform 5x5-matrix
+      randn(10) # normally distributed 10-vector
+
+.. todo::
+
+   For random matrices from a wider array of distributions we can use the package Distributions.
+
+   Try the following code where D is a multivariate normal 3-vector.
+
+   .. code-block:: julia
+
+      using Distributions
+
+      m = [0,0,1.0] # mean
+      S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
+      D = MvNormal(m, S) # multivariate normal distribution
+      rand(D) # sample
+
+.. todo::
+
+   Sparse matrices (lots of zeros) and effective operations on them
+   can be done using the SparseArrays package.
+
+   .. code-block:: julia
+
+      using SparseArrays
+
+      # 100x100-matrix with density 10% (non-zero elements)
+      M = rand(100,100) .< 0.1
+      S = sparse(M) # SparseMatrixCSC
+
+      typeof(M) # BitMatrix (alias for BitArray{2})
+      typeof(S) # SparseMatrixCSC{Bool, Int64}
+
+      # 100x100-matrix with density 10%, as sparse matrix directly
+      S = sprand(100, 100, 0.1)
+
+.. todo::
+
    To do the next exercsise you need the package BenchmarkTools.
 
    .. code-block:: julia
 
       using Pkg
       Pkg.add("BenchmarkTools")
+
+.. todo::
+
+   To benchmark and time computations we can use the BenchmarkTools package.
+   Try this with the following code.
+
+   .. code-block:: julia
+
+      using BenchmarkTools
+
+      # 100x100-matrix with of zeros and ones
+	  # rougly 10% non-zero elements
+      M = rand(100,100) .< 0.1
+
+      # @time includes compilation time and garbage collection
+      @time M^2;
+
+      # @btime does not includes compilation time
+      @btime M^2;
 
 .. todo:: Sparse matrix computations
 
