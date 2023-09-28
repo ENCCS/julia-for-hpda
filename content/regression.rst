@@ -351,17 +351,17 @@ black cherry trees: girth, height and volume
       L_train = df[rows_train,:]
       L_test = df[rows_test,:]
 
-   It is reasonable to try to fit the logarithm om volume as a linear function of
+   It is reasonable to try to fit the logarithm of volume as a linear function of
    the logarithm of the height and logarithm of the girth. This is because the
    volume is presumably proportional to the height times the girth squared.
 
    .. code-block:: julia
 
-      # reasonable to look at logarithms since can expect something like V~h*g^2 and
+      # reasonable to look at logarithms since we can expect something like V~h*g^2 and
       # log V = constant + log h + 2log g
       model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
 
-   Lastly, make predicitons on the training set according to the model and compute the
+   Lastly, make predictions on the training set according to the model and compute the
    root mean squared error of the prediction.
 
    .. code-block:: julia
@@ -372,7 +372,7 @@ black cherry trees: girth, height and volume
       # Root Mean Squared Error
       rmse = sqrt(sum((exp.(y_pred) - Z.Volume).^2)/size(Z)[1])
 
-   .. solution The whole script
+   .. solution:: The whole script
 
       .. code-block:: julia
 
