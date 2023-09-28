@@ -27,7 +27,7 @@ and vectors in Julia and how to perform vector operations.
    1:10
 
    # another way to make ranges
-   range(0, 10)
+   range(1, 10)
 
    # forming vectors
    a = [1,2,3,4]
@@ -50,6 +50,9 @@ To perform element wise computations we can use the dot notation (similar to Mat
 
    # same as vector addition
    a .+ b
+
+   # element wise product
+   a.*b
 
    # applying functions
    sin(a) # MethodError
@@ -99,17 +102,18 @@ Matrices can be formed and matrix operations performed in a way similar to Matla
    A^3
 
    # transpose
-   transpose(B)
-   B'
+   transpose(A)
+   A'
 
 Picking out elements or parts of vectors and matrices can be done with sclicing as in Python or Matlab.
 
 .. code-block:: julia
 
    # extract elements from vector
-   a[1] # first element
-   a[2] # second element
-   a[2:4] # range
+   u = [2,3,5,7]
+   u[1] # first element
+   u[2] # second element
+   u[2:4] # range
 
    # slicing
    A[2,3]
@@ -130,8 +134,6 @@ Random and sparse matrices
 To form random matrices we can use standard library functions.
 
 .. code-block:: julia
-
-   using Distributions
 
    # random matrices
    rand() # uniformly distributed random number in [0,1]
@@ -189,9 +191,20 @@ recall here the notion of eigenvectors and eigenvalues of a square matrix
 .. callout::
 
    A vector :math:`u \neq 0` is called an eigenvector of :math:`M`
-   with eigenvalue :math:`\lambda` if :math:`Mu=\lambda u`. Let us for
-   illustration say that :math:`\lambda=2`. Then the linear map :math:`M`
-   maps :math:`u` to a vector in the same direction but twice as long.
+   with eigenvalue :math:`\lambda \in \mathbb{R}` if :math:`Mu=\lambda u`.
+   Let us for illustration say that :math:`\lambda=2`. Then
+   :math:`Mu=2u` and the linear map :math:`M` maps :math:`u` to a vector
+   in the same direction but twice as long.
+
+Eigenvectors and eigenvalues can be computed with the LinearAlgebra package:
+
+.. code-block:: julia
+
+   using LinearAlgebra
+
+   A = [1 2 3;4 5 6;7 8 9]
+   eigvecs(A)
+   eigvals(A)
 
 Loading a dataset
 -----------------
@@ -331,7 +344,7 @@ Plotting the result:
    plt = plot(setosa[1,:],setosa[2,:],setosa[3,:], seriestype=:scatter, label="setosa")
    plot!(versicolor[1,:],versicolor[2,:],versicolor[3,:], seriestype=:scatter, label="versicolor")
    plot!(virginica[1,:],virginica[2,:],virginica[3,:], seriestype=:scatter, label="virginica")
-   plot!(xlabel="PC1", ylabel="PC2", zlabel="PC3")
+   plot!(xlabel="PC3", ylabel="PC2", zlabel="PC1")
 
    display(plt)
 
