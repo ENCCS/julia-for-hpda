@@ -178,515 +178,6 @@ To benchmark and time computations we can use the BenchmarkTools package.
    @btime M^2;
 
 
-List comprehension, slicing and vectorization
----------------------------------------------
-
-To get started with vectors in Julia, let's see how make a range of integers.
-This is similar to notation of Python and Matlab.
-
-.. code-block:: julia
-
-   # range notation, list from 1 to 10
-   1:10
-
-   for x in 1:10
-       println(x)
-   end
-
-   r = -5:27
-   Vector(r) # to see what is in there
-   range(-5,27) == -5:27 # true
-
-   # range with non-integer step
-   # from 1.0 to 11.81 in steps 0.23
-   1:0.23:12
-   Vector(1:0.23:12)
-
-In Julia one can use `list comprehension <https://en.wikipedia.org/wiki/List_comprehension>`_ to
-create vectors in a simple way similar to Python. This notation follows the set-builder notation
-from mathematics, such as :math:`S=\{x \in \mathbb{Z}:x>0\}` for the set of positive integers.
-
-.. code-block:: julia
-
-   # list comprehension
-   [i^2 for i in range(1,40)] # 40-element Vector
-
-   # conditional list comprehension
-   [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
-
-   # if else in list comprehension
-   [if x > 3 x else x^2 end for x in 1:5] # 1,4,9,4,5
-   # note the whole if-else clause if x > 3 x else x^2 end
-
-   # another way to do conditionals
-   [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
-
-We can use several index variables and loop over a product set.
-
-.. code-block:: julia
-
-   # loop over product set
-   [x - y for x in 1:10, y in 1:10]
-
-   # Extra example
-   # [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
-   # 1,2,6,8,15
-
-.. code-block:: text
-
-   # output of [x - y for x in 1:10, y in 1:10]
-   10×10 Matrix{Int64}:
-    0  -1  -2  -3  -4  -5  -6  -7  -8  -9
-    1   0  -1  -2  -3  -4  -5  -6  -7  -8
-    2   1   0  -1  -2  -3  -4  -5  -6  -7
-    ...                 ...
-    8   7   6   5   4   3   2   1   0  -1
-    9   8   7   6   5   4   3   2   1   0
-
-Comparing ways of forming vectors: using functions, for loops and list comprehension.
-
-.. code-block:: julia
-
-   mypairwise(x,y)=x*y
-   A = [1,2,3,4]
-   B = [2,3,4,5]
-   # vectorization with dot notation
-   # more on that later
-   mypairwise.(A, B) # 2,6,12,20
-
-   # another way
-   for x in zip(A,B)
-       println(x[1]*x[2])
-   end
-
-   # and another way
-   [x*y for (x, y) in zip(A, B)]
-
-To pick out elements in vectors and matrices one can use slicing, which is also
-similar to Python and Matlab.
-
-.. code-block:: julia
-
-   # slicing
-   X = [x^2 for x in range(1,11)]
-   X[1] # first element 1
-   X[end] # last element 121
-   X[4:9] # 16,25,36,49,64,81
-   X[8:end] # 64,81,100,121
-
-   # uniform distribution on [0,1]
-   X = rand(5,5) # random 5x5-matrix
-   X[1,:] # first row
-   X[:,3] # third column
-   X[2,4] # element in row 2, column 4
-
-Vectorization (element wise operation) is done with the dot syntax similar to Matlab.
-
-.. code-block:: julia
-
-   # vectorization or element wise operation
-   A = [1,2,3,4]
-   B = [2,3,4,5]
-   A^2 # MethodError
-   A.^2 # [1,4,9,16]
-   A .+ B
-   A + B == A .+ B # true
-   A*B # MethodError
-   A.*B
-
-   sin(A)
-   # ERROR: MethodError: no method matching sin(::Vector{Int64})
-
-   sin.(A) # 4-element Vector
-
-   # add constant to vector
-   A + 3 # ERROR: MethodError: no method matching +(::Vector{Int64}, ::Int64)
-   A .+ 3 # 4,5,6,7
-
-   # vectorize everywhere
-   @. sin(A) + cos(A)
-   @. A+A^2-sin(A)*sin(B)
-
-.. code-block:: text
-
-   julia> @. A+A^2-sin(A)*sin(B)
-
-   4-element Vector{Float64}:
-     1.2348525987657073
-     5.871679939797543
-    12.106799974237582
-    19.27428371612359
-
-An example where vectorization, random vectors and Plot are combined:
-
-.. code-block:: julia
-
-   using Plots
-
-   x = range(0, 10, length=100)
-   # vector has length 100
-   # from 0 to 10 in 99 steps of size 10/99=0.101...
-
-   y = sin.(x)
-   y_noisy = @. sin(x) + 0.1*randn() # normally distributed noise
-
-   plt = plot(x, y, label="sin(x)")
-   plot!(x, y_noisy, seriestype=:scatter, label="data")
-
-   # to save figure in file
-   # savefig("sine_with_noise.png")
-
-   display(plt)
-
-.. figure:: img/sine_with_noise.png
-   :align: center
-
-   Sine function with noise.
-
-We can append existing arrays by pushing new elements at the end
-and we can retrieve (and remove) the last element by popping it.
-
-.. code-block:: julia
-
-   # pushing elements to vector
-   U = [1,2,3,4]
-   push!(U, 55) # [1,2,3,4,55]
-   pop!(U) # 55
-   U # [1,2,3,4]
-
-   # Array of type Any
-   U = []
-   push!(U, 5) # [5]
-   u = [1,2,3]
-   push!(U, u) # [5, [1,2,3]]
-
-Use copy if you want a copy of an existing element rather than a reference to it.
-
-.. code-block:: julia
-
-   # references
-   u = [1,2,3,4]
-   v = u # v refers to u
-   v[2] = 33 # when v changes
-   v # [1,33,3,4]
-   u # [1,33,3,4], so does u
-
-   # using copy
-   u = [1,2,3,4]
-   v = copy(u) # v is a copy of u
-   v[2] = 33 # v changes
-   v # [1,33,3,4]
-   u # [1,2,3,4], but not u
-
-Copies can be of import when building arrays from mutable objects created earlier.
-
-.. code-block:: julia
-
-   # curiosity: push! stores a reference to the object pushed, not a copy
-   U = []
-   push!(U, 5)
-   u = [1,2,3]
-   push!(U, u) # [5, [1,2,3]]
-   u = [1,2,3]
-   u[2] = 77
-   U # [5, [1,77,3]]
-   u # [1,77,3]
-
-   # Can use copy if want other behavior
-   u = [1,2,3]
-   U = [5, copy(u)]
-   u[2] = 77
-   U # is still [5, [1,2,3]]
-   # however
-   v = U[2]
-   v[2] = 77
-   U # [5, [1,77,3]]
-
-Matrix and vector operations
-----------------------------
-
-Recall that matrices and vectors may be defined as follows:
-
-.. code-block:: julia
-
-   using LinearAlgebra
-
-   # define some row vectors
-   v1 = [1.0, 2.0, 3.0]
-   v2 = v1.^2
-
-   # combine row vectors into 3x3 matrix
-   A = [v1 v2 [7.0, 6.0, 5.0]]
-
-   # another way to make matrices
-   M = [5 -3 2;15 -9 6;10 -6 4]
-
-   # common matrices and vectors:
-
-   # zeros
-   zeros(5) # [0,0,0,0,0]
-   zeros(5,5) # 5x5-matrix of zeros
-
-   # ones
-   ones(5) # [1,1,1,1,1]
-   ones(5,5) # 5x5-matrix of ones
-
-   # random matrix
-   M = randn(5,5) # normally distributed 5x5-matrix
-
-   # identity matrix (may not need this, see operator I below)
-   I(5) # 5x5 identity matrix
-   I(5)*M == M # true
-
-.. code-block:: text
-
-   julia> A
-   3×3 Matrix{Float64}:
-    1.0  1.0  7.0
-    2.0  4.0  6.0
-    3.0  9.0  5.0
-
-   julia> M
-   3×3 Matrix{Int64}:
-     5  -3  2
-    15  -9  6
-    10  -6  4
-
-.. code-block:: julia
-
-   # vector addition and scaling
-   v1 + v2
-   v1 - 0.5*v2
-
-   v3 = [7.0, 11.0, 13.0]
-   B = [v3 v2 v1]
-
-   # matrix vector multiplication
-   A*v1
-
-   # matrix multiplication
-   A*B
-   A^5
-
-.. code-block:: text
-
-   julia>  v1+v2
-   3-element Vector{Float64}:
-     2.0
-     6.0
-    12.0
-
-   julia> v1 - 0.5*v2
-   3-element Vector{Float64}:
-     0.5
-     0.0
-    -1.5
-
-   julia> A*B
-   3×3 Matrix{Float64}:
-    44.0  68.0  24.0
-    44.0  72.0  28.0
-    48.0  84.0  36.0
-
-Standard operations such as rank, determinant, trace, matrix multiplication,
-transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so on:
-
-.. code-block:: julia
-
-   # rank of matrix
-   rank(A) # full rank 3
-
-   # rank is numerical rank
-   # counting how many singular values of A
-   # have magnitude greater than a tolerance
-   rank([[1,2,3] [1,2,3] + [2,5,7]*0.5]) # rank 2
-   rank([[1,2,3] [1,2,3] + [2,5,7]*1e-14]) # rank 2
-   rank([[1,2,3] [1,2,3] + [2,5,7]*1e-15]) # rank 1
-
-   # determinant
-   det(A) # 16
-
-   # lower rank matrix
-   C = [v1 v2 v1+0.66*v2]
-
-   rank(C) # rank 2
-
-   # 6x6 matrix
-   D = [A A;A A]
-   rank(D) # 3
-   det(D) # 0
-
-   # trace
-   tr(A) # 10
-
-   # eigen vectors and eigenvalues
-   eigen(A)
-
-   # identity operator (does not build identity matrix)
-   I
-   A*I # A
-   I*D # D
-
-   # matrix inverse
-   inv(A)
-   inv(A)*A # identity matrix
-   A*inv(A) # identity matrix
-
-   # solving linear systems of equations
-   u = A*v1
-   # solve A*x = u with least squares
-   A \ u # v1
-   # solve in another way
-   inv(A)*u # v1
-
-   # matrix must have full rank
-   inv(C) # ERROR: SingularException(3)
-
-   # nilpotent matrix M from above
-   rank(M) # 1
-   M*M # zero matrix
-
-   # transpose
-   transpose(A)
-   A' # transpose of real matrix
-   # complex matrix
-   E = (A+im*A)
-   E' # Hermitian conjugate
-
-   # dot product
-   dot(v1, v2) # 36
-   v1'*v2 # 36
-
-   # cross product of 3-vectors
-   cross(v1, v2)
-   dot(cross(v1, v2), v1) # 0 (orthogonal)
-
-
-.. code-block:: text
-
-   julia> eigen(A)
-   Eigen{Float64, Float64, Matrix{Float64}, Vector{Float64}}
-   values:
-   3-element Vector{Float64}:
-    -3.250962397052609
-    -0.3615511210246384
-    13.61251351807725
-   vectors:
-   3×3 Matrix{Float64}:
-    -0.821765  -0.96124   -0.440897
-    -0.211254   0.228475  -0.539484
-     0.529221   0.154329  -0.717333
-
-Timing
-------
-
-Some examples of timing and benchmarking.
-
-.. code-block:: julia
-
-   using BenchmarkTools
-
-   function my_product(A, B)
-       for x in zip(A,B)
-           push!(C, x[1]*x[2])
-       end
-       C
-   end
-
-   A = randn(10^8)
-   B = randn(10^8)
-   C = Float64[]
-
-   # @time includes compilation time and garbage collection
-   @time my_product(A, B);
-   @time A.*B;
-
-   println()
-   tic = time()
-   C = my_product(A, B)
-   toc = time()
-   println("Manual time measure: ", toc - tic)
-   println()
-
-   # @btime does not includes compilation time
-   @btime my_product(A, B);
-   @btime A.*B;
-
-.. code-block:: julia
-
-   4.116207 seconds (100.01 M allocations: 1.634 GiB, 13.91% gc time, 0.55% compilation time)
-   0.191240 seconds (4 allocations: 762.940 MiB, 0.63% gc time)
-
-   Manual time measure: 3.63100004196167
-
-   3.062 s (100000000 allocations: 1.49 GiB)
-   186.446 ms (4 allocations: 762.94 MiB)
-
-.. questions::
-
-   Benchmark time varies quite a lot between runs. Why?
-
-Random matrices and sparse matrices
------------------------------------
-
-Here is how you can create random matrices and vectors with various
-distributions.
-
-.. code-block:: julia
-
-   # introduce std standard deviation (used in PCA exercise)
-
-   # normal distribution as above
-   randn(100, 100) # 100x100-matrix
-
-   # uniform distribution
-   rand() # uniformly distributed random number in [0,1]
-   rand(5) # uniform 5-vector
-   rand(5,5) # uniform 5x5-matrix
-   rand(1:88) # random element of 1:88
-   rand(1:88, 5) # 5-vector
-   rand("abc", 5, 5) # 5x5-matrix random over [a,b,c]
-
-More involved computations with random variables can be done with the
-Distributions package.
-
-.. code-block:: julia
-
-   using Distributions
-   m = [0,0,1.0] # mean
-   S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
-   D = MvNormal(m, S) # multivariate normal distribution
-   rand(D) # sample
-
-   # binomial and multinomial distribution
-   Y = Binomial(10, 0.3)
-   rand(Y) # sample
-   Y = Multinomial(10, [0.3,0.6, 0.1])
-   rand(Y) # sample
-
-   # Exponential distribution
-   E = Exponential()
-   # draw 10 samples from E (all will be non-negative)
-   rand(E, 10)
-
-   # discrete multivariate
-   rand(5, 5) .< 0.1 # 0.1 chance of 1
-
-Sparse matrices may be constructed with the SparseArrays package.
-
-.. code-block:: julia
-
-   using SparseArrays
-
-   # 100x100-matrix with density 10% (non-zero elements)
-   M = rand(100,100) .< 0.1
-   S = sparse(M) # SparseMatrixCSC
-
-   typeof(M) # BitMatrix (alias for BitArray{2})
-   typeof(S) # SparseMatrixCSC{Bool, Int64}
-
-   # 100x100-matrix with density 10%, as sparse matrix directly
-   S = sprand(100, 100, 0.1)
 
 Eigenvectors and eigenvalues
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1013,7 +504,8 @@ The following exercise is adapted from the `Julia language companion
 the `book
 <https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1>`_
 *Introduction to Applied Linear Algebra – Vectors, Matrices, and Least
-Squares* by Stephen Boyd and Lieven Vandenberghe.
+Squares* by Stephen Boyd and Lieven Vandenberghe. Useful information
+relating to the exercise may also be found in the `Extra material`_ below.
 
 Below we will consider the Gram-Schmidt process:
 
@@ -1126,4 +618,518 @@ linear dependence has been detected and we return
    multinomial, exponential, Cauchy, Poisson or other distributions of
    choice.
 
+Extra material
+--------------
+
+We include some extra material (if time permits) which provides additional examples from the topics above.
+
+List comprehension, slicing and vectorization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To get started with vectors in Julia, let's see how make a range of integers.
+This is similar to notation of Python and Matlab.
+
+.. code-block:: julia
+
+   # range notation, list from 1 to 10
+   1:10
+
+   for x in 1:10
+       println(x)
+   end
+
+   r = -5:27
+   Vector(r) # to see what is in there
+   range(-5,27) == -5:27 # true
+
+   # range with non-integer step
+   # from 1.0 to 11.81 in steps 0.23
+   1:0.23:12
+   Vector(1:0.23:12)
+
+In Julia one can use `list comprehension <https://en.wikipedia.org/wiki/List_comprehension>`_ to
+create vectors in a simple way similar to Python. This notation follows the set-builder notation
+from mathematics, such as :math:`S=\{x \in \mathbb{Z}:x>0\}` for the set of positive integers.
+
+.. code-block:: julia
+
+   # list comprehension
+   [i^2 for i in range(1,40)] # 40-element Vector
+
+   # conditional list comprehension
+   [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
+
+   # if else in list comprehension
+   [if x > 3 x else x^2 end for x in 1:5] # 1,4,9,4,5
+   # note the whole if-else clause if x > 3 x else x^2 end
+
+   # another way to do conditionals
+   [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
+
+We can use several index variables and loop over a product set.
+
+.. code-block:: julia
+
+   # loop over product set
+   [x - y for x in 1:10, y in 1:10]
+
+   # Extra example
+   # [x < y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]
+   # 1,2,6,8,15
+
+.. code-block:: text
+
+   # output of [x - y for x in 1:10, y in 1:10]
+   10×10 Matrix{Int64}:
+    0  -1  -2  -3  -4  -5  -6  -7  -8  -9
+    1   0  -1  -2  -3  -4  -5  -6  -7  -8
+    2   1   0  -1  -2  -3  -4  -5  -6  -7
+    ...                 ...
+    8   7   6   5   4   3   2   1   0  -1
+    9   8   7   6   5   4   3   2   1   0
+
+Comparing ways of forming vectors: using functions, for loops and list comprehension.
+
+.. code-block:: julia
+
+   mypairwise(x,y)=x*y
+   A = [1,2,3,4]
+   B = [2,3,4,5]
+   # vectorization with dot notation
+   # more on that later
+   mypairwise.(A, B) # 2,6,12,20
+
+   # another way
+   for x in zip(A,B)
+       println(x[1]*x[2])
+   end
+
+   # and another way
+   [x*y for (x, y) in zip(A, B)]
+
+To pick out elements in vectors and matrices one can use slicing, which is also
+similar to Python and Matlab.
+
+.. code-block:: julia
+
+   # slicing
+   X = [x^2 for x in range(1,11)]
+   X[1] # first element 1
+   X[end] # last element 121
+   X[4:9] # 16,25,36,49,64,81
+   X[8:end] # 64,81,100,121
+
+   # uniform distribution on [0,1]
+   X = rand(5,5) # random 5x5-matrix
+   X[1,:] # first row
+   X[:,3] # third column
+   X[2,4] # element in row 2, column 4
+
+Vectorization (element wise operation) is done with the dot syntax similar to Matlab.
+
+.. code-block:: julia
+
+   # vectorization or element wise operation
+   A = [1,2,3,4]
+   B = [2,3,4,5]
+   A^2 # MethodError
+   A.^2 # [1,4,9,16]
+   A .+ B
+   A + B == A .+ B # true
+   A*B # MethodError
+   A.*B
+
+   sin(A)
+   # ERROR: MethodError: no method matching sin(::Vector{Int64})
+
+   sin.(A) # 4-element Vector
+
+   # add constant to vector
+   A + 3 # ERROR: MethodError: no method matching +(::Vector{Int64}, ::Int64)
+   A .+ 3 # 4,5,6,7
+
+   # vectorize everywhere
+   @. sin(A) + cos(A)
+   @. A+A^2-sin(A)*sin(B)
+
+.. code-block:: text
+
+   julia> @. A+A^2-sin(A)*sin(B)
+
+   4-element Vector{Float64}:
+     1.2348525987657073
+     5.871679939797543
+    12.106799974237582
+    19.27428371612359
+
+An example where vectorization, random vectors and Plot are combined:
+
+.. code-block:: julia
+
+   using Plots
+
+   x = range(0, 10, length=100)
+   # vector has length 100
+   # from 0 to 10 in 99 steps of size 10/99=0.101...
+
+   y = sin.(x)
+   y_noisy = @. sin(x) + 0.1*randn() # normally distributed noise
+
+   plt = plot(x, y, label="sin(x)")
+   plot!(x, y_noisy, seriestype=:scatter, label="data")
+
+   # to save figure in file
+   # savefig("sine_with_noise.png")
+
+   display(plt)
+
+.. figure:: img/sine_with_noise.png
+   :align: center
+
+   Sine function with noise.
+
+We can append existing arrays by pushing new elements at the end
+and we can retrieve (and remove) the last element by popping it.
+
+.. code-block:: julia
+
+   # pushing elements to vector
+   U = [1,2,3,4]
+   push!(U, 55) # [1,2,3,4,55]
+   pop!(U) # 55
+   U # [1,2,3,4]
+
+   # Array of type Any
+   U = []
+   push!(U, 5) # [5]
+   u = [1,2,3]
+   push!(U, u) # [5, [1,2,3]]
+
+Use copy if you want a copy of an existing element rather than a reference to it.
+
+.. code-block:: julia
+
+   # references
+   u = [1,2,3,4]
+   v = u # v refers to u
+   v[2] = 33 # when v changes
+   v # [1,33,3,4]
+   u # [1,33,3,4], so does u
+
+   # using copy
+   u = [1,2,3,4]
+   v = copy(u) # v is a copy of u
+   v[2] = 33 # v changes
+   v # [1,33,3,4]
+   u # [1,2,3,4], but not u
+
+Copies can be of import when building arrays from mutable objects created earlier.
+
+.. code-block:: julia
+
+   # curiosity: push! stores a reference to the object pushed, not a copy
+   U = []
+   push!(U, 5)
+   u = [1,2,3]
+   push!(U, u) # [5, [1,2,3]]
+   u = [1,2,3]
+   u[2] = 77
+   U # [5, [1,77,3]]
+   u # [1,77,3]
+
+   # Can use copy if want other behavior
+   u = [1,2,3]
+   U = [5, copy(u)]
+   u[2] = 77
+   U # is still [5, [1,2,3]]
+   # however
+   v = U[2]
+   v[2] = 77
+   U # [5, [1,77,3]]
+
+Matrix and vector operations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Recall that matrices and vectors may be defined as follows:
+
+.. code-block:: julia
+
+   using LinearAlgebra
+
+   # define some row vectors
+   v1 = [1.0, 2.0, 3.0]
+   v2 = v1.^2
+
+   # combine row vectors into 3x3 matrix
+   A = [v1 v2 [7.0, 6.0, 5.0]]
+
+   # another way to make matrices
+   M = [5 -3 2;15 -9 6;10 -6 4]
+
+   # common matrices and vectors:
+
+   # zeros
+   zeros(5) # [0,0,0,0,0]
+   zeros(5,5) # 5x5-matrix of zeros
+
+   # ones
+   ones(5) # [1,1,1,1,1]
+   ones(5,5) # 5x5-matrix of ones
+
+   # random matrix
+   M = randn(5,5) # normally distributed 5x5-matrix
+
+   # identity matrix (may not need this, see operator I below)
+   I(5) # 5x5 identity matrix
+   I(5)*M == M # true
+
+.. code-block:: text
+
+   julia> A
+   3×3 Matrix{Float64}:
+    1.0  1.0  7.0
+    2.0  4.0  6.0
+    3.0  9.0  5.0
+
+   julia> M
+   3×3 Matrix{Int64}:
+     5  -3  2
+    15  -9  6
+    10  -6  4
+
+.. code-block:: julia
+
+   # vector addition and scaling
+   v1 + v2
+   v1 - 0.5*v2
+
+   v3 = [7.0, 11.0, 13.0]
+   B = [v3 v2 v1]
+
+   # matrix vector multiplication
+   A*v1
+
+   # matrix multiplication
+   A*B
+   A^5
+
+.. code-block:: text
+
+   julia>  v1+v2
+   3-element Vector{Float64}:
+     2.0
+     6.0
+    12.0
+
+   julia> v1 - 0.5*v2
+   3-element Vector{Float64}:
+     0.5
+     0.0
+    -1.5
+
+   julia> A*B
+   3×3 Matrix{Float64}:
+    44.0  68.0  24.0
+    44.0  72.0  28.0
+    48.0  84.0  36.0
+
+Standard operations such as rank, determinant, trace, matrix multiplication,
+transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so on:
+
+.. code-block:: julia
+
+   # rank of matrix
+   rank(A) # full rank 3
+
+   # rank is numerical rank
+   # counting how many singular values of A
+   # have magnitude greater than a tolerance
+   rank([[1,2,3] [1,2,3] + [2,5,7]*0.5]) # rank 2
+   rank([[1,2,3] [1,2,3] + [2,5,7]*1e-14]) # rank 2
+   rank([[1,2,3] [1,2,3] + [2,5,7]*1e-15]) # rank 1
+
+   # determinant
+   det(A) # 16
+
+   # lower rank matrix
+   C = [v1 v2 v1+0.66*v2]
+
+   rank(C) # rank 2
+
+   # 6x6 matrix
+   D = [A A;A A]
+   rank(D) # 3
+   det(D) # 0
+
+   # trace
+   tr(A) # 10
+
+   # eigen vectors and eigenvalues
+   eigen(A)
+
+   # identity operator (does not build identity matrix)
+   I
+   A*I # A
+   I*D # D
+
+   # matrix inverse
+   inv(A)
+   inv(A)*A # identity matrix
+   A*inv(A) # identity matrix
+
+   # solving linear systems of equations
+   u = A*v1
+   # solve A*x = u with least squares
+   A \ u # v1
+   # solve in another way
+   inv(A)*u # v1
+
+   # matrix must have full rank
+   inv(C) # ERROR: SingularException(3)
+
+   # nilpotent matrix M from above
+   rank(M) # 1
+   M*M # zero matrix
+
+   # transpose
+   transpose(A)
+   A' # transpose of real matrix
+   # complex matrix
+   E = (A+im*A)
+   E' # Hermitian conjugate
+
+   # dot product
+   dot(v1, v2) # 36
+   v1'*v2 # 36
+
+   # cross product of 3-vectors
+   cross(v1, v2)
+   dot(cross(v1, v2), v1) # 0 (orthogonal)
+
+
+.. code-block:: text
+
+   julia> eigen(A)
+   Eigen{Float64, Float64, Matrix{Float64}, Vector{Float64}}
+   values:
+   3-element Vector{Float64}:
+    -3.250962397052609
+    -0.3615511210246384
+    13.61251351807725
+   vectors:
+   3×3 Matrix{Float64}:
+    -0.821765  -0.96124   -0.440897
+    -0.211254   0.228475  -0.539484
+     0.529221   0.154329  -0.717333
+
+Timing
+^^^^^^
+
+Some examples of timing and benchmarking.
+
+.. code-block:: julia
+
+   using BenchmarkTools
+
+   function my_product(A, B)
+       for x in zip(A,B)
+           push!(C, x[1]*x[2])
+       end
+       C
+   end
+
+   A = randn(10^8)
+   B = randn(10^8)
+   C = Float64[]
+
+   # @time includes compilation time and garbage collection
+   @time my_product(A, B);
+   @time A.*B;
+
+   println()
+   tic = time()
+   C = my_product(A, B)
+   toc = time()
+   println("Manual time measure: ", toc - tic)
+   println()
+
+   # @btime does not includes compilation time
+   @btime my_product(A, B);
+   @btime A.*B;
+
+.. code-block:: julia
+
+   4.116207 seconds (100.01 M allocations: 1.634 GiB, 13.91% gc time, 0.55% compilation time)
+   0.191240 seconds (4 allocations: 762.940 MiB, 0.63% gc time)
+
+   Manual time measure: 3.63100004196167
+
+   3.062 s (100000000 allocations: 1.49 GiB)
+   186.446 ms (4 allocations: 762.94 MiB)
+
+.. questions::
+
+   Benchmark time varies quite a lot between runs. Why?
+
+Random matrices and sparse matrices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is how you can create random matrices and vectors with various
+distributions.
+
+.. code-block:: julia
+
+   # introduce std standard deviation (used in PCA exercise)
+
+   # normal distribution as above
+   randn(100, 100) # 100x100-matrix
+
+   # uniform distribution
+   rand() # uniformly distributed random number in [0,1]
+   rand(5) # uniform 5-vector
+   rand(5,5) # uniform 5x5-matrix
+   rand(1:88) # random element of 1:88
+   rand(1:88, 5) # 5-vector
+   rand("abc", 5, 5) # 5x5-matrix random over [a,b,c]
+
+More involved computations with random variables can be done with the
+Distributions package.
+
+.. code-block:: julia
+
+   using Distributions
+   m = [0,0,1.0] # mean
+   S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
+   D = MvNormal(m, S) # multivariate normal distribution
+   rand(D) # sample
+
+   # binomial and multinomial distribution
+   Y = Binomial(10, 0.3)
+   rand(Y) # sample
+   Y = Multinomial(10, [0.3,0.6, 0.1])
+   rand(Y) # sample
+
+   # Exponential distribution
+   E = Exponential()
+   # draw 10 samples from E (all will be non-negative)
+   rand(E, 10)
+
+   # discrete multivariate
+   rand(5, 5) .< 0.1 # 0.1 chance of 1
+
+Sparse matrices may be constructed with the SparseArrays package.
+
+.. code-block:: julia
+
+   using SparseArrays
+
+   # 100x100-matrix with density 10% (non-zero elements)
+   M = rand(100,100) .< 0.1
+   S = sparse(M) # SparseMatrixCSC
+
+   typeof(M) # BitMatrix (alias for BitArray{2})
+   typeof(S) # SparseMatrixCSC{Bool, Int64}
+
+   # 100x100-matrix with density 10%, as sparse matrix directly
+   S = sprand(100, 100, 0.1)
 
