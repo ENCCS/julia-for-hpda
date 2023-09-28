@@ -72,11 +72,8 @@ create vectors in a simple way similar to Python.
    # conditional list comprehension
    [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
 
-   # if else in list comprehension
-   [if x > 3 x else x^2 end for x in 1:5] # 1,4,9,4,5
-
-   # another way to do conditionals
-   [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
+   # if else clause
+   [x < 3 ? x : x^2 for x in 1:5] # 1,2,9,16,25
 
 Matrix formation and operations
 -------------------------------

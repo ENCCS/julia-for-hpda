@@ -104,6 +104,8 @@ Now let's plot the resulting prediction (green) together with the underlying lin
 
    display(plt)
 
+   lm1
+
 .. figure:: img/linear_synth_2.png
    :align: center
 
@@ -378,6 +380,106 @@ Sources:
 
          # lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
          lm3 = lm(@formula(cy ~ cX^7 + cX^6 + cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
+
+Let us have a look at linear regression on real multidimensional data. For this we will use comes from the Rdatasets
+package and the "trees" dataset, which consists of measurements on
+black cherry trees: girth, height and volume
+(see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).
+
+.. todo:: Black cherry trees
+
+   Load the trees data set as follows:
+
+   .. code-block:: julia
+
+      using GLM, RDatasets, StatsBase, Plots
+      # Girth Height and Volume of Black Cherry Trees
+      trees = dataset("datasets", "trees")
+      df = trees
+
+   Randomly split the data set into a training and testing data set.
+
+   .. code-block:: julia
+
+      n_rows = size(df)[1]
+      rows_train = sample(1:n_rows, Int(round(n_rows*0.8)), replace=false)
+      rows_test = [x for x in 1:n_rows if ~(x in rows_train)]
+
+      L_train = df[rows_train,:]
+      L_test = df[rows_test,:]
+
+   It is reasonable to try to fit the logarithm om volume as a linear function of
+   the logarithm of the height and logarithm of the girth. This is because the
+   volume is presumably proportional to the height times the girth squared.
+
+   .. code-block:: julia
+
+      # reasonable to look at logarithms since can expect something like V~h*g^2 and
+      # log V = constant + log h + 2log g
+      model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
+
+   Lastly, make predicitons on the training set according to the model and compute the
+   root mean squared error of the prediction.
+
+   .. code-block:: julia
+
+      Z = L_train
+      y_pred = predict(model, Z)
+
+      # Root Mean Squared Error
+      rmse = sqrt(sum((exp.(y_pred) - Z.Volume).^2)/size(Z)[1])
+
+   .. solution The whole script
+
+      .. code-block:: julia
+
+         using GLM, RDatasets, StatsBase, Plots
+         # Girth Height and Volume of Black Cherry Trees
+         trees = dataset("datasets", "trees")
+         df = trees
+
+         n_rows = size(df)[1]
+         rows_train = sample(1:n_rows, Int(round(n_rows*0.8)), replace=false)
+         rows_test = [x for x in 1:n_rows if ~(x in rows_train)]
+
+         L_train = df[rows_train,:]
+         L_test = df[rows_test,:]
+
+         # reasonable to look at logarithms since can expect something like V~h*r^2 and
+         # log V = constant + log h + 2log r
+         model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
+
+         Z = L_train
+         y_pred = predict(model, Z)
+
+         # Root Mean Squared Error
+         rmse = sqrt(sum((exp.(y_pred) - Z.Volume).^2)/size(Z)[1])
+
+         println(rmse)
+         df
+
+      .. code-block:: text
+
+         2.2631848027992776 # rmse
+
+         31×3 DataFrame
+          Row │ Girth    Height  Volume
+              │ Float64  Int64   Float64
+         ─────┼──────────────────────────
+            1 │     8.3      70     10.3
+            2 │     8.6      65     10.3
+            3 │     8.8      63     10.2
+            4 │    10.5      72     16.4
+            5 │    10.7      81     18.8
+            6 │    10.8      83     19.7
+            7 │    11.0      66     15.6
+            8 │    11.0      75     18.2
+            9 │    11.1      80     22.6
+           10 │    11.2      75     19.9
+           11 │    11.3      79     24.2
+
+         And so on (31 data points).
+
 
 .. todo:: Trigonometric basis functions
 
