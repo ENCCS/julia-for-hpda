@@ -9,8 +9,8 @@ Data science and machine learning
      
 .. instructor-note::
 
-   - 20 min teaching
-   - 30 min exercises
+   - 100 min teaching
+   - 50 min exercises
 
 
 Working with data
@@ -107,8 +107,16 @@ What the first three features mean is illustrated in the picture below.
 
    Artwork by @allison_horst
 
-Save environment
-^^^^^^^^^^^^^^^^
+
+Saving the Current Setup
+------------------------
+
+There are several ways to save the current setup in Julia.
+This section will cover three methods: saving the environment, saving data as a CSV file, and saving data using JLD.jl.
+
+1. Saving the Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. todo::
    To check the current status of your Julia environment, you can use the status command in the package manager. 
 
@@ -126,7 +134,7 @@ Save environment
          [682c06a0] JSON v0.21.4
          [8b842266] PalmerPenguins v0.1.4
 
-   This will display the list of packages in the current environment along with their versions1.
+   This will display the list of packages in the current environment along with their versions.
 
    To save the state of your environment, Julia uses two files: ``Project.toml`` and ``Manifest.toml``.
    The ``Project.tom`` file specifies the packages that you explicitly added to your environment,
@@ -140,8 +148,17 @@ Save environment
 
    1. Copy both ``Project.toml`` and ``Manifest.toml`` to the new location.
    2. In Julia, navigate to that folder and activate the environment using ``Pkg.activate(".")``.
-   3. Use ``Pkg.instantiate()`` to download all the necessary packages1.
-   ``MLJ.jl``
+   3. Use ``Pkg.instantiate()`` to download all the necessary packages.
+   
+   More information in section `Environments` at https://enccs.github.io/julia-intro/development/
+
+2. Saving Data as a CSV File
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+(The way we use in this lesson).
+
+.. todo::
+   (Include the content about saving data as a CSV file here)
 
    You can use the CSV.jl package to save your DataFrame as a CSV file, which can be loaded later.
 
@@ -158,6 +175,55 @@ Save environment
 
          df = CSV.read("penguins.csv", DataFrame)
 
+3. Saving Data Using JLD.jl
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   Another option is to use `JLD.jl <https://github.com/JuliaIO/JLD.jl>`_ 
+   The `JLD.jl` package provides a way to save and load Julia variables while preserving native types.
+   It is a specific "dialect" of HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
+
+   To use the `JLD.jl` module, you can start your code with `using JLD`. 
+   If you want to save a few variables and don't care to use the more advanced features, then a simple syntax is:
+
+   .. code-block:: julia
+
+      using Pkg
+      Pkg.add("JLD")
+
+   Now, we can save our DataFrame `df` to a JLD file.
+
+   .. code-block:: julia
+
+      using JLD
+      save("penguins.jld", "df", df)
+
+   Here we're saving `df` as "df" within `penguins.jld`. You can load this DataFrame back in with:
+
+   .. code-block:: julia
+
+      df = load("penguins.jld", "df")
+
+   This will return the DataFrame `df` from the file and assign it back to `df`.
+
+Machine learning
+----------------
+Machine learning (ML) is a branch of artificial intelligence (AI) and computer science that focuses on 
+the use of data and algorithms to imitate the way that humans learn, gradually improving its accuracy. 
+It is an umbrella term for solving problems for which development of algorithms by human programmers 
+would be cost-prohibitive, and instead the problems are solved by helping machines "discover" their "own" algorithms including GPT and Computer vision/Speech recognition use cases.
+
+Now, let's narrow our focus and look at neural networks. Neural networks (or "neural nets", for short) are a specific choice of a model.
+It's a network made up of neurons⁷. This leads to the question, "what is a neuron?"
+A neuron in the context of neural networks is a mathematical function conceived as a model of biological neurons.
+The neuron takes in one or more input values and sums them to produce an output. Normally, neurons are aggregated into layers to form a network.
+
+For more detailed information, discover this `Intro to Neurons notebook <https:>`_ from JuliaAcademy's Foundations of Machine Learning course.
+It provides an excellent introduction to the concept of neurons in the context of ML.
+
+References:
+(1) What is Machine Learning? | IBM. https://www.ibm.com/topics/machine-learning 
+(2) Machine learning - Wikipedia. https://en.wikipedia.org/wiki/Machine_learning
+(3) 1-intro-to-neurons.ipynb - Colaboratory - Google Colab. https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb
 
 Machine learning in Julia
 -------------------------
@@ -218,8 +284,17 @@ After setting up your environment, we will dive into the adapted lessons about C
 These lessons provide comprehensive tutorials on various topics in Julia.
 By following these lessons, you will gain a deeper understanding of how to use Julia for high-performance data analysis.
 
+Clustering notebook: 
+Classification notebook:
+
 Deep learning
 ^^^^^^^^^^^^^
+`Deep learning <https://en.wikipedia.org/wiki/Deep_learning>`_ is a subset of ML which is essentially a neural network with three or more layers.
+These neural networks attempt to simulate the behavior of the human brain—albeit far from matching its ability—allowing it to “learn” from large amounts of data.
+Deep learning drives many AI applications and services that improve automation, performing analytical and physical tasks without human intervention⁸
+Deep-learning architectures such as deep neural networks, deep belief networks, deep reinforcement learning, recurrent neural networks, convolutional neural networks
+and transformers have been applied to fields including computer vision, speech recognition, natural language processing, machine translation, bioinformatics, drug design,
+medical image analysis, climate science, material inspection and board game programs.
 
 `Flux.jl <https://fluxml.ai/>`_ comes "batteries-included" with many useful tools 
 built in, but also enables the user to write own Julia code for DL components.

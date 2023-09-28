@@ -94,3 +94,13 @@ The language is evolving rapidly, and many of these challenges are likely to be 
 Meanwhile, the workarounds can help you effectively use Julia for your HPDA tasks.
 
 By the end of this course, you should have a solid understanding of how to leverage these features of Julia for your HPDA tasks.
+
+More resources:
+---------------
+
+- https://datasciencejuliahackers.com
+- https://juliahub.com/products/overview/ 
+- https://github.com/ivanslapnicar/Data-Clustering-in-Julia.jl
+- https://juliadatascience.io/
+- `Bobomil Kaminski's "Julia for Data Science" book <https://github.com/bkamins/JuliaForDataAnalysis>`_
+- `JuliaDB.jl <https://github.com/pszufe/MIT_18.S097_Introduction-to-Julia-for-Data-Science>`_

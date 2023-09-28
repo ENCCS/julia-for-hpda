@@ -153,7 +153,7 @@ Installing JupyterLab and a Julia kernel
 ----------------------------------------
 
 One way to use Julia is through Jupyter notebooks.
-Jupyter notebooks can be installed via the Python package manager ``pip``.::
+Jupyter notebooks can be installed via the Python package manager ``pip``::
 
   pip install jupyterlab
 

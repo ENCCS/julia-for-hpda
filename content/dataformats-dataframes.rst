@@ -12,9 +12,8 @@ Data Formats and Dataframes
      
 .. instructor-note:: Instructor-note
 
-   - 40 min teaching
-   - 10 min break
-   - 40 min exercises
+   - 35 min teaching
+   - 30 min exercises
 
 
 Working with data
@@ -39,6 +38,10 @@ It is part of the DataFrames.jl package, which provides a powerful
 and flexible way to manipulate and analyze data in Julia.  
 
 A DataFrame consists of columns and rows. 
+
+.. figure:: img/01_table_dataframe.svg
+   :align: center
+
 The rows usually represent independent observations, while the columns represent the 
 features (variables) for each observation.
 You can perform various operations on a DataFrame, such as filtering, 
@@ -105,6 +108,8 @@ Here's how you can create a new dataframe:
    The following code loads the `PalmerPenguins` dataset into a DataFrame. 
    Then it demonstrates how to write and read the data in CSV, JSON, and
    Parquet formats using the `CSV`, `JSONTables`, and `Parquet` packages respectively. 
+
+   More about `Types of scientific data` one can find at `ENCCS High Performance Data Analytics in Python <https://enccs.github.io/hpda-python/scientific-data/#types-of-scientific-data>`_ training. 
 
    .. tabs::
 
@@ -173,6 +178,55 @@ Here's how you can create a new dataframe:
          5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
    
    
+   
+(Optional) Long vs Wide Data Format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The data is in a so-called `wide format <https://en.wikipedia.org/wiki/Wide_and_narrow_data>`_.
+
+In data analysis, we often encounter two types of data formats: **long format** and **wide format**.
+https://www.statology.org/long-vs-wide-data/
+
+- **Long format**: In this format, each row is a single observation, and each column is a variable. This format is also known as "tidy" data.
+- **Wide format**: In this format, each row is a subject, and each column is an observation. This format is also known as "spread" data.
+
+The `DataFrames.jl` package provides functions to reshape data between long and wide formats. These functions are `stack`, `unstack`, `melt`, and `pivot`.
+
+.. code-block:: julia
+
+   # To convert from wide to long format
+   df_long = stack(df, Not(:species))
+
+   # To convert from long to wide format
+   df_wide = unstack(df_long, :species)
+
+(Optional) Reshaping and Pivoting
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `pivot` function can be used to reshape data (from long to wide format) and also perform aggregation.
+
+.. code-block:: julia
+
+   # Pivot data with aggregation
+   df_pivot = pivot(df, :species, :island, :body_mass_g, mean)
+
+   
+In this example, `:species` is used as the row index, `:island` as the column index, and `:body_mass_g` 
+as the values to fill the DataFrame.The `mean` function is used for aggregation.
+
+The result is a new DataFrame where each unique value in the `:species` column forms a row, each unique 
+value in the `:island` column forms a column, and the mean body mass for each species-island combination fills the DataFrame.
+
+Note that if you don't provide an aggregation function and there are multiple values for a given row-column combination, 
+`pivot` will throw an error. To handle this, you can provide an aggregation function like `mean`, `sum`, etc., 
+which will be applied to all values that fall into each cell of the resulting DataFrame.
+
+More information: https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/
+
+Inspect dataset
+^^^^^^^^^^^^^^^
+.. todo::
+      
    We can inspect the data using a few basic operations:
    
    .. code-block:: julia
@@ -222,8 +276,9 @@ Here's how you can create a new dataframe:
    We can see in the output of ``describe`` that the element type of 
    all the columns is a union of ``missing`` and a numeric type. This
    implies that our dataset contains missing values.
+   More about `Tidy Data` concept can be found in the `Python for Scientific Computing` training by `Aalto Scientific Computing <https://scicomp.aalto.fi/>`_: https://aaltoscicomp.github.io/python-for-scicomp/pandas/#tidy-data
    
-   We can remove these by the ``dropmissing`` or ``dropmissing!`` functions
+   We can remove these missing values by the ``dropmissing`` or ``dropmissing!`` functions
    (what is the difference between them?):
    
    .. code-block:: julia
@@ -517,7 +572,7 @@ Exercises
       you can manipulate the data using the functions provided by the `DataFrames` package. 
       Here are some examples that show how to manipulate data in a DataFrame:
 
-      .. code-block:: julia
+         .. code-block:: julia
 
          using DataFrames
 
