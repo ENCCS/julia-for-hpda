@@ -150,8 +150,8 @@ Eigenvectors and eigenvalues can be computed with the LinearAlgebra package:
    using LinearAlgebra
 
    A = [1 2 3;4 5 6;7 8 9]
-   eigvecs(A)
-   eigvals(A)
+   eigvecs(A) # eigen vectors of A
+   eigvals(A) # eigen values of A
 
 Loading a dataset
 -----------------
@@ -415,43 +415,32 @@ Exercises
 
 .. todo::
 
-   Try the following code lines to form random matrices
+   Try the following code line by line to form random matrices
    using  standard library functions.
 
    .. code-block:: julia
 
       # random matrices
       rand() # uniformly distributed random number in [0,1]
-      rand(5) # uniform 5-vector
-      rand(5,5) # uniform 5x5-matrix
+      rand(5) # 5-vector of numbers uniformly distributed on [0,1]
+      rand(5,5) # 5x5-matrix uniformly distributed on [0,1]
       randn(10) # normally distributed 10-vector
 
 .. todo::
 
-   For random matrices from a wider array of distributions we can use the package Distributions.
-
-   Try the following code where D is a multivariate normal 3-vector.
-
-   .. code-block:: julia
-
-      using Distributions
-
-      m = [0,0,1.0] # mean
-      S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
-      D = MvNormal(m, S) # multivariate normal distribution
-      rand(D) # sample
-
-.. todo::
-
    Sparse matrices (lots of zeros) and effective operations on them
-   can be done using the SparseArrays package.
+   can be done using the SparseArrays package. Try the following code
+   line by line.
 
    .. code-block:: julia
 
       using SparseArrays
 
-      # 100x100-matrix with density 10% (non-zero elements)
+      # 100x100-matrix of zeros and ones
+      # with density 10% (non-zero elements)
       M = rand(100,100) .< 0.1
+
+      # M as a sparse matrix
       S = sparse(M) # SparseMatrixCSC
 
       typeof(M) # BitMatrix (alias for BitArray{2})
@@ -478,8 +467,8 @@ Exercises
 
       using BenchmarkTools
 
-      # 100x100-matrix with of zeros and ones
-	  # rougly 10% non-zero elements
+      # 100x100-matrix of zeros and ones
+      # with density 10% (non-zero elements)
       M = rand(100,100) .< 0.1
 
       # @time includes compilation time and garbage collection
@@ -495,8 +484,7 @@ Exercises
    computation. Compare with S as a Matrix and a sparse matrix
    (a SparseMatrixCSC).
 
-   - A sparse :math:`(a \times b)`-matrix matrix can be
-   formed with ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
+   - A sparse :math:`(a \times b)`-matrix matrix can be formed with ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
 
    - To convert S to a matrix you can do ``Matrix(S)``.
 
@@ -521,6 +509,20 @@ Exercises
 
          545.400 μs (29 allocations: 806.98 KiB)
          6.343 s (8 allocations: 762.94 MiB)
+
+.. todo::
+
+   For random matrices from a wider array of distributions we can use the package Distributions.
+   Try the following code where D is a multivariate normal 3-vector.
+
+   .. code-block:: julia
+
+      using Distributions
+
+      m = [0,0,1.0] # mean value
+      S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
+      D = MvNormal(m, S) # multivariate normal distribution
+      rand(D) # sample the distribution
 
 Extra exercises
 ---------------
