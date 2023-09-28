@@ -153,6 +153,8 @@ For a wider array of distributions we can use the package Distributions.
 Sparse matrices (lots of zeros) and effective operations on them
 can be done using the SparseArrays package.
 
+.. code-block:: julia
+
    using SparseArrays
 
    # 100x100-matrix with density 10% (non-zero elements)
@@ -177,10 +179,8 @@ To benchmark and time computations we can use the BenchmarkTools package.
    # @btime does not includes compilation time
    @btime M^2;
 
-
-
 Eigenvectors and eigenvalues
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
 
 Below we will discuss Principal Component Analysis and in that context we
 recall here the notion of eigenvectors and eigenvalues of a square matrix
@@ -248,7 +248,7 @@ First extract the first four columns of the data set
    X = Matrix(Xdf)
    y = df[:,5]
 
-Firt we center the data by substracting the mean:
+First we center the data by substracting the mean:
 
 .. code-block:: julia
 
