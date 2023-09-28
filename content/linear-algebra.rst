@@ -18,6 +18,112 @@ Linear algebra
 List comprehension, slicing and vectorization
 ---------------------------------------------
 
+We will start with a breif look at how we can form arrays
+and vectors in Julia and how to perform vector operations.
+
+.. code-block:: julia
+
+   # range notation, list from 1 to 10
+   1:10
+
+   # another way to make ranges
+   range(0, 10)
+
+   # forming vectors
+   a = [1,2,3,4]
+   b = [2,3,4,5]
+
+   # scaling
+   0.5*a
+
+   # vector addition
+   a + b
+   a - b
+
+To perform element wise computations we can use the dot notation (similar to Matlab).
+
+.. code-block:: julia
+
+   # powers
+   a^2 # MethodError
+   a.^2 # 1,4,9,16
+
+   # same as vector addition
+   a .+ b
+
+   # applying functions
+   sin(a) # MethodError
+   sin.(a) # element wise computations
+
+   # alternative way
+   @. a+a^2-sin(a)*sin(b)
+
+In Julia one can use `list comprehension <https://en.wikipedia.org/wiki/List_comprehension>`_ to
+create vectors in a simple way similar to Python. 
+
+.. code-block:: julia
+
+   # list comprehension
+   [i^2 for i in range(1,40)] # 40-element Vector
+
+   # conditional list comprehension
+   [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
+
+   # if else in list comprehension
+   [if x > 3 x else x^2 end for x in 1:5] # 1,4,9,4,5
+
+   # another way to do conditionals
+   [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
+
+Matrices can be formed and matrix operations performed in a way similar to Matlab and Python.
+
+.. code-block:: julia
+
+   # one way
+   A = [1 2 3;4 5 6;7 8 9]
+
+   # vector matrix multiplication
+   A*a
+
+   # matrix multiplicaiton
+   B = A*A
+
+   # Matrix multiplication
+   A*B
+
+   # matrix powers
+   A^3
+
+   # transpose
+   transpose(B)
+   B'
+
+Picking out elements or parts of vectors and matrices can be done with sclicing as in Python or Matlab.
+
+.. code-block:: julia
+
+   # extract elements from vector
+   a[1] # first element
+   a[2] # second element
+   a[2:4] # range
+
+   # slicing
+   A[2,3]
+   A[:,1] # first column
+   A[2,:] # second row
+
+   # zeros
+   zeros(5) # [0,0,0,0,0]
+   zeros(5,5) # 5x5-matrix of zeros
+
+   # ones
+   ones(5) # [1,1,1,1,1]
+   ones(5,5) # 5x5-matrix of ones
+
+
+List comprehension, slicing and vectorization
+---------------------------------------------
+
 To get started with vectors in Julia, let's see how make a range of integers.
 This is similar to notation of Python and Matlab.
 
@@ -796,7 +902,7 @@ Exercises
 
       Some answers/comments on the questions:
 
-      - The principal directions are only defined up to sign: that is why they may get flipped when you rerun the script.
+      - The principal directions are only defined up to sign, which partly exaplains why they may get flipped when you rerun the script. One has to look into the algorithm that computes the eigenvectors to get a full explanation.
       - When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
 
 .. todo::
@@ -811,11 +917,14 @@ Exercises
 .. todo:: Sparse matrix computations
 
    Create a sparse (5000x5000)-matrix S with roughly 5000 non-zero
-   elements uniformly distributed on [0,1]. Compute ``S^10`` and time the
-   computation. Compare with S as a Matrix and a SparseMatrixCSC.
+   elements uniformly distributed on [0,1]. Compute S^10 and time the
+   computation. Compare with S as a Matrix and a sparse matrix
+   (a SparseMatrixCSC).
 
-   Recall that sparse :math:`(a \times b)`-matrix matrices can be formed with
-   ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
+   - A sparse :math:`(a \times b)`-matrix matrix can be
+   formed with ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
+
+   - To convert S to a matrix you can do ``Matrix(S)``.
 
    .. solution:: Here is a suggestion
 
