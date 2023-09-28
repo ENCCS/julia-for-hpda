@@ -75,15 +75,19 @@ create vectors in a simple way similar to Python.
    # another way to do conditionals
    [3 < x ? x : x^2 for x in 1:5] # 1,4,9,4,5
 
+Matrix formation and operations
+-------------------------------
+
 Matrices can be formed and matrix operations performed in a way similar to Matlab and Python.
 
 .. code-block:: julia
 
    # one way
    A = [1 2 3;4 5 6;7 8 9]
+   v = [1,2,3]
 
    # vector matrix multiplication
-   A*a
+   A*v
 
    # matrix multiplicaiton
    B = A*A
@@ -119,6 +123,59 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    # ones
    ones(5) # [1,1,1,1,1]
    ones(5,5) # 5x5-matrix of ones
+
+Random and sparse matrices
+--------------------------
+
+To form random matrices we can use standard library functions.
+
+.. code-block:: julia
+
+   using Distributions
+
+   # random matrices
+   rand() # uniformly distributed random number in [0,1]
+   rand(5) # uniform 5-vector
+   rand(5,5) # uniform 5x5-matrix
+   randn(10) # normally distributed 10-vector
+
+For a wider array of distributions we can use the package Distributions.
+
+.. code-block:: julia
+
+   using Distributions
+
+   m = [0,0,1.0] # mean
+   S = [[1.0 0 0];[0 2.0 0];[0 0 3.0]] # covaraince matrix
+   D = MvNormal(m, S) # multivariate normal distribution
+   rand(D) # sample
+
+Sparse matrices (lots of zeros) and effective operations on them
+can be done using the SparseArrays package.
+
+   using SparseArrays
+
+   # 100x100-matrix with density 10% (non-zero elements)
+   M = rand(100,100) .< 0.1
+   S = sparse(M) # SparseMatrixCSC
+
+   typeof(M) # BitMatrix (alias for BitArray{2})
+   typeof(S) # SparseMatrixCSC{Bool, Int64}
+
+   # 100x100-matrix with density 10%, as sparse matrix directly
+   S = sprand(100, 100, 0.1)
+
+To benchmark and time computations we can use the BenchmarkTools package.
+
+.. code-block:: julia
+
+   using BenchmarkTools
+
+   # @time includes compilation time and garbage collection
+   @time M^2;
+
+   # @btime does not includes compilation time
+   @btime M^2;
 
 
 List comprehension, slicing and vectorization
