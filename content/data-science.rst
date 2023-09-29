@@ -6,6 +6,13 @@ Data science and machine learning
 .. questions::
 
    - Can I use Julia for machine learning?
+   - What are the key steps in data preprocessing in Julia?
+   - How can you handle missing data in Julia?
+   - How can you save your current environment in Julia?  
+   - What are some popular machine learning algorithms available in Julia?
+   - How does Julia handle large datasets in machine learning?
+   - How can you implement clustering in Julia?
+   - What are some classification techniques available in Julia?
      
 .. instructor-note::
 
@@ -217,13 +224,15 @@ It's a network made up of neurons⁷. This leads to the question, "what is a neu
 A neuron in the context of neural networks is a mathematical function conceived as a model of biological neurons.
 The neuron takes in one or more input values and sums them to produce an output. Normally, neurons are aggregated into layers to form a network.
 
-For more detailed information, discover this `Intro to Neurons notebook <https:>`_ from JuliaAcademy's Foundations of Machine Learning course.
+For more detailed information, discover this `Intro to Neurons notebook <https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Intro-to-neurons.ipynb>`_ from JuliaAcademy's Foundations of Machine Learning course.
+Data: `draw_neural_net.jl <https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/draw_neural_net.jl>`_ 
 It provides an excellent introduction to the concept of neurons in the context of ML.
 
 References:
-(1) What is Machine Learning? | IBM. https://www.ibm.com/topics/machine-learning 
-(2) Machine learning - Wikipedia. https://en.wikipedia.org/wiki/Machine_learning
-(3) 1-intro-to-neurons.ipynb - Colaboratory - Google Colab. https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb
+
+- What is Machine Learning? – IBM. https://www.ibm.com/topics/machine-learning 
+- Machine learning - Wikipedia. https://en.wikipedia.org/wiki/Machine_learning
+- 1-intro-to-neurons.ipynb - Google Colab. https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb
 
 Machine learning in Julia
 -------------------------
@@ -284,14 +293,15 @@ After setting up your environment, we will dive into the adapted lessons about C
 These lessons provide comprehensive tutorials on various topics in Julia.
 By following these lessons, you will gain a deeper understanding of how to use Julia for high-performance data analysis.
 
-Clustering notebook: 
-Classification notebook:
+Clustering notebook: https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb
+
+Classification notebook: https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb
 
 Deep learning
 ^^^^^^^^^^^^^
 `Deep learning <https://en.wikipedia.org/wiki/Deep_learning>`_ is a subset of ML which is essentially a neural network with three or more layers.
 These neural networks attempt to simulate the behavior of the human brain—albeit far from matching its ability—allowing it to “learn” from large amounts of data.
-Deep learning drives many AI applications and services that improve automation, performing analytical and physical tasks without human intervention⁸
+Deep learning drives many AI applications and services that improve automation, performing analytical and physical tasks without human intervention
 Deep-learning architectures such as deep neural networks, deep belief networks, deep reinforcement learning, recurrent neural networks, convolutional neural networks
 and transformers have been applied to fields including computer vision, speech recognition, natural language processing, machine translation, bioinformatics, drug design,
 medical image analysis, climate science, material inspection and board game programs.
