@@ -125,7 +125,7 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    ones(5) # [1,1,1,1,1]
    ones(5,5) # 5x5-matrix of ones
 
-..code-block text
+..code-block:: text
 
    julia> A
    3×3 Matrix{Int64}:
@@ -307,7 +307,6 @@ Plotting the result:
    setosa = Xp'[:,y.=="setosa"]
    versicolor = Xp'[:,y.=="versicolor"]
    virginica = Xp'[:,y.=="virginica"]
-
 
    plt = plot(setosa[1,:],setosa[2,:],setosa[3,:], seriestype=:scatter, label="setosa")
    plot!(versicolor[1,:],versicolor[2,:],versicolor[3,:], seriestype=:scatter, label="versicolor")
