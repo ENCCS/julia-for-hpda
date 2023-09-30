@@ -441,49 +441,6 @@ To install Flux:
 Exercises
 ---------
 
-
-.. todo:: Create a custom plotting function
-
-   Convert the final ``scatter`` plot in the type-along section "Visualizing the Penguin dataset"
-   and convert it into a ``create_scatterplot`` function: 
-   
-   - The function should take as arguments a dataframe and two column symbols. 
-   - Use the ``minimum()`` and ``maximum()`` functions to automatically set the x-range of the plot 
-     using the ``xlim = (xmin, xmax)`` argument to ``scatter()``.
-   - If you have time, try grouping the data by ``:island`` or ``:sex`` instead of ``:species`` 
-     (keep in mind that you may need to adjust the number of marker symbols and colors).
-   - If you have more time, play around with the plot appearance using ``theme()`` and the marker symbols and colors.
-
-   .. solution::
-
-      .. code-block:: julia
-
-         function create_scatterplot(df, col1, col2, groupby)
-             xmin, xmax = minimum(df[:, col1]), maximum(df[:, col1])
-             # markers and colors to use for the groups
-             markers = [:circle :ltriangle :star5 :rect :diamond :hexagon]
-             colors = [:magenta :springgreen :blue :coral2 :gold3 :purple]
-             # number of unique groups can't be larger than the number of colors/markers
-             ngroups = length(unique(df[:, groupby]))
-             @assert ngroups <= length(colors)
-         
-             scatter(df[!, col1],
-                     df[!, col2],
-                     xlabel = col1,
-                     ylabel = col2,
-                     xlim = (xmin, xmax),
-                     group = df[!, groupby],
-                     marker = markers[:, 1:ngroups],
-                     color = colors[:, 1:ngroups],
-                     markersize = 5,
-                     alpha = 0.8
-                     )
-         end    
-
-         create_scatterplot(df, :bill_length_mm, :body_mass_g, :sex)
-         create_scatterplot(df, :flipper_length_mm, :body_mass_g, :island)  
-
-
 .. _DLexercise:
 
 .. todo:: Improve the deep learning model

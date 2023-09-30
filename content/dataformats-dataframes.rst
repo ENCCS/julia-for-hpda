@@ -549,7 +549,12 @@ Exercises
 
    2. Set the relative path to the `DailyDelhiClimateTest.csv` and `DailyDelhiClimateTrain.csv` 
    files in the `path_test` and `path_train` variables. Assume that the path to your files is 
-   `julia4hpda/archive` and you are currently in the `julia4hpda/` directory in the Julia REPL.
+   `juliaforhpda/data` and you are currently in the `juliaforhpda/` directory in the Julia REPL.
+   The data is available here: https://github.com/ENCCS/julia-for-hpda/blob/main/content/data/DailyDelhiClimateTest.csv 
+   and https://github.com/ENCCS/julia-for-hpda/blob/main/content/data/DailyDelhiClimateTrain.csv
+   
+   This climate data set contains daily mean temperature, humidity, wind speed and mean pressure at a location in Dehli India over a period of several years.
+   The data set was downloaded from `here <https://www.kaggle.com/datasets/sumanthvrao/daily-climate-time-series-data/>`__.
 
    3. Read the data from the CSV files into DataFrames named `df_test` and `df_train` using the `CSV.read` function.
 
@@ -568,28 +573,38 @@ Exercises
 
       Here is one possible solution to this exercise:
 
-      Once you have read the data from the CSV files into DataFrames using the code, 
-      you can manipulate the data using the functions provided by the `DataFrames` package. 
+      Once you have read the data from the CSV files into DataFrames, you can 
+      manipulate the data using the functions provided by the `DataFrames` package. 
       Here are some examples that show how to manipulate data in a DataFrame:
 
          .. code-block:: julia
 
-         using DataFrames
+            using CSV
 
-         # Select columns
-         df_test_selected = select(df_test, :meantemp, :humidity)
+            # Set relative path to CSV files
+            path_test = "data/DailyDelhiClimateTest.csv"
+            path_train = "data/DailyDelhiClimateTrain.csv"
 
-         # Filter rows
-         df_test_filtered = filter(:meantemp => x -> x > 20, df_test)
+            # Read data from CSV files into DataFrames
+            df_test = CSV.read(path_test, DataFrame)
+            df_train = CSV.read(path_train, DataFrame)
 
-         # Group data
-         df_test_grouped = groupby(df_test, :date)
+            using DataFrames
 
-         # Compute summary statistics
-         describe(df_test)
+            # Select columns
+            df_test_selected = select(df_test, :meantemp, :humidity)
 
-         # Compute aggregate functions
-         combine(df_test_grouped, :meantemp => mean)
+            # Filter rows
+            df_test_filtered = filter(:meantemp => x -> x > 20, df_test)
+
+            # Group data
+            df_test_grouped = groupby(df_test, :date)
+
+            # Compute summary statistics
+            describe(df_test)
+
+            # Compute aggregate functions
+            combine(df_test_grouped, :meantemp => mean)
 
 
       This code shows how to select columns, filter rows, group data, compute summary statistics,
@@ -686,8 +701,8 @@ Exercises
          using Plots
 
          # Set relative path to CSV files
-         path_test = "archive/DailyDelhiClimateTest.csv"
-         path_train = "archive/DailyDelhiClimateTrain.csv"
+         path_test = "data/DailyDelhiClimateTest.csv"
+         path_train = "data/DailyDelhiClimateTrain.csv"
 
          # Read data from CSV files into DataFrames
          df_test = CSV.read(path_test, DataFrame)
