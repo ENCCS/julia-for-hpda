@@ -132,6 +132,7 @@ On top of that we add normally distributed noise.
 
    println(lm2)
    println()
+   println("Coefficient vector:")
    print(C)
 
 .. code-block:: text
@@ -244,6 +245,18 @@ Sources:
 - Bennett, N. A. and N. L. Franklin (1954), Statistical Analysis in Chemistry and the Chemical Industry, New York: Wiley.
 - McNeil, D. R. (1977), Interactive Data Analysis, New York: Wiley.
 
+.. todo::
+
+   In the exerises below we use the packages GLM, RDatasets, Plots and DataFrames:
+
+   .. code-block:: julia
+
+      using Pkg
+      Pkg.add("GLM")
+      Pkg.add("RDatasets")
+      Pkg.add("Plots")
+      Pkg.add("DataFrames")
+
 .. todo:: Formaldehyde example
 
    To load the dataset, you can do:
@@ -331,6 +344,13 @@ black cherry trees: girth, height and volume
 
 .. todo:: Black cherry trees
 
+   In this exerise we use also the package StatsBase:
+
+   .. code-block:: julia
+
+      using Pkg
+      Pkg.add("StatsBase")
+
    Load the trees data set as follows:
 
    .. code-block:: julia
@@ -362,7 +382,7 @@ black cherry trees: girth, height and volume
       model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
 
    Lastly, make predictions on the training set according to the model and compute the
-   root mean squared error of the prediction.
+   root mean squared error of the prediction (for instance on the training set).
 
    .. code-block:: julia
 
@@ -637,15 +657,16 @@ neural network in Julia using the package Flux.
                Dense(10, 1, init=init, bias=true)
    )
 
-   ps = Flux.params(model)
    loss(tX, ty) = Flux.Losses.mse(model(tX'), ty')
-   opt = ADAM(0.01) # learning rate 0.01
 
    data = [(X_train, y_train)]
-   n_epochs = 1000
+
+   ps = Flux.params(model)
+   opt = ADAM(0.01) # learning rate 0.01
 
    train_loss = []
    test_loss = []
+   n_epochs = 1000
 
    # to animate training
    # replace the rest of the code from here with snippet below
@@ -817,15 +838,16 @@ We will consider the problem of predicting scaled sound pressure level from the 
 
 .. code-block:: julia
 
-   using GLM, RDatasets, MLJ, Flux
+   using GLM, MLJ
    import MLJDecisionTreeInterface
-   using BetaML
-   using MLJ: shuffle, partition
    import DataFrames
    using CSV
    using HTTP
 
-   req = HTTP.get("https://raw.githubusercontent.com/rupakc/UCI-Data-Analysis/master/Airfoil%20Dataset/airfoil_self_noise.dat");
+   path = "https://raw.githubusercontent.com/rupakc/UCI-Data-Analysis/master/"*
+   "Airfoil%20Dataset/airfoil_self_noise.dat"
+
+   req = HTTP.get(path);
 
    df = CSV.read(req.body, DataFrames.DataFrame; header=[
                       "Frequency","Attack_Angle","Chord_Length",
@@ -834,7 +856,9 @@ We will consider the problem of predicting scaled sound pressure level from the 
                  );
    y_column = :Scaled_Sound
    X_columns = 1:5
-   formula_lin = @formula(Scaled_Sound ~ 1 + Frequency + Attack_Angle + Chord_Length + Free_Velocity + Suction_Side)
+
+   formula_lin = @formula(Scaled_Sound ~ 1 + Frequency + Attack_Angle + Chord_Length +
+   Free_Velocity + Suction_Side)
 
    train, test = partition(1:size(df, 1), 0.7, shuffle=true)
    df_train = df[train,:]
@@ -843,10 +867,9 @@ We will consider the problem of predicting scaled sound pressure level from the 
    model_lin = GLM.fit(LinearModel, formula_lin, df_train)
 
    X_test = Matrix(df_test[:, X_columns])
-
-   y_test = df_test[:, y_column]
    y_test_pred = GLM.predict(model_lin, [ones(size(df_test, 1)) X_test])
 
+   y_test = df_test[:, y_column]
    rmse_lin = rms(y_test, y_test_pred)
 
    # non-linear model
@@ -953,6 +976,20 @@ To illustrate more usages of MLJ and various regression models consider the foll
 Exercises
 ---------
 
+.. todo::
+
+   In the exercises below we use some packages which may be intalled as follows
+   if needed.
+
+   .. code-block
+
+      using Pkg
+      Pkg.add("DataFrames")
+      Pkg.add("MLJ")
+      Pkg.add("MLJDecisionTreeInterface")
+      Pkg.add("MLJScikitLearnInterface")
+      Pkg.add("Plots")
+
 .. todo:: Simple regression 1
 
    Run the code in the `Simple regression example`_ above and see what prediction errors you get.
@@ -1041,7 +1078,7 @@ Exercises
          # or a decision tree
          # model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
-      For some models you may have to install the package mentioned or import
+      For some models you may have to install the package mentioned and
       an MLJ interface (MLJDecisionTreeInterface, MLJScikitLearnInterface or similar).
 
       The list of models from above will be something like:
@@ -1126,6 +1163,8 @@ Exercises
 .. todo:: Air foil continued
 
    Return to the `Airfoil data set`_ example above and run the code for it.
+   To run the airfoil example you need the packages GLM, MLJ,
+   MLJDecisionTreeInterface, DataFrames, CSV and HTTP.
 
    Try some different models to model the data. You can list available models as follows at the end of the script.
 
@@ -1142,7 +1181,7 @@ Exercises
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
 
-      For some models you may have to install the package mentioned or import
+      For some models you may have to install the package mentioned and
       an MLJ interface (MLJDecisionTreeInterface, MLJScikitLearnInterface or similar).
 
 Some Fourier based models (extra material)
@@ -1266,7 +1305,7 @@ We will use data (waveform) similar to that of the last example.
 
    Zooming in a bit on the frequency graph.
 
-Since the climate data is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
+Since the climate data explored above is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
 
 .. code-block:: julia
 

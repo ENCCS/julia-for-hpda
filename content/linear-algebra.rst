@@ -108,14 +108,14 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
 
    # extract elements from vector
    u = [2,3,5,7]
-   u[1] # first element
-   u[2] # second element
-   u[2:4] # range
+   u[1] # first element: 2
+   u[2] # second element: 3
+   u[2:4] # range second to fourth: 3,5,7
 
    # slicing
-   A[2,3]
-   A[:,1] # first column
-   A[2,:] # second row
+   A[2,3] # second row third column: 6
+   A[:,1] # first column: 1,4,7
+   A[2,:] # second row: 4,5,6
 
    # zeros
    zeros(5) # [0,0,0,0,0]
@@ -124,6 +124,30 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    # ones
    ones(5) # [1,1,1,1,1]
    ones(5,5) # 5x5-matrix of ones
+
+..code-block text
+
+   julia> A
+   3×3 Matrix{Int64}:
+    1  2  3
+    4  5  6
+    7  8  9
+
+   julia> zeros(5,5)
+   5×5 Matrix{Float64}:
+    0.0  0.0  0.0  0.0  0.0
+    0.0  0.0  0.0  0.0  0.0
+    0.0  0.0  0.0  0.0  0.0
+    0.0  0.0  0.0  0.0  0.0
+    0.0  0.0  0.0  0.0  0.0
+
+   julia> ones(5,5)
+   5×5 Matrix{Float64}:
+    1.0  1.0  1.0  1.0  1.0
+    1.0  1.0  1.0  1.0  1.0
+    1.0  1.0  1.0  1.0  1.0
+    1.0  1.0  1.0  1.0  1.0
+    1.0  1.0  1.0  1.0  1.0
 
 Eigenvectors and eigenvalues
 ----------------------------
