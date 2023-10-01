@@ -436,9 +436,9 @@ Exercises
 
       Some answers/comments on the questions:
 
-      - The principal directions are only defined up to sign, which partly exaplains why they may get flipped when you rerun the script. One has to look into the algorithm that computes the eigenvectors to get a full explanation.
+      - The principal directions (eigenvectors) are only defined up to sign, which partly explains why they may get flipped when you rerun the script. One has to look into the algorithm that computes the eigenvectors to get a full explanation.
       - When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
-	  - When you take more data, ``M/n`` (divide by the number of data points) should get close to ``S``.
+      - When you take more data, ``M/n`` (divide by the number of data points) should get close to ``S``.
 
 .. todo::
 
