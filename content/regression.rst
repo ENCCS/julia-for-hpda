@@ -531,7 +531,8 @@ blog post *Forecasting the weather with neural ODEs* found `here
    plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
    plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
    # color=[1 2 3 4] gives default colors
-   plot(M, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (days)", ylabel=plotylabels, size=(800,800))
+   plot(M, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles,
+   xlabel="time (days)", ylabel=plotylabels, size=(800,800))
 
 .. figure:: img/climate_plots_first.png
    :align: center
@@ -554,14 +555,14 @@ The mean pressure data field seems to contain some unreasonably large values. Le
    plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
    plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
 
-   # remove mean pressures above 1050 hPa and below 950 hPa
-   pressure_mod = [ abs(x-1000) < 50 ? x : NaN for x in df_train.meanpressure]
-   # pressure_mod = [ (950 < x) & (x < 1050) ? x : NaN for x in df_train.meanpressure]
+   df_train[df_train.meanpressure .< 950,:meanpressure] .= NaN
+   df_train[1050 .< df_train.meanpressure,:meanpressure] .= NaN
 
-   Mmod = [df_train.meantemp df_train.humidity df_train.wind_speed pressure_mod]
+   M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
 
    # color=[1 2 3 4] gives default colors
-   plt = plot(Mmod, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (days)", ylabel=plotylabels, size=(800,800))
+   plt = plot(M, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles,
+   xlabel="time (days)", ylabel=plotylabels, size=(800,800))
 
    display(plt)
 
@@ -602,8 +603,8 @@ neural network in Julia using the package Flux.
    # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
    df = CSV.read(data_path, DataFrame)
 
-   # clean up data
-   df[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df.meanpressure) for x in df.meanpressure]
+   # clean up data, drop rows
+   df = filter(:meanpressure => x -> 950 < x < 1050, df)
 
    topredict = "mean temp"
    y = df.meantemp
@@ -698,13 +699,13 @@ neural network in Julia using the package Flux.
 
 .. code-block:: text
 
-   Epoch: 997, rmse train/test: 2.5457162727794627 2.976820601944131
-   Epoch: 998, rmse train/test: 2.5455743026361106 2.976745963344427
-   Epoch: 999, rmse train/test: 2.5454323141134845 2.9766709624395236
-   Epoch: 1000, rmse train/test: 2.545290506223516 2.976596231134482
+   Epoch: 997, rmse train/test: 2.321958298905668 2.8623720534428925
+   Epoch: 998, rmse train/test: 2.3217000741076217 2.862347448996424
+   Epoch: 999, rmse train/test: 2.321443844030064 2.8623211237184116
+   Epoch: 1000, rmse train/test: 2.3211893059494684 2.8622934109353464
    mean temp
-   rmse train: 2.545290506223516
-   rmse_test: 2.976596231134482
+   rmse train: 2.3211893059494684
+   rmse_test: 2.8622934109353464
 
 It is interesting to animate the predictions during the training of the neural network. This will also give us a quick look at animation in Julia.
 
@@ -751,7 +752,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
    df = CSV.read(data_path, DataFrame)
 
    # clean up data
-   df[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df.meanpressure) for x in df.meanpressure]
+   df = filter(:meanpressure => x -> 950 < x < 1050, df)
 
    topredict = "mean temp"
    y = df.meantemp
@@ -807,8 +808,9 @@ Let us also check how well a linear model is doing in this case. It turns out it
 .. code-block:: text
 
    mean temp
-   rmse train: 2.654280437247272
-   rmse_test: 3.1429118309689383
+   rmse train: 2.61686030150272
+   rmse_test: 3.047019624551555
+
 
 .. figure:: img/climate_linear_reg.png
    :align: center

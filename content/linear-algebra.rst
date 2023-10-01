@@ -125,7 +125,7 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    ones(5) # [1,1,1,1,1]
    ones(5,5) # 5x5-matrix of ones
 
-..code-block:: text
+.. code-block:: text
 
    julia> A
    3×3 Matrix{Int64}:
