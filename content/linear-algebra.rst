@@ -49,9 +49,9 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
 
 .. code-block:: julia
 
-   # form matrix and vector
-   A = [1 2 3;4 5 6;7 8 9]
+   # form vector and matrix
    u = [2,3,5,7]
+   A = [1 2 3;4 5 6;7 8 9]
 
    # extract elements from vector
    u[1] # first element: 2
@@ -72,6 +72,13 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    ones(5,5) # 5x5-matrix of ones
 
 .. code-block:: text
+
+   julia> u
+   4-element Vector{Int64}:
+    2
+    3
+    5
+    7
 
    julia> A
    3×3 Matrix{Int64}:
