@@ -15,99 +15,45 @@ Linear algebra
    - 35 min teaching
    - 25 min exercises
 
-List comprehension, slicing and vectorization
----------------------------------------------
+Vectors and matrices in Julia
+-----------------------------
 
 We will start with a breif look at how we can form arrays
-and vectors in Julia and how to perform vector operations.
+and vectors in Julia and how to perform vector and matrix operations.
 
 .. code-block:: julia
 
    # range notation, list from 1 to 10
    1:10
 
+   # make into vector
+   Vector(1:10)
+
    # another way to make ranges
    range(1, 10)
 
-   # forming vectors
-   a = [1,2,3,4]
-   b = [2,3,4,5]
+.. code-block:: text
 
-   # scaling
-   0.5*a
-
-   # vector addition
-   a + b
-   a - b
-
-To perform element wise computations we can use the dot notation (similar to Matlab).
-
-.. code-block:: julia
-
-   # powers
-   a^2 # MethodError
-   a.^2 # 1,4,9,16
-
-   # same as vector addition
-   a .+ b
-
-   # element wise product
-   a.*b
-
-   # applying functions
-   sin(a) # MethodError
-   sin.(a) # element wise computations
-
-   # alternative way
-   @. a+a^2-sin(a)*sin(b)
-
-In Julia one can use `list comprehension <https://en.wikipedia.org/wiki/List_comprehension>`_ to
-create vectors in a simple way similar to Python. 
-
-.. code-block:: julia
-
-   # list comprehension
-   [i^2 for i in range(1,40)] # 40-element Vector
-
-   # conditional list comprehension
-   [i^2 for i in range(1,40) if i%5==0] # 8-element Vector
-
-   # if else clause
-   [x < 3 ? x : x^2 for x in 1:5] # 1,2,9,16,25
-
-Matrix formation and operations
--------------------------------
-
-Matrices can be formed and matrix operations performed in a way similar to Matlab and Python.
-
-.. code-block:: julia
-
-   # one way
-   A = [1 2 3;4 5 6;7 8 9]
-   v = [1,2,3]
-
-   # vector matrix multiplication
-   A*v
-
-   # matrix multiplicaiton
-   B = A*A
-
-   # Matrix multiplication
-   A*B
-
-   # matrix powers
-   A^3
-
-   # transpose
-   transpose(A)
-   A'
+   julia> Vector(1:10)
+   10-element Vector{Int64}:
+     1
+     2
+     3
+     4
+     ...
+     8
+     9
+    10
 
 Picking out elements or parts of vectors and matrices can be done with sclicing as in Python or Matlab.
 
 .. code-block:: julia
 
-   # extract elements from vector
+   # form matrix and vector
+   A = [1 2 3;4 5 6;7 8 9]
    u = [2,3,5,7]
+
+   # extract elements from vector
    u[1] # first element: 2
    u[2] # second element: 3
    u[2:4] # range second to fourth: 3,5,7
@@ -148,6 +94,58 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
     1.0  1.0  1.0  1.0  1.0
     1.0  1.0  1.0  1.0  1.0
     1.0  1.0  1.0  1.0  1.0
+
+To perform vector and matrix operations we can use syntax similar to Matlab och Python.
+
+.. code-block:: julia
+
+   # forming vectors
+   a = [1,2,3,4]
+   b = [2,3,4,5]
+
+   # scaling
+   0.5*a
+
+   # vector addition
+   a + b
+   a - b
+
+   # powers
+   a^2 # MethodError
+   a.^2 # 1,4,9,16
+
+   # same as vector addition
+   a .+ b
+
+   # element wise product
+   a.*b
+
+   # applying functions
+   sin(a) # MethodError
+   sin.(a) # element wise computations
+
+   # alternative way
+   @. a+a^2-sin(a)*sin(b)
+
+   # forming matrix and vector
+   A = [1 2 3;4 5 6;7 8 9]
+   v = [1,2,3]
+
+   # vector matrix multiplication
+   A*v
+
+   # matrix multiplicaiton
+   B = A*A
+
+   # Matrix multiplication
+   A*B
+
+   # matrix powers
+   A^3
+
+   # transpose
+   transpose(A)
+   A'
 
 Eigenvectors and eigenvalues
 ----------------------------
