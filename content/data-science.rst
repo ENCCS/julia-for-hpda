@@ -595,4 +595,4 @@ See also
       neuro = dataset("boot", "neuro")
 
 - `"The Future of Machine Learning and why it looks a lot like Julia" by Logan Kilpatrick <https://towardsdatascience.com/the-future-of-machine-learning-and-why-it-looks-a-lot-like-julia-a0e26b51f6a6>`_
-- `Deep Learning with Flux - A 60 Minute Blitz <https://fluxml.ai/tutorials/2020/09/15/deep-learning-flux.html>`__
+- `Deep Learning with Flux - A 60 Minute Blitz <http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/>`__
