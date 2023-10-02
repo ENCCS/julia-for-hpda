@@ -530,54 +530,54 @@ Exercises
 
       Much better!
 
-   .. todo:: More improvements
+.. todo:: More improvements
 
-      **Exercise: Hyperparameter Tuning**
+   **Exercise: Hyperparameter Tuning**
       
-      Experiment with different hyperparameters of the model and the training process. 
+   Experiment with different hyperparameters of the model and the training process. 
 
-      .. code-block:: julia
+   .. code-block:: julia
 
-         # Try different batch sizes in the minibatch creation.
-         minibatches = create_minibatches(xtrain, ytrain, batch_size=64, n_batch=10)
+      # Try different batch sizes in the minibatch creation.
+      minibatches = create_minibatches(xtrain, ytrain, batch_size=64, n_batch=10)
 
-         # Experiment with different learning rates for the ADAM optimizer.
-         opt = ADAM(0.05)
+      # Experiment with different learning rates for the ADAM optimizer.
+      opt = ADAM(0.05)
 
-         # Change the number of neurons in the hidden layer of the model.
-         model = Chain(
-            Dense(n_features, 20, relu),
-            Dense(20, n_classes),
-            softmax
-         )
+      # Change the number of neurons in the hidden layer of the model.
+      model = Chain(
+         Dense(n_features, 20, relu),
+         Dense(20, n_classes),
+         softmax
+      )
 
-         # The solution will depend on the specific hyperparameters chosen.
+      # The solution will depend on the specific hyperparameters chosen.
 
-      **Exercise: Feature Engineering**
+   **Exercise: Feature Engineering**
       
-      Consider doing some feature engineering on your input data.
+   Consider doing some feature engineering on your input data.
 
-      .. code-block:: julia
+   .. code-block:: julia
 
-         # Try normalizing or standardizing the input features.
-         xtrain = (xtrain .- mean(xtrain, dims=2)) ./ std(xtrain, dims=2)
-         xtest = (xtest .- mean(xtest, dims=2)) ./ std(xtest, dims=2)
+      # Try normalizing or standardizing the input features.
+      xtrain = (xtrain .- mean(xtrain, dims=2)) ./ std(xtrain, dims=2)
+      xtest = (xtest .- mean(xtest, dims=2)) ./ std(xtest, dims=2)
 
-      **Exercise: Different Model Architectures**
+   **Exercise: Different Model Architectures**
       
-      Experiment with different model architectures.
+   Experiment with different model architectures.
 
-      .. code-block:: julia
+   .. code-block:: julia
 
-         # Try adding more layers to your model.
-         model = Chain(
-            Dense(n_features, n_neurons, relu),
-            Dense(n_neurons, n_neurons, relu),
-            Dense(n_neurons, n_classes),
-            softmax
-         )
+      # Try adding more layers to your model.
+      model = Chain(
+         Dense(n_features, n_neurons, relu),
+         Dense(n_neurons, n_neurons, relu),
+         Dense(n_neurons, n_classes),
+         softmax
+      )
 
-      Remember to experiment and see how these changes affect your model's performance! 😊
+   Remember to experiment and see how these changes affect your model's performance! 😊
 
 See also
 --------
