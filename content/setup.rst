@@ -103,8 +103,18 @@ After it completes you should be able to list all installed packages:
 Activating your environment in VS Code
 --------------------------------------
 
+Open VS Code from terminal
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you run VS Code from a terminal you can activate your enviroment as follows.
+Open a terminal and go to the directory where the Project.toml file resides.
+Now start VS Code with ``code .``
+
+Change environment in VS Code
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 When using Visual Studio Code for julia development and using your own environment,
-you need to activate it. Start a Julia REPL in VS Code, for example by runnig a script.
+you can activate it as follows. Start a Julia REPL in VS Code, for example by runnig a script.
 Start the package mode by typing ``]``. Typically you will be in the stardard environment v1.9:
 
 .. code-block:: julia
