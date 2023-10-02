@@ -177,51 +177,6 @@ Here's how you can create a new dataframe:
          4 │ Adelie   Torgersen       missing        missing              missing      missing  missing 
          5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
    
-   
-   
-(Optional) Long vs Wide Data Format
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The data is in a so-called `wide format <https://en.wikipedia.org/wiki/Wide_and_narrow_data>`_.
-
-In data analysis, we often encounter two types of data formats: **long format** and **wide format**.
-https://www.statology.org/long-vs-wide-data/
-
-- **Long format**: In this format, each row is a single observation, and each column is a variable. This format is also known as "tidy" data.
-- **Wide format**: In this format, each row is a subject, and each column is an observation. This format is also known as "spread" data.
-
-The `DataFrames.jl` package provides functions to reshape data between long and wide formats. These functions are `stack`, `unstack`, `melt`, and `pivot`.
-
-.. code-block:: julia
-
-   # To convert from wide to long format
-   df_long = stack(df, Not(:species))
-
-   # To convert from long to wide format
-   df_wide = unstack(df_long, :species)
-
-(Optional) Reshaping and Pivoting
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The `pivot` function can be used to reshape data (from long to wide format) and also perform aggregation.
-
-.. code-block:: julia
-
-   # Pivot data with aggregation
-   df_pivot = pivot(df, :species, :island, :body_mass_g, mean)
-
-   
-In this example, `:species` is used as the row index, `:island` as the column index, and `:body_mass_g` 
-as the values to fill the DataFrame.The `mean` function is used for aggregation.
-
-The result is a new DataFrame where each unique value in the `:species` column forms a row, each unique 
-value in the `:island` column forms a column, and the mean body mass for each species-island combination fills the DataFrame.
-
-Note that if you don't provide an aggregation function and there are multiple values for a given row-column combination, 
-`pivot` will throw an error. To handle this, you can provide an aggregation function like `mean`, `sum`, etc., 
-which will be applied to all values that fall into each cell of the resulting DataFrame.
-
-More information: https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/
 
 Inspect dataset
 ^^^^^^^^^^^^^^^
@@ -304,6 +259,86 @@ Inspect dataset
       mask = ismissing.(df[:bill_length_mm])
       itp = interpolate(df[:bill_length_mm][.!mask], BSpline(Linear()))
       df[:bill_length_mm][mask] .= itp.(findall(mask))
+
+   It throws the issue because the syntax df[column] is not supported in Julia 1.9.0.
+   Here is the correct code:
+
+   .. code-block:: julia
+
+      # Interpolating missing values
+      using Interpolations
+      mask = ismissing.(df.bill_length_mm)
+      itp = interpolate(df[!, :bill_length_mm][.!mask], BSpline(Linear()))
+      df[!, :bill_length_mm][mask] .= itp.(findall(mask))   
+
+   `mask = ismissing.(df.bill_length_mm)`: This line is creating a logical mask that is `true` wherever there are missing values (`NaN`) in the `bill_length_mm` column and `false` elsewhere.
+
+   `itp = interpolate(df[!, :bill_length_mm][.!mask], BSpline(Linear()))`: This line is creating an interpolation object `itp`. It's using only the non-missing values of the `bill_length_mm` column (specified by `df[!, :bill_length_mm][.!mask]`) and a linear B-spline interpolation method (`BSpline(Linear())`).
+   
+   `df[!, :bill_length_mm][mask] .= itp.(findall(mask))`: This line is replacing the missing values in the `bill_length_mm` column with the interpolated values. It's finding the indices of the missing values with `findall(mask)` and then using the interpolation object `itp` to estimate values at these indices.
+
+So, in summary, this code is filling in missing values in the `bill_length_mm` column by estimating their value based on a linear interpolation of the non-missing values. This can be a useful way to handle missing data when you don't want to or can't simply ignore those missing values. 😊
+
+(Optional) Long vs Wide Data Format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The data is in a so-called `wide format <https://en.wikipedia.org/wiki/Wide_and_narrow_data>`_.
+
+In data analysis, we often encounter two types of data formats: **long format** and **wide format**.
+https://www.statology.org/long-vs-wide-data/
+
+- **Long format**: In this format, each row is a single observation, and each column is a variable. This format is also known as "tidy" data.
+- **Wide format**: In this format, each row is a subject, and each column is an observation. This format is also known as "spread" data.
+
+The `DataFrames.jl` package provides functions to reshape data between long and wide formats. These functions are `stack`, `unstack`, `melt`, and `pivot`.
+Detailed tutorial: https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/ 
+
+.. code-block:: julia
+
+   # To convert from wide to long format
+   df_long = stack(df, Not(:species))
+
+   # To convert from long to wide format
+   df_wide = unstack(df_long, :species, :variable, :value)
+   
+   # or
+   # Custom combine function
+   function custom_combine(x)
+      if eltype(x) <: Number
+         return mean(skipmissing(x))
+      else
+         return first(skipmissing(x))
+      end
+   end
+
+   # Unstack DataFrame with custom combine function
+   df_wide = unstack(df_long, :species, :variable, :value, combine = custom_combine)
+
+
+(Optional) Reshaping and Pivoting
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `pivot` function can be used to reshape data (from long to wide format) and also perform aggregation.
+
+.. code-block:: julia
+
+   using Statistics
+
+   # Pivot data with aggregation
+   df_grouped = groupby(df, [:species, :island])
+   df_pivot = combine(df_grouped, :body_mass_g => mean)
+
+
+In this example, `groupby(df, [:species, :island])` groups your DataFrame by the `species` and `island` columns.
+Then, `combine(df_grouped, :body_mass_g => mean)` calculates the mean of the `body_mass_g` column for each group.
+The `mean` function is used for aggregation.
+
+The result is a new DataFrame where each unique value in the `:species` column forms a row, each unique 
+value in the `:island` column forms a column, and the mean body mass for each species-island combination fills the DataFrame.
+
+Note that if you don't provide an aggregation function and there are multiple values for a given row-column combination, 
+`pivot` will throw an error. To handle this, you can provide an aggregation function like `mean`, `sum`, etc., 
+which will be applied to all values that fall into each cell of the resulting DataFrame.
 
 
 Creating and merging DataFrames like in SQL
