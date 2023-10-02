@@ -235,7 +235,7 @@ References:
 - 1-intro-to-neurons.ipynb - Google Colab. https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb
 
 Machine learning in Julia
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Despite being a relatively new language, Julia already has a strong and rapidly expanding 
 ecosystem of libraries for machine learning and deep learning. A fundamental advantage of Julia for ML 
@@ -258,7 +258,6 @@ Julia has packages for traditional (non-deep) machine learning:
 - `ScikitLearn.jl <https://scikitlearnjl.readthedocs.io/en/latest/>`_ is a port of the popular Python package.
 - `MLJ.jl <https://alan-turing-institute.github.io/MLJ.jl/dev/>`_ provides a common interface 
   and meta-algorithms for selecting, tuning, evaluating, composing and comparing over 150 machine learning models.
-
 
 - `Machine Learning · Julia Packagesl <https://juliapackages.com/c/machine-learning/>`_: This is a website that lists various Julia packages related to machine learning, such as MLJ.jl, Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many more. 
   You can browse the packages by their popularity, alphabetical order, or update date. Each package has a brief description and a link to its GitHub repository.
