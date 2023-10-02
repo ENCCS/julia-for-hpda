@@ -298,7 +298,8 @@ Clustering notebook: https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks
 Classification notebook: https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb
 
 Deep learning
-^^^^^^^^^^^^^
+-------------
+
 `Deep learning <https://en.wikipedia.org/wiki/Deep_learning>`_ is a subset of ML which is essentially a neural network with three or more layers.
 These neural networks attempt to simulate the behavior of the human brain—albeit far from matching its ability—allowing it to “learn” from large amounts of data.
 Deep learning drives many AI applications and services that improve automation, performing analytical and physical tasks without human intervention
