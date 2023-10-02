@@ -701,7 +701,7 @@ Exercises
       .. code-block:: julia
 
          # Create line plot of meantemp means
-         plot(df_test_means.date, df_test_means.meantemp_mean, label="Mean Meantemp", xlabel="Date", ylabel="Meantemp (°C)", title="Mean Meantemp by Date")
+         plot(df_test_mean.date, df_test_mean.meantemp_mean, label="Mean Meantemp", xlabel="Date", ylabel="Meantemp (°C)", title="Mean Meantemp by Date")
 
       I hope this exercise helps you practice working with DataFrames in Julia!
 
