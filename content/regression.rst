@@ -983,7 +983,7 @@ Exercises
    In the exercises below we use some packages which may be intalled as follows
    if needed.
 
-   .. code-block
+   .. code-block:: julia
 
       using Pkg
       Pkg.add("DataFrames")

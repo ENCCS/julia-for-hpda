@@ -216,7 +216,7 @@ it down to a smaller dimensional space.
    principal components which are ordered in terms of imporance: the first
    principal component, the second principal component and so on.
 
-   It turns out the the principal compoenents are eigenvectors of the so-called
+   It turns out the the principal components are eigenvectors of the so-called
    covaraince matrix of the data. The corresponding eigenvalues rank the principal
    components in importance, where the biggest eigenvalue marks the first principal
    component.
@@ -388,6 +388,7 @@ Exercises
    - You might observe that the principal components are flipped from time to time when you rerun the script. Why is that?
    - Change the number of points to ``n = 100``. What happens with the principal components if you run the script a few times?
    - Compare the computed (scaled) covariance matrix ``M`` to the matrix ``S`` used to generate data.
+   - Did you notive some step in the PCA procedure that was skipped/missing?
 
    .. solution:: The whole script
 
@@ -439,6 +440,8 @@ Exercises
       - The principal directions (eigenvectors) are only defined up to sign, which partly explains why they may get flipped when you rerun the script. One has to look into the algorithm that computes the eigenvectors to get a full explanation.
       - When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
       - When you take more data, ``M/n`` (divide by the number of data points) should get close to ``S``.
+      - Is any step missing in the code examples? The data was not centered. This is stritcly speaking wrong but has a small effect in this case since the mean vector of the normal distribution used to generate data is 0. The generated data will then have approximate mean 0.
+
 
 .. todo::
 
@@ -511,7 +514,7 @@ Exercises
    computation. Compare with S as a Matrix and a sparse matrix
    (a SparseMatrixCSC).
 
-   - A sparse :math:`(a \times b)`-matrix matrix can be formed with ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
+   - A sparse :math:`(a \times b)`-matrix matrix S can be formed with ``sprand(a,b,d)``, where ``d`` is the density of non-zero elements.
 
    - To convert S to a matrix you can do ``Matrix(S)``.
 
@@ -887,7 +890,6 @@ Copies can be of import when building arrays from mutable objects created earlie
    push!(U, 5)
    u = [1,2,3]
    push!(U, u) # [5, [1,2,3]]
-   u = [1,2,3]
    u[2] = 77
    U # [5, [1,77,3]]
    u # [1,77,3]
