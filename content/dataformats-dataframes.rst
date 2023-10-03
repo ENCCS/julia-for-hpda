@@ -816,3 +816,9 @@ Exercises
    
    I hope this exercise helps you practice working with the Fourier transform in Julia!
 
+See also
+--------
+
+You can create interactive 3D scatter plots in Julia using the PlotlyJS package.
+    - https://plotly.com/julia/3d-scatter-plots/
+    - https://stackoverflow.com/questions/54429429/3d-scatter-plot-in-julia
