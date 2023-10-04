@@ -598,11 +598,15 @@ See also
 - `Deep Learning with Flux - A 60 Minute Blitz <http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/>`__
 - `Deep Convolutional Generative Adversarial Network (DCGAN) <http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-08-dcgan-mnist/>`__
 
-- Probabilistic learning:
+Neuromorphic | Probabilistic learning
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
    - https://darsnack.github.io/SpikingNN.jl/dev/
    - https://turinglang.org/v0.24/tutorials/
    - Nordic Neuromorphs | NorN Discord Community – https://discord.gg/5Qq6yX5
 
-- Quantum:
+Quantum
+^^^^^^^
+
    - https://juliapackages.com/c/quantum-mechanics
    - Swedish Quantum Society | SQS – https://swedishquantumsociety.vercel.app/
