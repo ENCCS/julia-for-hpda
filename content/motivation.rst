@@ -97,8 +97,8 @@ Meanwhile, the workarounds can help you effectively use Julia for your HPDA task
 
 By the end of this course, you should have a solid understanding of how to leverage these features of Julia for your HPDA tasks.
 
-More resources:
----------------
+More resources
+--------------
 
 - Julia Supercomputing packages – https://juliapackages.com/c/super-computing
 - https://datasciencejuliahackers.com
@@ -108,8 +108,8 @@ More resources:
 - `Bobomil Kaminski's "Julia for Data Science" book <https://github.com/bkamins/JuliaForDataAnalysis>`_
 - `JuliaDB.jl <https://github.com/pszufe/MIT_18.S097_Introduction-to-Julia-for-Data-Science>`_
 
-Julia Communities:
-------------------
+Julia Communities
+-----------------
 
 https://discourse.julialang.org/
 
