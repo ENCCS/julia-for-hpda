@@ -597,3 +597,12 @@ See also
 - `"The Future of Machine Learning and why it looks a lot like Julia" by Logan Kilpatrick <https://towardsdatascience.com/the-future-of-machine-learning-and-why-it-looks-a-lot-like-julia-a0e26b51f6a6>`_
 - `Deep Learning with Flux - A 60 Minute Blitz <http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/>`__
 - `Deep Convolutional Generative Adversarial Network (DCGAN) <http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-08-dcgan-mnist/>`__
+
+- Probabilistic learning:
+   - https://darsnack.github.io/SpikingNN.jl/dev/
+   - https://turinglang.org/v0.24/tutorials/
+   - Nordic Neuromorphs | NorN Discord Community – https://discord.gg/5Qq6yX5
+
+- Quantum:
+   - https://juliapackages.com/c/quantum-mechanics
+   - Swedish Quantum Society | SQS – https://swedishquantumsociety.vercel.app/

@@ -76,6 +76,7 @@ Drawbacks and workarounds
 **Lack of Advanced HPDA Libraries**: While Julia has many libraries for general-purpose data analysis, it might lack some advanced libraries specifically tailored for HPDA.
 
 - Workaround: Consider using Julia's interoperability features https://github.com/JuliaInterop to call functions from libraries in other languages.
+- https://juliapackages.com/c/super-computing
 
 **Performance Tuning**: Achieving optimal performance with Julia can require a deep understanding of various aspects like type stability and memory layout, which might be challenging for beginners.
 
@@ -88,6 +89,7 @@ Drawbacks and workarounds
 **IO Performance**: When dealing with large datasets, IO performance can become a bottleneck. Julia's IO performance may vary depending on the format of the data.
 
 - Workaround: Use efficient data storage formats like https://github.com/JuliaIO/JLD2.jl or https://github.com/JuliaData/Feather.jl that are designed for high-performance use cases.
+- https://juliapackages.com/c/file-io
 
 Remember, while these challenges exist, the Julia community is vibrant and active, and improvements are continuously being made.
 The language is evolving rapidly, and many of these challenges are likely to be addressed as the ecosystem matures.
@@ -98,9 +100,21 @@ By the end of this course, you should have a solid understanding of how to lever
 More resources:
 ---------------
 
+- Julia Supercomputing packages – https://juliapackages.com/c/super-computing
 - https://datasciencejuliahackers.com
 - https://juliahub.com/products/overview/ 
 - https://github.com/ivanslapnicar/Data-Clustering-in-Julia.jl
 - https://juliadatascience.io/
 - `Bobomil Kaminski's "Julia for Data Science" book <https://github.com/bkamins/JuliaForDataAnalysis>`_
 - `JuliaDB.jl <https://github.com/pszufe/MIT_18.S097_Introduction-to-Julia-for-Data-Science>`_
+
+Julia Communities:
+------------------
+
+https://discourse.julialang.org/
+
+https://julialang.zulipchat.com/
+
+https://julialang.org/slack/
+
+https://discord.gg/C5h9D4j
