@@ -1159,8 +1159,16 @@ Exercises
       # with for exmple random forest
       model_class = @load DecisionTreeRegressor pkg=DecisionTree
 
-      Note the locally constant (step wise) behavior of the prediction.
-      What happens to the prediction curve if you increase the number of data points?
+   Note the locally constant (step wise) behavior of the prediction.
+   What happens to the prediction curve if you increase the number of data points?
+
+   When you increase the number of points the prediction curve may be hard see because
+   of all the plotted points and you can comment out the lines plotting the points:
+
+   .. code-block:: julia
+
+      # scatter!(X.cX[train], y[train], label="train", markersize=3)
+      # scatter!(X.cX[test], y[test], label="test", markersize=3)
 
 .. todo:: Air foil continued
 
@@ -1314,7 +1322,7 @@ Since the climate data explored above is periodic we may attempt a simple model 
    using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, StatsBase
 
    data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
-   df = CSV.read(data_path, DataFrame)
+   df_train = CSV.read(data_path, DataFrame)
 
    # clean up data
    df_train[:,:meanpressure] = [ abs(x-1000) < 50 ? x : mean(df_train.meanpressure) for x in df_train.meanpressure]
@@ -1323,13 +1331,13 @@ Since the climate data explored above is periodic we may attempt a simple model 
    df_train[:,:year] = Float64.(year.(df_train[:,:date]))
    df_train[:,:month] = Float64.(month.(df_train[:,:date]))
 
-   df_test[:,:year] = Float64.(year.(df_test[:,:date]))
-   df_test[:,:month] = Float64.(month.(df_test[:,:date]))
-
    df_train_m = combine(groupby(df_train, [:year, :month]), :meantemp => mean, :humidity => mean,
    :wind_speed => mean, :meanpressure => mean)
 
    M_m = [df_train_m.meantemp_mean df_train_m.humidity_mean df_train_m.wind_speed_mean df_train_m.meanpressure_mean]
+
+   plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
+   plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
    plt = scatter(M_m, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (months)", ylabel=plotylabels, size=(800,800))
 
    display(plt)
@@ -1400,7 +1408,7 @@ To decrease overfitting, we may project to a lower dimensional subspace of basis
      # same as interpolating using linear combination of trignometric functions
      pred = real(ifft(fftshift(y_fft_pad)))*L_u/L
 
-     ifft(fftshift(y_fft_pad))
+     # ifft(fftshift(y_fft_pad))
 
      pred = pred .+ the_mean
 

@@ -388,7 +388,7 @@ Exercises
    - You might observe that the principal components are flipped from time to time when you rerun the script. Why is that?
    - Change the number of points to ``n = 100``. What happens with the principal components if you run the script a few times?
    - Compare the computed (scaled) covariance matrix ``M`` to the matrix ``S`` used to generate data.
-   - Did you notive some step in the PCA procedure that was skipped/missing?
+   - Did you notice some step in the PCA procedure that was skipped or missing?
 
    .. solution:: The whole script
 
