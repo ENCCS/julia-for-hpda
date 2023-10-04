@@ -1023,22 +1023,14 @@ Exercises
       noise_level = 0.1
       train_frac = 0.7
 
-   - What happens to the training error (rmse) when you increase the noise level to 1.0 say?
-   - What happens to the test error?
-   - Can you explain the results?
-
-   Reset the settings again.
-
    - What happens to the errors and the prediction (blue curve in the plot) when you decrease the training fraction to 0.3, 0.2 or 0.1?
-   - Now what happens if you incerease the number of points?
+   - Now what happens if you increase the number of points?
    - Can you explain the results?
 
    .. solution:: Change noise
 
-      It seems that the training error is not affected much by the noise but the test error goes up.
-
       It seems like the prediction gets really bad when the training fraction is below 0.2 but if we add more points
-      we have enough data to get a good predicition.
+      we have enough training data to get a good predicition.
 
 .. todo:: Simple regression 3
 
