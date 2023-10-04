@@ -529,7 +529,7 @@ blog post *Forecasting the weather with neural ODEs* found `here
 
    M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
    plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
-   plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
+   plotylabels =  ["C°" "g/m^3?" "km/h?" "hPa"]
    # color=[1 2 3 4] gives default colors
    plot(M, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles,
    xlabel="time (days)", ylabel=plotylabels, size=(800,800))
@@ -553,7 +553,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
    M = [df_train.meantemp df_train.humidity df_train.wind_speed df_train.meanpressure]
 
    plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
-   plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
+   plotylabels =  ["C°" "g/m^3?" "km/h?" "hPa"]
 
    df_train[df_train.meanpressure .< 950,:meanpressure] .= NaN
    df_train[1050 .< df_train.meanpressure,:meanpressure] .= NaN
@@ -1329,7 +1329,7 @@ Since the climate data explored above is periodic we may attempt a simple model 
    M_m = [df_train_m.meantemp_mean df_train_m.humidity_mean df_train_m.wind_speed_mean df_train_m.meanpressure_mean]
 
    plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
-   plotylabels =  ["C°" "g/m^3" "km/h" "hPa"]
+   plotylabels =  ["C°" "g/m^3?" "km/h?" "hPa"]
    plt = scatter(M_m, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (months)", ylabel=plotylabels, size=(800,800))
 
    display(plt)
