@@ -583,6 +583,8 @@ Now we will consider the problem of predicting one of the climate variables from
 temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a
 neural network in Julia using the package Flux.
 
+Background on neural network can be seen found here :download:`pdf </slides/julia_kurs_notes.pdf>`.
+
 .. callout:: Some terminology relating to neural networks
 
    Neural networks can be used to approximate non-linear functions. We difine the newtwork as a chain (composition)
