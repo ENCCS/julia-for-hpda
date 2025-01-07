@@ -378,9 +378,9 @@ Exercises
    .. code-block:: julia
 
       plt = plot(X[:,1], X[:,2], seriestype=:scatter, markersize=1, label="data", xlims=[-10,10], ylims=[-10,10], aspect_ratio=:equal)
-      scale = 7
-      plot!([0,scale*v[1]],[0,scale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
-      plot!([0,scale*u[1]],[0,scale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
+      myscale = 7
+      plot!([0,myscale*v[1]],[0,myscale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
+      plot!([0,myscale*u[1]],[0,myscale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
       display(plt)
 
    - Is ``M*u`` equal to ``e1*u`` as it should? Is ``M*v`` equal to ``e2*v``?
@@ -418,9 +418,9 @@ Exercises
          plt = plot(X[:,1], X[:,2], seriestype=:scatter, markersize=1, label="data", xlims=[-10,10], ylims=[-10,10], aspect_ratio=:equal)
 
          # plot arrows, scale up the arrows for appearence
-         scale = 7
-         plot!([0,scale*v[1]],[0,scale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
-         plot!([0,scale*u[1]],[0,scale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
+         myscale = 7
+         plot!([0,myscale*v[1]],[0,myscale*v[2]], arrow=true, color=:green, linewidth=2, label="first comp")
+         plot!([0,myscale*u[1]],[0,myscale*u[2]], arrow=true, color=:red, linewidth=2, label="second comp")
          display(plt)
 
          # are u and v really eigenvectors of M with eigenvalues E?
