@@ -216,7 +216,7 @@ it down to a smaller dimensional space.
    principal components which are ordered in terms of imporance: the first
    principal component, the second principal component and so on.
 
-   It turns out the the principal components are eigenvectors of the so-called
+   It turns out the principal components are eigenvectors of the so-called
    covaraince matrix of the data. The corresponding eigenvalues rank the principal
    components in importance, where the biggest eigenvalue marks the first principal
    component.
