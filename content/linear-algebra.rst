@@ -15,6 +15,10 @@ Linear algebra
    - 35 min teaching
    - 25 min exercises
 
+.. callout::
+
+   The code in this lession is written for Julia v1.11.2.
+
 Vectors and matrices in Julia
 -----------------------------
 

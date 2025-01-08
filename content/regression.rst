@@ -15,6 +15,10 @@ Regression and time-series prediction
    - 90 min teaching
    - 60 min exercises
 
+.. callout::
+
+   The code in this lession is written for Julia v1.11.2.
+
 Linear regression with synthetic data
 -------------------------------------
 
@@ -545,7 +549,7 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    using DataFrames, CSV, Plots, Statistics
 
-   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
    # full path to data files
    # uploaded in julia-for-hpda/content/data
    df_train = CSV.read(data_path, DataFrame)
@@ -602,7 +606,7 @@ Background on neural networks can be found here :download:`download slides </sli
    using MLJ: shuffle, partition
    using Flux: train!
 
-   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
    df = CSV.read(data_path, DataFrame)
 
    # clean up data, drop rows
@@ -660,12 +664,11 @@ Background on neural networks can be found here :download:`download slides </sli
                Dense(10, 1, init=init, bias=true)
    )
 
-   loss(tX, ty) = Flux.Losses.mse(model(tX'), ty')
+   loss(model, tX, ty) = Flux.Losses.mse(model(tX'), ty')
 
    data = [(X_train, y_train)]
 
-   ps = Flux.params(model)
-   opt = ADAM(0.01) # learning rate 0.01
+   opt_state = Flux.setup(Adam(0.01), model) # learning rate 0.01
 
    train_loss = []
    test_loss = []
@@ -675,7 +678,7 @@ Background on neural networks can be found here :download:`download slides </sli
    # replace the rest of the code from here with snippet below
 
    for epoch in 1:n_epochs
-       train!(loss, ps, data, opt)
+       train!(loss, model, data, opt_state)
        ltrain = sqrt(loss(X_train, y_train))
        ltest = sqrt(loss(X_test, y_test))
        push!(train_loss, ltrain)
