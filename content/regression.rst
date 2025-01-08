@@ -1175,6 +1175,8 @@ Exercises
    MLJDecisionTreeInterface, DataFrames, CSV and HTTP.
 
    Try some different models to model the data. You can list available models as follows at the end of the script.
+   For some models you may have to install the package mentioned and an MLJ interface
+   (MLJDecisionTreeInterface, MLJScikitLearnInterface or similar).
 
    .. code-block:: julia
 
@@ -1188,9 +1190,6 @@ Exercises
       for model in models(matching(X, y))
           print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
       end
-
-      For some models you may have to install the package mentioned and
-      an MLJ interface (MLJDecisionTreeInterface, MLJScikitLearnInterface or similar).
 
 Some Fourier based models (extra material)
 ------------------------------------------
