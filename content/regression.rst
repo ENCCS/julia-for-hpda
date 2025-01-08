@@ -1318,7 +1318,7 @@ Since the climate data explored above is periodic we may attempt a simple model 
 
    using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, StatsBase
 
-   data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
    df_train = CSV.read(data_path, DataFrame)
 
    # clean up data
