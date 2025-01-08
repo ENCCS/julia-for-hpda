@@ -721,7 +721,7 @@ It is interesting to animate the predictions during the training of the neural n
 
    anim = @animate for epoch in 1:n_epochs
 
-       train!(loss, ps, data, opt)
+       train!(loss, model, data, opt_state)
        ltrain = sqrt(loss(X_train, y_train))
        ltest = sqrt(loss(X_test, y_test))
        push!(train_loss, ltrain)
@@ -753,7 +753,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
    using MLJ: shuffle, partition
    using Flux: train!
 
-   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
+   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
    df = CSV.read(data_path, DataFrame)
 
    # clean up data
