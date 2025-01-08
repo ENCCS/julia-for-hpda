@@ -905,6 +905,7 @@ We will consider the problem of predicting scaled sound pressure level from the 
    # get more model suggestions by changing type of frequency
    # coerce!(X, :Frequency=>Continuous)
 
+   # get model suggestions
    # for model in models(matching(X, y))
    #     print("Model Name: " , model.name , " , Package: " , model.package_name , "\n")
    # end
