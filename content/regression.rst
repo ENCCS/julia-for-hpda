@@ -679,8 +679,8 @@ Background on neural networks can be found here :download:`download slides </sli
 
    for epoch in 1:n_epochs
        train!(loss, model, data, opt_state)
-       ltrain = sqrt(loss(X_train, y_train))
-       ltest = sqrt(loss(X_test, y_test))
+       ltrain = sqrt(loss(model, X_train, y_train))
+       ltest = sqrt(loss(model, X_test, y_test))
        push!(train_loss, ltrain)
        push!(test_loss, ltest)
        println("Epoch: $epoch, rmse train/test: ", ltrain, " ", ltest)
@@ -722,8 +722,8 @@ It is interesting to animate the predictions during the training of the neural n
    anim = @animate for epoch in 1:n_epochs
 
        train!(loss, model, data, opt_state)
-       ltrain = sqrt(loss(X_train, y_train))
-       ltest = sqrt(loss(X_test, y_test))
+       ltrain = sqrt(loss(model, X_train, y_train))
+       ltest = sqrt(loss(model, X_test, y_test))
        push!(train_loss, ltrain)
        push!(test_loss, ltest)
        println("Epoch: $epoch, rmse train/test: ", ltrain, " ", ltest)
@@ -1068,7 +1068,7 @@ Exercises
 
       You can change the model class to one of the models in the previous list.
 
-      .. code-block:: text
+      .. code-block:: julia
 
          # replace the model_class
          # model_class = @load GaussianProcessRegressor pkg=ScikitLearn
