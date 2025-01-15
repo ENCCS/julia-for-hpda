@@ -49,10 +49,10 @@ of a drag force and gravity. We will consider this problem in 2 dimensions.
    tspan = (0.0, 1.0)
 
    sc = 1.0
-   deltat = 0.1
+   deltat = 0.01
 
    u0 = sc * rand(4)
-   inits_g = [rand(4) for ii in range(1,6)]
+   inits_g = [rand(4) for ii in range(1,1)]
 
    prob = ODEProblem(dynamics!, u0, tspan)
 
