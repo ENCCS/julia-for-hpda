@@ -67,7 +67,7 @@ of a drag force and gravity. We will consider this problem in 2 dimensions.
    # for axis equal; aspect_ratio = :equal
    scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = ["True Data" nothing])
 
-   .. figure:: img/solutions_1.png
+.. figure:: img/solutions_1.png
    :align: center
 
    Solutions to an initial value problem.
