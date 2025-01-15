@@ -53,6 +53,7 @@ please visit the lesson `Julia for high-performance scientific computing <https:
    linear-algebra
    data-science
    regression
+   sciml
 
 .. toctree::
    :maxdepth: 1
