@@ -293,3 +293,47 @@ In this case we get similar results but much quicker.
    :align: center
 
    Training loss on the hybrid model.
+
+.. todo:: Not assuming homogeneity
+
+   In the dynamics example above, what happens if you do not assume homogeneity? In other words,
+   if the forces acting on the object are allowed to depend both the object's velocity and position,
+   as would be the case if for example the magetic field was non-homogeneous. Try running the code
+   under such weaker assumptions.
+
+   .. solution:: Modifications
+
+      You can change the definition of the UDE dynamics by letting the neural network that models
+      the dynamics depend on both position and velocity:
+
+      .. code-block:: julia
+
+         function ude_dynamics!(du, u, p, t)
+            # û = U(u[[1,3],:], p, _st)[1]
+            û = U(u, p, _st)[1] # U depends on the whole u
+
+            du[1] = û[1]
+            du[3] = û[2]
+
+            ###du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + û[1]
+            ###du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] + û[2]
+
+            # reduce to 1st order ODE system
+            du[2] = u[1]
+            du[4] = u[3]
+         end
+
+      You also have to make sure that the neural network has 4 input nodes rather than just 2:
+
+      .. code-block:: julia
+
+         #const U = Lux.Chain(Lux.Dense(2, 5, rbf), Lux.Dense(5, 5, rbf), Lux.Dense(5, 5, rbf),
+         #   Lux.Dense(5, 2))
+         const U = Lux.Chain(Lux.Dense(4, 5, rbf), Lux.Dense(5, 5, rbf), Lux.Dense(5, 5, rbf),
+            Lux.Dense(5, 2))
+
+      Typically you need more data to get similar results compared to the case where we assume
+      homogeneity.
+
+      If you get issues with renaming :math:`U` since you already ran the code with the orignal definition,
+      you can restart the REPL or introduce another neural network :math:`V` and replace :math:`U` where needed.
