@@ -24,6 +24,9 @@ In this session we will have a look at a physical modelling problem
 and investigate how Machine Learning can be used in combination with
 classical problems.
 
+Background on neural networks and scientific machine learning can be found
+here :download:`download slides </slides/julia_kurs_notes.pdf>`.
+
 Consider a spherical object moving in a viscous fluid under the influence
 of a number of forces. We will consider this problem in 2 dimensions.
 
