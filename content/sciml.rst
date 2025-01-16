@@ -22,13 +22,16 @@ A modelling problem
 
 In this session we will have a look at a physical modelling problem
 and investigate how Machine Learning can be used in combination with
-classical problems.
+classical modelling techniques.
 
 Background on neural networks and scientific machine learning can be found
 here :download:`download slides </slides/julia_kurs_notes.pdf>`.
 
 Consider a spherical object moving in a viscous fluid under the influence
-of a number of forces. We will consider this problem in 2 dimensions.
+of drag along side other forces. We will consider this problem in 2 dimensions.
+The code below is adapted from the
+`Missing Physics example <https://docs.sciml.ai/Overview/stable/showcase/missing_physics/>`_
+included in the SciML documentation.
 
 .. code-block:: julia
 
@@ -49,7 +52,7 @@ of a number of forces. We will consider this problem in 2 dimensions.
 
       # drag force, gravity and Lorentz force
       du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + 2*u[3]
-      du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] - m*g - 2*u[1]
+      du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] - g - 2*u[1]
 
       # reduce to 1st order ODE system
       du[2] = u[1]
@@ -80,7 +83,7 @@ of a number of forces. We will consider this problem in 2 dimensions.
 .. figure:: img/solutions_1.png
    :align: center
 
-   Solutions to an initial value problem.
+   Solution to an initial value problem.
 
 The object experiences a drag force which scales as the speed squared,
 and a constant gravitational pull. To illustrate the learning of
@@ -89,13 +92,16 @@ particle under a contant magnetic field pointing in the z-direction.
 
 .. code-block:: julia
 
+      # m = 1.0
+      # g = 10.0
+
       # drag force, gravity and Lorentz force
       du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + 2*u[3]
-      du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] - m*g - 2*u[1]
+      du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] - g - 2*u[1]
 
 First consider an almost black box UDE (Universal Differential Equation) where we
 model the whole right-hand side of the equation system by a neural network.
-The model is helped by assumed prior knowledge of homogeneity, the forces
+The model is helped by assumed prior knowledge of homogeneity, that is the forces
 acting on the object only depend on its velocity, not its position.
 
 .. code-block:: julia
@@ -117,7 +123,7 @@ acting on the object only depend on its velocity, not its position.
 
       # drag force, gravity and Lorentz force
       du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + 2*u[3]
-      du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] - m*g - 2*u[1]
+      du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] - g - 2*u[1]
 
       # reduce to 1st order ODE system
       du[2] = u[1]
@@ -164,6 +170,7 @@ acting on the object only depend on its velocity, not its position.
       ###du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + û[1]
       ###du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] + û[2]
 
+      # reduce to 1st order ODE system
       du[2] = u[1]
       du[4] = u[3]
    end
@@ -225,7 +232,7 @@ acting on the object only depend on its velocity, not its position.
    # savefig("solutions_2.png")
 
 At the end of the script, we plot the true data and model prediction on the
-trajectory that was used for training data as well as a test trajectory with
+trajectory that was used as training data as well as a test trajectory with
 random initial values.
 
 .. figure:: img/solutions_2.png
@@ -234,9 +241,10 @@ random initial values.
    One training and one test trajectory with their corresponding predictions.
 
 The predictions on the training trajectory are accurate but the predictions
-on the test trajectory are not very good at all. This is not too unexpected
-since we are only training the model on a single inital condition. Let's see
-what happens when we train on 6 randomly generated initial conditions.
+on the test trajectory are not very good. This is not too unexpected since we
+are only training the model on a single inital condition. Let's see what happens
+when we train the model on trajectories from 6 randomly generated initial conditions
+instead.
 
 .. code-block:: julia
 
@@ -246,7 +254,7 @@ what happens when we train on 6 randomly generated initial conditions.
 .. figure:: img/solutions_3.png
    :align: center
 
-   Training on 6 trajectories. Prediction on test trajectpry is quite
+   Training on 6 trajectories. Prediction on test trajectory is quite
    good in this case.
 
 It takes the black box UDE about 1000 epochs to get a good result.
