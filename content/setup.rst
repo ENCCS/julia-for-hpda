@@ -15,7 +15,6 @@ you can for example place under a new directory `julia` in your home directory:
 
    name = "Julia-for-HPDA"
    [deps]
-
    BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
    BetaML = "024491cd-cc6b-443e-8034-08ea7eb7db2b"
    Clustering = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
@@ -87,34 +86,64 @@ Then copy-paste the following code into your Julia session:
 It could take a couple of minutes to download and install the packages. 
 After it completes you should be able to list all installed packages:
 
-.. code-block:: julia 
+.. code-block:: text
 
    Pkg.status()
-
-   # Status `~/julia/Project.toml`
-   # [6e4b80f9] BenchmarkTools v1.3.2
-   # [024491cd] BetaML v0.10.3
-   # [336ed68f] CSV v0.10.11
-   # [35d6a980] ColorSchemes v3.24.0
-   # [5ae59095] Colors v0.12.10
-   # [a93c6f00] DataFrames v1.6.1
-   # [31c24e10] Distributions v0.25.100
-   # [7a1cc6ca] FFTW v1.7.1
-   # [587475ba] Flux v0.14.6
-   # [38e38edf] GLM v1.9.0
-   # [cd3eb016] HTTP v1.10.0
-   # [b964fa9f] LaTeXStrings v1.3.0
-   # [add582a8] MLJ v0.19.5
-   # [c6f25543] MLJDecisionTreeInterface v0.4.0
-   # [094fc8d1] MLJFlux v0.3.1
-   # [5ae90465] MLJScikitLearnInterface v0.5.0
-   # [91a5bcdd] Plots v1.39.0
-   # [54e16d92] PrettyPrinting v0.4.1
-   # [d330b81b] PyPlot v2.11.2
-   # [ce6b1742] RDatasets v0.7.7
-   # [860ef19b] StableRNGs v1.0.0
-   # [2913bbd2] StatsBase v0.34.0
-   # [ade2ca70] Dates
+   Status `~/julia/Project.toml`
+   [6e4b80f9] BenchmarkTools v1.6.0
+   [024491cd] BetaML v0.7.1
+   [336ed68f] CSV v0.10.15
+   [aaaa29a8] Clustering v0.15.8
+   [35d6a980] ColorSchemes v3.27.1
+   [5ae59095] Colors v0.12.11
+   [b0b7db55] ComponentArrays v0.15.22
+   [2445eb08] DataDrivenDiffEq v1.5.0
+   [5b588203] DataDrivenSparse v0.1.2
+   [a93c6f00] DataFrames v1.7.0
+   [864edb3b] DataStructures v0.18.20
+   [7806a523] DecisionTree v0.12.4
+   [aae7a2af] DiffEqFlux v4.1.0
+   [0c46a032] DifferentialEquations v7.15.0
+   [b4f34e82] Distances v0.10.12
+   [31c24e10] Distributions v0.25.116
+   [7a1cc6ca] FFTW v1.8.0
+   [587475ba] Flux v0.16.1
+   [38e38edf] GLM v1.9.0
+   [8d5ece8b] GLMNet v0.7.4
+   [cd3eb016] HTTP v1.10.15
+   [7073ff75] IJulia v1.26.0
+   [4138dd39] JLD v0.13.5
+   [682c06a0] JSON v0.21.4
+   [b1bec4e5] LIBSVM v0.8.1
+   [b964fa9f] LaTeXStrings v1.4.0
+   [d3d80556] LineSearches v7.3.0
+   [b2108857] Lux v1.5.1
+   [f0e99cf1] MLBase v0.9.2
+   [add582a8] MLJ v0.20.7
+   [c6f25543] MLJDecisionTreeInterface v0.4.2
+   [5ae90465] MLJScikitLearnInterface v0.7.0
+   [961ee093] ModelingToolkit v9.60.0
+   [b8a86587] NearestNeighbors v0.4.21
+   [7f7a1694] Optimization v4.0.5
+   [36348300] OptimizationOptimJL v0.4.1
+   [42dfb2eb] OptimizationOptimisers v0.3.7
+   [1dea7af3] OrdinaryDiffEq v6.90.1
+   [8b842266] PalmerPenguins v0.1.4
+   [91a5bcdd] Plots v1.40.9
+   [54e16d92] PrettyPrinting v0.4.2
+   [d330b81b] PyPlot v2.11.5
+   [ce6b1742] RDatasets v0.7.7
+   [1ed8b502] SciMLSensitivity v7.72.0
+   [860ef19b] StableRNGs v1.0.2
+   [10745b16] Statistics v1.11.1
+   [2913bbd2] StatsBase v0.34.4
+   [0ae4a718] VegaDatasets v2.1.1
+   [112f6efa] VegaLite v3.3.0
+   [e88e6eb3] Zygote v0.6.75
+   [ade2ca70] Dates v1.11.0
+   [37e2e46d] LinearAlgebra v1.11.0
+   [9a3f8284] Random v1.11.0
+   [2f01184e] SparseArrays v1.11.0
 
 Activating your environment in VS Code
 --------------------------------------
