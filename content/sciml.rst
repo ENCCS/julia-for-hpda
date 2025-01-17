@@ -40,6 +40,7 @@ included in the SciML documentation.
    using OrdinaryDiffEq, ModelingToolkit, DataDrivenDiffEq, SciMLSensitivity, DataDrivenSparse
    using Optimization, OptimizationOptimisers, OptimizationOptimJL, LineSearches
 
+   # random number generator
    rng = Random.default_rng()
 
    function dynamics!(du, u, p, t)
@@ -111,6 +112,7 @@ acting on the object only depend on its velocity, not its position.
    using OrdinaryDiffEq, ModelingToolkit, DataDrivenDiffEq, SciMLSensitivity, DataDrivenSparse
    using Optimization, OptimizationOptimisers, OptimizationOptimJL, LineSearches
 
+   # random number generator
    rng = Random.default_rng()
 
    function dynamics!(du, u, p, t)
@@ -152,8 +154,10 @@ acting on the object only depend on its velocity, not its position.
    scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = ["True Data" nothing])
    # savefig("solutions_1.png")
 
+   # define our activation function, radial basis function
    rbf(x) = exp.(-(x .^ 2))
 
+   # the neural network
    const U = Lux.Chain(Lux.Dense(2, 5, rbf), Lux.Dense(5, 5, rbf), Lux.Dense(5, 5, rbf),
       Lux.Dense(5, 2))
 
@@ -164,9 +168,11 @@ acting on the object only depend on its velocity, not its position.
    function ude_dynamics!(du, u, p, t)
       û = U(u[[1,3],:], p, _st)[1]
 
+      # black box
       du[1] = û[1]
       du[3] = û[2]
 
+      # model with more structure
       ###du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + û[1]
       ###du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] + û[2]
 
@@ -277,9 +283,11 @@ that is the other terms on the right-hand side of the system of equations.
    function ude_dynamics!(du, u, p, t)
       û = U(u[[1,3],:], p, _st)[1]
 
+      # black box
       ###du[1] = û[1]
       ###du[3] = û[2]
 
+      # model with more structure
       du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + û[1]
       du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] + û[2]
 
@@ -312,9 +320,11 @@ In this case we get similar results but much quicker.
             # û = U(u[[1,3],:], p, _st)[1]
             û = U(u, p, _st)[1] # U depends on the whole u
 
+            # black box
             du[1] = û[1]
             du[3] = û[2]
 
+            # model with more structure
             ###du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + û[1]
             ###du[3] = -((u[1]^2 + u[3]^2)^0.5)*u[3] + û[2]
 
@@ -337,3 +347,10 @@ In this case we get similar results but much quicker.
 
       If you get issues with renaming :math:`U` since you already ran the code with the orignal definition,
       you can restart the REPL or introduce another neural network :math:`V` and replace :math:`U` where needed.
+
+.. todo:: The neural network
+
+   Experiment with other architecture of the neural network in the above example. How small
+   (in terms of number of parameters) can it be and still perform well? Is the convergence rate slower
+   or faster when the number of parameter increases or decreases? You can also try other
+   activation functions and see how the model performs (tanh, ReLU, GELU, etc.).
