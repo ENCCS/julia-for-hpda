@@ -98,7 +98,7 @@ Now let's plot the resulting prediction (green) together with the underlying lin
    df = DataFrame(cX=X, cy=y_noisy)
    lm1 = fit(LinearModel, @formula(cy ~ cX), df)
 
-   y_pred = predict(lm1)
+   y_pred = GLM.predict(lm1)
 
    # alternative: do it explicitly
    # coeffs = coeftable(lm1).cols[1] # intercept and slope
@@ -206,7 +206,7 @@ to get a good fit is not known in advance but for this illustration we pick the 
 
    lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
 
-   y_pred = predict(lm3)
+   y_pred = GLM.predict(lm3)
 
    plot!(X, y_pred, label="predicted")
 
@@ -284,7 +284,7 @@ Sources:
    .. code-block:: julia
 
       model = fit(LinearModel, @formula(OptDen ~ Carb), df)
-      y_pred = predict(model)
+      y_pred = GLM.predict(model)
 
    To add the prediction to the plot and print the model results you can do:
    
@@ -308,7 +308,7 @@ Sources:
 
          model = fit(LinearModel, @formula(OptDen ~ Carb), df)
 
-         y_pred = predict(model)
+         y_pred = GLM.predict(model)
 
          plot!(df.Carb, y_pred, label="model")
 
@@ -391,7 +391,7 @@ black cherry trees: girth, height and volume
    .. code-block:: julia
 
       Z = L_train
-      y_pred = predict(model, Z)
+      y_pred = GLM.predict(model, Z)
 
       # Root Mean Squared Error
       rmse = sqrt(sum((exp.(y_pred) - Z.Volume).^2)/size(Z)[1])
@@ -417,7 +417,7 @@ black cherry trees: girth, height and volume
          model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
 
          Z = L_train
-         y_pred = predict(model, Z)
+         y_pred = GLM.predict(model, Z)
 
          # Root Mean Squared Error
          rmse = sqrt(sum((exp.(y_pred) - Z.Volume).^2)/size(Z)[1])
@@ -783,7 +783,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
        Z_train = [ones(size(X_train,1)) X_train]
 
-       y_pred_train = predict(model, Z_train)
+       y_pred_train = GLM.predict(model, Z_train)
        # y_train = y_train[:,1]
 
        plt = scatter(train, y_train, title="Linear model of "*topredict, label="data train")
@@ -791,7 +791,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
        Z_test = [ones(size(X_test,1)) X_test]
 
-       y_pred_test = predict(model, Z_test)
+       y_pred_test = GLM.predict(model, Z_test)
        # y_test = y_test[:,1]
 
        scatter!(test, y_test, label="data test")
