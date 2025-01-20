@@ -162,13 +162,13 @@ Start the package mode by typing ``]``. Typically you will be in the stardard en
 
 .. code-block:: julia
 
-   (@v1.9) pkg>
+   (@v1.11) pkg>
 
 To activate another environment, type
 
 .. code-block:: julia
 
-   (@v1.9) pkg>activate path-to-projectfile
+   (@v1.11) pkg>activate path-to-projectfile
 
 where you specify the path to the directory where you put your Project.toml file.
 
@@ -194,13 +194,13 @@ and then add the package:
 
 .. code-block:: julia
 
-   (@v1.9) pkg> add Plots
+   (@v1.11) pkg> add Plots
 
 To update all your packages, you can type ``up`` in the package mode in REPL:
 
 .. code-block:: julia
 
-   (@v1.9) pkg> up
+   (@v1.11) pkg> up
 
 Installing JupyterLab and a Julia kernel
 ----------------------------------------
