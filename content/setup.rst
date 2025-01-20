@@ -16,7 +16,6 @@ you can for example place under a new directory `julia` in your home directory:
    name = "Julia-for-HPDA"
    [deps]
    BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-   BetaML = "024491cd-cc6b-443e-8034-08ea7eb7db2b"
    Clustering = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
    CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
    ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
@@ -91,7 +90,6 @@ After it completes you should be able to list all installed packages:
    Pkg.status()
    Status `~/julia/Project.toml`
    [6e4b80f9] BenchmarkTools v1.6.0
-   [024491cd] BetaML v0.7.1
    [336ed68f] CSV v0.10.15
    [aaaa29a8] Clustering v0.15.8
    [35d6a980] ColorSchemes v3.27.1
