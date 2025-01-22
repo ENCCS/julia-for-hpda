@@ -657,18 +657,18 @@ Background on neural networks can be found here :download:`download slides </sli
    end
 
    init=Flux.glorot_uniform()
-   model = Chain(
-               Dense(3, 10, tanh, init=init, bias=true),
-               # Dense(10, 10, tanh, init=init, bias=true),
-               # Dropout(0.04),
-               Dense(10, 1, init=init, bias=true)
+   model = Flux.Chain(
+               Flux.Dense(3, 10, tanh, init=init, bias=true),
+               # Flux.Dense(10, 10, tanh, init=init, bias=true),
+               # Flux.Dropout(0.04),
+               Flux.Dense(10, 1, init=init, bias=true)
    )
 
    loss(model, tX, ty) = Flux.Losses.mse(model(tX'), ty')
 
    data = [(X_train, y_train)]
 
-   opt_state = Flux.setup(Adam(0.01), model) # learning rate 0.01
+   opt_state = Flux.setup(Flux.Adam(0.01), model) # learning rate 0.01
 
    train_loss = []
    test_loss = []
