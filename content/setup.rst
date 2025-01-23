@@ -92,7 +92,7 @@ After it completes you should be able to list all installed packages:
    [6e4b80f9] BenchmarkTools v1.6.0
    [336ed68f] CSV v0.10.15
    [aaaa29a8] Clustering v0.15.8
-   [35d6a980] ColorSchemes v3.27.1
+   [35d6a980] ColorSchemes v3.28.0
    [5ae59095] Colors v0.12.11
    [b0b7db55] ComponentArrays v0.15.22
    [2445eb08] DataDrivenDiffEq v1.5.0
@@ -104,8 +104,8 @@ After it completes you should be able to list all installed packages:
    [0c46a032] DifferentialEquations v7.15.0
    [b4f34e82] Distances v0.10.12
    [31c24e10] Distributions v0.25.117
-   [7a1cc6ca] FFTW v1.8.0
-   [587475ba] Flux v0.16.1
+   [7a1cc6ca] FFTW v1.8.1
+   [587475ba] Flux v0.16.2
    [38e38edf] GLM v1.9.0
    [8d5ece8b] GLMNet v0.7.4
    [cd3eb016] HTTP v1.10.15
@@ -115,14 +115,14 @@ After it completes you should be able to list all installed packages:
    [b1bec4e5] LIBSVM v0.8.1
    [b964fa9f] LaTeXStrings v1.4.0
    [d3d80556] LineSearches v7.3.0
-   [b2108857] Lux v1.5.1
+   [b2108857] Lux v1.5.2
    [f0e99cf1] MLBase v0.9.2
    [add582a8] MLJ v0.20.7
    [c6f25543] MLJDecisionTreeInterface v0.4.2
    [5ae90465] MLJScikitLearnInterface v0.7.0
    [961ee093] ModelingToolkit v9.61.0
    [b8a86587] NearestNeighbors v0.4.21
-   [7f7a1694] Optimization v4.0.5
+   [7f7a1694] Optimization v4.1.0
    [36348300] OptimizationOptimJL v0.4.1
    [42dfb2eb] OptimizationOptimisers v0.3.7
    [1dea7af3] OrdinaryDiffEq v6.90.1
