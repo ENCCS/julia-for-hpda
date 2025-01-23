@@ -158,7 +158,7 @@ Change environment in VS Code
 
 When using Visual Studio Code for julia development and using your own environment,
 you can activate it as follows. Start a Julia REPL in VS Code, for example by runnig a script.
-Start the package mode by typing ``]``. Typically you will be in the stardard environment v1.9:
+Start the package mode by typing ``]``. Typically you will be in the stardard environment v1.11:
 
 .. code-block:: julia
 
