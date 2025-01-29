@@ -48,12 +48,12 @@ You can perform various operations on a DataFrame, such as filtering,
 sorting, grouping, joining, and aggregating data.
 
 The `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
-package is Julia's version of the ``pandas`` library in Python and 
+package offers similar functionality as the ``pandas`` library in Python and 
 the ``data.frame()`` function in R.
-DataFrames.jl also provides a rich set of functions for data cleaning, 
+``DataFrames.jl`` also provides a rich set of functions for data cleaning, 
 transformation, and visualization, making it a popular choice for 
 data science and machine learning tasks in Julia. Just like in Python and R, 
-the DataFrames.jl package provides functionality for data manipulation and analysis. 
+the ``DataFrames.jl`` package provides functionality for data manipulation and analysis. 
 
 
 Download a dataset
@@ -68,7 +68,7 @@ of characteristic features of different penguin species.
 
    Artwork by @allison_horst
 
-To obtain the data we simply add the PalmerPenguins package.
+The dataset is bundled within the ``PalmerPenguins`` package, so we need to add that:
 
 .. code-block:: julia
 
@@ -90,9 +90,9 @@ Here's how you can create a new dataframe:
    using DataFrames
    names = ["Ali", "Clara", "Jingfei", "Stefan"]
    age = ["25", "39", "14", "45"]
-   df = DataFrame(; name=names, age=age)
+   df = DataFrame(name=names, age=age)
 
- .. code-block:: text
+ .. code-block:: julia-repl
 
     4×2 DataFrame
     Row │ name        age
@@ -105,24 +105,25 @@ Here's how you can create a new dataframe:
 
 .. todo:: Dataframes
    
-   The following code loads the `PalmerPenguins` dataset into a DataFrame. 
-   Then it demonstrates how to write and read the data in CSV, JSON, and
-   Parquet formats using the `CSV`, `JSONTables`, and `Parquet` packages respectively. 
+   The following code loads the ``PalmerPenguins`` dataset into a DataFrame. 
 
-   More about `Types of scientific data` one can find at `ENCCS High Performance Data Analytics in Python <https://enccs.github.io/hpda-python/scientific-data/#types-of-scientific-data>`_ training. 
+   .. code-block:: julia
+
+      using DataFrames
+      #Load the PalmerPenguins dataset
+      table = PalmerPenguins.load()
+      df = DataFrame(table)
+
+
+   Data can be saved in several common formats such as CSV, JSON, and
+   Parquet using the ``CSV``, ``JSONTables``, and ``Parquet`` packages respectively. 
+
+   An overview of common data formats for different use cases can be found 
+   `here <https://enccs.github.io/hpda-python/scientific-data/#an-overview-of-common-data-formats>`__.
 
    .. tabs::
 
-      .. tab:: DataFrame
-         .. code-block:: julia
-
-            using DataFrames
-            # Load the PalmerPenguins dataset
-            table = PalmerPenguins.load()
-            df = DataFrame(table)
-
       .. tab:: CSV
-
 
          .. code-block:: julia
 
@@ -135,10 +136,11 @@ Here's how you can create a new dataframe:
          .. code-block:: julia
 
             using JSONTables
+            using JSON3
             open("penguins.json", "w") do io
-               JSONTables.writetable(io, df)
+               write(io, JSONTables.objecttable(df))
             end
-            df = open(JSONTables.jsontable, "penguins.json", DataFrame)
+            df = DataFrame(JSON3.read("penguins.json"))
 
       .. tab:: Parquet
 
