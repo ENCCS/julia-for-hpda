@@ -79,7 +79,7 @@ included in the SciML documentation.
    Xs = hcat(sols...)
 
    # for axis equal; aspect_ratio = :equal
-   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = ["True Data" nothing])
+   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = "True Data")
 
 .. figure:: img/solutions_1.png
    :align: center
@@ -151,7 +151,7 @@ acting on the object only depend on its velocity, not its position.
    Xs = hcat(sols...)
 
    # for axis equal; aspect_ratio = :equal
-   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = ["True Data" nothing])
+   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = "True Data")
    # savefig("solutions_1.png")
 
    # define our activation function, radial basis function
@@ -224,17 +224,17 @@ acting on the object only depend on its velocity, not its position.
 
    ts = first(times):(mean(diff(times)) / 2):last(times)
    X̂ = predict(p_trained, inits_g, ts)
-   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = ["True Data" nothing])
-   scatter!(X̂[2,:], X̂[4,:], alpha = 0.4, color = :red, label = ["Prediction" nothing])
+   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = "True Data")
+   scatter!(X̂[2,:], X̂[4,:], alpha = 0.4, color = :red, label = "Prediction")
 
    u_test = rand(4)
    X̂_test = predict(p_trained, [u_test], ts)
    prob_test = ODEProblem(dynamics!, u_test, tspan)
    solution_test = solve(prob_test, Vern7(), abstol = 1e-12, reltol = 1e-12, saveat = deltat)
    Xs_test = Array(solution_test)
-   scatter!(Xs_test[2,:], Xs_test[4,:], alpha = 0.75, color = :blue, label = ["True Data Test" nothing])
-   #scatter(Xs_test[2,:], Xs_test[4,:], alpha = 0.75, color = :blue, label = ["True Data Test" nothing])
-   scatter!(X̂_test[2,:], X̂_test[4,:], alpha = 0.4, color = :yellow, label = ["Prediction Test" nothing])
+   scatter!(Xs_test[2,:], Xs_test[4,:], alpha = 0.75, color = :blue, label = "True Data Test")
+   #scatter(Xs_test[2,:], Xs_test[4,:], alpha = 0.75, color = :blue, label = "True Data Test")
+   scatter!(X̂_test[2,:], X̂_test[4,:], alpha = 0.4, color = :yellow, label = "Prediction Test")
    # savefig("solutions_2.png")
 
 At the end of the script, we plot the true data and model prediction on the
