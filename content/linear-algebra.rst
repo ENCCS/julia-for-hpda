@@ -508,7 +508,7 @@ Exercises
       # @time includes compilation time and garbage collection
       @time M^2;
 
-      # @btime does not includes compilation time
+      # @btime does not include compilation time
       @btime M^2;
 
 .. todo:: Sparse matrix computations
