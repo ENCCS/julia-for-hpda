@@ -185,7 +185,7 @@ acting on the object only depend on its velocity, not its position.
 
    function predict(θ, inits = inits_g, T = times)
       _probs = [remake(problems[ii], u0 = inits[ii], tspan = (T[1], T[end]), p = θ)
-               for ii in range(1,size(inits)[1])]
+                for ii in range(1,size(inits)[1])]
 
       allsols = [Array(solve(_prob,
                      Vern7(),
@@ -245,7 +245,7 @@ acting on the object only depend on its velocity, not its position.
    # savefig("solutions_2.png")
 
 At the end of the script, we plot the true data and model prediction on the
-trajectory that was used as training data as well as a test trajectory with
+trajectory that was used as training data, as well as a test trajectory with
 random initial values.
 
 .. figure:: img/solutions_2.png
