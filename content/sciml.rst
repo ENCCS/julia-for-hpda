@@ -213,7 +213,7 @@ acting on the object only depend on its velocity, not its position.
    end
 
    adtype = Optimization.AutoZygote()
-   optf = Optimization.OptimizationFunction((x, p) -> loss(x), adtype)
+   optf = Optimization.OptimizationFunction((w,params) -> loss(w), adtype)
    optprob = Optimization.OptimizationProblem(optf, ComponentVector{Float64}(p))
 
    # epochs = 250
