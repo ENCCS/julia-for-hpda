@@ -112,11 +112,32 @@ Here's how you can create a new dataframe:
       using DataFrames
       #Load the PalmerPenguins dataset
       table = PalmerPenguins.load()
-      df = DataFrame(table)
+      df = DataFrame(table);
+      # the raw data can be loaded by
+      #tableraw = PalmerPenguins.load(; raw = true)
 
+      first(df, 5)
+   
+   .. code-block:: text
+   
+      344×7 DataFrame
+       Row │ species    island     bill_length_mm  bill_depth_mm  flipper_length_mm  body_mass_g  sex     
+           │ String     String     Float64?        Float64?       Int64?             Int64?       String? 
+      ─────┼──────────────────────────────────────────────────────────────────────────────────────────────
+         1 │ Adelie   Torgersen            39.1           18.7                181         3750  male
+         2 │ Adelie   Torgersen            39.5           17.4                186         3800  female
+         3 │ Adelie   Torgersen            40.3           18.0                195         3250  female
+         4 │ Adelie   Torgersen       missing        missing              missing      missing  missing 
+         5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
+   
 
+   Note that the ``table`` variable is of type ``CSV.File``; the 
+   PalmerPenguins package uses the `CSV.jl <https://csv.juliadata.org/stable/>`_ 
+   package for fast loading of data. Note further that ``DataFrame`` can 
+   accept a ``CSV.File`` object and read it into a dataframe!
+   
    Data can be saved in several common formats such as CSV, JSON, and
-   Parquet using the ``CSV``, ``JSONTables``, and ``Parquet`` packages respectively. 
+   Parquet using the ``CSV``, ``JSONTables``, and ``Parquet2`` packages respectively. 
 
    An overview of common data formats for different use cases can be found 
    `here <https://enccs.github.io/hpda-python/scientific-data/#an-overview-of-common-data-formats>`__.
@@ -146,38 +167,10 @@ Here's how you can create a new dataframe:
 
          .. code-block:: julia
 
-            using Parquet
-            Parquet.write("penguins.parquet", df)
-            df = Parquet.read("penguins.parquet", DataFrame)
+            using Parquet2
+            Parquet2.writefile("penguins.parquet", df)
+            df = DataFrame(Parquet2.Dataset("penguins.parquet"))
    
-   We now create a dataframe containing the PalmerPenguins dataset.
-   Note that the ``table`` variable is of type ``CSV.File``; the 
-   PalmerPenguins package uses the `CSV.jl <https://csv.juliadata.org/stable/>`_ 
-   package for fast loading of data. Note further that ``DataFrame`` can 
-   accept a ``CSV.File`` object and read it into a dataframe!
-   
-   .. code-block:: julia
-   
-      using PalmerPenguins
-      table = PalmerPenguins.load()
-      df = DataFrame(table)
-   
-      # the raw data can be loaded by
-      #tableraw = PalmerPenguins.load(; raw = true)
-   
-      first(df, 5)
-   
-   .. code-block:: text
-   
-      344×7 DataFrame
-       Row │ species    island     bill_length_mm  bill_depth_mm  flipper_length_mm  body_mass_g  sex     
-           │ String     String     Float64?        Float64?       Int64?             Int64?       String? 
-      ─────┼──────────────────────────────────────────────────────────────────────────────────────────────
-         1 │ Adelie   Torgersen            39.1           18.7                181         3750  male
-         2 │ Adelie   Torgersen            39.5           17.4                186         3800  female
-         3 │ Adelie   Torgersen            40.3           18.0                195         3250  female
-         4 │ Adelie   Torgersen       missing        missing              missing      missing  missing 
-         5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
    
 
 Inspect dataset
