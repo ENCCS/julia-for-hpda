@@ -253,7 +253,7 @@ Now compute the covariance matrix together with its eigenvectors and eigenvalues
    M = transpose(X)*X
    P = eigvecs(M)
    E = eigvals(M)
-   # divide E by r=150 to get variance
+   # divide E by r-1=150-1=149 to get variance
 
 .. code-block:: text
 
@@ -296,7 +296,7 @@ The basis :math:`P` of eigenvectors we got above is orthogonal and normalized:
      4.7765e-16   -4.7269e-16    1.0           1.55799e-17
      2.98372e-16  -1.41867e-16   1.55799e-17   1.0
 
-We may perform dimensionality reduction by projecting the data to this subspace: 
+We may perform dimensionality reduction by projecting the data to a smaller subspace:
 
 .. code-block:: julia
 
