@@ -180,8 +180,8 @@ Eigenvectors and eigenvalues can be computed with the LinearAlgebra package:
    using LinearAlgebra
 
    A = [1 2 3;4 5 6;7 8 9]
-   eigvecs(A) # eigen vectors of A
-   eigvals(A) # eigen values of A
+   eigvecs(A) # eigenvectors of A
+   eigvals(A) # eigenvalues of A
 
 Loading a dataset
 -----------------
@@ -444,7 +444,7 @@ Exercises
       - The principal directions (eigenvectors) are only defined up to sign, which partly explains why they may get flipped when you rerun the script. One has to look into the algorithm that computes the eigenvectors to get a full explanation.
       - When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.
       - When you take more data, ``M/n`` (divide by the number of data points) should get close to ``S``.
-      - Is any step missing in the code examples? The data was not centered. This is stritcly speaking wrong but has a small effect in this case since the mean vector of the normal distribution used to generate data is 0. The generated data will then have approximate mean 0.
+      - Is any step missing in the code examples? The data was not centered. This has a small effect in this case. We are using the true mean (0) of the underlying distribution used to generated data, rather than the sample mean as in previous examples.
 
 
 .. todo::
