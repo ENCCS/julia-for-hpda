@@ -192,7 +192,8 @@ acting on the object only depend on its velocity, not its position.
                      saveat = T,
                      abstol = 1e-6,
                      reltol = 1e-6,
-                     sensealg = QuadratureAdjoint(autojacvec = ReverseDiffVJP(true)))) for _prob in _probs]
+                     sensealg = QuadratureAdjoint(autojacvec = ReverseDiffVJP(true))))
+                 for _prob in _probs]
 
       hcat(allsols...)
    end
