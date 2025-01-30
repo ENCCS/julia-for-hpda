@@ -181,13 +181,19 @@ acting on the object only depend on its velocity, not its position.
       du[4] = u[3]
    end
 
-   nn_dynamics!(du, u, p, t) = ude_dynamics!(du, u, p, t)
-
-   problems = [ODEProblem(nn_dynamics!, ui, tspan, p) for ui in inits_g]
+   problems = [ODEProblem(ude_dynamics!, ui, tspan, p) for ui in inits_g]
 
    function predict(θ, inits = inits_g, T = times)
-      _probs = [remake(problems[ii], u0 = inits[ii], tspan = (T[1], T[end]), p = θ) for ii in range(1,size(inits)[1])]
-      allsols = [Array(solve(_prob, Vern7(), saveat = T, abstol = 1e-6, reltol = 1e-6, sensealg = QuadratureAdjoint(autojacvec = ReverseDiffVJP(true)))) for _prob in _probs]
+      _probs = [remake(problems[ii], u0 = inits[ii], tspan = (T[1], T[end]), p = θ)
+               for ii in range(1,size(inits)[1])]
+
+      allsols = [Array(solve(_prob,
+                     Vern7(),
+                     saveat = T,
+                     abstol = 1e-6,
+                     reltol = 1e-6,
+                     sensealg = QuadratureAdjoint(autojacvec = ReverseDiffVJP(true)))) for _prob in _probs]
+
       hcat(allsols...)
    end
 
