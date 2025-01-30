@@ -406,7 +406,7 @@ Exercises
          D = MvNormal(m, S) # multivariate normal distribution
          X =rand(D, n)' # sample
 
-         # covariance matrix and eigenvectors
+         # scaled covariance matrix and eigenvectors
          M = X'*X
          P = eigvecs(M)
          E = eigvals(M)
