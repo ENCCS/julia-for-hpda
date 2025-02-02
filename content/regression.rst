@@ -116,7 +116,7 @@ Now let's plot the resulting prediction (green) together with the underlying lin
    Image of linear model prediction. The example shown has intercept 2.9 and slope 5.1 (the result depends on random added noise).
 
 Multivariate linear models are done in a similar way. Now we are fitting a nultivariate linear function that minizes the sum of
-squares error. In the following example we generate a linear function of 4 varaibles with random coefficients (normally distributed).
+squares error. In the following example we generate a linear function of 4 variables with random coefficients (normally distributed).
 On top of that we add normally distributed noise.
 
 .. code-block:: julia
