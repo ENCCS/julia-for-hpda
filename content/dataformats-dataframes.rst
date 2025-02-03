@@ -48,12 +48,12 @@ You can perform various operations on a DataFrame, such as filtering,
 sorting, grouping, joining, and aggregating data.
 
 The `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
-package is Julia's version of the ``pandas`` library in Python and 
+package offers similar functionality as the ``pandas`` library in Python and 
 the ``data.frame()`` function in R.
-DataFrames.jl also provides a rich set of functions for data cleaning, 
+``DataFrames.jl`` also provides a rich set of functions for data cleaning, 
 transformation, and visualization, making it a popular choice for 
 data science and machine learning tasks in Julia. Just like in Python and R, 
-the DataFrames.jl package provides functionality for data manipulation and analysis. 
+the ``DataFrames.jl`` package provides functionality for data manipulation and analysis. 
 
 
 Download a dataset
@@ -68,7 +68,7 @@ of characteristic features of different penguin species.
 
    Artwork by @allison_horst
 
-To obtain the data we simply add the PalmerPenguins package.
+The dataset is bundled within the ``PalmerPenguins`` package, so we need to add that:
 
 .. code-block:: julia
 
@@ -90,9 +90,9 @@ Here's how you can create a new dataframe:
    using DataFrames
    names = ["Ali", "Clara", "Jingfei", "Stefan"]
    age = ["25", "39", "14", "45"]
-   df = DataFrame(; name=names, age=age)
+   df = DataFrame(name=names, age=age)
 
- .. code-block:: text
+ .. code-block:: julia-repl
 
     4×2 DataFrame
     Row │ name        age
@@ -105,64 +105,17 @@ Here's how you can create a new dataframe:
 
 .. todo:: Dataframes
    
-   The following code loads the `PalmerPenguins` dataset into a DataFrame. 
-   Then it demonstrates how to write and read the data in CSV, JSON, and
-   Parquet formats using the `CSV`, `JSONTables`, and `Parquet` packages respectively. 
+   The following code loads the ``PalmerPenguins`` dataset into a DataFrame. 
 
-   More about `Types of scientific data` one can find at `ENCCS High Performance Data Analytics in Python <https://enccs.github.io/hpda-python/scientific-data/#types-of-scientific-data>`_ training. 
-
-   .. tabs::
-
-      .. tab:: DataFrame
-         .. code-block:: julia
-
-            using DataFrames
-            # Load the PalmerPenguins dataset
-            table = PalmerPenguins.load()
-            df = DataFrame(table)
-
-      .. tab:: CSV
-
-
-         .. code-block:: julia
-
-            using CSV
-            CSV.write("penguins.csv", df)
-            df = CSV.read("penguins.csv", DataFrame)
-
-      .. tab:: JSON
-
-         .. code-block:: julia
-
-            using JSONTables
-            open("penguins.json", "w") do io
-               JSONTables.writetable(io, df)
-            end
-            df = open(JSONTables.jsontable, "penguins.json", DataFrame)
-
-      .. tab:: Parquet
-
-         .. code-block:: julia
-
-            using Parquet
-            Parquet.write("penguins.parquet", df)
-            df = Parquet.read("penguins.parquet", DataFrame)
-   
-   We now create a dataframe containing the PalmerPenguins dataset.
-   Note that the ``table`` variable is of type ``CSV.File``; the 
-   PalmerPenguins package uses the `CSV.jl <https://csv.juliadata.org/stable/>`_ 
-   package for fast loading of data. Note further that ``DataFrame`` can 
-   accept a ``CSV.File`` object and read it into a dataframe!
-   
    .. code-block:: julia
-   
-      using PalmerPenguins
+
+      using DataFrames
+      #Load the PalmerPenguins dataset
       table = PalmerPenguins.load()
-      df = DataFrame(table)
-   
+      df = DataFrame(table);
       # the raw data can be loaded by
       #tableraw = PalmerPenguins.load(; raw = true)
-   
+
       first(df, 5)
    
    .. code-block:: text
@@ -176,6 +129,48 @@ Here's how you can create a new dataframe:
          3 │ Adelie   Torgersen            40.3           18.0                195         3250  female
          4 │ Adelie   Torgersen       missing        missing              missing      missing  missing 
          5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
+   
+
+   Note that the ``table`` variable is of type ``CSV.File``; the 
+   PalmerPenguins package uses the `CSV.jl <https://csv.juliadata.org/stable/>`_ 
+   package for fast loading of data. Note further that ``DataFrame`` can 
+   accept a ``CSV.File`` object and read it into a dataframe!
+   
+   Data can be saved in several common formats such as CSV, JSON, and
+   Parquet using the ``CSV``, ``JSONTables``, and ``Parquet2`` packages respectively. 
+
+   An overview of common data formats for different use cases can be found 
+   `here <https://enccs.github.io/hpda-python/scientific-data/#an-overview-of-common-data-formats>`__.
+
+   .. tabs::
+
+      .. tab:: CSV
+
+         .. code-block:: julia
+
+            using CSV
+            CSV.write("penguins.csv", df)
+            df = CSV.read("penguins.csv", DataFrame)
+
+      .. tab:: JSON
+
+         .. code-block:: julia
+
+            using JSONTables
+            using JSON3
+            open("penguins.json", "w") do io
+               write(io, JSONTables.objecttable(df))
+            end
+            df = DataFrame(JSON3.read("penguins.json"))
+
+      .. tab:: Parquet
+
+         .. code-block:: julia
+
+            using Parquet2
+            Parquet2.writefile("penguins.parquet", df)
+            df = DataFrame(Parquet2.Dataset("penguins.parquet"))
+   
    
 
 Inspect dataset
@@ -256,17 +251,6 @@ Inspect dataset
 
       # Interpolating missing values
       using Interpolations
-      mask = ismissing.(df[:bill_length_mm])
-      itp = interpolate(df[:bill_length_mm][.!mask], BSpline(Linear()))
-      df[:bill_length_mm][mask] .= itp.(findall(mask))
-
-   It throws the issue because the syntax df[column] is not supported in Julia 1.9.0.
-   Here is the correct code:
-
-   .. code-block:: julia
-
-      # Interpolating missing values
-      using Interpolations
       mask = ismissing.(df.bill_length_mm)
       itp = interpolate(df[!, :bill_length_mm][.!mask], BSpline(Linear()))
       df[!, :bill_length_mm][mask] .= itp.(findall(mask))   
@@ -290,16 +274,19 @@ https://www.statology.org/long-vs-wide-data/
 - **Long format**: In this format, each row is a single observation, and each column is a variable. This format is also known as "tidy" data.
 - **Wide format**: In this format, each row is a subject, and each column is an observation. This format is also known as "spread" data.
 
-The `DataFrames.jl` package provides functions to reshape data between long and wide formats. These functions are `stack`, `unstack`, `melt`, and `pivot`.
-Detailed tutorial: https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/ 
+The ``DataFrames.jl`` package provides functions to reshape data between long and wide formats. These functions are ``stack``, ``unstack``, ``melt``, and ``pivot``.
+Further examples can be found in the `official documentation <https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/>`__.
 
 .. code-block:: julia
 
    # To convert from wide to long format
-   df_long = stack(df, Not(:species))
+
+   #First we create an ID column
+   df.id = 1:size(df,1)
+   df_long = stack(df, Not(:species, :id))
 
    # To convert from long to wide format
-   df_wide = unstack(df_long, :species, :variable, :value)
+   df_wide = unstack(df_long, :variable, :value)
    
    # or
    # Custom combine function
@@ -312,54 +299,64 @@ Detailed tutorial: https://dataframes.juliadata.org/stable/man/reshaping_and_piv
    end
 
    # Unstack DataFrame with custom combine function
-   df_wide = unstack(df_long, :species, :variable, :value, combine = custom_combine)
+   unstack(df_long, :species, :variable, :value, combine = custom_combine)
 
 
-(Optional) Reshaping and Pivoting
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Split-apply-combine workflows
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The `pivot` function can be used to reshape data (from long to wide format) and also perform aggregation.
+Oftentimes, data analysis workflows include three steps: 
+
+- Splitting/stratifying a dataset into different groups;
+- Applying some function/modification to each group;
+- Combining the results.
+
+This is commonly referred to as "split-apply-combine" workflow, which can be
+achieved in Julia with the ``groupby`` function to stratify and
+the ``combine`` function to aggregate with some reduction operator. 
+An example of this is provided below: 
 
 .. code-block:: julia
 
    using Statistics
 
-   # Pivot data with aggregation
+   # Split-apply-combine
    df_grouped = groupby(df, [:species, :island])
-   df_pivot = combine(df_grouped, :body_mass_g => mean)
+   df_combined = combine(df_grouped, :body_mass_g => mean)
 
 
-In this example, `groupby(df, [:species, :island])` groups your DataFrame by the `species` and `island` columns.
-Then, `combine(df_grouped, :body_mass_g => mean)` calculates the mean of the `body_mass_g` column for each group.
-The `mean` function is used for aggregation.
+In this example, ``groupby(df, [:species, :island])`` groups the DataFrame by the ``species`` and ``island`` columns.
+Then, ``combine(df_grouped, :body_mass_g => mean)`` calculates the mean of the ``:body_mass_g`` column for each group.
+The ``mean`` function is used for aggregation.
 
-The result is a new DataFrame where each unique value in the `:species` column forms a row, each unique 
-value in the `:island` column forms a column, and the mean body mass for each species-island combination fills the DataFrame.
-
-Note that if you don't provide an aggregation function and there are multiple values for a given row-column combination, 
-`pivot` will throw an error. To handle this, you can provide an aggregation function like `mean`, `sum`, etc., 
-which will be applied to all values that fall into each cell of the resulting DataFrame.
+The result is a new DataFrame where each unique ``:species``-``:island`` combination forms a row, 
+and the mean body mass for each species-island combination fills the DataFrame.
 
 
-Creating and merging DataFrames like in SQL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Optional) Creating and merging DataFrames 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Creating DataFrames
+~~~~~~~~~~~~~~~~~~~
 
-In Julia, you can create a DataFrame from scratch using the `DataFrame` constructor from the `DataFrames` package.
+In Julia, you can create a DataFrame from scratch using the ``DataFrame`` constructor from the ``DataFrames`` package.
 This constructor allows you to create a DataFrame by passing column vectors as keyword arguments or pairs.
-For example, to create a DataFrame with two columns named `:A` and `:B`, you can use the following code: 
-`DataFrame(A = 1:3, B = ["x", "y", "z"])`
-You can also create a DataFrame from other data structures such as dictionaries, named tuples, vectors of vectors, matrices, and more.
+For example, to create a DataFrame with two columns named ``:A`` and ``:B``, the following works: 
+
+``DataFrame(A = 1:3, B = ["x", "y", "z"])``
+
+A DataFrame can also be created from other data structures such as dictionaries, named tuples, vectors of vectors, matrices, and more.
 You can find more information about creating DataFrames in Julia in the `official documentation <https://dataframes.juliadata.org/stable/man/getting_started/>`_
 
 Merging DataFrames
+~~~~~~~~~~~~~~~~~~
 
-Also, you can merge two or more DataFrames using the `join` function from the `DataFrames` package.
+Also, you can merge two or more DataFrames using the ``join`` function from the ``DataFrames`` package.
 This function allows you to perform various types of joins, such as inner join, left join, right join, outer join, semi join, and anti join. 
-You can specify the columns used to determine which rows should be combined during a join by passing them as the `on` argument to the `join` function.
-For example, to perform an inner join on two DataFrames `df1` and `df2` using the `:ID` column as the key, you can use the following code: `join(df1, df2, on = :ID, kind = :inner)`.
-You can find more information about joining DataFrames in Julia in the `official documentation <https://dataframes.juliadata.org/stable/man/joins/>`_ 
+You can specify the columns used to determine which rows should be combined during a join by passing them as the ``on`` argument to the ``join`` function.
+For example, to perform an inner join on two DataFrames ``df1`` and ``df2`` using the ``:ID`` column as the key, you can use the following code: 
+``join(df1, df2, on = :ID, kind = :inner)``.
+You can find more information about joining DataFrames in Julia in the `official documentation <https://dataframes.juliadata.org/stable/man/joins/>`_.
 
 
 Plotting
@@ -375,9 +372,8 @@ personal preference.
    - `Plots.jl <http://docs.juliaplots.org/latest/>`_: high-level 
      API for working with several different plotting back-ends, including `GR`, 
      `Matplotlib.Pyplot`, `Plotly` and `PlotlyJS`.
-   - `StatsPlots.jl <https://github.com/JuliaPlots/StatsPlots.jl>`_: was moved 
-     out from core `Plots.jl`. Focuses on statistical use-cases and supports 
-     specialized statistical plotting functionalities.
+   - `StatsPlots.jl <https://docs.juliaplots.org/dev/generated/statsplots/>`_: focuses on statistical
+     use-cases and supports specialized statistical plotting functionalities.
    - `GadFly.jl <http://gadflyjl.org/stable/>`_: based largely on 
      `ggplot2 for R <https://ggplot2.tidyverse.org/>`_ and the book 
      `The Grammar of Graphics <https://www.cs.uic.edu/~wilkinson/TheGrammarOfGraphics/GOG.html>`_.
@@ -392,7 +388,7 @@ personal preference.
 We will be using `Plots.jl` and `StatsPlots.jl` but we encourage to explore these 
 other packages to find the one that best fits your use case.
 
-First we install `Plots.jl` and `StatsPlots` backend:
+First we install ``Plots.jl`` and ``StatsPlots`` backend:
 
 .. code-block:: julia
 
@@ -466,7 +462,7 @@ Multiple subplots can be created by:
       scatter(df[!, :bill_length_mm], df[!, :bill_depth_mm])
 
    We can adjust the markers by `this list of named colors <https://juliagraphics.github.io/Colors.jl/stable/namedcolors/>`_
-   and `this list of marker types <https://docs.juliaplots.org/latest/generated/unicodeplots/#unicodeplots-ref13>`_:
+   and `this list of marker types <https://docs.juliaplots.org/dev/gallery/gr/generated/gr-ref013/#gr_ref013>`_:
 
    .. code-block:: julia
 
@@ -483,14 +479,16 @@ Multiple subplots can be created by:
    We can add a dimension to the plot by grouping by another column. Let's see if 
    the different penguin species can be distiguished based on their bill length 
    and bill depth. We also set different marker shapes and colors based on the 
-   grouping, and adjust the markersize and transparency (``alpha``):
+   grouping, and adjust the markersize and transparency (``alpha``). Note that 
+   it is also possible to prescribe a palette rather than every colour individually, with
+   many common palettes available `here <https://docs.juliaplots.org/dev/generated/colorschemes/#Pre-defined-ColorSchemes>`__:
 
    .. code-block:: julia
 
       scatter(df[!, :bill_length_mm],
               df[!, :bill_depth_mm], 
               xlabel = "bill length (mm)",
-              ylabel = "bill depth (g)",
+              ylabel = "bill depth (mm)",
               group = df[!, :species],
               marker = [:circle :ltriangle :star5],
               color = [:magenta :springgreen :blue],

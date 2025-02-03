@@ -9,17 +9,18 @@ Fortran) without sacrificing simplicity and programming productivity
 (like in Python or R).
 
 Julia has a rich ecosystem of libraries aimed
-towards scientific computing and a powerful in-built package manager
+towards scientific computing and a powerful builtin package manager
 to install and manage their dependencies. Thanks to a rapidly growing
 ecosystem of packages for data science and machine learning, Julia is
 quickly gaining ground in both academic and industrial domains which deal
 with large datasets.
 
 This lesson starts with a discussion of working with data in Julia, how 
-to use the Dataframes.jl package and how to visualise data. It then moves 
+to use the ``DataFrames.jl`` package and how to visualise data. It then moves 
 on to linear algebra approaches, followed by classical machine learning 
-approaches as well as deep learning methods. Finally, key aspects of regression, 
-time series prediction and analyses is covered.
+approaches as well as deep learning methods with an example of scientific ML. 
+Finally, key aspects of regression, 
+time series prediction and analysis is covered.
 
 If you are new to the Julia language, please make sure to go through this 
 `introductory Julia lesson <https://enccs.github.io/julia-intro/>`__ before 
@@ -51,9 +52,9 @@ please visit the lesson `Julia for high-performance scientific computing <https:
    motivation
    dataformats-dataframes
    linear-algebra
+   sciml
    data-science
    regression
-   sciml
 
 .. toctree::
    :maxdepth: 1
