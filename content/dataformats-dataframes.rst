@@ -372,9 +372,8 @@ personal preference.
    - `Plots.jl <http://docs.juliaplots.org/latest/>`_: high-level 
      API for working with several different plotting back-ends, including `GR`, 
      `Matplotlib.Pyplot`, `Plotly` and `PlotlyJS`.
-   - `StatsPlots.jl <https://github.com/JuliaPlots/StatsPlots.jl>`_: was moved 
-     out from core `Plots.jl`. Focuses on statistical use-cases and supports 
-     specialized statistical plotting functionalities.
+   - `StatsPlots.jl <https://docs.juliaplots.org/dev/generated/statsplots/>`_: focuses on statistical
+     use-cases and supports specialized statistical plotting functionalities.
    - `GadFly.jl <http://gadflyjl.org/stable/>`_: based largely on 
      `ggplot2 for R <https://ggplot2.tidyverse.org/>`_ and the book 
      `The Grammar of Graphics <https://www.cs.uic.edu/~wilkinson/TheGrammarOfGraphics/GOG.html>`_.
@@ -389,7 +388,7 @@ personal preference.
 We will be using `Plots.jl` and `StatsPlots.jl` but we encourage to explore these 
 other packages to find the one that best fits your use case.
 
-First we install `Plots.jl` and `StatsPlots` backend:
+First we install ``Plots.jl`` and ``StatsPlots`` backend:
 
 .. code-block:: julia
 
@@ -463,7 +462,7 @@ Multiple subplots can be created by:
       scatter(df[!, :bill_length_mm], df[!, :bill_depth_mm])
 
    We can adjust the markers by `this list of named colors <https://juliagraphics.github.io/Colors.jl/stable/namedcolors/>`_
-   and `this list of marker types <https://docs.juliaplots.org/latest/generated/unicodeplots/#unicodeplots-ref13>`_:
+   and `this list of marker types <https://docs.juliaplots.org/dev/gallery/gr/generated/gr-ref013/#gr_ref013>`_:
 
    .. code-block:: julia
 
@@ -480,14 +479,16 @@ Multiple subplots can be created by:
    We can add a dimension to the plot by grouping by another column. Let's see if 
    the different penguin species can be distiguished based on their bill length 
    and bill depth. We also set different marker shapes and colors based on the 
-   grouping, and adjust the markersize and transparency (``alpha``):
+   grouping, and adjust the markersize and transparency (``alpha``). Note that 
+   it is also possible to prescribe a palette rather than every colour individually, with
+   many common palettes available `here <https://docs.juliaplots.org/dev/generated/colorschemes/#Pre-defined-ColorSchemes>`__:
 
    .. code-block:: julia
 
       scatter(df[!, :bill_length_mm],
               df[!, :bill_depth_mm], 
               xlabel = "bill length (mm)",
-              ylabel = "bill depth (g)",
+              ylabel = "bill depth (mm)",
               group = df[!, :species],
               marker = [:circle :ltriangle :star5],
               color = [:magenta :springgreen :blue],
