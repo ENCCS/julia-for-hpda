@@ -251,17 +251,6 @@ Inspect dataset
 
       # Interpolating missing values
       using Interpolations
-      mask = ismissing.(df[:bill_length_mm])
-      itp = interpolate(df[:bill_length_mm][.!mask], BSpline(Linear()))
-      df[:bill_length_mm][mask] .= itp.(findall(mask))
-
-   It throws the issue because the syntax df[column] is not supported in Julia 1.9.0.
-   Here is the correct code:
-
-   .. code-block:: julia
-
-      # Interpolating missing values
-      using Interpolations
       mask = ismissing.(df.bill_length_mm)
       itp = interpolate(df[!, :bill_length_mm][.!mask], BSpline(Linear()))
       df[!, :bill_length_mm][mask] .= itp.(findall(mask))   
@@ -285,16 +274,19 @@ https://www.statology.org/long-vs-wide-data/
 - **Long format**: In this format, each row is a single observation, and each column is a variable. This format is also known as "tidy" data.
 - **Wide format**: In this format, each row is a subject, and each column is an observation. This format is also known as "spread" data.
 
-The `DataFrames.jl` package provides functions to reshape data between long and wide formats. These functions are `stack`, `unstack`, `melt`, and `pivot`.
-Detailed tutorial: https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/ 
+The ``DataFrames.jl`` package provides functions to reshape data between long and wide formats. These functions are ``stack``, ``unstack``, ``melt``, and ``pivot``.
+Further examples can be found in the `official documentation <https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/>`__.
 
 .. code-block:: julia
 
    # To convert from wide to long format
-   df_long = stack(df, Not(:species))
+
+   #First we create an ID column
+   df.id = 1:size(df,1)
+   df_long = stack(df, Not(:species, :id))
 
    # To convert from long to wide format
-   df_wide = unstack(df_long, :species, :variable, :value)
+   df_wide = unstack(df_long, :variable, :value)
    
    # or
    # Custom combine function
@@ -307,54 +299,64 @@ Detailed tutorial: https://dataframes.juliadata.org/stable/man/reshaping_and_piv
    end
 
    # Unstack DataFrame with custom combine function
-   df_wide = unstack(df_long, :species, :variable, :value, combine = custom_combine)
+   unstack(df_long, :species, :variable, :value, combine = custom_combine)
 
 
-(Optional) Reshaping and Pivoting
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Split-apply-combine workflows
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The `pivot` function can be used to reshape data (from long to wide format) and also perform aggregation.
+Oftentimes, data analysis workflows include three steps: 
+
+- Splitting/stratifying a dataset into different groups;
+- Applying some function/modification to each group;
+- Combining the results.
+
+This is commonly referred to as "split-apply-combine" workflow, which can be
+achieved in Julia with the ``groupby`` function to stratify and
+the ``combine`` function to aggregate with some reduction operator. 
+An example of this is provided below: 
 
 .. code-block:: julia
 
    using Statistics
 
-   # Pivot data with aggregation
+   # Split-apply-combine
    df_grouped = groupby(df, [:species, :island])
-   df_pivot = combine(df_grouped, :body_mass_g => mean)
+   df_combined = combine(df_grouped, :body_mass_g => mean)
 
 
-In this example, `groupby(df, [:species, :island])` groups your DataFrame by the `species` and `island` columns.
-Then, `combine(df_grouped, :body_mass_g => mean)` calculates the mean of the `body_mass_g` column for each group.
-The `mean` function is used for aggregation.
+In this example, ``groupby(df, [:species, :island])`` groups the DataFrame by the ``species`` and ``island`` columns.
+Then, ``combine(df_grouped, :body_mass_g => mean)`` calculates the mean of the ``:body_mass_g`` column for each group.
+The ``mean`` function is used for aggregation.
 
-The result is a new DataFrame where each unique value in the `:species` column forms a row, each unique 
-value in the `:island` column forms a column, and the mean body mass for each species-island combination fills the DataFrame.
-
-Note that if you don't provide an aggregation function and there are multiple values for a given row-column combination, 
-`pivot` will throw an error. To handle this, you can provide an aggregation function like `mean`, `sum`, etc., 
-which will be applied to all values that fall into each cell of the resulting DataFrame.
+The result is a new DataFrame where each unique ``:species``-``:island`` combination forms a row, 
+and the mean body mass for each species-island combination fills the DataFrame.
 
 
-Creating and merging DataFrames like in SQL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(Optional) Creating and merging DataFrames 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Creating DataFrames
+~~~~~~~~~~~~~~~~~~~
 
-In Julia, you can create a DataFrame from scratch using the `DataFrame` constructor from the `DataFrames` package.
+In Julia, you can create a DataFrame from scratch using the ``DataFrame`` constructor from the ``DataFrames`` package.
 This constructor allows you to create a DataFrame by passing column vectors as keyword arguments or pairs.
-For example, to create a DataFrame with two columns named `:A` and `:B`, you can use the following code: 
-`DataFrame(A = 1:3, B = ["x", "y", "z"])`
-You can also create a DataFrame from other data structures such as dictionaries, named tuples, vectors of vectors, matrices, and more.
+For example, to create a DataFrame with two columns named ``:A`` and ``:B``, the following works: 
+
+``DataFrame(A = 1:3, B = ["x", "y", "z"])``
+
+A DataFrame can also be created from other data structures such as dictionaries, named tuples, vectors of vectors, matrices, and more.
 You can find more information about creating DataFrames in Julia in the `official documentation <https://dataframes.juliadata.org/stable/man/getting_started/>`_
 
 Merging DataFrames
+~~~~~~~~~~~~~~~~~~
 
-Also, you can merge two or more DataFrames using the `join` function from the `DataFrames` package.
+Also, you can merge two or more DataFrames using the ``join`` function from the ``DataFrames`` package.
 This function allows you to perform various types of joins, such as inner join, left join, right join, outer join, semi join, and anti join. 
-You can specify the columns used to determine which rows should be combined during a join by passing them as the `on` argument to the `join` function.
-For example, to perform an inner join on two DataFrames `df1` and `df2` using the `:ID` column as the key, you can use the following code: `join(df1, df2, on = :ID, kind = :inner)`.
-You can find more information about joining DataFrames in Julia in the `official documentation <https://dataframes.juliadata.org/stable/man/joins/>`_ 
+You can specify the columns used to determine which rows should be combined during a join by passing them as the ``on`` argument to the ``join`` function.
+For example, to perform an inner join on two DataFrames ``df1`` and ``df2`` using the ``:ID`` column as the key, you can use the following code: 
+``join(df1, df2, on = :ID, kind = :inner)``.
+You can find more information about joining DataFrames in Julia in the `official documentation <https://dataframes.juliadata.org/stable/man/joins/>`_.
 
 
 Plotting
