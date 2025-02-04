@@ -23,14 +23,12 @@ Data science and machine learning
 Working with data
 -----------------
 
-Via Data Formats and Dataframes lesson, we explored a Julian approach
-to manipulating and visualization of data.
+In the Data Formats and Dataframes lesson, we explored a Julian approach
+to manipulation and visualisation of data.
 
-Julia is a good language to use for data science problems as
-it will perform well and alleviate the need to translate
-computationally demanding parts to another language.
 
-Here we will learn and clustering, classification, machine learning and deep learning (toy example). Use penguin data.machine learning.
+Here we will learn and clustering, classification, machine learning and deep learning with some toy examples. 
+
 
 Download a dataset
 ^^^^^^^^^^^^^^^^^^
@@ -55,50 +53,6 @@ of characteristic features of different penguin species.
       using PalmerPenguins
 
 
-Dataframes
-^^^^^^^^^^
-
-.. todo:: Dataframes
-
-   We will use `DataFrames.jl <https://dataframes.juliadata.org/stable/>`_ 
-   package function here to  analyze the penguins dataset, but first we need to install it:
-
-   .. code-block:: julia
-
-      Pkg.add("DataFrames")
-      using DataFrames
-
-   We now create a dataframe containing the PalmerPenguins dataset.
-   
-   .. code-block:: julia
-   
-      # using PalmerPenguins
-      table = PalmerPenguins.load()
-      df = DataFrame(table)
-   
-      # the raw data can be loaded by
-      #tableraw = PalmerPenguins.load(; raw = true)
-   
-   Summary statistics can be displayed with the ``describe`` function:
-   
-   .. code-block:: julia
-   
-      describe(df)
-   
-   .. code-block:: text
-   
-      7×7 DataFrame
-       Row │ variable           mean     min     median  max        nmissing  eltype                  
-           │ Symbol             Union…   Any     Union…  Any        Int64     Type                    
-      ─────┼──────────────────────────────────────────────────────────────────────────────────────────
-         1 │ species                     Adelie          Gentoo            0  String
-         2 │ island                      Biscoe          Torgersen         0  String
-         3 │ bill_length_mm     43.9219  32.1    44.45   59.6              2  Union{Missing, Float64}
-         4 │ bill_depth_mm      17.1512  13.1    17.3    21.5              2  Union{Missing, Float64}
-         5 │ flipper_length_mm  200.915  172     197.0   231               2  Union{Missing, Int64}
-         6 │ body_mass_g        4201.75  2700    4050.0  6300              2  Union{Missing, Int64}
-         7 │ sex                         female          male             11  Union{Missing, String}
-
    As it was done in the Data Formats and Dataframes lesson, we can
    
    .. code-block:: julia
@@ -119,7 +73,8 @@ Saving the Current Setup
 ------------------------
 
 There are several ways to save the current setup in Julia.
-This section will cover three methods: saving the environment, saving data as a CSV file, and saving data using JLD.jl.
+This section will cover three parts: saving the environment to
+have reproducible code and saving data using CSV files or ``JLD``.
 
 1. Saving the Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -144,7 +99,7 @@ This section will cover three methods: saving the environment, saving data as a 
    This will display the list of packages in the current environment along with their versions.
 
    To save the state of your environment, Julia uses two files: ``Project.toml`` and ``Manifest.toml``.
-   The ``Project.tom`` file specifies the packages that you explicitly added to your environment,
+   The ``Project.toml`` file specifies the packages that you explicitly added to your environment,
    while the ``Manifest.toml`` file records the exact versions of these packages and all their dependencies1.
 
    When you add packages using ``Pkg.add()``, Julia automatically updates these files.
@@ -162,12 +117,12 @@ This section will cover three methods: saving the environment, saving data as a 
 2. Saving Data as a CSV File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-(The way we use in this lesson).
+As shown in the Data Formats and DataFrames lesson, a DataFrame can easily dumped into a CSV file using
+the ``CSV.jl`` package, which also allows for reading tabular data.
 
 .. todo::
-   (Include the content about saving data as a CSV file here)
 
-   You can use the CSV.jl package to save your DataFrame as a CSV file, which can be loaded later.
+   You can use the CSV.jl package to save a DataFrame as a CSV file, which can be re-read later.
 
    .. code-block:: julia
 
@@ -182,35 +137,48 @@ This section will cover three methods: saving the environment, saving data as a 
 
          df = CSV.read("penguins.csv", DataFrame)
 
-3. Saving Data Using JLD.jl
+3. Saving Data Using JLD/JLD2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    Another option is to use `JLD.jl <https://github.com/JuliaIO/JLD.jl>`_ 
-   The `JLD.jl` package provides a way to save and load Julia variables while preserving native types.
-   It is a specific "dialect" of HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
+   The ``JLD.jl`` package provides a way to save and load Julia variables while preserving native types.
+   It is based on HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
+   However, it is written in pure Julia and does not require any of the original C HDF5 implementation.
 
-   To use the `JLD.jl` module, you can start your code with `using JLD`. 
-   If you want to save a few variables and don't care to use the more advanced features, then a simple syntax is:
+   The ``JLD`` package can be imported in the usual way:
 
    .. code-block:: julia
 
       using Pkg
       Pkg.add("JLD")
 
-   Now, we can save our DataFrame `df` to a JLD file.
+   A DataFrame can be saved to file in the following way:
 
    .. code-block:: julia
 
       using JLD
       save("penguins.jld", "df", df)
 
-   Here we're saving `df` as "df" within `penguins.jld`. You can load this DataFrame back in with:
+   Here we're saving ``df`` as "df" within ``penguins.jld``. You can load this DataFrame back in with:
 
    .. code-block:: julia
 
       df = load("penguins.jld", "df")
 
-   This will return the DataFrame `df` from the file and assign it back to `df`.
+   This will return the DataFrame ``df`` from the file and assign it back to ``df``.
+   In the past years, the ``JLD2.jl`` package came forward as an alternative to ``JLD``. It 
+   is also based on HDF5 and can read h5 files saved by other HDF5 implementations. It exposes an interface
+   similar to ``JLD`` with  ``save()`` and ``load()`` functions, but the more user-friendly function ``jldsave()``
+   is also available:
+
+   .. code-block:: julia
+    
+      using JLD2
+      jldsave("penguins.jld2"; df) # This is equivalent to the save command above
+      df = load("penguins.jld2", "df")
+
+   Moreover, a ``jldopen()`` function provides a file-like interface. More information can be found
+   `here <https://github.com/JuliaIO/JLD2.jl>`__.
 
 Machine learning
 ----------------
