@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data science and machine learning &#8212; Julia for High-Performance Scientific Computing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../_static/overrides.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=55b5f74b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/minipres.js?v=a0d29692"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'data-science';</script>
+    <script data-domain="enccs.github.io/julia-for-hpda" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Regression and time-series prediction" href="../regression/" />
+    <link rel="prev" title="Scientific Machine Learning" href="../sciml/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/ENCCS.jpg" class="logo__image only-light" alt="Julia for High-Performance Scientific Computing - Home"/>
+    <img src="../_static/ENCCS.jpg" class="logo__image only-dark pst-js-only" alt="Julia for High-Performance Scientific Computing - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Prerequisites</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installing packages</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../motivation/">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataformats-dataframes/">Data Formats and Dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linear-algebra/">Linear algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sciml/">Scientific Machine Learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data science and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/">Regression and time-series prediction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/data-science.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data science and machine learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-data">Working with data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-a-dataset">Download a dataset</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-current-setup">Saving the Current Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-environment">1. Saving the Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-data-as-a-csv-file">2. Saving Data as a CSV File</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-data-using-jld-jld2">3. Saving Data Using JLD/JLD2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning">Machine learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-in-julia">Machine learning in Julia</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#traditional-machine-learning">Traditional machine learning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-and-classification">Clustering and Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-learning">Deep learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neuromorphic-probabilistic-learning">Neuromorphic | Probabilistic learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum">Quantum</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="data-science-and-machine-learning">
+<span id="data-science"></span><h1>Data science and machine learning<a class="headerlink" href="#data-science-and-machine-learning" title="Link to this heading">#</a></h1>
+<div class="admonition-questions questions admonition" id="questions-0">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>Can I use Julia for machine learning?</p></li>
+<li><p>What are the key steps in data preprocessing in Julia?</p></li>
+<li><p>How can you handle missing data in Julia?</p></li>
+<li><p>How can you save your current environment in Julia?</p></li>
+<li><p>What are some popular machine learning algorithms available in Julia?</p></li>
+<li><p>How does Julia handle large datasets in machine learning?</p></li>
+<li><p>How can you implement clustering in Julia?</p></li>
+<li><p>What are some classification techniques available in Julia?</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>100 min teaching</p></li>
+<li><p>50 min exercises</p></li>
+</ul>
+</div>
+<section id="working-with-data">
+<h2>Working with data<a class="headerlink" href="#working-with-data" title="Link to this heading">#</a></h2>
+<p>In the Data Formats and Dataframes lesson, we explored a Julian approach
+to manipulation and visualisation of data.</p>
+<p>Here we will learn and clustering, classification, machine learning and deep learning with some toy examples.</p>
+<section id="download-a-dataset">
+<h3>Download a dataset<a class="headerlink" href="#download-a-dataset" title="Link to this heading">#</a></h3>
+<p>We start by downloading a dataset containing measurements
+of characteristic features of different penguin species.</p>
+<figure class="align-center" id="id8">
+<img alt="../_images/lter_penguins.png" src="../_images/lter_penguins.png" />
+<figcaption>
+<p><span class="caption-text">Artwork by &#64;allison_horst</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>To obtain the data we simply add the PalmerPenguins package.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;PalmerPenguins&quot;</span><span class="p">)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">PalmerPenguins</span>
+</pre></div>
+</div>
+<p>As it was done in the Data Formats and Dataframes lesson, we can</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dropmissing!</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The main features we are interested in for each penguin observation are
+<cite>bill_length_mm</cite>, <cite>bill_depth_mm</cite>, <cite>flipper_length_mm</cite> and <cite>body_mass_g</cite>.
+What the first three features mean is illustrated in the picture below.</p>
+<figure class="align-center" id="id9">
+<img alt="../_images/culmen_depth.png" src="../_images/culmen_depth.png" />
+<figcaption>
+<p><span class="caption-text">Artwork by &#64;allison_horst</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="saving-the-current-setup">
+<h2>Saving the Current Setup<a class="headerlink" href="#saving-the-current-setup" title="Link to this heading">#</a></h2>
+<p>There are several ways to save the current setup in Julia.
+This section will cover three parts: saving the environment to
+have reproducible code and saving data using CSV files or <code class="docutils literal notranslate"><span class="pre">JLD</span></code>.</p>
+<section id="saving-the-environment">
+<h3>1. Saving the Environment<a class="headerlink" href="#saving-the-environment" title="Link to this heading">#</a></h3>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>To check the current status of your Julia environment, you can use the status command in the package manager.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Status `~/.julia/environments/v1.9/Project.toml`
+   [336ed68f] CSV v0.10.11
+   [aaaa29a8] Clustering v0.15.4
+   [a93c6f00] DataFrames v1.6.1
+   [682c06a0] JSON v0.21.4
+   [8b842266] PalmerPenguins v0.1.4
+</pre></div>
+</div>
+<p>This will display the list of packages in the current environment along with their versions.</p>
+<p>To save the state of your environment, Julia uses two files: <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> file specifies the packages that you explicitly added to your environment,
+while the <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code> file records the exact versions of these packages and all their dependencies1.</p>
+<p>When you add packages using <code class="docutils literal notranslate"><span class="pre">Pkg.add()</span></code>, Julia automatically updates these files.
+Therefore, your environment’s state (i.e., the set of loaded packages) is automatically saved.
+<code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code> are located in the directory of your current Julia environment; in our case, <code class="docutils literal notranslate"><span class="pre">~/.julia/environments/v1.9/</span></code>.</p>
+<p>If you want to replicate this environment on another machine or in another folder, you can do the following:</p>
+<ol class="arabic simple">
+<li><p>Copy both <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code> to the new location.</p></li>
+<li><p>In Julia, navigate to that folder and activate the environment using <code class="docutils literal notranslate"><span class="pre">Pkg.activate(&quot;.&quot;)</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">Pkg.instantiate()</span></code> to download all the necessary packages.</p></li>
+</ol>
+<p>More information in section <cite>Environments</cite> at <a class="reference external" href="https://enccs.github.io/julia-intro/development/">https://enccs.github.io/julia-intro/development/</a></p>
+</div>
+</section>
+<section id="saving-data-as-a-csv-file">
+<h3>2. Saving Data as a CSV File<a class="headerlink" href="#saving-data-as-a-csv-file" title="Link to this heading">#</a></h3>
+<p>As shown in the Data Formats and DataFrames lesson, a DataFrame can easily dumped into a CSV file using
+the <code class="docutils literal notranslate"><span class="pre">CSV.jl</span></code> package, which also allows for reading tabular data.</p>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p>You can use the CSV.jl package to save a DataFrame as a CSV file, which can be re-read later.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Pkg</span>
+<span class="c"># Pkg.add(&quot;CSV&quot;)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CSV</span>
+<span class="n">CSV</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;penguins.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And you can load it back with:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&quot;penguins.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="saving-data-using-jld-jld2">
+<h3>3. Saving Data Using JLD/JLD2<a class="headerlink" href="#saving-data-using-jld-jld2" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Another option is to use <a class="reference external" href="https://github.com/JuliaIO/JLD.jl">JLD.jl</a>
+The <code class="docutils literal notranslate"><span class="pre">JLD.jl</span></code> package provides a way to save and load Julia variables while preserving native types.
+It is based on HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
+However, it is written in pure Julia and does not require any of the original C HDF5 implementation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">JLD</span></code> package can be imported in the usual way:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;JLD&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A DataFrame can be saved to file in the following way:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">JLD</span>
+<span class="n">save</span><span class="p">(</span><span class="s">&quot;penguins.jld&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;df&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here we’re saving <code class="docutils literal notranslate"><span class="pre">df</span></code> as “df” within <code class="docutils literal notranslate"><span class="pre">penguins.jld</span></code>. You can load this DataFrame back in with:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load</span><span class="p">(</span><span class="s">&quot;penguins.jld&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;df&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will return the DataFrame <code class="docutils literal notranslate"><span class="pre">df</span></code> from the file and assign it back to <code class="docutils literal notranslate"><span class="pre">df</span></code>.
+In the past years, the <code class="docutils literal notranslate"><span class="pre">JLD2.jl</span></code> package came forward as an alternative to <code class="docutils literal notranslate"><span class="pre">JLD</span></code>. It
+is also based on HDF5 and can read h5 files saved by other HDF5 implementations. It exposes an interface
+similar to <code class="docutils literal notranslate"><span class="pre">JLD</span></code> with  <code class="docutils literal notranslate"><span class="pre">save()</span></code> and <code class="docutils literal notranslate"><span class="pre">load()</span></code> functions, but the more user-friendly function <code class="docutils literal notranslate"><span class="pre">jldsave()</span></code>
+is also available:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">JLD2</span>
+<span class="n">jldsave</span><span class="p">(</span><span class="s">&quot;penguins.jld2&quot;</span><span class="p">;</span><span class="w"> </span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="c"># This is equivalent to the save command above</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load</span><span class="p">(</span><span class="s">&quot;penguins.jld2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;df&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Moreover, a <code class="docutils literal notranslate"><span class="pre">jldopen()</span></code> function provides a file-like interface. More information can be found
+<a class="reference external" href="https://github.com/JuliaIO/JLD2.jl">here</a>.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="machine-learning">
+<h2>Machine learning<a class="headerlink" href="#machine-learning" title="Link to this heading">#</a></h2>
+<p>Machine learning (ML) is a branch of artificial intelligence (AI) and computer science that focuses on
+the use of data and algorithms to imitate the way that humans learn, gradually improving its accuracy.
+It is an umbrella term for solving problems for which development of algorithms by human programmers
+would be cost-prohibitive, and instead the problems are solved by helping machines “discover” their “own” algorithms including GPT and Computer vision/Speech recognition use cases.</p>
+<p>Now, let’s narrow our focus and look at neural networks. Neural networks (or “neural nets”, for short) are a specific choice of a model.
+It’s a network made up of neurons⁷. This leads to the question, “what is a neuron?”
+A neuron in the context of neural networks is a mathematical function conceived as a model of biological neurons.
+The neuron takes in one or more input values and sums them to produce an output. Normally, neurons are aggregated into layers to form a network.</p>
+<p>For more detailed information, discover this <a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Intro-to-neurons.ipynb">Intro to Neurons notebook</a> from JuliaAcademy’s Foundations of Machine Learning course.
+Data: <a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/draw_neural_net.jl">draw_neural_net.jl</a>
+It provides an excellent introduction to the concept of neurons in the context of ML.</p>
+<p>References:</p>
+<ul class="simple">
+<li><p>What is Machine Learning? – IBM. <a class="reference external" href="https://www.ibm.com/topics/machine-learning">https://www.ibm.com/topics/machine-learning</a></p></li>
+<li><p>Machine learning - Wikipedia. <a class="reference external" href="https://en.wikipedia.org/wiki/Machine_learning">https://en.wikipedia.org/wiki/Machine_learning</a></p></li>
+<li><p>1-intro-to-neurons.ipynb - Google Colab. <a class="reference external" href="https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb">https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb</a></p></li>
+</ul>
+<section id="machine-learning-in-julia">
+<h3>Machine learning in Julia<a class="headerlink" href="#machine-learning-in-julia" title="Link to this heading">#</a></h3>
+<p>Despite being a relatively new language, Julia already has a strong and rapidly expanding
+ecosystem of libraries for machine learning and deep learning. A fundamental advantage of Julia for ML
+is that it solves the two-language problem - there is no need for different languages for the
+user-facing framework and the backend heavy-lifting (like for most other DL frameworks).</p>
+<p>A particular focus in the Julia approach to ML is <a class="reference external" href="https://sciml.ai/">“scientific machine learning” (SciML)</a>
+(a.k.a. physics-informed learning), i.e. machine learning which incorporates scientific models into
+the learning process instead of relying only on data. The core principle of SciML is <cite>differentiable
+programming</cite> - the ability to automatically differentiate any code and thus incorporate it into
+Flux (predictive) models.</p>
+<p>However, Julia is still behind frameworks like PyTorch and Tensorflow/Keras in terms of documentation and API design.</p>
+</section>
+<section id="traditional-machine-learning">
+<h3>Traditional machine learning<a class="headerlink" href="#traditional-machine-learning" title="Link to this heading">#</a></h3>
+<p>Julia has packages for traditional (non-deep) machine learning:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://scikitlearnjl.readthedocs.io/en/latest/">ScikitLearn.jl</a> is a port of the popular Python package.</p></li>
+<li><p><a class="reference external" href="https://alan-turing-institute.github.io/MLJ.jl/dev/">MLJ.jl</a> provides a common interface
+and meta-algorithms for selecting, tuning, evaluating, composing and comparing over 150 machine learning models.</p></li>
+<li><p><a class="reference external" href="https://juliapackages.com/c/machine-learning/">Machine Learning · Julia Packagesl</a>: This is a website that lists various Julia packages related to machine learning, such as MLJ.jl, Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many more.
+You can browse the packages by their popularity, alphabetical order, or update date. Each package has a brief description and a link to its GitHub repository.</p></li>
+<li><p><a class="reference external" href="https://www.juliapackages.com/c/ai">AI · Julia Packages</a>: This is another website that lists Julia packages related to artificial intelligence, such as Flux.jl,
+AlphaZero.jl, BrainFlow.jl, NeuralNetDiffEq.jl, Transformers.jl, MXNet.jl, and more. You can also sort the packages by different criteria and see their details.</p></li>
+<li><p><a class="reference external" href="https://www.analyticsvidhya.com/blog/2021/05/top-julia-machine-learning-libraries/">Julia Libraries · Top Julia Machine Learning Libraries - Analytics Vidhya</a>: This is
+an article that discusses some useful Julia libraries for machine learning and deep learning applications, such as computer vision and natural language processing.</p></li>
+</ul>
+<p>We will use a few utility functions from <code class="docutils literal notranslate"><span class="pre">MLJ.jl</span></code> in our deep learning
+exercise below, so we will need to add it to our environment:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;MLJ&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="clustering-and-classification">
+<h2>Clustering and Classification<a class="headerlink" href="#clustering-and-classification" title="Link to this heading">#</a></h2>
+<p>In this lesson, we will be exploring the use of Julia for HPDA in a Jupyter notebook environment within Visual Studio Code (VSCode).</p>
+<p>To set up your environment, you can follow the instructions provided in the <a class="reference external" href="https://enccs.github.io/julia-intro/setup/#optional-installing-jupyterlab-and-a-julia-kernel">JuliaIntro lesson</a>.
+This guide will walk you through the process of installing Julia, setting up JupyterLab, and adding a Julia kernel.
+Jupyter notebooks offer an interactive computing environment where you can combine code execution, rich text, mathematics, plots, and rich media.</p>
+<p>Once your environment is set up, you can start using Julia in Jupyter notebooks within VSCode. This setup provides a powerful interface for writing and debugging your code.
+It also allows you to easily visualize your data and results.</p>
+<p>After setting up your environment, we will dive into the adapted lessons about Clustering and Classification from the <a class="reference external" href="https://juliaacademy.com/">Julia MOOC on Julia Academy</a>.
+These lessons provide comprehensive tutorials on various topics in Julia.
+By following these lessons, you will gain a deeper understanding of how to use Julia for high-performance data analysis.</p>
+<p>Clustering notebook: <a class="github reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb">ENCCS/julia-for-hpda</a></p>
+<p>Classification notebook: <a class="github reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb">ENCCS/julia-for-hpda</a></p>
+</section>
+<section id="deep-learning">
+<h2>Deep learning<a class="headerlink" href="#deep-learning" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Deep_learning">Deep learning</a> is a subset of ML which is essentially a neural network with three or more layers.
+These neural networks attempt to simulate the behavior of the human brain—albeit far from matching its ability—allowing it to “learn” from large amounts of data.
+Deep learning drives many AI applications and services that improve automation, performing analytical and physical tasks without human intervention
+Deep-learning architectures such as deep neural networks, deep belief networks, deep reinforcement learning, recurrent neural networks, convolutional neural networks
+and transformers have been applied to fields including computer vision, speech recognition, natural language processing, machine translation, bioinformatics, drug design,
+medical image analysis, climate science, material inspection and board game programs.</p>
+<p><a class="reference external" href="https://fluxml.ai/">Flux.jl</a> comes “batteries-included” with many useful tools
+built in, but also enables the user to write own Julia code for DL components.</p>
+<ul class="simple">
+<li><p>Flux has relatively few explicit APIs for features like regularisation or embeddings.</p></li>
+<li><p>All of Flux is straightforward Julia code and it can be worth to inspect and extend it if needed.</p></li>
+<li><p>Flux works well with other Julia libraries, like dataframes, images and differential equation solvers.
+One can build complex data processing pipelines that integrate Flux models.</p></li>
+</ul>
+<p>To install Flux:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Flux&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>Training a deep neural network to classify penguins</p>
+<p>To train a model we need four things:</p>
+<ul class="simple">
+<li><p>A collection of data points that will be provided to the objective
+function.</p></li>
+<li><p>A objective (cost or loss) function, that evaluates how well a model
+is doing given some input data.</p></li>
+<li><p>The definition of a model and access to its trainable parameters.</p></li>
+<li><p>An optimiser that will update the model parameters appropriately.</p></li>
+</ul>
+<p>First we import the required modules and load the data:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Flux</span>
+<span class="k">using</span><span class="w"> </span><span class="n">MLJ</span><span class="o">:</span><span class="w"> </span><span class="n">partition</span><span class="p">,</span><span class="w"> </span><span class="n">ConfusionMatrix</span>
+<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
+<span class="k">using</span><span class="w"> </span><span class="n">PalmerPenguins</span>
+
+<span class="n">table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PalmerPenguins</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="n">dropmissing!</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now preprocess our dataset to make it suitable for training a network:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># select feature and label columns</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">Not</span><span class="p">([</span><span class="ss">:species</span><span class="p">,</span><span class="w"> </span><span class="ss">:sex</span><span class="p">,</span><span class="w"> </span><span class="ss">:island</span><span class="p">]))</span>
+<span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="ss">:species</span><span class="p">]</span>
+
+<span class="c"># split into training and testing parts</span>
+<span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">xtest</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partition</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">),</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="n">multi</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+
+<span class="c"># use single precision and transpose arrays</span>
+<span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">xtest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Float32</span><span class="o">.</span><span class="p">(</span><span class="kt">Array</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="kt">Float32</span><span class="o">.</span><span class="p">(</span><span class="kt">Array</span><span class="p">(</span><span class="n">xtest</span><span class="p">)</span><span class="o">&#39;</span><span class="p">)</span>
+
+<span class="c"># one-hot encoding</span>
+<span class="n">ytrain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onehotbatch</span><span class="p">(</span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ytest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onehotbatch</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+
+<span class="c"># count penguin classes to see if it&#39;s balanced</span>
+<span class="n">sum</span><span class="p">(</span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sum</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next up is the loss function which will be minimized during the training.
+We also define another function which will give us the accuracy of the model:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># we use the cross-entropy loss function typically used for classification</span>
+<span class="n">loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">crossentropy</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+
+<span class="c"># onecold (opposite to onehot) gives back the original representation</span>
+<span class="k">function</span><span class="w"> </span><span class="n">accuracy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">.==</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">model</span></code> will be our neural network, so we go ahead and define it:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">sigmoid</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">        </span><span class="n">softmax</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now define an anonymous callback function to pass into the training function
+to monitor the progress, select the standard ADAM optimizer, and extract the parameters
+of the model:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nd">@show</span><span class="p">(</span><span class="n">loss</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">))</span>
+<span class="n">opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ADAM</span><span class="p">()</span>
+<span class="n">θ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">params</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Before training the model, let’s have a look at some initial predictions
+and the accuracy:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># predictions before training</span>
+<span class="n">model</span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="c"># accuracy before training</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally we are ready to train the model. Let’s run 100 epochs:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># the training data and the labels can be passed as tuples to train!</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+<span class="w">    </span><span class="n">Flux</span><span class="o">.</span><span class="n">train!</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="w"> </span><span class="n">θ</span><span class="p">,</span><span class="w"> </span><span class="p">[(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)],</span><span class="w"> </span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="n">cb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">throttle</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="k">end</span>
+
+<span class="c"># check final accuracy</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The performance of the model is probably somewhat underwhelming, but you will
+fix that in an exercise below!</p>
+<p>We finally create a confusion matrix to quantify the performance of the model:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xtest</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">true_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ConfusionMatrix</span><span class="p">()(</span><span class="n">predicted_species</span><span class="p">,</span><span class="w"> </span><span class="n">true_species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<div class="admonition-todo admonition" id="id6">
+<span id="dlexercise"></span><p class="admonition-title">Todo</p>
+<p>Improve the deep learning model</p>
+<p>Improve the performance of the neural network we trained above!
+The network is not improving much because of the large numerical
+range of the input features (from around 15 to around 6000) combined
+with the fact that we use a <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> activation function. A standard
+method in machine learning is to normalize features by “batch
+normalization”. Replace the network definition with the following and
+see if the performance improves:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">           </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">),</span>
+<span class="w">           </span><span class="n">BatchNorm</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">           </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">           </span><span class="n">softmax</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Performance is usually better also if we, instead of training on the entire
+dataset at once, divide the training data into “minibatches” and update
+the network weights on each minibatch separately.
+First define the following function:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">StatsBase</span><span class="o">:</span><span class="w"> </span><span class="n">sample</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Tuple</span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n_batch</span>
+<span class="w">        </span><span class="n">randinds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">batch_size</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">randinds</span><span class="p">],</span><span class="w"> </span><span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">randinds</span><span class="p">]))</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">minibatches</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>and then create the minibatches by calling the function.</p>
+<p>You will not need to manually loop over the minibatches, simply pass
+the <code class="docutils literal notranslate"><span class="pre">minibatches</span></code> vector of tuples to the <code class="docutils literal notranslate"><span class="pre">Flux.train!</span></code> function.
+Does this make a difference?</p>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Tuple</span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n_batch</span>
+<span class="w">        </span><span class="n">randinds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">batch_size</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">randinds</span><span class="p">],</span><span class="w"> </span><span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">randinds</span><span class="p">]))</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">minibatches</span>
+<span class="k">end</span>
+
+<span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">),</span>
+<span class="w">        </span><span class="n">BatchNorm</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">        </span><span class="n">softmax</span><span class="p">)</span>
+
+<span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nd">@show</span><span class="p">(</span><span class="n">loss</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">))</span>
+<span class="n">opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ADAM</span><span class="p">()</span>
+<span class="n">θ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">params</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">    </span><span class="c"># train on minibatches</span>
+<span class="w">    </span><span class="n">Flux</span><span class="o">.</span><span class="n">train!</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="w"> </span><span class="n">θ</span><span class="p">,</span><span class="w"> </span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="n">cb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">throttle</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="c"># 0.9849624060150376</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+<span class="c"># 0.9850746268656716</span>
+
+<span class="n">predicted_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xtest</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">true_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ConfusionMatrix</span><span class="p">()(</span><span class="n">predicted_species</span><span class="p">,</span><span class="w"> </span><span class="n">true_species</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/confusion_matrix.png"><img alt="../_images/confusion_matrix.png" src="../_images/confusion_matrix.png" style="width: 343.20000000000005px; height: 128.8px;" />
+</a>
+</figure>
+<p>Much better!</p>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id7">
+<p class="admonition-title">Todo</p>
+<p>More improvements</p>
+<p><strong>Exercise: Hyperparameter Tuning</strong></p>
+<p>Experiment with different hyperparameters of the model and the training process.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Try different batch sizes in the minibatch creation.</span>
+<span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c"># Experiment with different learning rates for the ADAM optimizer.</span>
+<span class="n">opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ADAM</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c"># Change the number of neurons in the hidden layer of the model.</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">   </span><span class="n">softmax</span>
+<span class="p">)</span>
+
+<span class="c"># The solution will depend on the specific hyperparameters chosen.</span>
+</pre></div>
+</div>
+<p><strong>Exercise: Feature Engineering</strong></p>
+<p>Consider doing some feature engineering on your input data.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Try normalizing or standardizing the input features.</span>
+<span class="n">xtrain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">std</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">xtest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">xtest</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">std</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exercise: Different Model Architectures</strong></p>
+<p>Experiment with different model architectures.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Try adding more layers to your model.</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">   </span><span class="n">softmax</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Remember to experiment and see how these changes affect your model’s performance! 😊</p>
+</div>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>Many interesting datasets are available in Julia through the
+<a class="reference external" href="https://github.com/JuliaStats/RDatasets.jl">RDatasets</a> package.
+For instance:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;RDatasets&quot;</span><span class="p">)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
+<span class="c"># load a couple of datasets</span>
+<span class="n">iris</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;datasets&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iris&quot;</span><span class="p">)</span>
+<span class="n">neuro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;boot&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;neuro&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference external" href="https://towardsdatascience.com/the-future-of-machine-learning-and-why-it-looks-a-lot-like-julia-a0e26b51f6a6">“The Future of Machine Learning and why it looks a lot like Julia” by Logan Kilpatrick</a></p></li>
+<li><p><a class="reference external" href="http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/">Deep Learning with Flux - A 60 Minute Blitz</a></p></li>
+<li><p><a class="reference external" href="http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-08-dcgan-mnist/">Deep Convolutional Generative Adversarial Network (DCGAN)</a></p></li>
+</ul>
+<section id="neuromorphic-probabilistic-learning">
+<h3>Neuromorphic | Probabilistic learning<a class="headerlink" href="#neuromorphic-probabilistic-learning" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://darsnack.github.io/SpikingNN.jl/dev/">https://darsnack.github.io/SpikingNN.jl/dev/</a></p></li>
+<li><p><a class="reference external" href="https://turinglang.org/v0.24/tutorials/">https://turinglang.org/v0.24/tutorials/</a></p></li>
+<li><p>Nordic Neuromorphs | NorN Discord Community – <a class="reference external" href="https://discord.gg/5Qq6yX5">https://discord.gg/5Qq6yX5</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="quantum">
+<h3>Quantum<a class="headerlink" href="#quantum" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://juliapackages.com/c/quantum-mechanics">https://juliapackages.com/c/quantum-mechanics</a></p></li>
+<li><p>Swedish Quantum Society | SQS – <a class="reference external" href="https://swedishquantumsociety.vercel.app/">https://swedishquantumsociety.vercel.app/</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../sciml/"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Scientific Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../regression/"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Regression and time-series prediction</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-data">Working with data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-a-dataset">Download a dataset</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-current-setup">Saving the Current Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-environment">1. Saving the Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-data-as-a-csv-file">2. Saving Data as a CSV File</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-data-using-jld-jld2">3. Saving Data Using JLD/JLD2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning">Machine learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-in-julia">Machine learning in Julia</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#traditional-machine-learning">Traditional machine learning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-and-classification">Clustering and Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-learning">Deep learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neuromorphic-probabilistic-learning">Neuromorphic | Probabilistic learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum">Quantum</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kjartan Thor Wikfeldt, Anastasiia Andriievska, David Eklund
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, EuroCC National Competence Center Sweden at RISE Research Institutes of Sweden.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

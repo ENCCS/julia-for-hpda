@@ -1,0 +1,1573 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Linear algebra &#8212; Julia for High-Performance Scientific Computing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../_static/overrides.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=55b5f74b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/minipres.js?v=a0d29692"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'linear-algebra';</script>
+    <script data-domain="enccs.github.io/julia-for-hpda" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Scientific Machine Learning" href="../sciml/" />
+    <link rel="prev" title="Data Formats and Dataframes" href="../dataformats-dataframes/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/ENCCS.jpg" class="logo__image only-light" alt="Julia for High-Performance Scientific Computing - Home"/>
+    <img src="../_static/ENCCS.jpg" class="logo__image only-dark pst-js-only" alt="Julia for High-Performance Scientific Computing - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Prerequisites</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installing packages</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../motivation/">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataformats-dataframes/">Data Formats and Dataframes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Linear algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sciml/">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-science/">Data science and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/">Regression and time-series prediction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/linear-algebra.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Linear algebra</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors-and-matrices-in-julia">Vectors and matrices in Julia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors-and-eigenvalues">Eigenvectors and eigenvalues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-dataset">Loading a dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-exercises">Extra exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-material">Extra material</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehension-slicing-and-vectorization">List comprehension, slicing and vectorization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-and-vector-operations">Matrix and vector operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timing">Timing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-matrices-and-sparse-matrices">Random matrices and sparse matrices</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="linear-algebra">
+<span id="id1"></span><h1>Linear algebra<a class="headerlink" href="#linear-algebra" title="Link to this heading">#</a></h1>
+<div class="admonition-questions questions admonition" id="questions-0">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How can I create vectors and matrices in Julia?</p></li>
+<li><p>How can I perform vector and matrix operations in Julia?</p></li>
+<li><p>How to generate random matrices and perform sparse matrix computations?</p></li>
+<li><p>How does Principle Component Analysis work?</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>35 min teaching</p></li>
+<li><p>25 min exercises</p></li>
+</ul>
+</div>
+<div class="admonition-callout callout admonition" id="callout-0">
+<p class="admonition-title">Callout</p>
+<p>The code in this lession is written for Julia v1.11.3.</p>
+</div>
+<section id="vectors-and-matrices-in-julia">
+<h2>Vectors and matrices in Julia<a class="headerlink" href="#vectors-and-matrices-in-julia" title="Link to this heading">#</a></h2>
+<p>We will start with a brief look at how we can create arrays
+and vectors in Julia and how to perform vector and matrix operations.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># lazy range notation, list from 1 to 10</span>
+<span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+
+<span class="c"># make into vector</span>
+<span class="kt">Vector</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c"># another way to make ranges</span>
+<span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-julia-repl notranslate"><div class="highlight"><pre><span></span><span class="gp">julia&gt;</span><span class="w"> </span><span class="kt">Vector</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10-element Vector{Int64}:</span>
+<span class="go">  1</span>
+<span class="go">  2</span>
+<span class="go">  3</span>
+<span class="go">  4</span>
+<span class="go">  ...</span>
+<span class="go">  8</span>
+<span class="go">  9</span>
+<span class="go"> 10</span>
+</pre></div>
+</div>
+<p>Indexing elements or parts of vectors and matrices can be done with slicing as in Python or Matlab.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># form vector and matrix</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span>
+
+<span class="c"># extract elements from vector</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="c"># first element: 2</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="c"># second element: 3</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="c"># range second to fourth: 3,5,7</span>
+
+<span class="c"># slicing</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="c"># second row third column: 6</span>
+<span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="c"># first column: 1,4,7</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="c"># second row: 4,5,6</span>
+
+<span class="c"># zeros</span>
+<span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># [0,0,0,0,0]</span>
+<span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5-matrix of zeros</span>
+
+<span class="c"># ones</span>
+<span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># [1,1,1,1,1]</span>
+<span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5-matrix of ones</span>
+</pre></div>
+</div>
+<div class="highlight-julia-repl notranslate"><div class="highlight"><pre><span></span><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">u</span>
+<span class="go">4-element Vector{Int64}:</span>
+<span class="go"> 2</span>
+<span class="go"> 3</span>
+<span class="go"> 5</span>
+<span class="go"> 7</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">A</span>
+<span class="go">3×3 Matrix{Int64}:</span>
+<span class="go"> 1  2  3</span>
+<span class="go"> 4  5  6</span>
+<span class="go"> 7  8  9</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">5×5 Matrix{Float64}:</span>
+<span class="go"> 0.0  0.0  0.0  0.0  0.0</span>
+<span class="go"> 0.0  0.0  0.0  0.0  0.0</span>
+<span class="go"> 0.0  0.0  0.0  0.0  0.0</span>
+<span class="go"> 0.0  0.0  0.0  0.0  0.0</span>
+<span class="go"> 0.0  0.0  0.0  0.0  0.0</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">5×5 Matrix{Float64}:</span>
+<span class="go"> 1.0  1.0  1.0  1.0  1.0</span>
+<span class="go"> 1.0  1.0  1.0  1.0  1.0</span>
+<span class="go"> 1.0  1.0  1.0  1.0  1.0</span>
+<span class="go"> 1.0  1.0  1.0  1.0  1.0</span>
+<span class="go"> 1.0  1.0  1.0  1.0  1.0</span>
+</pre></div>
+</div>
+<p>To perform vector and matrix operations we can use a syntax similar to Matlab or Python.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># forming vectors</span>
+<span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+
+<span class="c"># scaling</span>
+<span class="mf">0.5</span><span class="o">*</span><span class="n">a</span>
+
+<span class="c"># vector addition</span>
+<span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span>
+<span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span>
+
+<span class="c"># powers</span>
+<span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="c"># MethodError</span>
+<span class="n">a</span><span class="o">.^</span><span class="mi">2</span><span class="w"> </span><span class="c"># 1,4,9,16</span>
+
+<span class="c"># same as vector addition</span>
+<span class="n">a</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">b</span>
+
+<span class="c"># element wise product</span>
+<span class="n">a</span><span class="o">.*</span><span class="n">b</span>
+
+<span class="c"># applying functions</span>
+<span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="c"># MethodError</span>
+<span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="c"># element wise computations</span>
+
+<span class="c"># alternative way</span>
+<span class="nd">@.</span><span class="w"> </span><span class="n">a</span><span class="o">+</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="c"># forming matrix and vector</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="c"># vector matrix multiplication</span>
+<span class="n">A</span><span class="o">*</span><span class="n">v</span>
+
+<span class="c"># matrix multiplication</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">*</span><span class="n">A</span>
+
+<span class="c"># Matrix multiplication</span>
+<span class="n">A</span><span class="o">*</span><span class="n">B</span>
+
+<span class="c"># matrix powers</span>
+<span class="n">A</span><span class="o">^</span><span class="mi">3</span>
+
+<span class="c"># transpose</span>
+<span class="n">transpose</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">A</span><span class="o">&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="eigenvectors-and-eigenvalues">
+<h2>Eigenvectors and eigenvalues<a class="headerlink" href="#eigenvectors-and-eigenvalues" title="Link to this heading">#</a></h2>
+<p>Below we will discuss Principal Component Analysis and in that context we
+recall here the notion of eigenvectors and eigenvalues of a square matrix
+<span class="math notranslate nohighlight">\(M\)</span>.</p>
+<div class="admonition-eigendecomposition callout admonition" id="callout-1">
+<p class="admonition-title">Eigendecomposition</p>
+<p>A vector <span class="math notranslate nohighlight">\(u \neq 0\)</span> is called an eigenvector of a square matrix <span class="math notranslate nohighlight">\(M\)</span>
+with eigenvalue <span class="math notranslate nohighlight">\(\lambda \in \mathbb{R}\)</span> if <span class="math notranslate nohighlight">\(Mu=\lambda u\)</span>.
+Let us for illustration say that <span class="math notranslate nohighlight">\(\lambda=2\)</span>. Then
+<span class="math notranslate nohighlight">\(Mu=2u\)</span> and the linear map <span class="math notranslate nohighlight">\(M\)</span> maps <span class="math notranslate nohighlight">\(u\)</span> to a vector
+in the same direction but twice as long.</p>
+</div>
+<p>Eigenvectors and eigenvalues can be computed with the LinearAlgebra package:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span>
+<span class="n">eigvecs</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># eigenvectors of A</span>
+<span class="n">eigvals</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># eigenvalues of A</span>
+</pre></div>
+</div>
+</section>
+<section id="loading-a-dataset">
+<h2>Loading a dataset<a class="headerlink" href="#loading-a-dataset" title="Link to this heading">#</a></h2>
+<p>To prepare our illustration of PCA (Principle Component Analysis),
+we start by downoading Fisher’s iris dataset. This dataset contains
+measurements from 3 different species of the plant iris: setosa,
+versicolor and virginica with 50 datapoints of each species.
+There are four measurements for each datapoint: sepal length,
+sepal width, petal length and petal width (in centimeters).</p>
+<figure class="align-center" id="id14">
+<img alt="../_images/iris_resize.jpg" src="../_images/iris_resize.jpg" />
+<figcaption>
+<p><span class="caption-text">Image of iris by David Iliff.</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>To obtain the data we use the RDatasets package:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span><span class="p">,</span><span class="w"> </span><span class="n">LinearAlgebra</span><span class="p">,</span><span class="w"> </span><span class="n">Statistics</span><span class="p">,</span><span class="w"> </span><span class="n">RDatasets</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;datasets&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iris&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="principal-component-analysis-pca">
+<h2>Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Link to this heading">#</a></h2>
+<p>PCA can be used for reducing the dimension of your data set by projecting
+it down to a smaller dimensional space.</p>
+<div class="admonition-callout callout admonition" id="callout-2">
+<p class="admonition-title">Callout</p>
+<p>More in detail, PCA finds the best linear space of a specified dimension
+that approximates the dataset in a least squares sense. This means that the
+points are as close to the linear space as possible measured in the sum of
+squared distances. The approximating linear space is spanned by so-called
+principal components which are ordered in terms of importance: the first
+principal component, the second principal component and so on.</p>
+<p>It turns out the principal components are eigenvectors of the so-called
+covariance matrix of the data. The corresponding eigenvalues rank the principal
+components in importance, where the biggest eigenvalue marks the first principal
+component.</p>
+</div>
+<p>We will now illustrate how PCA can be performed on the iris
+dataset. For illutrative purposes we will do this explicitly using
+linear algebra operations.</p>
+<p>First extract the first four columns of the data set
+(the features described above) as well as the labels separately:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Xdf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Matrix</span><span class="p">(</span><span class="n">Xdf</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>First we center the data by substracting the mean:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>Now compute the covariance matrix together with its eigenvectors and eigenvalues:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">*</span><span class="n">X</span>
+<span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvecs</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvals</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="c"># divide E by r-1=150-1=149 to get variance</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>4-element Vector{Float64}:
+   3.5514288530439346
+  11.65321550639499
+  36.1579414413664
+ 630.0080141991946
+</pre></div>
+</div>
+<p>We see that the first eigenvalue is quite a bit smaller than for
+instance the last one. Our data lies approximately in a 3-dimensional
+subspace. Most of the variance in the data set happens in this subspace.</p>
+<div class="admonition-eigenvectors callout admonition" id="callout-3">
+<p class="admonition-title">Eigenvectors</p>
+<p>The eigenvectors of <span class="math notranslate nohighlight">\(M\)</span> are only determined up to sign and implementations
+vary. For reference we list the eigenvectors <span class="math notranslate nohighlight">\(M\)</span> we got while running this example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
+  0.315487  -0.58203     0.656589  -0.361387
+ -0.319723   0.597911    0.730161   0.0845225
+ -0.479839   0.0762361  -0.173373  -0.856671
+  0.753657   0.545831   -0.075481  -0.358289
+</pre></div>
+</div>
+<p>Your output may have some columns with the opposite sign.</p>
+</div>
+<p>The basis <span class="math notranslate nohighlight">\(P\)</span> of eigenvectors we got above is orthogonal and normalized:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">transpose</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">*</span><span class="n">P</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
+  1.0          -1.70376e-16   4.7765e-16    2.98372e-16
+ -1.70376e-16   1.0          -4.7269e-16   -1.41867e-16
+  4.7765e-16   -4.7269e-16    1.0           1.55799e-17
+  2.98372e-16  -1.41867e-16   1.55799e-17   1.0
+</pre></div>
+</div>
+<p>We may perform dimensionality reduction by projecting the data to a smaller subspace:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># projection of data set onto orthonormal basis of eigenvectors</span>
+<span class="c"># for example three eigenvectors corresponding to the</span>
+<span class="c"># three largest eigenvalues</span>
+<span class="n">Xp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="o">*</span><span class="n">P</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="c"># The following would result in picking the three least important directions</span>
+<span class="c"># interesting comparison to do</span>
+<span class="c"># Xp = X*P[:,1:3]</span>
+</pre></div>
+</div>
+<p>Plotting the result:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">setosa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Xp</span><span class="o">&#39;</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">y</span><span class="o">.==</span><span class="s">&quot;setosa&quot;</span><span class="p">]</span>
+<span class="n">versicolor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Xp</span><span class="o">&#39;</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">y</span><span class="o">.==</span><span class="s">&quot;versicolor&quot;</span><span class="p">]</span>
+<span class="n">virginica</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Xp</span><span class="o">&#39;</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">y</span><span class="o">.==</span><span class="s">&quot;virginica&quot;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">setosa</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="n">setosa</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="n">setosa</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;setosa&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">versicolor</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="n">versicolor</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="n">versicolor</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;versicolor&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">virginica</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="n">virginica</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="n">virginica</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">],</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;virginica&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;PC3&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;PC2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">zlabel</span><span class="o">=</span><span class="s">&quot;PC1&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id15">
+<img alt="../_images/iris_scatter_plot.png" src="../_images/iris_scatter_plot.png" />
+<figcaption>
+<p><span class="caption-text">Scatter plot of the projected data. The plot is affected by the choice of eigenvectors (signs).</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>To do the exercsises you need the packages Plots, Distributions and LinearAlgebra.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Plots&quot;</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Distributions&quot;</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;LinearAlgebra&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p>PCA</p>
+<p>We will look at PCA for a simple dataset in two dimensions.
+Generate data with a normal distribution as follows:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Distributions</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span><span class="p">,</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+<span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">]</span><span class="w"> </span><span class="c"># mean of distribution</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mf">2.0</span><span class="w"> </span><span class="mf">1.0</span><span class="p">];[</span><span class="mf">1.0</span><span class="w"> </span><span class="mf">2.0</span><span class="p">]]</span><span class="w"> </span><span class="c"># covariance matrix of distribution</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MvNormal</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># multivariate normal distribution</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="o">&#39;</span><span class="w"> </span><span class="c"># sample</span>
+</pre></div>
+</div>
+<p>Now plot your data:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xlims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="ss">:equal</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compute the (scaled) covariance matrix of the data and its eigenvectors and eigenvalues:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="o">&#39;*</span><span class="n">X</span>
+<span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvecs</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvals</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">e1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">e2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now plot the data together with its principal components with green and red arrows as follows:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xlims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="ss">:equal</span><span class="p">)</span>
+<span class="n">myscale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="n">plot!</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span><span class="w"> </span><span class="n">arrow</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:green</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;first comp&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span><span class="w"> </span><span class="n">arrow</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:red</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;second comp&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Is <code class="docutils literal notranslate"><span class="pre">M*u</span></code> equal to <code class="docutils literal notranslate"><span class="pre">e1*u</span></code> as it should? Is <code class="docutils literal notranslate"><span class="pre">M*v</span></code> equal to <code class="docutils literal notranslate"><span class="pre">e2*v</span></code>?</p></li>
+<li><p>Run the whole script a few times (you can copy the script from the solution below).</p></li>
+<li><p>You might observe that the principal components are flipped from time to time when you rerun the script. Why is that?</p></li>
+<li><p>Change the number of points to <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">100</span></code>. What happens with the principal components if you run the script a few times?</p></li>
+<li><p>Compare the computed (scaled) covariance matrix <code class="docutils literal notranslate"><span class="pre">M</span></code> to the matrix <code class="docutils literal notranslate"><span class="pre">S</span></code> used to generate data.</p></li>
+<li><p>Did you notice some step in the PCA procedure that was skipped or missing?</p></li>
+</ul>
+<div class="admonition-the-whole-script solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">The whole script</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Distributions</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span><span class="p">,</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+<span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">]</span><span class="w"> </span><span class="c"># mean</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mf">2.0</span><span class="w"> </span><span class="mf">1.0</span><span class="p">];[</span><span class="mf">1.0</span><span class="w"> </span><span class="mf">2.0</span><span class="p">]]</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MvNormal</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># multivariate normal distribution</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="n">rand</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="o">&#39;</span><span class="w"> </span><span class="c"># sample</span>
+
+<span class="c"># scaled covariance matrix and eigenvectors</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="o">&#39;*</span><span class="n">X</span>
+<span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvecs</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvals</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+<span class="c"># eigenvectors and eigenvalues</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">e1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">e2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c"># plot points</span>
+<span class="n">ls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xlims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="ss">:equal</span><span class="p">)</span>
+
+<span class="c"># plot arrows, scale up the arrows for appearence</span>
+<span class="n">myscale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="n">plot!</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span><span class="w"> </span><span class="n">arrow</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:green</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;first comp&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="n">myscale</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span><span class="w"> </span><span class="n">arrow</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:red</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;second comp&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+
+<span class="c"># are u and v really eigenvectors of M with eigenvalues E?</span>
+<span class="n">println</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; # M*u&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">e1</span><span class="o">*</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; # e1*u&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">()</span>
+<span class="n">println</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; # M*v&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">e2</span><span class="o">*</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; # e2*v&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id16">
+<img alt="../_images/pca_exercise.png" src="../_images/pca_exercise.png" />
+<figcaption>
+<p><span class="caption-text">Plots of the data and principal components.</span><a class="headerlink" href="#id16" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Some answers/comments on the questions:</p>
+<ul class="simple">
+<li><p>The principal directions (eigenvectors) are only defined up to sign, which partly explains why they may get flipped when you rerun the script. One has to look into the algorithm that computes the eigenvectors to get a full explanation.</p></li>
+<li><p>When the number of points is only 100, there is not enough data to accurately capture the principal directions so they vary a bit from run to run.</p></li>
+<li><p>When you take more data, <code class="docutils literal notranslate"><span class="pre">M/n</span></code> (divide by the number of data points) should get close to <code class="docutils literal notranslate"><span class="pre">S</span></code>.</p></li>
+<li><p>Is any step missing in the code examples? The data was not centered. This has a small effect in this case. We are using the true mean (0) of the underlying distribution used to generated data, rather than the sample mean as in previous examples.</p></li>
+</ul>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id4">
+<p class="admonition-title">Todo</p>
+<p>Try the following code line by line to form random matrices
+using  standard library functions.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># random matrices</span>
+<span class="n">rand</span><span class="p">()</span><span class="w"> </span><span class="c"># uniformly distributed random number in [0,1]</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5-vector of numbers uniformly distributed on [0,1]</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5-matrix uniformly distributed on [0,1]</span>
+<span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="c"># normally distributed 10-vector</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>Sparse matrices (lots of zeros) and effective operations on them
+can be done using the SparseArrays package. Try the following code
+line by line.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">SparseArrays</span>
+
+<span class="c"># 100x100-matrix of zeros and ones</span>
+<span class="c"># with density 10% (non-zero elements)</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="o">.&lt;</span><span class="w"> </span><span class="mf">0.1</span>
+
+<span class="c"># M as a sparse matrix</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sparse</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="c"># SparseMatrixCSC</span>
+
+<span class="n">typeof</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="c"># BitMatrix (alias for BitArray{2})</span>
+<span class="n">typeof</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># SparseMatrixCSC{Bool, Int64}</span>
+
+<span class="c"># 100x100-matrix with density 10%, as sparse matrix directly</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sprand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id6">
+<p class="admonition-title">Todo</p>
+<p>To do the next exercsise you need the package BenchmarkTools.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;BenchmarkTools&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id7">
+<p class="admonition-title">Todo</p>
+<p>To benchmark and time computations we can use the BenchmarkTools package.
+Try this with the following code.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">BenchmarkTools</span>
+
+<span class="c"># 100x100-matrix of zeros and ones</span>
+<span class="c"># with density 10% (non-zero elements)</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="o">.&lt;</span><span class="w"> </span><span class="mf">0.1</span>
+
+<span class="c"># @time includes compilation time and garbage collection</span>
+<span class="nd">@time</span><span class="w"> </span><span class="n">M</span><span class="o">^</span><span class="mi">2</span><span class="p">;</span>
+
+<span class="c"># @btime does not include compilation time</span>
+<span class="nd">@btime</span><span class="w"> </span><span class="n">M</span><span class="o">^</span><span class="mi">2</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id8">
+<p class="admonition-title">Todo</p>
+<p>Sparse matrix computations</p>
+<p>Create a sparse (5000x5000)-matrix S with roughly 5000 non-zero
+elements uniformly distributed on [0,1]. Compute S^10 and time the
+computation. Compare with S as a Matrix and a sparse matrix
+(a SparseMatrixCSC).</p>
+<ul class="simple">
+<li><p>A sparse <span class="math notranslate nohighlight">\((a \times b)\)</span>-matrix matrix S can be formed with <code class="docutils literal notranslate"><span class="pre">sprand(a,b,d)</span></code>, where <code class="docutils literal notranslate"><span class="pre">d</span></code> is the density of non-zero elements.</p></li>
+<li><p>To convert S to a matrix you can do <code class="docutils literal notranslate"><span class="pre">Matrix(S)</span></code>.</p></li>
+</ul>
+<div class="admonition-here-is-a-suggestion solution important dropdown admonition" id="solution-1">
+<p class="admonition-title">Here is a suggestion</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">SparseArrays</span><span class="p">,</span><span class="w"> </span><span class="n">BenchmarkTools</span>
+
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5000</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sprand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c"># sparse nxn-matrix with density 1/n</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Matrix</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># as Matrix</span>
+
+<span class="nd">@btime</span><span class="w"> </span><span class="n">S</span><span class="o">^</span><span class="mi">10</span><span class="p">;</span>
+<span class="nd">@btime</span><span class="w"> </span><span class="n">B</span><span class="o">^</span><span class="mi">10</span><span class="p">;</span>
+
+<span class="c"># or do @benchmark for more detailed information on performance</span>
+<span class="c"># @benchmark S^10</span>
+<span class="c"># @benchmark B^10</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>545.400 μs (29 allocations: 806.98 KiB)
+6.343 s (8 allocations: 762.94 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id9">
+<p class="admonition-title">Todo</p>
+<p>For random matrices from a wider array of distributions we can use the package Distributions.
+Try the following code where D is a multivariate normal 3-vector.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Distributions</span>
+
+<span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="w"> </span><span class="c"># mean value</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mf">1.0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">];[</span><span class="mi">0</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="mi">0</span><span class="p">];[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mf">3.0</span><span class="p">]]</span><span class="w"> </span><span class="c"># covaraince matrix</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MvNormal</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># multivariate normal distribution</span>
+<span class="n">rand</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="c"># sample the distribution</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="extra-exercises">
+<h2>Extra exercises<a class="headerlink" href="#extra-exercises" title="Link to this heading">#</a></h2>
+<p>The following exercise is adapted from the <a class="reference external" href="https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf">Julia language companion</a> of
+the <a class="reference external" href="https://web.stanford.edu//~boyd/vmls/vmls.pdf#algorithmctr.5.1">book</a>
+<em>Introduction to Applied Linear Algebra – Vectors, Matrices, and Least
+Squares</em> by Stephen Boyd and Lieven Vandenberghe. Useful information
+relating to the exercise may also be found in the <a class="reference internal" href="#extra-material">Extra material</a> below.</p>
+<p>Below we will consider the Gram-Schmidt process:</p>
+<p>Given a set of linearly independent vectors <span class="math notranslate nohighlight">\({a_1,\dots,a_k}\)</span>
+return an orthogonal basis of their span.</p>
+<p>If the vectors are linearly dependent, return an orthogonal basis of
+<span class="math notranslate nohighlight">\({a_1,\dots,a_{i-1}}\)</span> where <span class="math notranslate nohighlight">\(a_i\)</span> is the first vector
+linearly dependent on the previous ones. It is reasonable to consider
+numerical linear dependence up to a small tolerance, that is there is
+a linear combination of the vectors that is almost zero.</p>
+<p>The algorithm in pseudocode goes as follows. First define the
+orthogonal projection of a vector <span class="math notranslate nohighlight">\(a\)</span> on a vector <span class="math notranslate nohighlight">\(q\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\textrm{proj}_q(a)=\frac{\langle a, q \rangle}{||q||^2}q,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\langle .,. \rangle\)</span> is the dot product and <span class="math notranslate nohighlight">\(||
+\cdot ||\)</span> is the norm. For linearly independent vectors, the algorithm
+goes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tilde{q}_1 = a_1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(q_1 = \tilde{q}_1/||\tilde{q}_1||\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\tilde{q}_2 = a_2 - \textrm{proj}_{q_1}(a_2)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(q_2 = \tilde{q}_2/||\tilde{q}_2||\)</span>,</p></li>
+</ul>
+</div></blockquote>
+<p>and so on. That is for <span class="math notranslate nohighlight">\(i=1,2,3,\ldots,k\)</span>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Compute: <span class="math notranslate nohighlight">\(\tilde{q}_i = a_i - \sum_{j=1}^{i-1} \textrm{proj}_{q_j}(a_i)\)</span></p></li>
+<li><p>Normalize: <span class="math notranslate nohighlight">\(q_i = \tilde{q}_i/||\tilde{q}_i||\)</span>,</p></li>
+</ul>
+</div></blockquote>
+<p>and return <span class="math notranslate nohighlight">\({q_1,\dots,q_k}\)</span>.</p>
+<p>If at some step, <span class="math notranslate nohighlight">\(||\tilde{q}_i|| = 0\)</span>, we cannot normalize,
+linear dependence has been detected and we return
+<span class="math notranslate nohighlight">\(q_1,\dots,q_{i-1}\)</span>.</p>
+<div class="admonition-todo admonition" id="id10">
+<p class="admonition-title">Todo</p>
+<p>Gram-Schmidt process</p>
+<p>Implement the Gram-Schmidt process in Julia.</p>
+<div class="admonition-here-is-a-suggestion solution important dropdown admonition" id="solution-2">
+<p class="admonition-title">Here is a suggestion</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+
+<span class="c"># input is a vector of vectors</span>
+<span class="c"># for example a = [a_1, a_2, a_3]</span>
+<span class="c"># for vectors a_1, a_2, a_3</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">gram_schmidt</span><span class="p">(</span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-10</span><span class="p">)</span>
+<span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="w">    </span><span class="n">qtilde</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+<span class="w">        </span><span class="n">qtilde</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&#39;*</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">qtilde</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">       </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Vectors are linearly dependent.&quot;</span><span class="p">)</span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">q</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">push!</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">qtilde</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">qtilde</span><span class="p">))</span>
+<span class="k">end</span><span class="p">;</span>
+<span class="k">return</span><span class="w"> </span><span class="n">q</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id11">
+<p class="admonition-title">Todo</p>
+<p>Check Gram-Schmidt</p>
+<p>Write a check for your Gram-Schimdt program that the output
+consists of orthonormal vectors. Also, for linearly independent
+input vectors, check that the spans of input and output are the
+same.</p>
+<div class="admonition-quick-and-dirty-suggestion solution important dropdown admonition" id="solution-3">
+<p class="admonition-title">Quick and dirty suggestion</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+
+<span class="n">a_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span>
+<span class="n">a_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">];</span>
+<span class="n">a_3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">];</span>
+<span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">a_1</span><span class="p">,</span><span class="w"> </span><span class="n">a_2</span><span class="p">,</span><span class="w"> </span><span class="n">a_3</span><span class="p">];</span>
+
+<span class="n">Q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gram_schmidt</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+
+<span class="c"># create matrices</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="n">Q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="n">Q</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="n">Q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="n">Q</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="n">a_1</span><span class="w"> </span><span class="n">a_2</span><span class="w"> </span><span class="n">a_3</span><span class="p">]</span>
+
+<span class="c"># test orthogonality, should be 3x3-identity matrix</span>
+<span class="n">M</span><span class="o">&#39;*</span><span class="n">M</span>
+<span class="c"># test span with numerical rank, should be 3</span>
+<span class="n">rank</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-todo admonition" id="id12">
+<p class="admonition-title">Todo</p>
+<p>Matrix factorizations</p>
+<p>Perform various factorizations on a matrix using standard
+libraries: QR-factorization, LU-factorization, Diagonalization,
+Singular-Value-Decomposition.</p>
+</div>
+<div class="admonition-todo admonition" id="id13">
+<p class="admonition-title">Todo</p>
+<p>Distributions and histograms</p>
+<p>Plot histograms of some distributions: normal, uniform, binomial,
+multinomial, exponential, Cauchy, Poisson or other distributions of
+choice.</p>
+</div>
+</section>
+<section id="extra-material">
+<h2>Extra material<a class="headerlink" href="#extra-material" title="Link to this heading">#</a></h2>
+<p>We include some extra material (if time permits) which provides additional examples from the topics above.</p>
+<section id="list-comprehension-slicing-and-vectorization">
+<h3>List comprehension, slicing and vectorization<a class="headerlink" href="#list-comprehension-slicing-and-vectorization" title="Link to this heading">#</a></h3>
+<p>To get started with vectors in Julia, let’s see how make a range of integers.
+This is similar to notation of Python and Matlab.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># range notation, list from 1 to 10</span>
+<span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="o">:</span><span class="mi">27</span>
+<span class="kt">Vector</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="c"># to see what is in there</span>
+<span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">27</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="o">:</span><span class="mi">27</span><span class="w"> </span><span class="c"># true</span>
+
+<span class="c"># range with non-integer step</span>
+<span class="c"># from 1.0 to 11.81 in steps 0.23</span>
+<span class="mi">1</span><span class="o">:</span><span class="mf">0.23</span><span class="o">:</span><span class="mi">12</span>
+<span class="kt">Vector</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mf">0.23</span><span class="o">:</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In Julia one can use <a class="reference external" href="https://en.wikipedia.org/wiki/List_comprehension">list comprehension</a> to
+create vectors in a simple way similar to Python. This notation follows the set-builder notation
+from mathematics, such as <span class="math notranslate nohighlight">\(S=\{x \in \mathbb{Z}:x&gt;0\}\)</span> for the set of positive integers.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># list comprehension</span>
+<span class="p">[</span><span class="n">i</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">40</span><span class="p">)]</span><span class="w"> </span><span class="c"># 40-element Vector</span>
+
+<span class="c"># conditional list comprehension</span>
+<span class="p">[</span><span class="n">i</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="o">%</span><span class="mi">5</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="c"># 8-element Vector</span>
+
+<span class="c"># if else in list comprehension</span>
+<span class="p">[</span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="c"># 1,4,9,4,5</span>
+<span class="c"># note the whole if-else clause if x &gt; 3 x else x^2 end</span>
+
+<span class="c"># another way to do conditionals</span>
+<span class="p">[</span><span class="mi">3</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="c"># 1,4,9,4,5</span>
+</pre></div>
+</div>
+<p>We can use several index variables and loop over a product set.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># loop over product set</span>
+<span class="p">[</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="c"># Extra example</span>
+<span class="c"># [x &lt; y ? x : x*y for (x, y) in zip([1 2 3 4 5], [1 1 2 2 3])]</span>
+<span class="c"># 1,2,6,8,15</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># output of [x - y for x in 1:10, y in 1:10]
+10×10 Matrix{Int64}:
+ 0  -1  -2  -3  -4  -5  -6  -7  -8  -9
+ 1   0  -1  -2  -3  -4  -5  -6  -7  -8
+ 2   1   0  -1  -2  -3  -4  -5  -6  -7
+ ...                 ...
+ 8   7   6   5   4   3   2   1   0  -1
+ 9   8   7   6   5   4   3   2   1   0
+</pre></div>
+</div>
+<p>Comparing ways of forming vectors: using functions, for loops and list comprehension.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mypairwise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="n">y</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="c"># vectorization with dot notation</span>
+<span class="c"># more on that later</span>
+<span class="n">mypairwise</span><span class="o">.</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="w"> </span><span class="c"># 2,6,12,20</span>
+
+<span class="c"># another way</span>
+<span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">end</span>
+
+<span class="c"># and another way</span>
+<span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>To pick out elements in vectors and matrices one can use slicing, which is also
+similar to Python and Matlab.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># slicing</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)]</span>
+<span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="c"># first element 1</span>
+<span class="n">X</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="c"># last element 121</span>
+<span class="n">X</span><span class="p">[</span><span class="mi">4</span><span class="o">:</span><span class="mi">9</span><span class="p">]</span><span class="w"> </span><span class="c"># 16,25,36,49,64,81</span>
+<span class="n">X</span><span class="p">[</span><span class="mi">8</span><span class="o">:</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="c"># 64,81,100,121</span>
+
+<span class="c"># uniform distribution on [0,1]</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># random 5x5-matrix</span>
+<span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="c"># first row</span>
+<span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="c"># third column</span>
+<span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="c"># element in row 2, column 4</span>
+</pre></div>
+</div>
+<p>Vectorization (element wise operation) is done with the dot syntax similar to Matlab.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># vectorization or element wise operation</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">A</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="c"># MethodError</span>
+<span class="n">A</span><span class="o">.^</span><span class="mi">2</span><span class="w"> </span><span class="c"># [1,4,9,16]</span>
+<span class="n">A</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">B</span>
+<span class="n">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="c"># true</span>
+<span class="n">A</span><span class="o">*</span><span class="n">B</span><span class="w"> </span><span class="c"># MethodError</span>
+<span class="n">A</span><span class="o">.*</span><span class="n">B</span>
+
+<span class="n">sin</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="c"># ERROR: MethodError: no method matching sin(::Vector{Int64})</span>
+
+<span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># 4-element Vector</span>
+
+<span class="c"># add constant to vector</span>
+<span class="n">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c"># ERROR: MethodError: no method matching +(::Vector{Int64}, ::Int64)</span>
+<span class="n">A</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c"># 4,5,6,7</span>
+
+<span class="c"># vectorize everywhere</span>
+<span class="nd">@.</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nd">@.</span><span class="w"> </span><span class="n">A</span><span class="o">+</span><span class="n">A</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>julia&gt; @. A+A^2-sin(A)*sin(B)
+
+4-element Vector{Float64}:
+  1.2348525987657073
+  5.871679939797543
+ 12.106799974237582
+ 19.27428371612359
+</pre></div>
+</div>
+<p>An example where vectorization, random vectors and Plot are combined:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c"># vector has length 100</span>
+<span class="c"># from 0 to 10 in 99 steps of size 10/99=0.101...</span>
+
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">y_noisy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nd">@.</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.1</span><span class="o">*</span><span class="n">randn</span><span class="p">()</span><span class="w"> </span><span class="c"># normally distributed noise</span>
+
+<span class="n">plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;sin(x)&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_noisy</span><span class="p">,</span><span class="w"> </span><span class="n">seriestype</span><span class="o">=</span><span class="ss">:scatter</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+
+<span class="c"># to save figure in file</span>
+<span class="c"># savefig(&quot;sine_with_noise.png&quot;)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id17">
+<img alt="../_images/sine_with_noise.png" src="../_images/sine_with_noise.png" />
+<figcaption>
+<p><span class="caption-text">Sine function with noise.</span><a class="headerlink" href="#id17" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We can append existing arrays by pushing new elements at the end
+and we can retrieve (and remove) the last element by popping it.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># pushing elements to vector</span>
+<span class="n">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">push!</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">)</span><span class="w"> </span><span class="c"># [1,2,3,4,55]</span>
+<span class="n">pop!</span><span class="p">(</span><span class="n">U</span><span class="p">)</span><span class="w"> </span><span class="c"># 55</span>
+<span class="n">U</span><span class="w"> </span><span class="c"># [1,2,3,4]</span>
+
+<span class="c"># Array of type Any</span>
+<span class="n">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="n">push!</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># [5]</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">push!</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="c"># [5, [1,2,3]]</span>
+</pre></div>
+</div>
+<p>Use copy if you want a copy of an existing element rather than a reference to it.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># references</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="c"># v refers to u</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="c"># when v changes</span>
+<span class="n">v</span><span class="w"> </span><span class="c"># [1,33,3,4]</span>
+<span class="n">u</span><span class="w"> </span><span class="c"># [1,33,3,4], so does u</span>
+
+<span class="c"># using copy</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="c"># v is a copy of u</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="c"># v changes</span>
+<span class="n">v</span><span class="w"> </span><span class="c"># [1,33,3,4]</span>
+<span class="n">u</span><span class="w"> </span><span class="c"># [1,2,3,4], but not u</span>
+</pre></div>
+</div>
+<p>Copies can be of import when building arrays from mutable objects created earlier.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># curiosity: push! stores a reference to the object pushed, not a copy</span>
+<span class="n">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="n">push!</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">push!</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="c"># [5, [1,2,3]]</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">77</span>
+<span class="n">U</span><span class="w"> </span><span class="c"># [5, [1,77,3]]</span>
+<span class="n">u</span><span class="w"> </span><span class="c"># [1,77,3]</span>
+
+<span class="c"># Can use copy if want other behavior</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">u</span><span class="p">)]</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">77</span>
+<span class="n">U</span><span class="w"> </span><span class="c"># is still [5, [1,2,3]]</span>
+<span class="c"># however</span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">U</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">77</span>
+<span class="n">U</span><span class="w"> </span><span class="c"># [5, [1,77,3]]</span>
+</pre></div>
+</div>
+</section>
+<section id="matrix-and-vector-operations">
+<h3>Matrix and vector operations<a class="headerlink" href="#matrix-and-vector-operations" title="Link to this heading">#</a></h3>
+<p>Recall that matrices and vectors may be defined as follows:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+
+<span class="c"># define some row vectors</span>
+<span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">]</span>
+<span class="n">v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span><span class="o">.^</span><span class="mi">2</span>
+
+<span class="c"># combine row vectors into 3x3 matrix</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">v1</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0</span><span class="p">]]</span>
+
+<span class="c"># another way to make matrices</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="w"> </span><span class="o">-</span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="mi">15</span><span class="w"> </span><span class="o">-</span><span class="mi">9</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="mi">10</span><span class="w"> </span><span class="o">-</span><span class="mi">6</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span>
+
+<span class="c"># common matrices and vectors:</span>
+
+<span class="c"># zeros</span>
+<span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># [0,0,0,0,0]</span>
+<span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5-matrix of zeros</span>
+
+<span class="c"># ones</span>
+<span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># [1,1,1,1,1]</span>
+<span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5-matrix of ones</span>
+
+<span class="c"># random matrix</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># normally distributed 5x5-matrix</span>
+
+<span class="c"># identity matrix (may not need this, see operator I below)</span>
+<span class="n">I</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5 identity matrix</span>
+<span class="n">I</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="c"># true</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>julia&gt; A
+3×3 Matrix{Float64}:
+ 1.0  1.0  7.0
+ 2.0  4.0  6.0
+ 3.0  9.0  5.0
+
+julia&gt; M
+3×3 Matrix{Int64}:
+  5  -3  2
+ 15  -9  6
+ 10  -6  4
+</pre></div>
+</div>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># vector addition and scaling</span>
+<span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v2</span>
+<span class="n">v1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="o">*</span><span class="n">v2</span>
+
+<span class="n">v3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span><span class="w"> </span><span class="mf">11.0</span><span class="p">,</span><span class="w"> </span><span class="mf">13.0</span><span class="p">]</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">v3</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="n">v1</span><span class="p">]</span>
+
+<span class="c"># matrix vector multiplication</span>
+<span class="n">A</span><span class="o">*</span><span class="n">v1</span>
+
+<span class="c"># matrix multiplication</span>
+<span class="n">A</span><span class="o">*</span><span class="n">B</span>
+<span class="n">A</span><span class="o">^</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>julia&gt;  v1+v2
+3-element Vector{Float64}:
+  2.0
+  6.0
+ 12.0
+
+julia&gt; v1 - 0.5*v2
+3-element Vector{Float64}:
+  0.5
+  0.0
+ -1.5
+
+julia&gt; A*B
+3×3 Matrix{Float64}:
+ 44.0  68.0  24.0
+ 44.0  72.0  28.0
+ 48.0  84.0  36.0
+</pre></div>
+</div>
+<p>Standard operations such as rank, determinant, trace, matrix multiplication,
+transpose, matrix inverse, identity operator, eigenvalues, eigen vectors and so on:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># rank of matrix</span>
+<span class="n">rank</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># full rank 3</span>
+
+<span class="c"># rank is numerical rank</span>
+<span class="c"># counting how many singular values of A</span>
+<span class="c"># have magnitude greater than a tolerance</span>
+<span class="n">rank</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="mf">0.5</span><span class="p">])</span><span class="w"> </span><span class="c"># rank 2</span>
+<span class="n">rank</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-14</span><span class="p">])</span><span class="w"> </span><span class="c"># rank 2</span>
+<span class="n">rank</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-15</span><span class="p">])</span><span class="w"> </span><span class="c"># rank 1</span>
+
+<span class="c"># determinant</span>
+<span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># 16</span>
+
+<span class="c"># lower rank matrix</span>
+<span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">v1</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="n">v1</span><span class="o">+</span><span class="mf">0.66</span><span class="o">*</span><span class="n">v2</span><span class="p">]</span>
+
+<span class="n">rank</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="c"># rank 2</span>
+
+<span class="c"># 6x6 matrix</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">A</span><span class="w"> </span><span class="n">A</span><span class="p">;</span><span class="n">A</span><span class="w"> </span><span class="n">A</span><span class="p">]</span>
+<span class="n">rank</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="c"># 3</span>
+<span class="n">det</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="c"># 0</span>
+
+<span class="c"># trace</span>
+<span class="n">tr</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># 10</span>
+
+<span class="c"># eigen vectors and eigenvalues</span>
+<span class="n">eigen</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="c"># identity operator (does not build identity matrix)</span>
+<span class="n">I</span>
+<span class="n">A</span><span class="o">*</span><span class="n">I</span><span class="w"> </span><span class="c"># A</span>
+<span class="n">I</span><span class="o">*</span><span class="n">D</span><span class="w"> </span><span class="c"># D</span>
+
+<span class="c"># matrix inverse</span>
+<span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">*</span><span class="n">A</span><span class="w"> </span><span class="c"># identity matrix</span>
+<span class="n">A</span><span class="o">*</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c"># identity matrix</span>
+
+<span class="c"># solving linear systems of equations</span>
+<span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">*</span><span class="n">v1</span>
+<span class="c"># solve A*x = u with least squares</span>
+<span class="n">A</span><span class="w"> </span><span class="o">\</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="c"># v1</span>
+<span class="c"># solve in another way</span>
+<span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="w"> </span><span class="c"># v1</span>
+
+<span class="c"># matrix must have full rank</span>
+<span class="n">inv</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="c"># ERROR: SingularException(3)</span>
+
+<span class="c"># nilpotent matrix M from above</span>
+<span class="n">rank</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="c"># 1</span>
+<span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="w"> </span><span class="c"># zero matrix</span>
+
+<span class="c"># transpose</span>
+<span class="n">transpose</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">A</span><span class="o">&#39;</span><span class="w"> </span><span class="c"># transpose of real matrix</span>
+<span class="c"># complex matrix</span>
+<span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">+</span><span class="nb">im</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+<span class="n">E</span><span class="o">&#39;</span><span class="w"> </span><span class="c"># Hermitian conjugate</span>
+
+<span class="c"># dot product</span>
+<span class="n">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="p">)</span><span class="w"> </span><span class="c"># 36</span>
+<span class="n">v1</span><span class="o">&#39;*</span><span class="n">v2</span><span class="w"> </span><span class="c"># 36</span>
+
+<span class="c"># cross product of 3-vectors</span>
+<span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="p">)</span>
+<span class="n">dot</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="p">),</span><span class="w"> </span><span class="n">v1</span><span class="p">)</span><span class="w"> </span><span class="c"># 0 (orthogonal)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>julia&gt; eigen(A)
+Eigen{Float64, Float64, Matrix{Float64}, Vector{Float64}}
+values:
+3-element Vector{Float64}:
+ -3.250962397052609
+ -0.3615511210246384
+ 13.61251351807725
+vectors:
+3×3 Matrix{Float64}:
+ -0.821765  -0.96124   -0.440897
+ -0.211254   0.228475  -0.539484
+  0.529221   0.154329  -0.717333
+</pre></div>
+</div>
+</section>
+<section id="timing">
+<h3>Timing<a class="headerlink" href="#timing" title="Link to this heading">#</a></h3>
+<p>Some examples of timing and benchmarking.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">BenchmarkTools</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">my_product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">C</span>
+<span class="k">end</span>
+
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="o">^</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="o">^</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Float64</span><span class="p">[]</span>
+
+<span class="c"># @time includes compilation time and garbage collection</span>
+<span class="nd">@time</span><span class="w"> </span><span class="n">my_product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">);</span>
+<span class="nd">@time</span><span class="w"> </span><span class="n">A</span><span class="o">.*</span><span class="n">B</span><span class="p">;</span>
+
+<span class="n">println</span><span class="p">()</span>
+<span class="n">tic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">()</span>
+<span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span>
+<span class="n">toc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">()</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Manual time measure: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">toc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tic</span><span class="p">)</span>
+<span class="n">println</span><span class="p">()</span>
+
+<span class="c"># @btime does not includes compilation time</span>
+<span class="nd">@btime</span><span class="w"> </span><span class="n">my_product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">);</span>
+<span class="nd">@btime</span><span class="w"> </span><span class="n">A</span><span class="o">.*</span><span class="n">B</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mf">4.116207</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="p">(</span><span class="mf">100.01</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="n">allocations</span><span class="o">:</span><span class="w"> </span><span class="mf">1.634</span><span class="w"> </span><span class="n">GiB</span><span class="p">,</span><span class="w"> </span><span class="mf">13.91</span><span class="o">%</span><span class="w"> </span><span class="n">gc</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="mf">0.55</span><span class="o">%</span><span class="w"> </span><span class="n">compilation</span><span class="w"> </span><span class="n">time</span><span class="p">)</span>
+<span class="mf">0.191240</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">allocations</span><span class="o">:</span><span class="w"> </span><span class="mf">762.940</span><span class="w"> </span><span class="n">MiB</span><span class="p">,</span><span class="w"> </span><span class="mf">0.63</span><span class="o">%</span><span class="w"> </span><span class="n">gc</span><span class="w"> </span><span class="n">time</span><span class="p">)</span>
+
+<span class="n">Manual</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="n">measure</span><span class="o">:</span><span class="w"> </span><span class="mf">3.63100004196167</span>
+
+<span class="mf">3.062</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">(</span><span class="mi">100000000</span><span class="w"> </span><span class="n">allocations</span><span class="o">:</span><span class="w"> </span><span class="mf">1.49</span><span class="w"> </span><span class="n">GiB</span><span class="p">)</span>
+<span class="mf">186.446</span><span class="w"> </span><span class="n">ms</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">allocations</span><span class="o">:</span><span class="w"> </span><span class="mf">762.94</span><span class="w"> </span><span class="n">MiB</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-questions questions admonition" id="questions-1">
+<p class="admonition-title">Questions</p>
+<p>Benchmark time varies quite a lot between runs. Why?</p>
+</div>
+</section>
+<section id="random-matrices-and-sparse-matrices">
+<h3>Random matrices and sparse matrices<a class="headerlink" href="#random-matrices-and-sparse-matrices" title="Link to this heading">#</a></h3>
+<p>Here is how you can create random matrices and vectors with various
+distributions.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># introduce std standard deviation (used in PCA exercise)</span>
+
+<span class="c"># normal distribution as above</span>
+<span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="c"># 100x100-matrix</span>
+
+<span class="c"># uniform distribution</span>
+<span class="n">rand</span><span class="p">()</span><span class="w"> </span><span class="c"># uniformly distributed random number in [0,1]</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># uniform 5-vector</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># uniform 5x5-matrix</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">88</span><span class="p">)</span><span class="w"> </span><span class="c"># random element of 1:88</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">88</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5-vector</span>
+<span class="n">rand</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c"># 5x5-matrix random over [a,b,c]</span>
+</pre></div>
+</div>
+<p>More involved computations with random variables can be done with the
+Distributions package.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Distributions</span>
+<span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="w"> </span><span class="c"># mean</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mf">1.0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">];[</span><span class="mi">0</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="mi">0</span><span class="p">];[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mf">3.0</span><span class="p">]]</span><span class="w"> </span><span class="c"># covaraince matrix</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MvNormal</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># multivariate normal distribution</span>
+<span class="n">rand</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="c"># sample</span>
+
+<span class="c"># binomial and multinomial distribution</span>
+<span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Binomial</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">rand</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="w"> </span><span class="c"># sample</span>
+<span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Multinomial</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">])</span>
+<span class="n">rand</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="w"> </span><span class="c"># sample</span>
+
+<span class="c"># Exponential distribution</span>
+<span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Exponential</span><span class="p">()</span>
+<span class="c"># draw 10 samples from E (all will be non-negative)</span>
+<span class="n">rand</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c"># discrete multivariate</span>
+<span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">.&lt;</span><span class="w"> </span><span class="mf">0.1</span><span class="w"> </span><span class="c"># 0.1 chance of 1</span>
+</pre></div>
+</div>
+<p>Sparse matrices may be constructed with the SparseArrays package.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">SparseArrays</span>
+
+<span class="c"># 100x100-matrix with density 10% (non-zero elements)</span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="o">.&lt;</span><span class="w"> </span><span class="mf">0.1</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sparse</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="c"># SparseMatrixCSC</span>
+
+<span class="n">typeof</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="c"># BitMatrix (alias for BitArray{2})</span>
+<span class="n">typeof</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="w"> </span><span class="c"># SparseMatrixCSC{Bool, Int64}</span>
+
+<span class="c"># 100x100-matrix with density 10%, as sparse matrix directly</span>
+<span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sprand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../dataformats-dataframes/"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Formats and Dataframes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../sciml/"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Scientific Machine Learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors-and-matrices-in-julia">Vectors and matrices in Julia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors-and-eigenvalues">Eigenvectors and eigenvalues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-dataset">Loading a dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-exercises">Extra exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-material">Extra material</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehension-slicing-and-vectorization">List comprehension, slicing and vectorization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-and-vector-operations">Matrix and vector operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timing">Timing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-matrices-and-sparse-matrices">Random matrices and sparse matrices</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kjartan Thor Wikfeldt, Anastasiia Andriievska, David Eklund
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, EuroCC National Competence Center Sweden at RISE Research Institutes of Sweden.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

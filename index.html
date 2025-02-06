@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Julia for high-performance data analytics &#8212; Julia for High-Performance Scientific Computing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="_static/overrides.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=55b5f74b"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/minipres.js?v=a0d29692"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script data-domain="enccs.github.io/julia-for-hpda" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+    <link rel="next" title="Installing packages" href="setup/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/ENCCS.jpg" class="logo__image only-light" alt="Julia for High-Performance Scientific Computing - Home"/>
+    <img src="_static/ENCCS.jpg" class="logo__image only-dark pst-js-only" alt="Julia for High-Performance Scientific Computing - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Prerequisites</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="setup/">Installing packages</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="motivation/">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataformats-dataframes/">Data Formats and Dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear-algebra/">Linear algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sciml/">Scientific Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-science/">Data science and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression/">Regression and time-series prediction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="guide/">Instructor’s guide</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Julia for high-performance data analytics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-is-the-course-for">Who is the course for?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-course">About the course</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphical-and-text-conventions">Graphical and text conventions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#type-along-sections">Type-along sections</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#important-information">Important information</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credits">Credits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instructional-material">Instructional Material</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software">Software</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="julia-for-high-performance-data-analytics">
+<h1>Julia for high-performance data analytics<a class="headerlink" href="#julia-for-high-performance-data-analytics" title="Link to this heading">#</a></h1>
+<p>Julia is a modern programming language that is free and open
+source - see <a class="reference external" href="https://julialang.org/">https://julialang.org/</a> for downloads, documentation,
+learning resources etc. Bridging high-level interpreted and low-level
+compiled languages, it offers high performance (comparable to C and
+Fortran) without sacrificing simplicity and programming productivity
+(like in Python or R).</p>
+<p>Julia has a rich ecosystem of libraries aimed
+towards scientific computing and a powerful builtin package manager
+to install and manage their dependencies. Thanks to a rapidly growing
+ecosystem of packages for data science and machine learning, Julia is
+quickly gaining ground in both academic and industrial domains which deal
+with large datasets.</p>
+<p>This lesson starts with a discussion of working with data in Julia, how
+to use the <code class="docutils literal notranslate"><span class="pre">DataFrames.jl</span></code> package and how to visualise data. It then moves
+on to linear algebra approaches, followed by classical machine learning
+approaches as well as deep learning methods with an example of scientific ML.
+Finally, key aspects of regression,
+time series prediction and analysis is covered.</p>
+<p>If you are new to the Julia language, please make sure to go through this
+<a class="reference external" href="https://enccs.github.io/julia-intro/">introductory Julia lesson</a> before
+going through this HPC lesson independently or attending a workshop where
+it is taught.</p>
+<p>To learn about how to accelerate, parallelise and GPU-port Julia code,
+please visit the lesson <a class="reference external" href="https://enccs.github.io/julia-for-hpc/">Julia for high-performance scientific computing</a>.</p>
+<div class="admonition-prerequisites prerequisites admonition" id="prerequisites-0">
+<p class="admonition-title">Prerequisites</p>
+<ul class="simple">
+<li><p>Experience in one or more programming languages.</p></li>
+<li><p>Understanding of basic Julia syntax, best practices and development tools,
+corresponding to what is covered in the <a class="reference external" href="https://enccs.github.io/julia-intro/">ENCCS Julia-intro lesson</a></p></li>
+<li><p>Familiarity with basic concepts in data science techniques.</p></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/">Instructor’s guide</a></li>
+</ul>
+</div>
+<section id="who-is-the-course-for">
+<span id="learner-personas"></span><h2>Who is the course for?<a class="headerlink" href="#who-is-the-course-for" title="Link to this heading">#</a></h2>
+<p>This lesson material is targeted towards students, researchers and developers
+who:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>are already familiar with one or more programming languages (Julia, Python, R, C/C++, Fortran, Matlab, …)</p></li>
+<li><p>need to analyze big data or perform computationally demanding modeling or analysis</p></li>
+<li><p>want to develop high-performance data science software but prefer to stay within a
+productive high-level language.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="about-the-course">
+<h2>About the course<a class="headerlink" href="#about-the-course" title="Link to this heading">#</a></h2>
+<p>This lesson material is developed by the <a class="reference external" href="https://enccs.se/">EuroCC National Competence Center
+Sweden (ENCCS)</a> and taught in ENCCS workshops. It is aimed
+at researchers and developers who want to learn a modern, high-level, high-performace
+programming language suitable for scientific computing, data science, machine learning
+and high-performance computing on CPUs or GPUs.
+Each lesson episode has clearly defined questions that will be addressed and includes
+multiple exercises along with solutions, and is therefore also useful for
+self-learning.
+The lesson material is licensed under <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a> and can be reused in any form
+(with appropriate credit) in other courses and workshops.
+Instructors who wish to teach this lesson can refer to the <a class="reference internal" href="guide/"><span class="doc">Instructor’s guide</span></a> for
+practical advice.</p>
+<section id="graphical-and-text-conventions">
+<h3>Graphical and text conventions<a class="headerlink" href="#graphical-and-text-conventions" title="Link to this heading">#</a></h3>
+<p>Different graphical elements are used to organize the material.</p>
+<section id="type-along-sections">
+<h4>Type-along sections<a class="headerlink" href="#type-along-sections" title="Link to this heading">#</a></h4>
+<p>Type-along sections are intended for live coding where all participants
+type-along and appear in a separate text box ‘Todo’:</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Defining a variables</p>
+<p>This is how you set a variable in Julia:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="exercises">
+<h4>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h4>
+<p>All lesson episodes (sections) end with one or more exercises for participants
+to practice what they’ve learned. Sometimes there’s also a solution:</p>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Printing to screen</p>
+<p>Which of these commands prints the value of the variable <code class="docutils literal notranslate"><span class="pre">x</span></code>?</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">print(x)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">println(x)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">write(x)</span></code></p></li>
+</ol>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<p>Correct answer is both 1 and 2! <code class="docutils literal notranslate"><span class="pre">println()</span></code> uses <code class="docutils literal notranslate"><span class="pre">print()</span></code> and adds a new line.</p>
+</div>
+</div>
+</section>
+<section id="important-information">
+<h4>Important information<a class="headerlink" href="#important-information" title="Link to this heading">#</a></h4>
+<p>Sometimes important information is displayed inside boxes:</p>
+<div class="admonition-important-info callout admonition" id="callout-0">
+<p class="admonition-title">Important info</p>
+<p>Please don’t hesitate to ask questions during the workshop!</p>
+</div>
+</section>
+<section id="discussion">
+<h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
+<p>Discussion exercises are conducted either via voice or through a shared workshop document.</p>
+<div class="admonition-are-these-instructions-clear discussion important admonition" id="discussion-0">
+<p class="admonition-title">Are these instructions clear?</p>
+<p>Discuss any questions about the lesson format either via the shared workshop document or
+in breakout room sessions.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<p>Many resources for learning Julia can be found
+at <a class="reference external" href="https://julialang.org/learning/">https://julialang.org/learning/</a>. The list includes
+<a class="reference external" href="https://juliaacademy.com/">Julia Academy</a> courses,
+the <a class="reference external" href="https://docs.julialang.org/en/v1/manual/getting-started/">Julia manual</a>,
+the <a class="reference external" href="https://www.youtube.com/user/JuliaLanguage/playlists">Julia Youtube channel</a>,
+and an assortment of tutorials and books.</p>
+<p><a class="reference external" href="https://juliadatascience.io/">Julia Data Science</a> is an open source and open access book targeting researchers from all fields of applied sciences as well as industry.</p>
+<p>A recent talk given by Kristoffer Carlsson, developer at Julia Computing in Sweden, gives an
+<a class="reference external" href="https://www.youtube.com/watch?v=bXHe7Kj3Xxg">excellent overview on using Julia for HPC</a>.</p>
+</section>
+<section id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Link to this heading">#</a></h2>
+<p>The lesson file structure and browsing layout is inspired by and derived from
+<a class="reference external" href="https://github.com/coderefinery/sphinx-lesson">work</a> by <a class="reference external" href="https://coderefinery.org/">CodeRefinery</a> licensed under the <a class="reference external" href="http://opensource.org/licenses/mit-license.html">MIT license</a>. We have copied and adapted
+most of their license text.</p>
+<p>Several examples and formulations are inspired by other Julia
+lessons, particularly:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/cschpc/heat-equation">Educational prallelization/GPU-porting repository with C/C++/Fortran examples</a> developed by CSC</p></li>
+<li><p><a class="reference external" href="https://github.com/csc-training/julia-introduction/">Introduction to Julia</a> provided by CSC and Aalto</p></li>
+<li><p><a class="reference external" href="https://github.com/maleadt/juliacon21-gpu_workshop">Tim Besard’s JuliaCon 2021 GPU tutorial</a></p></li>
+<li><p><a class="reference external" href="https://github.com/carstenbauer/JuliaCologne21">Carsten Bauer’s 3-day Julia workshop</a></p></li>
+<li><p><a class="reference external" href="https://carpentries-incubator.github.io/julia-novice/">The Carpentry lesson Introduction to Julia</a></p></li>
+<li><p><a class="reference external" href="https://juliadatascience.io">Storopoli, Huijzer and Alonso (2021). Julia Data Science. ISBN: 9798489859165.</a></p></li>
+</ul>
+<section id="instructional-material">
+<h3>Instructional Material<a class="headerlink" href="#instructional-material" title="Link to this heading">#</a></h3>
+<p>All ENCCS instructional material is made available under the <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+Attribution license (CC-BY-4.0)</a>. The following is a
+human-readable summary of (and not a substitute for) the <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/legalcode">full legal text of the
+CC-BY-4.0 license</a>.
+You are free:</p>
+<ul class="simple">
+<li><p>to <strong>share</strong> - copy and redistribute the material in any medium or format</p></li>
+<li><p>to <strong>adapt</strong> - remix, transform, and build upon the material for any purpose,
+even commercially.</p></li>
+</ul>
+<p>The licensor cannot revoke these freedoms as long as you follow these license terms:</p>
+<ul class="simple">
+<li><p><strong>Attribution</strong> - You must give appropriate credit (mentioning that your work
+is derived from work that is Copyright (c) ENCCS and, where practical, linking
+to <a class="reference external" href="https://enccs.se">https://enccs.se</a>), provide a <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/">link to the license</a>, and indicate if changes were
+made. You may do so in any reasonable manner, but not in any way that suggests
+the licensor endorses you or your use.</p></li>
+<li><p><strong>No additional restrictions</strong> - You may not apply legal terms or
+technological measures that legally restrict others from doing anything the
+license permits. With the understanding that:</p>
+<ul>
+<li><p>You do not have to comply with the license for elements of the material in
+the public domain or where your use is permitted by an applicable exception
+or limitation.</p></li>
+<li><p>No warranties are given. The license may not give you all of the permissions
+necessary for your intended use. For example, other rights such as
+publicity, privacy, or moral rights may limit how you use the material.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="software">
+<h3>Software<a class="headerlink" href="#software" title="Link to this heading">#</a></h3>
+<p>Except where otherwise noted, the example programs and other software provided
+by ENCCS are made available under the <a class="reference external" href="http://opensource.org/">OSI</a>-approved
+<a class="reference external" href="http://opensource.org/licenses/mit-license.html">MIT license</a>.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="setup/"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installing packages</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-is-the-course-for">Who is the course for?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-course">About the course</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphical-and-text-conventions">Graphical and text conventions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#type-along-sections">Type-along sections</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#important-information">Important information</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credits">Credits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instructional-material">Instructional Material</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software">Software</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kjartan Thor Wikfeldt, Anastasiia Andriievska, David Eklund
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, EuroCC National Competence Center Sweden at RISE Research Institutes of Sweden.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
