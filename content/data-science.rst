@@ -342,7 +342,7 @@ To install Flux:
    .. code-block:: julia
 
       # we use the cross-entropy loss function typically used for classification
-      loss(x, y) = Flux.crossentropy(model(x), y)
+      loss(model, x, y) = Flux.crossentropy(model(x), y)
 
       # onecold (opposite to onehot) gives back the original representation
       function accuracy(x, y)
@@ -359,15 +359,11 @@ To install Flux:
               Dense(n_neurons, n_classes),
               softmax)  
 
-   We now define an anonymous callback function to pass into the training function 
-   to monitor the progress, select the standard ADAM optimizer, and extract the parameters 
-   of the model:
+   We now set up our optimizer. We have selected the standard optimizer ADAM:
 
    .. code-block:: julia
 
-      callback = () -> @show(loss(xtrain, ytrain))
-      opt = ADAM()
-      θ = Flux.params(model)
+      opt_state = Flux.setup(Adam(), model)
 
    Before training the model, let's have a look at some initial predictions 
    and the accuracy:
@@ -386,8 +382,8 @@ To install Flux:
    .. code-block:: julia
 
       # the training data and the labels can be passed as tuples to train!
-      for i in 1:10
-          Flux.train!(loss, θ, [(xtrain, ytrain)], opt, cb = Flux.throttle(callback, 1))
+      for i in 1:100
+          Flux.train!((m,x,y) -> loss(m, x, y), model, [(xtrain, ytrain)], opt_state)
       end
 
       # check final accuracy
@@ -473,15 +469,13 @@ Exercises
                  BatchNorm(n_neurons, relu),
                  Dense(n_neurons, n_classes),
                  softmax)
-   
-         callback = () -> @show(loss(xtrain, ytrain))
-         opt = ADAM()
-         θ = Flux.params(model)
+
+         opt_state = Flux.setup(Adam(), model)
    
          minibatches = create_minibatches(xtrain, ytrain)
          for i in 1:100
              # train on minibatches
-             Flux.train!(loss, θ, minibatches, opt, cb = Flux.throttle(callback, 1));
+             Flux.train!((m,x,y) -> loss(m, x, y), model, minibatches, opt_state);
          end
    
          accuracy(xtrain, ytrain)
@@ -510,7 +504,7 @@ Exercises
       minibatches = create_minibatches(xtrain, ytrain, batch_size=64, n_batch=10)
 
       # Experiment with different learning rates for the ADAM optimizer.
-      opt = ADAM(0.05)
+      opt_state = Flux.setup(Adam(0.05), model)
 
       # Change the number of neurons in the hidden layer of the model.
       model = Chain(
