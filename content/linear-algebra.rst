@@ -22,12 +22,12 @@ Linear algebra
 Vectors and matrices in Julia
 -----------------------------
 
-We will start with a breif look at how we can form arrays
+We will start with a brief look at how we can create arrays
 and vectors in Julia and how to perform vector and matrix operations.
 
 .. code-block:: julia
 
-   # range notation, list from 1 to 10
+   # lazy range notation, list from 1 to 10
    1:10
 
    # make into vector
@@ -36,7 +36,7 @@ and vectors in Julia and how to perform vector and matrix operations.
    # another way to make ranges
    range(1, 10)
 
-.. code-block:: text
+.. code-block:: julia-repl
 
    julia> Vector(1:10)
    10-element Vector{Int64}:
@@ -49,7 +49,7 @@ and vectors in Julia and how to perform vector and matrix operations.
      9
     10
 
-Picking out elements or parts of vectors and matrices can be done with sclicing as in Python or Matlab.
+Indexing elements or parts of vectors and matrices can be done with slicing as in Python or Matlab.
 
 .. code-block:: julia
 
@@ -75,7 +75,7 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
    ones(5) # [1,1,1,1,1]
    ones(5,5) # 5x5-matrix of ones
 
-.. code-block:: text
+.. code-block:: julia-repl
 
    julia> u
    4-element Vector{Int64}:
@@ -106,7 +106,7 @@ Picking out elements or parts of vectors and matrices can be done with sclicing 
     1.0  1.0  1.0  1.0  1.0
     1.0  1.0  1.0  1.0  1.0
 
-To perform vector and matrix operations we can use syntax similar to Matlab och Python.
+To perform vector and matrix operations we can use a syntax similar to Matlab or Python.
 
 .. code-block:: julia
 
@@ -145,7 +145,7 @@ To perform vector and matrix operations we can use syntax similar to Matlab och 
    # vector matrix multiplication
    A*v
 
-   # matrix multiplicaiton
+   # matrix multiplication
    B = A*A
 
    # Matrix multiplication
@@ -165,9 +165,9 @@ Below we will discuss Principal Component Analysis and in that context we
 recall here the notion of eigenvectors and eigenvalues of a square matrix
 :math:`M`.
 
-.. callout::
+.. callout:: Eigendecomposition
 
-   A vector :math:`u \neq 0` is called an eigenvector of :math:`M`
+   A vector :math:`u \neq 0` is called an eigenvector of a square matrix :math:`M`
    with eigenvalue :math:`\lambda \in \mathbb{R}` if :math:`Mu=\lambda u`.
    Let us for illustration say that :math:`\lambda=2`. Then
    :math:`Mu=2u` and the linear map :math:`M` maps :math:`u` to a vector
@@ -217,11 +217,11 @@ it down to a smaller dimensional space.
    that approximates the dataset in a least squares sense. This means that the
    points are as close to the linear space as possible measured in the sum of
    squared distances. The approximating linear space is spanned by so-called
-   principal components which are ordered in terms of imporance: the first
+   principal components which are ordered in terms of importance: the first
    principal component, the second principal component and so on.
 
    It turns out the principal components are eigenvectors of the so-called
-   covaraince matrix of the data. The corresponding eigenvalues rank the principal
+   covariance matrix of the data. The corresponding eigenvalues rank the principal
    components in importance, where the biggest eigenvalue marks the first principal
    component.
 

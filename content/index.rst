@@ -52,9 +52,9 @@ please visit the lesson `Julia for high-performance scientific computing <https:
    motivation
    dataformats-dataframes
    linear-algebra
-   sciml
    data-science
    regression
+   sciml
 
 .. toctree::
    :maxdepth: 1

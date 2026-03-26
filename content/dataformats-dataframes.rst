@@ -644,7 +644,7 @@ Exercises
       and compute aggregate functions on a DataFrame named `df_test`.
       You can use these and other functions provided by the `DataFrames` package to manipulate the data in the DataFrame.
 
-      .. code-block:: julia
+      .. code-block:: julia-repl
 
          julia> combine(df_test_grouped, :meantemp => mean)
          ERROR: UndefVarError: `mean` not defined
