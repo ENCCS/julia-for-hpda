@@ -22,3 +22,11 @@ dev = [
 ]
 # All dependencies used within Jupyter Notebooks
 notebook = []
+
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = false
