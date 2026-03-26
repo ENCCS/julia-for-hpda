@@ -141,3 +141,16 @@ intersphinx_mapping = {
     # "lesson": ("https://coderefinery.github.io/sphinx-lesson/", None),
     # "myst": ("https://myst-parser.readthedocs.io/en/latest/", None),
 }
+
+import os
+
+if os.environ.get('GITHUB_REF', '') == 'refs/heads/main':
+    html_js_files = [
+        (
+            'https://plausible.io/js/script.js',
+            {
+                "data-domain": f"enccs.github.io/{detected_repo_name}",
+                "defer": "defer"
+            }
+        ),
+    ]
