@@ -14,7 +14,7 @@
 # -- Project information -----------------------------------------------------
 
 # FIXME: choose title
-project = "Your lesson name"
+project = "Julia for high-performance data analytics"
 # FIXME: insert correct author
 author = "The contributors"
 copyright = f"2025, ENCCS, {author}"
