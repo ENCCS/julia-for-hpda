@@ -42,7 +42,7 @@ of characteristic features of different penguin species.
 
    Artwork by @allison_horst
 
-.. todo::
+.. exercise::
       
    To obtain the data we simply add the PalmerPenguins package.
 
@@ -79,7 +79,7 @@ have reproducible code and saving data using CSV files or ``JLD``.
 1. Saving the Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. todo::
+.. exercise::
    To check the current status of your Julia environment, you can use the status command in the package manager. 
 
    .. code-block:: julia
@@ -120,7 +120,7 @@ have reproducible code and saving data using CSV files or ``JLD``.
 As shown in the Data Formats and DataFrames lesson, a DataFrame can easily dumped into a CSV file using
 the ``CSV.jl`` package, which also allows for reading tabular data.
 
-.. todo::
+.. exercise::
 
    You can use the CSV.jl package to save a DataFrame as a CSV file, which can be re-read later.
 
@@ -290,7 +290,7 @@ To install Flux:
    Pkg.add("Flux")
 
 
-.. todo:: Training a deep neural network to classify penguins
+.. exercise:: Training a deep neural network to classify penguins
 
    To train a model we need four things:
 
@@ -407,7 +407,7 @@ Exercises
 
 .. _DLexercise:
 
-.. todo:: Improve the deep learning model
+.. exercise:: Improve the deep learning model
 
    Improve the performance of the neural network we trained above! 
    The network is not improving much because of the large numerical 
@@ -492,7 +492,7 @@ Exercises
 
       Much better!
 
-.. todo:: More improvements
+.. exercise:: More improvements
 
    **Exercise: Hyperparameter Tuning**
       

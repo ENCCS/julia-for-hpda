@@ -332,7 +332,7 @@ Plotting the result:
 Exercises
 ---------
 
-.. todo::
+.. exercise::
 
    To do the exercsises you need the packages Plots, Distributions and LinearAlgebra.
 
@@ -343,7 +343,7 @@ Exercises
       Pkg.add("Distributions")
       Pkg.add("LinearAlgebra")
 
-.. todo:: PCA
+.. exercise:: PCA
 
    We will look at PCA for a simple dataset in two dimensions.
    Generate data with a normal distribution as follows:
@@ -447,7 +447,7 @@ Exercises
       - Is any step missing in the code examples? The data was not centered. This has a small effect in this case. We are using the true mean (0) of the underlying distribution used to generated data, rather than the sample mean as in previous examples.
 
 
-.. todo::
+.. exercise::
 
    Try the following code line by line to form random matrices
    using  standard library functions.
@@ -460,7 +460,7 @@ Exercises
       rand(5,5) # 5x5-matrix uniformly distributed on [0,1]
       randn(10) # normally distributed 10-vector
 
-.. todo::
+.. exercise::
 
    Sparse matrices (lots of zeros) and effective operations on them
    can be done using the SparseArrays package. Try the following code
@@ -483,7 +483,7 @@ Exercises
       # 100x100-matrix with density 10%, as sparse matrix directly
       S = sprand(100, 100, 0.1)
 
-.. todo::
+.. exercise::
 
    To do the next exercsise you need the package BenchmarkTools.
 
@@ -492,7 +492,7 @@ Exercises
       using Pkg
       Pkg.add("BenchmarkTools")
 
-.. todo::
+.. exercise::
 
    To benchmark and time computations we can use the BenchmarkTools package.
    Try this with the following code.
@@ -511,7 +511,7 @@ Exercises
       # @btime does not include compilation time
       @btime M^2;
 
-.. todo:: Sparse matrix computations
+.. exercise:: Sparse matrix computations
 
    Create a sparse (5000x5000)-matrix S with roughly 5000 non-zero
    elements uniformly distributed on [0,1]. Compute S^10 and time the
@@ -544,7 +544,7 @@ Exercises
          545.400 μs (29 allocations: 806.98 KiB)
          6.343 s (8 allocations: 762.94 MiB)
 
-.. todo::
+.. exercise::
 
    For random matrices from a wider array of distributions we can use the package Distributions.
    Try the following code where D is a multivariate normal 3-vector.
@@ -607,7 +607,7 @@ If at some step, :math:`||\tilde{q}_i|| = 0`, we cannot normalize,
 linear dependence has been detected and we return
 :math:`q_1,\dots,q_{i-1}`.
 
-.. todo:: Gram-Schmidt process
+.. exercise:: Gram-Schmidt process
 
    Implement the Gram-Schmidt process in Julia.
 
@@ -638,7 +638,7 @@ linear dependence has been detected and we return
          end
 
 
-.. todo:: Check Gram-Schmidt
+.. exercise:: Check Gram-Schmidt
 
    Write a check for your Gram-Schimdt program that the output
    consists of orthonormal vectors. Also, for linearly independent
@@ -668,13 +668,13 @@ linear dependence has been detected and we return
          rank(N)
 
 
-.. todo:: Matrix factorizations
+.. exercise:: Matrix factorizations
 
    Perform various factorizations on a matrix using standard
    libraries: QR-factorization, LU-factorization, Diagonalization,
    Singular-Value-Decomposition.
 
-.. todo:: Distributions and histograms
+.. exercise:: Distributions and histograms
 
    Plot histograms of some distributions: normal, uniform, binomial,
    multinomial, exponential, Cauchy, Poisson or other distributions of
