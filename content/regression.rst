@@ -248,7 +248,7 @@ Sources:
 - Bennett, N. A. and N. L. Franklin (1954), Statistical Analysis in Chemistry and the Chemical Industry, New York: Wiley.
 - McNeil, D. R. (1977), Interactive Data Analysis, New York: Wiley.
 
-.. todo::
+.. exercise::
 
    In the exerises below we use the packages GLM, RDatasets, Plots and DataFrames:
 
@@ -260,7 +260,7 @@ Sources:
       Pkg.add("Plots")
       Pkg.add("DataFrames")
 
-.. todo:: Formaldehyde example
+.. exercise:: Formaldehyde example
 
    To load the dataset, you can do:
 
@@ -318,7 +318,7 @@ Sources:
       .. figure:: img/linear_formaldehyde.png
          :align: center
 
-.. todo:: Changing hyperparameters
+.. exercise:: Changing hyperparameters
 
    Take a look at the code in example `Fitting a polynomial to data`_.
    This fit is pretty tight.
@@ -345,9 +345,9 @@ package and the "trees" dataset, which consists of measurements on
 black cherry trees: girth, height and volume
 (see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).
 
-.. todo:: Black cherry trees
+.. exercise:: Black cherry trees
 
-   In this exerise we use also the package StatsBase:
+   In this exercise we use also the package StatsBase:
 
    .. code-block:: julia
 
@@ -447,7 +447,7 @@ black cherry trees: girth, height and volume
          And so on (31 data points).
 
 
-.. todo:: Trigonometric basis functions
+.. exercise:: Trigonometric basis functions
 
    Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=cos(x)+cos(2x)`.
    Here is a snippet that generates data for this example:
@@ -985,7 +985,7 @@ To illustrate more usages of MLJ and various regression models consider the foll
 Exercises
 ---------
 
-.. todo::
+.. exercise::
 
    In the exercises below we use some packages which may be intalled as follows
    if needed.
@@ -999,12 +999,12 @@ Exercises
       Pkg.add("MLJScikitLearnInterface")
       Pkg.add("Plots")
 
-.. todo:: Simple regression 1
+.. exercise:: Simple regression 1
 
    Run the code in the `Simple regression example`_ above and see what prediction errors you get.
    Look through the code and think about what the various steps do.
 
-.. todo:: Simple regression 2a
+.. exercise:: Simple regression 2a
 
    In the `Simple regression example`_, experiment with the settings to change the sampling frequency,
    level of noise imposed on the data and fraction of the data that is used for training
@@ -1020,7 +1020,7 @@ Exercises
          noise_level = 0.1
          train_frac = 0.7
 
-.. todo:: Simple regression 2b
+.. exercise:: Simple regression 2b
 
    In the `Simple regression example`_, reset the settings:
 
@@ -1039,7 +1039,7 @@ Exercises
       It seems like the prediction gets really bad when the training fraction is below 0.2 but if we add more points
       we have enough training data to get a good predicition.
 
-.. todo:: Simple regression 3
+.. exercise:: Simple regression 3
 
    In the `Simple regression example`_, make your own synthetic data set and try it out in the script. The performance will depend a lot on the data and the model.
 
@@ -1053,7 +1053,7 @@ Exercises
          # with your own function, for example
          y = cos.(X) .+ sin.(2*X).^2 .+ 0.01*X.^3
 
-.. todo:: Simple regression 4
+.. exercise:: Simple regression 4
 
    Try some other models to train on the data from the `Simple regression example`_.
    To see a list of available models one can outcomment the following lines.
@@ -1195,7 +1195,7 @@ Exercises
          Model Name: TheilSenRegressor , Package: MLJScikitLearnInterface
          Model Name: XGBoostRegressor , Package: XGBoost
 
-.. todo:: Simple regression 5
+.. exercise:: Simple regression 5
 
    In the `Simple regression example`_, try the
    `decision tree <https://en.wikipedia.org/wiki/Decision_tree_learning>`_ model:
@@ -1218,7 +1218,7 @@ Exercises
       # scatter!(X.cX[train], y[train], label="train", markersize=3)
       # scatter!(X.cX[test], y[test], label="test", markersize=3)
 
-.. todo:: Air foil continued
+.. exercise:: Air foil continued
 
    Return to the `Airfoil data set`_ example above and run the code for it.
    To run the airfoil example you need the packages GLM, MLJ,
