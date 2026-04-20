@@ -524,8 +524,8 @@ blog post *Forecasting the weather with neural ODEs* found `here
 
    using DataFrames, CSV, Plots, Statistics
 
-   # data_path = "C:/Users/davidek/julia_kurser/DailyDelhiClimateTrain.csv"
-   # full path to data files
+   # data_path = <path-to-data-file>
+   # a string, full path to data file DailyDelhiClimateTrain.csv
    # uploaded in julia-for-hpda/content/data
    df_train = CSV.read(data_path, DataFrame)
    df_train
@@ -548,8 +548,8 @@ The mean pressure data field seems to contain some unreasonably large values. Le
 
    using DataFrames, CSV, Plots, Statistics
 
-   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
-   # full path to data files
+   # data_path = <path-to-data-file>
+   # a string, full path to data file DailyDelhiClimateTrain.csv
    # uploaded in julia-for-hpda/content/data
    df_train = CSV.read(data_path, DataFrame)
 
@@ -605,7 +605,8 @@ Background on neural networks can be found here :download:`download slides </sli
    using MLJ: shuffle, partition
    using Flux: train!
 
-   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
+   # data_path = <path-to-data-file>
+   # a string, full path to data file DailyDelhiClimateTrain.csv
    df = CSV.read(data_path, DataFrame)
 
    # clean up data, drop rows
@@ -752,7 +753,8 @@ Let us also check how well a linear model is doing in this case. It turns out it
    using MLJ: shuffle, partition
    using Flux: train!
 
-   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
+   # data_path = <path-to-data-file>
+   # a string, full path to data file DailyDelhiClimateTrain.csv
    df = CSV.read(data_path, DataFrame)
 
    # clean up data
@@ -1366,7 +1368,8 @@ Since the climate data explored above is periodic we may attempt a simple model 
 
    using DataFrames, CSV, DataFrames, Plots, Statistics, Dates, GLM, StatsBase
 
-   # data_path = "C:/Users/davidek/julia_kurser/2025-02/DailyDelhiClimateTrain.csv"
+   # data_path = <path-to-data-file>
+   # a string, full path to data file DailyDelhiClimateTrain.csv
    df_train = CSV.read(data_path, DataFrame)
 
    # clean up data
