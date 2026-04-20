@@ -134,14 +134,15 @@ On top of that we add normally distributed noise.
 
    lm2 = lm(@formula(cy ~ cX1+cX2+cX3+cX4), df)
 
-   println(formula(lm2))
-   display(coeftable(lm2))
+   display(lm2)
    println("Coefficient vector:")
    print(C)
 
 .. code-block:: text
 
    cy ~ 1 + cX1 + cX2 + cX3 + cX4
+
+   Coefficients:
    ───────────────────────────────────────────────────────────────────────────
                   Coef.  Std. Error        t  Pr(>|t|)  Lower 95%  Upper 95%
    ───────────────────────────────────────────────────────────────────────────
