@@ -1310,7 +1310,7 @@ We will use data (waveform) similar to that of the last example.
 
    lm1 = lm(@formula(y ~ 1 + X1 + X2 + X3 + X4 + X5 + X6), df)
 
-   print(lm1)
+   display(lm1)
 
    # use function fft (Fast Fourier Transform)
    y_fft = fft(y_noisy)
