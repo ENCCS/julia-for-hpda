@@ -309,7 +309,7 @@ In this case we get similar results but much quicker.
 
    Training loss on the hybrid model.
 
-.. todo:: Not assuming homogeneity
+.. exercise:: Not assuming homogeneity
 
    In the dynamics example above, what happens if you do not assume homogeneity? In other words,
    if the forces acting on the object are allowed to depend both the object's velocity and position,
@@ -355,7 +355,7 @@ In this case we get similar results but much quicker.
       If you get issues with renaming :math:`U` since you already ran the code with the orignal definition,
       you can restart the REPL or introduce another neural network :math:`V` and replace :math:`U` where needed.
 
-.. todo:: The neural network
+.. exercise:: The neural network
 
    Experiment with other architecture of the neural network in the above example. How small
    (in terms of number of parameters) can it be and still perform well? Is the convergence rate slower
