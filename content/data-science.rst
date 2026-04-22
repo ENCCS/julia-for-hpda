@@ -435,7 +435,7 @@ Exercises
 
       using StatsBase: sample
 
-      function create_minibatches(xtrain, ytrain, batch_size=32, n_batch=10)
+      function create_minibatches(xtrain, ytrain; batch_size=32, n_batch=10)
           minibatches = Tuple[]
           for i in 1:n_batch
               randinds = sample(1:size(xtrain, 2), batch_size)
@@ -454,7 +454,7 @@ Exercises
 
       .. code-block:: julia
 
-         function create_minibatches(xtrain, ytrain, batch_size=32, n_batch=10)
+         function create_minibatches(xtrain, ytrain; batch_size=32, n_batch=10)
              minibatches = Tuple[]
              for i in 1:n_batch
                  randinds = sample(1:size(xtrain, 2), batch_size)
