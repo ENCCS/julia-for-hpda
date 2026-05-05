@@ -17,13 +17,13 @@ Regression and time-series prediction
 
 .. callout::
 
-   The code in this lession is written for Julia v1.12.6.
+   The code in this lesson is written for Julia v1.12.6.
 
 Linear regression with synthetic data
 -------------------------------------
 
 We begin with some simple examples of linear regression on generated data.
-For the models we will use the package GLM (Generlized Linear Models),
+For the models we will use the package GLM (Generalized Linear Models),
 which among other things contains linear regression models.
 
 Let's start by generating some data along a line and add normally distributed noise.
@@ -115,7 +115,7 @@ Now let's plot the resulting prediction (green) together with the underlying lin
 
    Image of linear model prediction. The example shown has intercept 2.9 and slope 5.1 (the result depends on random added noise).
 
-Multivariate linear models are done in a similar way. Now we are fitting a nultivariate linear function that minizes the sum of
+Multivariate linear models are done in a similar way. Now we are fitting a multivariate linear function that minimizes the sum of
 squares error. In the following example we generate a linear function of 4 variables with random coefficients (normally distributed).
 On top of that we add normally distributed noise.
 
@@ -240,8 +240,8 @@ Exercises
 ---------
 
 Let us illustrate linear regression on real data sets. The first dataset comes from the RDatasets package
-and are data from chemical experiments for the production of formeldyhyde.
-The data columns are ammount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
+and are data from chemical experiments for the production of formaldehyde.
+The data columns are amount of Carbohydrate (ml) and Optical Density of a purple color on a spectrophotometer.
 
 Sources:
 
@@ -269,7 +269,7 @@ Sources:
       using GLM, RDatasets, Plots
       df = dataset("datasets", "Formaldehyde")
 
-   The columns of the dataframe are called `Carb` and `OptDen` for the ammount of Carbohydrate and Optical Density.
+   The columns of the dataframe are called `Carb` and `OptDen` for the amount of Carbohydrate and Optical Density.
    You can plot the data as follows:
 
    .. code-block:: julia
@@ -507,7 +507,7 @@ black cherry trees: girth, height and volume
       .. figure:: img/linear_basis_2.png
          :align: center
 
-         Fitting trigonomtric functions to data.
+         Fitting trigonometric functions to data.
 
 Loading data
 ------------
@@ -1284,7 +1284,7 @@ In the exercises above you fitted trigometric basis functions to data using a li
 .. figure:: img/linear_basis_2.png
    :align: center
 
-   Fitting trigonomtric functions to data.
+   Fitting trigonometric functions to data.
 
 Note the similarity to Fourier analysis. Let's see how you do the Fourier transform of data using the package FFTW.
 We will use data (waveform) similar to that of the last example.
