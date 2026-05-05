@@ -17,7 +17,7 @@ Linear algebra
 
 .. callout::
 
-   The code in this lession is written for Julia v1.12.6.
+   The code in this lesson is written for Julia v1.12.6.
 
 Vectors and matrices in Julia
 -----------------------------
