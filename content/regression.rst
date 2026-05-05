@@ -340,7 +340,7 @@ Sources:
          # lm3 = lm(@formula(cy ~ cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
          lm3 = lm(@formula(cy ~ cX^7 + cX^6 + cX^5 + cX^4 + cX^3 + cX^2 + cX + 1), df)
 
-Let us have a look at linear regression on real multidimensional data. For this we will use comes from the Rdatasets
+Let us have a look at linear regression on real multidimensional data. For this we will use the Rdatasets
 package and the "trees" dataset, which consists of measurements on
 black cherry trees: girth, height and volume
 (see Atkinson, A. C. (1985) Plots, Transformations and Regression. Oxford University Press).
