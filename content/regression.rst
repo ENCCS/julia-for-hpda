@@ -320,7 +320,7 @@ Sources:
 
 .. exercise:: Changing hyperparameters
 
-   Take a look at the code in example `Fitting a polynomial to data`_.
+   Take a look at the code in the example `Fitting a polynomial to data`_.
    This fit is pretty tight.
 
    - What happens if you increase the noise by say 100 times?
