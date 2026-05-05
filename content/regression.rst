@@ -17,7 +17,7 @@ Regression and time-series prediction
 
 .. callout::
 
-   The code in this lession is written for Julia v1.11.3.
+   The code in this lession is written for Julia v1.12.6.
 
 Linear regression with synthetic data
 -------------------------------------
