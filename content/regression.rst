@@ -590,9 +590,9 @@ Background on neural networks can be found here :download:`download slides </sli
 
 .. callout:: Some terminology relating to neural networks
 
-   Neural networks can be used to approximate non-linear functions. We difine the newtwork as a chain (composition)
+   Neural networks can be used to approximate non-linear functions. We define the network as a chain (composition)
    of so-called dense layers. The performance of the network on the training data is measured in terms of the loss
-   function. In our case this is the mean squared error (mse), which is an anaolog of the sum of squares error
+   function. In our case this is the mean squared error (mse), which is an analog of the sum of squares error
    used in linear regression. The square root of the mean squared error is called root mean squared error (rmse).
    The training of the network is the process of minimizing the loss function. Here, this is done with the
    gradient descent method using an optimizer (in this case ADAM). Gradient descent is an iterative method
@@ -1034,7 +1034,7 @@ Exercises
    - Now what happens if you increase the number of points?
    - Can you explain the results?
 
-   .. solution:: Change noise
+   .. solution:: Change training fraction
 
       It seems like the prediction gets really bad when the training fraction is below 0.2 but if we add more points
       we have enough training data to get a good predicition.
