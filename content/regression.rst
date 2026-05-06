@@ -516,9 +516,9 @@ Loading data
 
 We will now have a look at a climate data set containing daily mean
 temperature, humidity, wind speed and mean pressure at a location in
-Dehli India over a period of several years. The data set is available
+Delhi India over a period of several years. The data set is available
 `here <https://www.kaggle.com/datasets/sumanthvrao/daily-climate-time-series-data/>`__.
-In the context of the Dehli dataset we have borrowed some elements of Sebastian Callh's personal
+In the context of the Delhi dataset we have borrowed some elements of Sebastian Callh's personal
 blog post *Forecasting the weather with neural ODEs* found `here
 <https://sebastiancallh.github.io/post/neural-ode-weather-forecast/>`__.
 
@@ -584,9 +584,7 @@ In this section we will have a look at non-linear regression methods.
 Climate data
 ^^^^^^^^^^^^
 
-Now we will consider the problem of predicting one of the climate variables from the others, for example
-temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a
-neural network in Julia using the package Flux.
+Now we will consider the problem of predicting one of the climate variables from the others, for example temperature from humidity, wind speed and pressure. In the process we will see how to set up and train a neural network in Julia using the package Flux.
 
 Background on neural networks can be found here :download:`download slides </slides/julia_kurs_notes.pdf>`.
 
