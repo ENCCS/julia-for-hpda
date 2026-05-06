@@ -376,7 +376,7 @@ black cherry trees: girth, height and volume
 
    It is reasonable to try to fit the logarithm of volume as a linear function of
    the logarithm of the height and logarithm of the girth. This is because the
-   volume is presumably proportional to the height times the girth squared.
+   volume is presumably roughly proportional to the height times the girth squared.
 
    .. code-block:: julia
 
@@ -390,6 +390,7 @@ black cherry trees: girth, height and volume
    .. code-block:: julia
 
       Z = L_train
+      # Z = L_test
       y_pred = GLM.predict(model, Z)
 
       # Root Mean Squared Error
@@ -416,6 +417,7 @@ black cherry trees: girth, height and volume
          model = fit(LinearModel, @formula(log(Volume) ~ log(Girth) + log(Height)), L_train)
 
          Z = L_train
+         # Z = L_test
          y_pred = GLM.predict(model, Z)
 
          # Root Mean Squared Error
@@ -449,7 +451,7 @@ black cherry trees: girth, height and volume
 
 .. exercise:: Trigonometric basis functions
 
-   Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=cos(x)+cos(2x)`.
+   Try a similar example as the polynomial above but with trigonometric functions :math:`y(x)=\cos(x)+\cos(2x)`.
    Here is a snippet that generates data for this example:
    
    .. code-block:: julia
