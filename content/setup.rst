@@ -12,61 +12,44 @@ Copy-paste the following text into a file called Project.toml, which
 you can for example place under a new directory `julia` in your home directory:
 
 .. code-block:: toml
-
    name = "Julia-for-HPDA"
    [deps]
    BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
    CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-   Clustering = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
-   ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-   Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
    ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
    DataDrivenDiffEq = "2445eb08-9709-466a-b3fc-47e12bd697a2"
    DataDrivenSparse = "5b588203-7d8b-4fab-a537-c31a7f73f46b"
    DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-   DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-   Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
-   DecisionTree = "7806a523-6efd-50cb-b5f6-3fa6f1930dbb"
-   DiffEqFlux = "aae7a2af-3d4f-5e19-a356-7da93b79d9d0"
-   DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
-   Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
    Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
    FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
    Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
    GLM = "38e38edf-8417-5370-95a0-9cbb8c7f171a"
-   GLMNet = "8d5ece8b-de18-5317-b113-243142960cc6"
    HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
    IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+   Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
    JLD = "4138dd39-2aa7-5051-a626-17a0bb65d9c8"
-   JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-   LIBSVM = "b1bec4e5-fd48-53fe-b0cb-9723c09d164b"
-   LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+   JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+   JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+   JSONTables = "b9914132-a727-11e9-1322-f18e41205b0b"
    LineSearches = "d3d80556-e9d4-5f37-9878-2ab0fcc64255"
    LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
    Lux = "b2108857-7c20-44ae-9111-449ecde12c47"
-   MLBase = "f0e99cf1-93fa-52ec-9ecc-5026115318e0"
    MLJ = "add582a8-e3ab-11e8-2d5e-e98b27df1bc7"
    MLJDecisionTreeInterface = "c6f25543-311c-4c74-83dc-3ea6d1015661"
    MLJScikitLearnInterface = "5ae90465-5518-4432-b9d2-8a1def2f0cab"
    ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
-   NearestNeighbors = "b8a86587-4115-5ab1-83bc-aa920d37bbce"
    Optimization = "7f7a1694-90dd-40f0-9382-eb1efda571ba"
    OptimizationOptimJL = "36348300-93cb-4f02-beb5-3c3902f8871e"
    OptimizationOptimisers = "42dfb2eb-d2b4-4451-abcd-913932933ac1"
    OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
    PalmerPenguins = "8b842266-38fa-440a-9b57-31493939ab85"
+   Parquet2 = "98572fba-bba0-415d-956f-fa77e587d26d"
    Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-   PrettyPrinting = "54e16d92-306c-5ea0-a30b-337be88ac337"
-   PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
    RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
-   Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
    SciMLSensitivity = "1ed8b502-d754-442c-8d5d-10ac956f44a1"
-   SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
-   StableRNGs = "860ef19b-820b-49d6-a774-d7a799459cd3"
    Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
    StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-   VegaDatasets = "0ae4a718-28b7-58ec-9efb-cded64d6d5b4"
-   VegaLite = "112f6efa-9a02-5b7d-90c0-432ed331239a"
+   StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
    Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 Then open a Julia REPL and specify the location of the Project.toml file:
@@ -89,59 +72,43 @@ After it completes you should be able to list all installed packages:
 
    Pkg.status()
    Status `~/julia/Project.toml`
-   [6e4b80f9] BenchmarkTools v1.6.0
-   [336ed68f] CSV v0.10.15
-   [aaaa29a8] Clustering v0.15.8
-   [35d6a980] ColorSchemes v3.28.0
-   [5ae59095] Colors v0.12.11
-   [b0b7db55] ComponentArrays v0.15.22
-   [2445eb08] DataDrivenDiffEq v1.5.0
-   [5b588203] DataDrivenSparse v0.1.2
-   [a93c6f00] DataFrames v1.7.0
-   [864edb3b] DataStructures v0.18.20
-   [7806a523] DecisionTree v0.12.4
-   [aae7a2af] DiffEqFlux v4.1.0
-   [0c46a032] DifferentialEquations v7.15.0
-   [b4f34e82] Distances v0.10.12
-   [31c24e10] Distributions v0.25.117
-   [7a1cc6ca] FFTW v1.8.1
-   [587475ba] Flux v0.16.2
-   [38e38edf] GLM v1.9.0
-   [8d5ece8b] GLMNet v0.7.4
-   [cd3eb016] HTTP v1.10.15
-   [7073ff75] IJulia v1.26.0
+   [6e4b80f9] BenchmarkTools v1.7.0
+   [336ed68f] CSV v0.10.16
+   [b0b7db55] ComponentArrays v0.15.36
+   [2445eb08] DataDrivenDiffEq v1.13.0
+   [5b588203] DataDrivenSparse v0.1.3
+   [a93c6f00] DataFrames v1.8.2
+   [31c24e10] Distributions v0.25.124
+   [7a1cc6ca] FFTW v1.10.0
+   [587475ba] Flux v0.16.9
+   [38e38edf] GLM v1.9.3
+   [cd3eb016] HTTP v1.11.0
+   [7073ff75] IJulia v1.34.4
+   [a98d9a8b] Interpolations v0.16.2
    [4138dd39] JLD v0.13.5
-   [682c06a0] JSON v0.21.4
-   [b1bec4e5] LIBSVM v0.8.1
-   [b964fa9f] LaTeXStrings v1.4.0
-   [d3d80556] LineSearches v7.3.0
-   [b2108857] Lux v1.5.2
-   [f0e99cf1] MLBase v0.9.2
-   [add582a8] MLJ v0.20.7
-   [c6f25543] MLJDecisionTreeInterface v0.4.2
+   [033835bb] JLD2 v0.6.4
+   [0f8b85d8] JSON3 v1.14.3
+   [b9914132] JSONTables v1.0.3
+   [d3d80556] LineSearches v7.6.1
+   [b2108857] Lux v1.31.4
+   [add582a8] MLJ v0.23.2
+   [c6f25543] MLJDecisionTreeInterface v0.4.4
    [5ae90465] MLJScikitLearnInterface v0.7.0
-   [961ee093] ModelingToolkit v9.61.0
-   [b8a86587] NearestNeighbors v0.4.21
-   [7f7a1694] Optimization v4.1.0
-   [36348300] OptimizationOptimJL v0.4.1
-   [42dfb2eb] OptimizationOptimisers v0.3.7
-   [1dea7af3] OrdinaryDiffEq v6.90.1
+   [961ee093] ModelingToolkit v11.21.0
+   [7f7a1694] Optimization v5.5.0
+   [36348300] OptimizationOptimJL v0.4.11
+   [42dfb2eb] OptimizationOptimisers v0.3.16
+   [1dea7af3] OrdinaryDiffEq v6.111.0
    [8b842266] PalmerPenguins v0.1.4
-   [91a5bcdd] Plots v1.40.9
-   [54e16d92] PrettyPrinting v0.4.2
-   [d330b81b] PyPlot v2.11.5
-   [ce6b1742] RDatasets v0.7.7
-   [1ed8b502] SciMLSensitivity v7.72.0
-   [860ef19b] StableRNGs v1.0.2
-   [10745b16] Statistics v1.11.1
-   [2913bbd2] StatsBase v0.34.4
-   [0ae4a718] VegaDatasets v2.1.1
-   [112f6efa] VegaLite v3.3.0
-   [e88e6eb3] Zygote v0.6.75
-   [ade2ca70] Dates v1.11.0
-   [37e2e46d] LinearAlgebra v1.11.0
-   [9a3f8284] Random v1.11.0
-   [2f01184e] SparseArrays v1.11.0
+   [98572fba] Parquet2 v0.2.33
+   [91a5bcdd] Plots v1.41.6
+   [ce6b1742] RDatasets v0.8.1
+   [1ed8b502] SciMLSensitivity v7.104.0
+   [10745b16] Statistics v1.11.1 [loaded: v1.11.2]
+   [2913bbd2] StatsBase v0.34.10
+   [f3b207a7] StatsPlots v0.15.8
+   [e88e6eb3] Zygote v0.7.10
+   [37e2e46d] LinearAlgebra v1.12.0
 
 Activating your environment in VS Code
 --------------------------------------
