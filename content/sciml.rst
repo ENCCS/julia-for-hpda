@@ -44,8 +44,9 @@ included in the SciML documentation.
    rng = Random.default_rng()
 
    function dynamics!(du, u, p, t)
-      m = 1.0
+      # mass is 1.0 unit
       g = 10.0
+
       # u[1] = x'
       # u[2] = x
       # u[3] = y'
@@ -117,8 +118,9 @@ acting on the object only depend on its velocity, not its position.
    rng = Random.default_rng()
 
    function dynamics!(du, u, p, t)
-      m = 1.0
+      # mass is 1.0 unit
       g = 10.0
+
       # u[1] = x'
       # u[2] = x
       # u[3] = y'
