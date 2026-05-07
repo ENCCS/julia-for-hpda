@@ -62,13 +62,13 @@ included in the SciML documentation.
 
    tspan = (0.0, 1.0)
 
-   sc = 1.0
+   # sc = 1.0
    deltat = 0.01
 
-   u0 = sc * rand(4)
+   # u0 = sc * rand(4)
    inits_g = [rand(4) for ii in range(1,1)]
 
-   prob = ODEProblem(dynamics!, u0, tspan)
+   # prob = ODEProblem(dynamics!, u0, tspan)
 
    prbs = [ODEProblem(dynamics!, ui, tspan) for ui in inits_g]
 
@@ -89,12 +89,13 @@ included in the SciML documentation.
 The object experiences a drag force which scales as the speed squared,
 and a constant gravitational pull. To illustrate the learning of
 missing physics, we have added a Lorentz force experienced by a charged
-particle under a contant magnetic field pointing in the z-direction.
+particle under a constant magnetic field pointing in the z-direction.
 
 .. code-block:: julia
 
-      # m = 1.0
-      # g = 10.0
+      # mass is 1.0 unit
+      # gravitational acceleration
+      g = 10.0
 
       # drag force, gravity and Lorentz force
       du[1] = -((u[1]^2 + u[3]^2)^0.5)*u[1] + 2*u[3]
@@ -134,13 +135,13 @@ acting on the object only depend on its velocity, not its position.
 
    tspan = (0.0, 1.0)
 
-   sc = 1.0
+   # sc = 1.0
    deltat = 0.1
 
-   u0 = sc * rand(4)
+   # u0 = sc * rand(4)
    inits_g = [rand(4) for ii in range(1,1)]
 
-   prob = ODEProblem(dynamics!, u0, tspan)
+   # prob = ODEProblem(dynamics!, u0, tspan)
 
    prbs = [ODEProblem(dynamics!, ui, tspan) for ui in inits_g]
 
@@ -151,7 +152,7 @@ acting on the object only depend on its velocity, not its position.
    Xs = hcat(sols...)
 
    # for axis equal; aspect_ratio = :equal
-   scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = "True Data")
+   # scatter(Xs[2,:], Xs[4,:], alpha = 0.75, color = :green, label = "True Data")
    # savefig("solutions_1.png")
 
    # define our activation function, radial basis function
@@ -226,8 +227,9 @@ acting on the object only depend on its velocity, not its position.
 
    p_trained = res.u
 
-   plot(1:length(losses), losses[1:end], yaxis = :log10, xaxis = :log10,
-      xlabel = "Iterations", ylabel = "Loss", label = "LBFGS", color = :red)
+   plt = plot(1:length(losses), losses[1:end], yaxis = :log10, xaxis = :log10,
+            xlabel = "Iterations", ylabel = "Loss", label = "LBFGS", color = :red)
+   display(plt)
 
    ts = first(times):(mean(diff(times)) / 2):last(times)
    X̂ = predict(p_trained, inits_g, ts)
@@ -255,7 +257,7 @@ random initial values.
 
 The predictions on the training trajectory are accurate but the predictions
 on the test trajectory are not very good. This is not too unexpected since we
-are only training the model on a single inital condition. Let's see what happens
+are only training the model on a single initial condition. Let's see what happens
 when we train the model on trajectories from 6 randomly generated initial conditions
 instead.
 
@@ -279,7 +281,7 @@ It takes the black box UDE about 1000 epochs to get a good result.
 
 Now consider the case where, as an example, the drag force is known but not
 the rest of the dynamics. This means that the neural network has to learn
-for intance the Lorentz force from data. A model that uses partial pre-knowledge
+for instance the Lorentz force from data. A model that uses partial pre-knowledge
 and learns the rest from data is called a hybrid model. To implement this,
 we make the following change in the function defining the UDE dynamics:
 explicitly encode the drag force and let the neural network take care of the rest,
@@ -313,7 +315,7 @@ In this case we get similar results but much quicker.
 
    In the dynamics example above, what happens if you do not assume homogeneity? In other words,
    if the forces acting on the object are allowed to depend both the object's velocity and position,
-   as would be the case if for example the magetic field was non-homogeneous. Try running the code
+   as would be the case if for example the magnetic field was non-homogeneous. Try running the code
    under such weaker assumptions.
 
    .. solution:: Modifications
@@ -352,7 +354,7 @@ In this case we get similar results but much quicker.
       Typically you need more data to get similar results compared to the case where we assume
       homogeneity.
 
-      If you get issues with renaming :math:`U` since you already ran the code with the orignal definition,
+      If you get issues with renaming :math:`U` since you already ran the code with the original definition,
       you can restart the REPL or introduce another neural network :math:`V` and replace :math:`U` where needed.
 
 .. exercise:: The neural network
