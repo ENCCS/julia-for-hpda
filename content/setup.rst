@@ -1,7 +1,7 @@
 Installing packages
 ===================
 
-A number of Julia packages is used in this lesson. These can be installed on-the-fly 
+A number of Julia packages are used in this lesson. These can be installed on-the-fly
 during a workshop, but you can also follow the instructions below to install all packages 
 in your global Julia environment.
 
@@ -117,7 +117,7 @@ Activating your environment in VS Code
 Open VS Code from terminal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you run VS Code from a terminal you can activate your enviroment as follows.
+If you run VS Code from a terminal you can activate your environment as follows.
 Open a terminal and go to the directory where the Project.toml file resides.
 Now start VS Code with ``code .``
 
@@ -125,25 +125,25 @@ Change environment in VS Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When using Visual Studio Code for julia development and using your own environment,
-you can activate it as follows. Start a Julia REPL in VS Code, for example by runnig a script.
-Start the package mode by typing ``]``. Typically you will be in the stardard environment v1.11:
+you can activate it as follows. Start a Julia REPL in VS Code, for example by running a script.
+Start the package mode by typing ``]``. Typically you will be in the standard environment v1.12:
 
 .. code-block:: julia
 
-   (@v1.11) pkg>
+   (@v1.12) pkg>
 
 To activate another environment, type
 
 .. code-block:: julia
 
-   (@v1.11) pkg>activate path-to-projectfile
+   (@v1.12) pkg>activate path-to-projectfile
 
 where you specify the path to the directory where you put your Project.toml file.
 
 The same procedure applies when running Julia from the terminal and you want to switch
-enviroments. For example, if you start Julia from the terminal by simply typing ``julia``
+environments. For example, if you start Julia from the terminal by simply typing ``julia``
 (without the ``--project`` argument) you will end up in the standard environment and can
-switch enviroment as described above.
+switch environment as described above.
 
 Manual installation and updates
 -------------------------------
@@ -162,13 +162,13 @@ and then add the package:
 
 .. code-block:: julia
 
-   (@v1.11) pkg> add Plots
+   (@v1.12) pkg> add Plots
 
 To update all your packages, you can type ``up`` in the package mode in REPL:
 
 .. code-block:: julia
 
-   (@v1.11) pkg> up
+   (@v1.12) pkg> up
 
 Installing JupyterLab and a Julia kernel
 ----------------------------------------
@@ -178,17 +178,17 @@ Jupyter notebooks can be installed via the Python package manager ``pip``::
 
   pip install jupyterlab
 
-Also, JupyterLab can most easily be installed through the full
+Also, JupyterLab can be installed through the full
 Anaconda distribution of Python packages or the minimal
 Miniconda distribution.
 
 To install Anaconda, visit
-https://www.anaconda.com/products/individual , download an installer
+https://www.anaconda.com/products/individual, download an installer
 for your operating system and follow the instructions. JupyterLab and
 an IPython kernel are included in the distribution.
 
 To install Miniconda, visit
-https://docs.conda.io/en/latest/miniconda.html , download an installer
+https://docs.conda.io/en/latest/miniconda.html, download an installer
 for your operating system and follow the instructions.  After
 activating a ``conda`` environment in your terminal, you can install
 JupyterLab with the command ``conda install jupyterlab``.
