@@ -1362,7 +1362,7 @@ We will use data (waveform) similar to that of the last example.
 
    Zooming in a bit on the frequency graph.
 
-Since the climate data explored above is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentaiton we aggregate the data over each month.
+Since the climate data explored above is periodic we may attempt a simple model based on Fourier transforms. To have a cleaner presentation we aggregate the data over each month.
 
 .. code-block:: julia
 
@@ -1384,7 +1384,7 @@ Since the climate data explored above is periodic we may attempt a simple model 
 
    M_m = [df_train_m.meantemp_mean df_train_m.humidity_mean df_train_m.wind_speed_mean df_train_m.meanpressure_mean]
 
-   plottitles = ["meantemp" "humidity" "wind_speed" "meanpressure"]
+   plottitles = ["meantemp" "meanhumidity" "meanwindspeed" "meanpressure"]
    plotylabels =  ["C°" "g/m^3?" "km/h?" "hPa"]
    plt = scatter(M_m, layout=(4,1), color=[1 2 3 4], legend=false, title=plottitles, xlabel="time (months)", ylabel=plotylabels, size=(800,800))
 
