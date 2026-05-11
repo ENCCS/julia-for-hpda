@@ -71,18 +71,18 @@ After it completes you should be able to list all installed packages:
 
 .. code-block:: text
 
-   Pkg.status()
-   Status `~/julia/Project.toml`
-   [6e4b80f9] BenchmarkTools v1.7.0
+   julia> Pkg.status()
+   Status `~/julia-kurs-test/Project.toml`
+   [6e4b80f9] BenchmarkTools v1.8.0
    [336ed68f] CSV v0.10.16
-   [b0b7db55] ComponentArrays v0.15.36
-   [2445eb08] DataDrivenDiffEq v1.13.0
-   [5b588203] DataDrivenSparse v0.1.3
+   [b0b7db55] ComponentArrays v0.15.37
+   [2445eb08] DataDrivenDiffEq v1.15.0
+   [5b588203] DataDrivenSparse v0.1.4
    [a93c6f00] DataFrames v1.8.2
-   [31c24e10] Distributions v0.25.124
+   [31c24e10] Distributions v0.25.125
    [7a1cc6ca] FFTW v1.10.0
-   [587475ba] Flux v0.16.9
-   [38e38edf] GLM v1.9.3
+   [587475ba] Flux v0.16.10
+   [38e38edf] GLM v1.9.4
    [cd3eb016] HTTP v1.11.0
    [7073ff75] IJulia v1.34.4
    [a98d9a8b] Interpolations v0.16.2
@@ -90,22 +90,22 @@ After it completes you should be able to list all installed packages:
    [033835bb] JLD2 v0.6.4
    [0f8b85d8] JSON3 v1.14.3
    [b9914132] JSONTables v1.0.3
-   [d3d80556] LineSearches v7.6.1
+   [d3d80556] LineSearches v7.6.2
    [b2108857] Lux v1.31.4
    [add582a8] MLJ v0.23.2
    [c6f25543] MLJDecisionTreeInterface v0.4.4
    [5ae90465] MLJScikitLearnInterface v0.7.0
-   [961ee093] ModelingToolkit v11.21.0
-   [7f7a1694] Optimization v5.5.0
-   [36348300] OptimizationOptimJL v0.4.11
-   [42dfb2eb] OptimizationOptimisers v0.3.16
-   [1dea7af3] OrdinaryDiffEq v6.111.0
+   [961ee093] ModelingToolkit v11.25.0
+   [7f7a1694] Optimization v5.5.1
+   [36348300] OptimizationOptimJL v0.4.14
+   [42dfb2eb] OptimizationOptimisers v0.3.17
+   [1dea7af3] OrdinaryDiffEq v7.0.0
    [8b842266] PalmerPenguins v0.1.4
    [98572fba] Parquet2 v0.2.33
    [91a5bcdd] Plots v1.41.6
    [ce6b1742] RDatasets v0.8.1
-   [1ed8b502] SciMLSensitivity v7.104.0
-   [10745b16] Statistics v1.11.1 [loaded: v1.11.2]
+   [1ed8b502] SciMLSensitivity v7.108.0
+   [10745b16] Statistics v1.11.1
    [2913bbd2] StatsBase v0.34.10
    [f3b207a7] StatsPlots v0.15.8
    [e88e6eb3] Zygote v0.7.10
