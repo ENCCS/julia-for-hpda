@@ -67,7 +67,7 @@ Then copy-paste the following code into your Julia session:
    Pkg.instantiate()
 
 It can take a while (10-15 minutes) to download and install the packages and precompile the project.
-After it completes you should be able to list all installed packages:
+After it completes you should be able to list all installed packages with ``Pkg.status()``, which will look something like this:
 
 .. code-block:: text
 
