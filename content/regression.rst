@@ -999,10 +999,21 @@ Exercises
       Pkg.add("MLJScikitLearnInterface")
       Pkg.add("Plots")
 
-.. exercise:: Simple regression 1
+.. exercise:: Simple regression 1a
 
    Run the code in the `Simple regression example`_ above and see what prediction errors you get.
    Look through the code and think about what the various steps do.
+
+.. exercise:: Simple regression 1b
+
+   In the `Simple regression example`_ above, what happens if you let the data be partitioned in train and test data without shuffling? You can do this by changing the following line:
+
+   .. code-block:: julia
+
+      # train, test = MLJ.partition(eachindex(y), train_frac, shuffle=true);
+      train, test = MLJ.partition(eachindex(y), train_frac, shuffle=false);
+
+   Try the different models (Gaussian process, Decision tree, Random forest), how do they perform on the test data in case of shuffling and non-shuffling?
 
 .. exercise:: Simple regression 2a
 
