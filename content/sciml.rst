@@ -104,8 +104,7 @@ particle under a constant magnetic field pointing in the z-direction.
 
 First consider an almost black box UDE (Universal Differential Equation) where we
 model the whole right-hand side of the equation system by a neural network.
-The model is helped by assumed prior knowledge of homogeneity, that is the forces
-acting on the object only depend on its velocity, not its position.
+The model is helped by assumed prior knowledge of homogeneity and time-invariance. Time-invariance means here that the forces acting on the object depends only on its position and velocity and not explicitly on time. Homogeneity means here that the forces acting on the object actually only depend on its velocity, not its position.
 
 .. code-block:: julia
 
