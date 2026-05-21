@@ -182,58 +182,63 @@ the ``CSV.jl`` package, which also allows for reading tabular data.
 
 Machine learning
 ----------------
-Machine learning (ML) is a branch of artificial intelligence (AI) and computer science that focuses on 
-the use of data and algorithms to imitate the way that humans learn, gradually improving its accuracy. 
-It is an umbrella term for solving problems for which development of algorithms by human programmers 
-would be cost-prohibitive, and instead the problems are solved by helping machines "discover" their "own" algorithms including GPT and Computer vision/Speech recognition use cases.
 
-Now, let's narrow our focus and look at neural networks. Neural networks (or "neural nets", for short) are a specific choice of a model.
-It's a network made up of neurons⁷. This leads to the question, "what is a neuron?"
-A neuron in the context of neural networks is a mathematical function conceived as a model of biological neurons.
-The neuron takes in one or more input values and sums them to produce an output. Normally, neurons are aggregated into layers to form a network.
+Machine learning (ML) is a branch of artificial intelligence (AI) and computer
+science that focuses on the use of data and algorithms to imitate the way that
+humans learn, gradually improving its accuracy. It is an umbrella term for
+solving problems for which development of algorithms by human programmers would
+be cost-prohibitive, and instead the problems are solved by helping machines
+"discover" patterns and algorithms to deal with data.
+Classical machine learning algorithms include (non-)linear regression, logistic
+regression,support vector machines (SVM), k-Nearest Neigbours, xgboost and many
+others, spanning supervised learning (where the algorithm is shown examples of
+what it should do), unsupservised learning (where it learns autonomously) and
+reinforcement learning (where a reward policy is used to "teach").
+Deep learning, which will be discussed in more depth in a later section, is a
+type of machine learning algorithm.
 
-For more detailed information, discover this `Intro to Neurons notebook <https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Intro-to-neurons.ipynb>`_ from JuliaAcademy's Foundations of Machine Learning course.
-Data: `draw_neural_net.jl <https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/draw_neural_net.jl>`_ 
-It provides an excellent introduction to the concept of neurons in the context of ML.
 
 References:
 
 - What is Machine Learning? – IBM. https://www.ibm.com/topics/machine-learning 
 - Machine learning - Wikipedia. https://en.wikipedia.org/wiki/Machine_learning
-- 1-intro-to-neurons.ipynb - Google Colab. https://colab.research.google.com/github/jigsawlabs-student/pytorch-intro-curriculum/blob/main/1-prediction-function/1-intro-to-neurons.ipynb
 
 Machine learning in Julia
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Despite being a relatively new language, Julia already has a strong and rapidly expanding 
-ecosystem of libraries for machine learning and deep learning. A fundamental advantage of Julia for ML 
-is that it solves the two-language problem - there is no need for different languages for the 
-user-facing framework and the backend heavy-lifting (like for most other DL frameworks).
-
-A particular focus in the Julia approach to ML is `"scientific machine learning" (SciML) <https://sciml.ai/>`_ 
-(a.k.a. physics-informed learning), i.e. machine learning which incorporates scientific models into 
-the learning process instead of relying only on data. The core principle of SciML is `differentiable 
-programming` - the ability to automatically differentiate any code and thus incorporate it into 
-Flux (predictive) models.
-
-However, Julia is still behind frameworks like PyTorch and Tensorflow/Keras in terms of documentation and API design.
+Despite being a relatively new language, Julia already has a strong and rapidly
+expanding ecosystem of libraries for machine learning and deep learning. An
+important advantage of Julia for ML is that it is possible to extract very good
+performance by writing pure Julia code, without resorting to backends written
+in compiled languages.
+A distinct feature of the Julian ML ecosystem is a well-developed stack for
+`"scientific machine learning" (SciML) <https://sciml.ai/>`_ (a.k.a.
+physics-informed learning), which is a flavour of machine learning that
+incorporates physics (ODEs, PDEs...) into the learning process instead of
+relying only on data. SciML relies heavily on `automatic differentiation` - the
+ability to automatically compute derivatives of any function and thus
+incorporate it into predictive models.
 
 Traditional machine learning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Julia has packages for traditional (non-deep) machine learning:
 
-- `ScikitLearn.jl <https://scikitlearnjl.readthedocs.io/en/latest/>`_ is a port of the popular Python package.
-- `MLJ.jl <https://alan-turing-institute.github.io/MLJ.jl/dev/>`_ provides a common interface 
-  and meta-algorithms for selecting, tuning, evaluating, composing and comparing over 150 machine learning models.
-
-- `Machine Learning · Julia Packagesl <https://juliapackages.com/c/machine-learning/>`_: This is a website that lists various Julia packages related to machine learning, such as MLJ.jl, Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many more. 
-  You can browse the packages by their popularity, alphabetical order, or update date. Each package has a brief description and a link to its GitHub repository.
-- `AI · Julia Packages <https://www.juliapackages.com/c/ai>`_: This is another website that lists Julia packages related to artificial intelligence, such as Flux.jl, 
-  AlphaZero.jl, BrainFlow.jl, NeuralNetDiffEq.jl, Transformers.jl, MXNet.jl, and more. You can also sort the packages by different criteria and see their details.
-- `Julia Libraries · Top Julia Machine Learning Libraries - Analytics Vidhya <https://www.analyticsvidhya.com/blog/2021/05/top-julia-machine-learning-libraries/>`_: This is 
-  an article that discusses some useful Julia libraries for machine learning and deep learning applications, such as computer vision and natural language processing. 
-
+- `ScikitLearn.jl <https://scikitlearnjl.readthedocs.io/en/latest/>`_ is a port
+  of the popular Python package. 
+- `MLJ.jl
+  <https://alan-turing-institute.github.io/MLJ.jl/dev/>`_ provides a common
+  interface and meta-algorithms for selecting, tuning, evaluating, composing
+  and comparing over 150 machine learning models.
+- `Machine Learning · Julia Packages
+  <https://juliapackages.com/c/machine-learning/>`_ 
+  lists various Julia packages related to machine learning, such as MLJ.jl,
+  Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many
+  more. You can browse the packages by their popularity, alphabetical order, or
+  update date. Each package has a brief description and a link to its GitHub
+  repository. 
+- `AI · Julia Packages <https://www.juliapackages.com/c/ai>`_ lists Julia
+  packages related to Artificial Intelligence broadly
 
 We will use a few utility functions from ``MLJ.jl`` in our deep learning 
 exercise below, so we will need to add it to our environment:
@@ -247,40 +252,81 @@ exercise below, so we will need to add it to our environment:
 Clustering and Classification
 -----------------------------
 
-In this lesson, we will be exploring the use of Julia for HPDA in a Jupyter notebook environment within Visual Studio Code (VSCode).
+In this lesson, we will be exploring the use of Julia for HPDA in a Jupyter
+notebook environment within Visual Studio Code (VSCode).
 
-To set up your environment, you can follow the instructions provided in the `JuliaIntro lesson <https://enccs.github.io/julia-intro/setup/#optional-installing-jupyterlab-and-a-julia-kernel>`_.
-This guide will walk you through the process of installing Julia, setting up JupyterLab, and adding a Julia kernel.
-Jupyter notebooks offer an interactive computing environment where you can combine code execution, rich text, mathematics, plots, and rich media.
+To set up your environment, you can follow the instructions provided in the
+`JuliaIntro lesson
+<https://enccs.github.io/julia-intro/setup/#optional-installing-jupyterlab-and-a-julia-kernel>`_.
+This guide will walk you through the process of installing Julia, setting up
+JupyterLab, and adding a Julia kernel. Jupyter notebooks offer an interactive
+computing environment where you can combine code execution, rich text,
+mathematics, plots, and rich media.
 
-Once your environment is set up, you can start using Julia in Jupyter notebooks within VSCode. This setup provides a powerful interface for writing and debugging your code.
-It also allows you to easily visualize your data and results.
+Once your environment is set up, you can start using Julia in Jupyter notebooks
+within VSCode. This setup provides a powerful interface for writing and
+debugging your code. It also allows you to easily visualize your data and
+results.
 
-After setting up your environment, we will dive into the adapted lessons about Clustering and Classification from the `Julia MOOC on Julia Academy <https://juliaacademy.com/>`_.
-These lessons provide comprehensive tutorials on various topics in Julia.
-By following these lessons, you will gain a deeper understanding of how to use Julia for high-performance data analysis.
+After setting up your environment, we will dive into the adapted lessons about
+Clustering and Classification from the `Julia MOOC on Julia Academy
+<https://juliaacademy.com/>`_. These lessons provide comprehensive tutorials on
+various topics in Julia. By following these lessons, you will gain a deeper
+understanding of how to use Julia for high-performance data analysis.
 
-Clustering notebook: https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb
+Clustering notebook:
+https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb
 
-Classification notebook: https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb
+Classification notebook:
+https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb
 
 Deep learning
 -------------
 
-`Deep learning <https://en.wikipedia.org/wiki/Deep_learning>`_ is a subset of ML which is essentially a neural network with three or more layers.
-These neural networks attempt to simulate the behavior of the human brain—albeit far from matching its ability—allowing it to “learn” from large amounts of data.
-Deep learning drives many AI applications and services that improve automation, performing analytical and physical tasks without human intervention
-Deep-learning architectures such as deep neural networks, deep belief networks, deep reinforcement learning, recurrent neural networks, convolutional neural networks
-and transformers have been applied to fields including computer vision, speech recognition, natural language processing, machine translation, bioinformatics, drug design,
-medical image analysis, climate science, material inspection and board game programs.
+`Deep learning <https://en.wikipedia.org/wiki/Deep_learning>`_ is a subset of
+ML. Neural networks are a particular type of ML approach which tries to loosely
+mimic the functioning of a human brain and consists of connected computational
+units called *neurons*; each neuron has one or more inputs and (mostly) performs three fundamental operations:
+- Take a weighted sum of the inputs with a vector of weights 
+- Add an extra constant weight (**bias**)
+- Apply an (usually non-linear) **activation function** to this weighted sum.
 
-`Flux.jl <https://fluxml.ai/>`_ comes "batteries-included" with many useful tools 
-built in, but also enables the user to write own Julia code for DL components.
+In essence, given a input vector :math:`(x_1,x_2,...,x_N)`, a neuron computes:
 
-- Flux has relatively few explicit APIs for features like regularisation or embeddings. 
-- All of Flux is straightforward Julia code and it can be worth to inspect and extend it if needed.
-- Flux works well with other Julia libraries, like dataframes, images and differential equation solvers.
-  One can build complex data processing pipelines that integrate Flux models.
+.. math:: 
+
+    y = f(\sum_i(x_iw_i) + b)
+
+where *f* is the activation function, :math:`w_i` are the weights and *b* is the
+bias. 
+
+These neural networks attempt to simulate the behavior of the human brain —
+albeit far from matching its ability — allowing it to “learn” from large
+amounts of data. Deep learning drives many AI applications and services that
+improve automation, performing analytical and physical tasks without human
+intervention. Large language models and other generative AI models are very
+large neural networks with specific architectures. 
+
+For more detailed information, the `Intro to deep learning course
+<https://enccs.github.io/deep-learning-intro/>`_ gives a good overview of the
+building blocks of a neural network. 
+
+At the time of writing (2026), two main frameworks are used when dealing with
+neural networks in Julia: Flux.jl and Lux.jl.
+
+
+`Flux.jl <https://fluxml.ai/>`_ comes "batteries-included" with many useful
+tools built in, but also enables the user to write own Julia code for DL
+components.
+
+- Flux has relatively few explicit APIs for features like regularisation or
+  embeddings. Core components are available, but there are few rigid,
+  high-level APIs. Things like regularisation and embeddings are written using
+  standard Julia code patterns 
+- All of Flux is straightforward Julia code and can be inspected/extended (no DSLs)
+- Flux works well with other Julia libraries, like dataframes, images and
+  differential equation solvers. One can build complex data processing
+  pipelines that integrate Flux models.
 
 To install Flux:
 
