@@ -328,6 +328,20 @@ components.
   differential equation solvers. One can build complex data processing
   pipelines that integrate Flux models.
 
+`Lux.jl <https://lux.csail.mit.edu/stable/>`_, on the other hand, is a newer
+framework that has a more functional programming style. While the building
+blocks are similar (layers, activation functions,etc.), the models are pure
+functions and the state is passed around as an argument. While this may look
+clunkier at first, it does have some advantages when trying to optimise code,
+and models can be composed, transformed and differentiated with standard Julia
+tools without special abstractions.
+
+Generally speaking, Lux shines when integration with SciML is needed, or any
+time neural networks are embedded in larger scientific computing applications,
+and new developments tend to land in Lux first. Conversely, Flux is the more mature,
+general purpose deep learning framework. From a Python perspective, Flux feels
+more like PyTorch/Keras, whereas Lux is more akin to Jax/Flax.
+
 To install Flux:
 
 .. code-block:: julia
