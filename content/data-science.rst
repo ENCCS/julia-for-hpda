@@ -8,12 +8,12 @@ Data science and machine learning
    - Can I use Julia for machine learning?
    - What are the key steps in data preprocessing in Julia?
    - How can you handle missing data in Julia?
-   - How can you save your current environment in Julia?  
+   - How can you save your current environment in Julia?
    - What are some popular machine learning algorithms available in Julia?
    - How does Julia handle large datasets in machine learning?
    - How can you implement clustering in Julia?
    - What are some classification techniques available in Julia?
-     
+
 .. instructor-note::
 
    - 100 min teaching
@@ -27,13 +27,13 @@ In the Data Formats and Dataframes lesson, we explored a Julian approach
 to manipulation and visualisation of data.
 
 
-Here we will learn and clustering, classification, machine learning and deep learning with some toy examples. 
+Here we will learn and clustering, classification, machine learning and deep learning with some toy examples.
 
 
 Download a dataset
 ^^^^^^^^^^^^^^^^^^
 
-We start by downloading a dataset containing measurements 
+We start by downloading a dataset containing measurements
 of characteristic features of different penguin species.
 
 
@@ -43,7 +43,7 @@ of characteristic features of different penguin species.
    Artwork by @allison_horst
 
 .. exercise::
-      
+
    To obtain the data we simply add the PalmerPenguins package.
 
    .. code-block:: julia
@@ -54,12 +54,12 @@ of characteristic features of different penguin species.
 
 
    As it was done in the Data Formats and Dataframes lesson, we can
-   
+
    .. code-block:: julia
-   
+
       dropmissing!(df)
-   
-The main features we are interested in for each penguin observation are 
+
+The main features we are interested in for each penguin observation are
 `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm` and `body_mass_g`.
 What the first three features mean is illustrated in the picture below.
 
@@ -80,7 +80,7 @@ have reproducible code and saving data using CSV files or ``JLD``.
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. exercise::
-   To check the current status of your Julia environment, you can use the status command in the package manager. 
+   To check the current status of your Julia environment, you can use the status command in the package manager.
 
    .. code-block:: julia
 
@@ -88,7 +88,7 @@ have reproducible code and saving data using CSV files or ``JLD``.
       Pkg.status()
 
    .. code-block:: text
-      
+
       Status `~/.julia/environments/v1.9/Project.toml`
          [336ed68f] CSV v0.10.11
          [aaaa29a8] Clustering v0.15.4
@@ -111,7 +111,7 @@ have reproducible code and saving data using CSV files or ``JLD``.
    1. Copy both ``Project.toml`` and ``Manifest.toml`` to the new location.
    2. In Julia, navigate to that folder and activate the environment using ``Pkg.activate(".")``.
    3. Use ``Pkg.instantiate()`` to download all the necessary packages.
-   
+
    More information in section `Environments` at https://enccs.github.io/julia-intro/development/
 
 2. Saving Data as a CSV File
@@ -140,7 +140,7 @@ the ``CSV.jl`` package, which also allows for reading tabular data.
 3. Saving Data Using JLD/JLD2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   Another option is to use `JLD.jl <https://github.com/JuliaIO/JLD.jl>`_ 
+   Another option is to use `JLD.jl <https://github.com/JuliaIO/JLD.jl>`_
    The ``JLD.jl`` package provides a way to save and load Julia variables while preserving native types.
    It is based on HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
    However, it is written in pure Julia and does not require any of the original C HDF5 implementation.
@@ -166,13 +166,13 @@ the ``CSV.jl`` package, which also allows for reading tabular data.
       df = load("penguins.jld", "df")
 
    This will return the DataFrame ``df`` from the file and assign it back to ``df``.
-   In the past years, the ``JLD2.jl`` package came forward as an alternative to ``JLD``. It 
+   In the past years, the ``JLD2.jl`` package came forward as an alternative to ``JLD``. It
    is also based on HDF5 and can read h5 files saved by other HDF5 implementations. It exposes an interface
    similar to ``JLD`` with  ``save()`` and ``load()`` functions, but the more user-friendly function ``jldsave()``
    is also available:
 
    .. code-block:: julia
-    
+
       using JLD2
       jldsave("penguins.jld2"; df) # This is equivalent to the save command above
       df = load("penguins.jld2", "df")
@@ -200,7 +200,7 @@ type of machine learning algorithm.
 
 References:
 
-- What is Machine Learning? – IBM. https://www.ibm.com/topics/machine-learning 
+- What is Machine Learning? – IBM. https://www.ibm.com/topics/machine-learning
 - Machine learning - Wikipedia. https://en.wikipedia.org/wiki/Machine_learning
 
 Machine learning in Julia
@@ -225,22 +225,22 @@ Traditional machine learning
 Julia has packages for traditional (non-deep) machine learning:
 
 - `ScikitLearn.jl <https://scikitlearnjl.readthedocs.io/en/latest/>`_ is a port
-  of the popular Python package. 
+  of the popular Python package.
 - `MLJ.jl
   <https://alan-turing-institute.github.io/MLJ.jl/dev/>`_ provides a common
   interface and meta-algorithms for selecting, tuning, evaluating, composing
   and comparing over 150 machine learning models.
 - `Machine Learning · Julia Packages
-  <https://juliapackages.com/c/machine-learning/>`_ 
+  <https://juliapackages.com/c/machine-learning/>`_
   lists various Julia packages related to machine learning, such as MLJ.jl,
   Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many
   more. You can browse the packages by their popularity, alphabetical order, or
   update date. Each package has a brief description and a link to its GitHub
-  repository. 
+  repository.
 - `AI · Julia Packages <https://www.juliapackages.com/c/ai>`_ lists Julia
   packages related to Artificial Intelligence broadly
 
-We will use a few utility functions from ``MLJ.jl`` in our deep learning 
+We will use a few utility functions from ``MLJ.jl`` in our deep learning
 exercise below, so we will need to add it to our environment:
 
 .. code-block:: julia
@@ -287,29 +287,29 @@ Deep learning
 ML. Neural networks are a particular type of ML approach which tries to loosely
 mimic the functioning of a human brain and consists of connected computational
 units called *neurons*; each neuron has one or more inputs and (mostly) performs three fundamental operations:
-- Take a weighted sum of the inputs with a vector of weights 
+- Take a weighted sum of the inputs with a vector of weights
 - Add an extra constant weight (**bias**)
 - Apply an (usually non-linear) **activation function** to this weighted sum.
 
 In essence, given a input vector :math:`(x_1,x_2,...,x_N)`, a neuron computes:
 
-.. math:: 
+.. math::
 
     y = f(\sum_i(x_iw_i) + b)
 
 where *f* is the activation function, :math:`w_i` are the weights and *b* is the
-bias. 
+bias.
 
 These neural networks attempt to simulate the behavior of the human brain —
 albeit far from matching its ability — allowing it to “learn” from large
 amounts of data. Deep learning drives many AI applications and services that
 improve automation, performing analytical and physical tasks without human
 intervention. Large language models and other generative AI models are very
-large neural networks with specific architectures. 
+large neural networks with specific architectures.
 
 For more detailed information, the `Intro to deep learning course
 <https://enccs.github.io/deep-learning-intro/>`_ gives a good overview of the
-building blocks of a neural network. 
+building blocks of a neural network.
 
 At the time of writing (2026), two main frameworks are used when dealing with
 neural networks in Julia: Flux.jl and Lux.jl.
@@ -322,7 +322,7 @@ components.
 - Flux has relatively few explicit APIs for features like regularisation or
   embeddings. Core components are available, but there are few rigid,
   high-level APIs. Things like regularisation and embeddings are written using
-  standard Julia code patterns 
+  standard Julia code patterns
 - All of Flux is straightforward Julia code and can be inspected/extended (no DSLs)
 - Flux works well with other Julia libraries, like dataframes, images and
   differential equation solvers. One can build complex data processing
@@ -334,7 +334,9 @@ blocks are similar (layers, activation functions,etc.), the models are pure
 functions and the state is passed around as an argument. While this may look
 clunkier at first, it does have some advantages when trying to optimise code,
 and models can be composed, transformed and differentiated with standard Julia
-tools without special abstractions.
+tools without special abstractions. Moreover, a `Training API
+<https://lux.csail.mit.edu/stable/api/Lux/utilities#Training-API>`_ is available
+to hide some of the boilerplate if needed.
 
 Generally speaking, Lux shines when integration with SciML is needed, or any
 time neural networks are embedded in larger scientific computing applications,
@@ -349,6 +351,15 @@ To install Flux:
    using Pkg
    Pkg.add("Flux")
 
+Whereas for Lux:
+
+.. code-block:: julia
+
+    using Pkg
+    Pkg.add("Lux")
+
+
+
 
 .. exercise:: Training a deep neural network to classify penguins
 
@@ -356,19 +367,23 @@ To install Flux:
 
    - A collection of data points that will be provided to the objective
      function.
-   - A objective (cost or loss) function, that evaluates how well a model 
+   - A objective (cost or loss) function, that evaluates how well a model
      is doing given some input data.
    - The definition of a model and access to its trainable parameters.
    - An optimiser that will update the model parameters appropriately.
 
-   First we import the required modules and load the data:
+   In this case, we will train a simple neural network to be able to classify
+   the four species of penguins from the dataset above based on their anatomical
+   features (bill length, depth, etc.).
+
+   First we load the data:
 
    .. code-block:: julia
 
-      using Flux
       using MLJ: partition, ConfusionMatrix
       using DataFrames
       using PalmerPenguins
+      using OneHotArrays
 
       table = PalmerPenguins.load()
       df = DataFrame(table)
@@ -381,20 +396,23 @@ To install Flux:
       # select feature and label columns
       X = select(df, Not([:species, :sex, :island]))
       Y = df[:, :species]
-      
+
       # split into training and testing parts
       (xtrain, xtest), (ytrain, ytest) = partition((X, Y), 0.8, shuffle=true, rng=123, multi=true)
-      
+
       # use single precision and transpose arrays
       xtrain, xtest = Float32.(Array(xtrain)'), Float32.(Array(xtest)')
-      
+
       # one-hot encoding
-      ytrain = Flux.onehotbatch(ytrain, ["Adelie", "Gentoo", "Chinstrap"])
-      ytest = Flux.onehotbatch(ytest, ["Adelie", "Gentoo", "Chinstrap"])
-      
+      ytrain = OneHotArrays.onehotbatch(ytrain, ["Adelie", "Gentoo", "Chinstrap"])
+      ytest = OneHotArrays.onehotbatch(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+
       # count penguin classes to see if it's balanced
       sum(ytrain, dims=2)
       sum(ytest, dims=2)
+
+    Now we can see how to do this in both Flux and Lux!
+
 
    Next up is the loss function which will be minimized during the training.
    We also define another function which will give us the accuracy of the model:
@@ -417,7 +435,7 @@ To install Flux:
       model = Chain(
               Dense(n_features, n_neurons, sigmoid),
               Dense(n_neurons, n_classes),
-              softmax)  
+              softmax)
 
    We now set up our optimizer. We have selected the standard optimizer ADAM:
 
@@ -425,7 +443,7 @@ To install Flux:
 
       opt_state = Flux.setup(Adam(), model)
 
-   Before training the model, let's have a look at some initial predictions 
+   Before training the model, let's have a look at some initial predictions
    and the accuracy:
 
    .. code-block:: julia
@@ -450,7 +468,7 @@ To install Flux:
       accuracy(xtrain, ytrain)
       accuracy(xtest, ytest)
 
-   The performance of the model is probably somewhat underwhelming, but you will 
+   The performance of the model is probably somewhat underwhelming, but you will
    fix that in an exercise below!
 
    We finally create a confusion matrix to quantify the performance of the model:
@@ -469,14 +487,14 @@ Exercises
 
 .. exercise:: Improve the deep learning model
 
-   Improve the performance of the neural network we trained above! 
-   The network is not improving much because of the large numerical 
-   range of the input features (from around 15 to around 6000) combined 
-   with the fact that we use a ``sigmoid`` activation function. A standard 
-   method in machine learning is to normalize features by "batch 
-   normalization". Replace the network definition with the following and 
+   Improve the performance of the neural network we trained above!
+   The network is not improving much because of the large numerical
+   range of the input features (from around 15 to around 6000) combined
+   with the fact that we use a ``sigmoid`` activation function. A standard
+   method in machine learning is to normalize features by "batch
+   normalization". Replace the network definition with the following and
    see if the performance improves:
-   
+
    .. code-block:: julia
 
       n_features, n_classes, n_neurons = 4, 3, 10
@@ -484,10 +502,10 @@ Exercises
                  Dense(n_features, n_neurons),
                  BatchNorm(n_neurons, relu),
                  Dense(n_neurons, n_classes),
-                 softmax)  
+                 softmax)
 
-   Performance is usually better also if we, instead of training on the entire 
-   dataset at once, divide the training data into "minibatches" and update 
+   Performance is usually better also if we, instead of training on the entire
+   dataset at once, divide the training data into "minibatches" and update
    the network weights on each minibatch separately.
    First define the following function:
 
@@ -504,13 +522,13 @@ Exercises
           return minibatches
       end
 
-   and then create the minibatches by calling the function.  
+   and then create the minibatches by calling the function.
 
-   You will not need to manually loop over the minibatches, simply pass 
-   the ``minibatches`` vector of tuples to the ``Flux.train!`` function. 
+   You will not need to manually loop over the minibatches, simply pass
+   the ``minibatches`` vector of tuples to the ``Flux.train!`` function.
    Does this make a difference?
 
-   .. solution:: 
+   .. solution::
 
       .. code-block:: julia
 
@@ -522,7 +540,7 @@ Exercises
              end
              return minibatches
          end
-   
+
          n_features, n_classes, n_neurons = 4, 3, 10
          model = Chain(
                  Dense(n_features, n_neurons),
@@ -531,22 +549,22 @@ Exercises
                  softmax)
 
          opt_state = Flux.setup(Adam(), model)
-   
+
          minibatches = create_minibatches(xtrain, ytrain)
          for i in 1:100
              # train on minibatches
              Flux.train!((m,x,y) -> loss(m, x, y), model, minibatches, opt_state);
          end
-   
+
          accuracy(xtrain, ytrain)
          # 0.9849624060150376
          accuracy(xtest, ytest)
          # 0.9850746268656716
-   
+
          predicted_species = Flux.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
          true_species = Flux.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
          ConfusionMatrix()(predicted_species, true_species)
-   
+
       .. figure:: img/confusion_matrix.png
          :scale: 40 %
 
@@ -555,8 +573,8 @@ Exercises
 .. exercise:: More improvements
 
    **Exercise: Hyperparameter Tuning**
-      
-   Experiment with different hyperparameters of the model and the training process. 
+
+   Experiment with different hyperparameters of the model and the training process.
 
    .. code-block:: julia
 
@@ -576,7 +594,7 @@ Exercises
       # The solution will depend on the specific hyperparameters chosen.
 
    **Exercise: Feature Engineering**
-      
+
    Consider doing some feature engineering on your input data.
 
    .. code-block:: julia
@@ -586,7 +604,7 @@ Exercises
       xtest = (xtest .- mean(xtest, dims=2)) ./ std(xtest, dims=2)
 
    **Exercise: Different Model Architectures**
-      
+
    Experiment with different model architectures.
 
    .. code-block:: julia
@@ -604,7 +622,7 @@ Exercises
 See also
 --------
 
--  Many interesting datasets are available in Julia through the 
+-  Many interesting datasets are available in Julia through the
    `RDatasets <https://github.com/JuliaStats/RDatasets.jl>`_ package.
    For instance:
 
