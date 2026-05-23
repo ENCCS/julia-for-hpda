@@ -411,62 +411,122 @@ Whereas for Lux:
       sum(ytrain, dims=2)
       sum(ytest, dims=2)
 
-    Now we can see how to do this in both Flux and Lux!
 
 
    Next up is the loss function which will be minimized during the training.
    We also define another function which will give us the accuracy of the model:
 
-   .. code-block:: julia
+   .. tabs:: 
 
-      # we use the cross-entropy loss function typically used for classification
-      loss(model, x, y) = Flux.crossentropy(model(x), y)
+      .. group-tab:: Flux
 
-      # onecold (opposite to onehot) gives back the original representation
-      function accuracy(x, y)
-          return sum(Flux.onecold(model(x)) .== Flux.onecold(y)) / size(y, 2)
-      end
+        .. code-block:: julia
 
-   ``model`` will be our neural network, so we go ahead and define it:
+            using Flux
+            # we use the cross-entropy loss function typically used for classification
+            loss(model, x, y) = Flux.crossentropy(model(x), y)
 
-   .. code-block:: julia
+            # onecold (opposite to onehot) gives back the original representation
+            function accuracy(x, y)
+                return sum(Flux.onecold(model(x)) .== Flux.onecold(y)) / size(y, 2)
+            end
 
-      n_features, n_classes, n_neurons = 4, 3, 10
-      model = Chain(
-              Dense(n_features, n_neurons, sigmoid),
-              Dense(n_neurons, n_classes),
-              softmax)
+        ``model`` will be our neural network, so we go ahead and define it:
 
-   We now set up our optimizer. We have selected the standard optimizer ADAM:
+        .. code-block:: julia
 
-   .. code-block:: julia
+            n_features, n_classes, n_neurons = 4, 3, 10
+            model = Chain(
+                    Dense(n_features, n_neurons, sigmoid),
+                    Dense(n_neurons, n_classes),
+                    softmax)
 
-      opt_state = Flux.setup(Adam(), model)
+        We now set up our optimizer. We have selected the standard optimizer ADAM:
 
-   Before training the model, let's have a look at some initial predictions
-   and the accuracy:
+        .. code-block:: julia
 
-   .. code-block:: julia
+            opt_state = Flux.setup(Adam(), model)
 
-      # predictions before training
-      model(xtrain[:,1:5])
-      ytrain[:,1:5]
-      # accuracy before training
-      accuracy(xtrain, ytrain)
-      accuracy(xtest, ytest)
+        Before training the model, let's have a look at some initial predictions
+        and the accuracy:
 
-   Finally we are ready to train the model. Let's run 100 epochs:
+        .. code-block:: julia
 
-   .. code-block:: julia
+            # predictions before training
+            model(xtrain[:,1:5])
+            ytrain[:,1:5]
+            # accuracy before training
+            accuracy(xtrain, ytrain)
+            accuracy(xtest, ytest)
 
-      # the training data and the labels can be passed as tuples to train!
-      for i in 1:100
-          Flux.train!((m,x,y) -> loss(m, x, y), model, [(xtrain, ytrain)], opt_state)
-      end
+        Finally we are ready to train the model. Let's run 100 epochs:
 
-      # check final accuracy
-      accuracy(xtrain, ytrain)
-      accuracy(xtest, ytest)
+        .. code-block:: julia
+
+            # the training data and the labels can be passed as tuples to train!
+            for i in 1:100
+                Flux.train!((m,x,y) -> loss(m, x, y), model, [(xtrain, ytrain)], opt_state)
+            end
+
+            # check final accuracy
+            accuracy(xtrain, ytrain)
+            accuracy(xtest, ytest)
+
+      .. group-tab:: Lux 
+
+          .. code-block:: julia 
+
+              using Lux
+              # cross-entropy loss function 
+              loss = Lux.CrossEntropyLoss()
+              # accuracy function 
+              # onecold (inverse of onehot) gives back the original representation 
+              function accuracy(model, ps, st, x, y)
+                return sum(OneHotArrays.onecold(model(x, ps, st)) .== OneHotArrays.onecold(y)) / size(y,2)
+              end
+
+          `model` above is our neural network, so we can go on and create it!
+
+          .. code-block:: julia 
+
+              n_features, n_classes, n_neurons = 4, 3, 10
+              model = Lux.Chain(
+                  Dense(n_features => n_neurons,sigmoid),
+                  Dense(n_neurons => n_classes),
+                  x -> softmax(x)
+              )
+
+          We can now set up the actual training infrastructure. For this case, we'll use the Lux Training API:
+
+          .. code-block:: julia 
+
+              rng = Random.default_rng()
+              ps, st = Lux.setup(rng, model)
+              opt = Optimisers.Adam(0.01)
+
+              train_state = Lux.Training.TrainState(model, ps, st, opt)
+
+          In this case, we used an Adam optimiser. We can give a look at the initial predictions (i.e. before training)
+
+          .. code-block:: julia 
+
+              accuracy(model, ps, st, xtrain, ytrain)
+              accuracy(model, ps, st, xtest, ytest)
+
+          Now we can start the training loop!
+
+          .. code-block:: julia 
+
+              for epoch in 1:100 
+                _, l, _, train_state = Lux.Training.single_train_step!(AutoEnzyme(), loss, xtrain, ytrain, train_state)
+                if epoch % 10 == 0 
+                  println("Epoch $epoch - Loss $l")
+                end
+              end
+
+              # check final accuracy
+              accuracy(xtrain, ytrain)
+              accuracy(xtest, ytest)
 
    The performance of the model is probably somewhat underwhelming, but you will
    fix that in an exercise below!
@@ -475,8 +535,8 @@ Whereas for Lux:
 
    .. code-block:: julia
 
-      predicted_species = Flux.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
-      true_species = Flux.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+      predicted_species = OneHotArrays.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
+      true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
       ConfusionMatrix()(predicted_species, true_species)
 
 
