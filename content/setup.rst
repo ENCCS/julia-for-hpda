@@ -39,6 +39,7 @@ you can for example place under a new directory `julia` in your home directory:
    MLJDecisionTreeInterface = "c6f25543-311c-4c74-83dc-3ea6d1015661"
    MLJScikitLearnInterface = "5ae90465-5518-4432-b9d2-8a1def2f0cab"
    ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
+   OneHotArrays = "0b1bfda6-eb8a-41d2-88d8-f5af5cad476f"
    Optimization = "7f7a1694-90dd-40f0-9382-eb1efda571ba"
    OptimizationOptimJL = "36348300-93cb-4f02-beb5-3c3902f8871e"
    OptimizationOptimisers = "42dfb2eb-d2b4-4451-abcd-913932933ac1"
