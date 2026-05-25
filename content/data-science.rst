@@ -554,8 +554,6 @@ Whereas for Lux:
 Exercises
 ---------
 
-.. _DLexercise:
-
 .. exercise:: Improve the deep learning model
 
    Improve the performance of the neural network we trained above!
@@ -566,7 +564,7 @@ Exercises
    normalization". Replace the network definition with the following and
    see if the performance improves:
 
-  .. tabs::
+   .. tabs::
 
     .. group-tab:: Flux
 
