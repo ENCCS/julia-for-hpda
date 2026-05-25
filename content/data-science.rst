@@ -416,7 +416,7 @@ Whereas for Lux:
    Next up is the loss function which will be minimized during the training.
    We also define another function which will give us the accuracy of the model:
 
-   .. tabs:: 
+   .. tabs::
 
       .. group-tab:: Flux
 
@@ -483,22 +483,22 @@ Whereas for Lux:
             true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
             ConfusionMatrix()(predicted_species, true_species)
 
-      .. group-tab:: Lux 
+      .. group-tab:: Lux
 
-          .. code-block:: julia 
+          .. code-block:: julia
 
               using Lux, Random, Optimisers
-              # cross-entropy loss function 
+              # cross-entropy loss function
               loss = Lux.CrossEntropyLoss()
-              # accuracy function 
-              # onecold (inverse of onehot) gives back the original representation 
+              # accuracy function
+              # onecold (inverse of onehot) gives back the original representation
               function accuracy(model, ps, st, x, y)
                 return sum(OneHotArrays.onecold(first(model(x, ps, st))) .== OneHotArrays.onecold(y)) / size(y,2)
               end
 
           `model` above is our neural network, so we can go on and create it!
 
-          .. code-block:: julia 
+          .. code-block:: julia
 
               n_features, n_classes, n_neurons = 4, 3, 10
               model = Lux.Chain(
@@ -509,7 +509,7 @@ Whereas for Lux:
 
           We can now set up the actual training infrastructure. For this case, we'll use the Lux Training API:
 
-          .. code-block:: julia 
+          .. code-block:: julia
 
               rng = Random.default_rng()
               ps, st = Lux.setup(rng, model)
@@ -519,18 +519,18 @@ Whereas for Lux:
 
           In this case, we used an Adam optimiser. We can give a look at the initial predictions (i.e. before training)
 
-          .. code-block:: julia 
+          .. code-block:: julia
 
               accuracy(model, ps, st, xtrain, ytrain)
               accuracy(model, ps, st, xtest, ytest)
 
           Now we can start the training loop!
 
-          .. code-block:: julia 
+          .. code-block:: julia
 
-              for epoch in 1:100 
+              for epoch in 1:100
                 _, l, _, train_state = Lux.Training.single_train_step!(AutoZygote(), loss, (xtrain, ytrain), train_state)
-                if epoch % 10 == 0 
+                if epoch % 10 == 0
                   println("Epoch $epoch - Loss $l")
                 end
               end
@@ -568,9 +568,9 @@ Exercises
 
   .. tabs::
 
-    .. group-tab:: Flux 
+    .. group-tab:: Flux
 
-      .. code-block:: julia
+        .. code-block:: julia
 
           n_features, n_classes, n_neurons = 4, 3, 10
           model = Chain(
@@ -579,16 +579,16 @@ Exercises
                     Dense(n_neurons, n_classes),
                     softmax)
 
-    .. group-tab:: Lux 
+    .. group-tab:: Lux
 
-      .. code-block:: julia 
+        .. code-block:: julia
 
-        model = Chain(
-            Dense(n_features => n_neurons),
-            BatchNorm(n_neurons, relu),
-            Dense(n_neurons => n_classes),
-            softmax
-        )
+            model = Chain(
+                Dense(n_features => n_neurons),
+                BatchNorm(n_neurons, relu),
+                Dense(n_neurons => n_classes),
+                softmax
+            )
 
 
    Performance is usually better also if we, instead of training on the entire
@@ -723,8 +723,8 @@ See also
 
 - `Deep Learning with Flux - A 60 Minute Blitz <http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/>`__
 - `Deep Convolutional Generative Adversarial Network (DCGAN) <http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-08-dcgan-mnist/>`__
-- `Lux tutorials <https://lux.csail.mit.edu/stable/tutorials/>`_ 
-- `Lux + Reactant <https://www.youtube.com/watch?v=bLNH8L6Zubg>`_ 
+- `Lux tutorials <https://lux.csail.mit.edu/stable/tutorials/>`_
+- `Lux + Reactant <https://www.youtube.com/watch?v=bLNH8L6Zubg>`_
 - `Deep learning with Flux (online book) <https://neroblackstone.github.io/D2lJulia/README.html>`_
 
 Neuromorphic | Probabilistic learning
@@ -733,4 +733,3 @@ Neuromorphic | Probabilistic learning
    - https://darsnack.github.io/SpikingNN.jl/dev/
    - https://turinglang.org/v0.24/tutorials/
    - Nordic Neuromorphs | NorN Discord Community – https://discord.gg/5Qq6yX5
-
