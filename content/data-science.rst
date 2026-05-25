@@ -472,17 +472,28 @@ Whereas for Lux:
             accuracy(xtrain, ytrain)
             accuracy(xtest, ytest)
 
+        The performance of the model is probably somewhat underwhelming, but you will
+        fix that in an exercise below!
+
+        We finally create a confusion matrix to quantify the performance of the model:
+
+        .. code-block:: julia
+
+            predicted_species = OneHotArrays.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
+            true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+            ConfusionMatrix()(predicted_species, true_species)
+
       .. group-tab:: Lux 
 
           .. code-block:: julia 
 
-              using Lux
+              using Lux, Random, Optimisers
               # cross-entropy loss function 
               loss = Lux.CrossEntropyLoss()
               # accuracy function 
               # onecold (inverse of onehot) gives back the original representation 
               function accuracy(model, ps, st, x, y)
-                return sum(OneHotArrays.onecold(model(x, ps, st)) .== OneHotArrays.onecold(y)) / size(y,2)
+                return sum(OneHotArrays.onecold(first(model(x, ps, st))) .== OneHotArrays.onecold(y)) / size(y,2)
               end
 
           `model` above is our neural network, so we can go on and create it!
@@ -518,7 +529,7 @@ Whereas for Lux:
           .. code-block:: julia 
 
               for epoch in 1:100 
-                _, l, _, train_state = Lux.Training.single_train_step!(AutoEnzyme(), loss, xtrain, ytrain, train_state)
+                _, l, _, train_state = Lux.Training.single_train_step!(AutoZygote(), loss, (xtrain, ytrain), train_state)
                 if epoch % 10 == 0 
                   println("Epoch $epoch - Loss $l")
                 end
@@ -528,16 +539,16 @@ Whereas for Lux:
               accuracy(xtrain, ytrain)
               accuracy(xtest, ytest)
 
-   The performance of the model is probably somewhat underwhelming, but you will
-   fix that in an exercise below!
+        The performance of the model is probably somewhat underwhelming, but you will
+        fix that in an exercise below!
 
-   We finally create a confusion matrix to quantify the performance of the model:
+        We finally create a confusion matrix to quantify the performance of the model:
 
-   .. code-block:: julia
+        .. code-block:: julia
 
-      predicted_species = OneHotArrays.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
-      true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
-      ConfusionMatrix()(predicted_species, true_species)
+            predicted_species = OneHotArrays.onecold(first(model(xtest, ps, st)), ["Adelie", "Gentoo", "Chinstrap"])
+            true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+            ConfusionMatrix()(predicted_species, true_species)
 
 
 Exercises
@@ -694,9 +705,11 @@ See also
       iris = dataset("datasets", "iris")
       neuro = dataset("boot", "neuro")
 
-- `"The Future of Machine Learning and why it looks a lot like Julia" by Logan Kilpatrick <https://towardsdatascience.com/the-future-of-machine-learning-and-why-it-looks-a-lot-like-julia-a0e26b51f6a6>`_
 - `Deep Learning with Flux - A 60 Minute Blitz <http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/>`__
 - `Deep Convolutional Generative Adversarial Network (DCGAN) <http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-08-dcgan-mnist/>`__
+- `Lux tutorials <https://lux.csail.mit.edu/stable/tutorials/>`_ 
+- `Lux + Reactant <https://www.youtube.com/watch?v=bLNH8L6Zubg>`_ 
+- `Deep learning with Flux (online book) <https://neroblackstone.github.io/D2lJulia/README.html>`_
 
 Neuromorphic | Probabilistic learning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -705,8 +718,3 @@ Neuromorphic | Probabilistic learning
    - https://turinglang.org/v0.24/tutorials/
    - Nordic Neuromorphs | NorN Discord Community – https://discord.gg/5Qq6yX5
 
-Quantum
-^^^^^^^
-
-   - https://juliapackages.com/c/quantum-mechanics
-   - Swedish Quantum Society | SQS – https://swedishquantumsociety.vercel.app/
