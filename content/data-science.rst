@@ -566,14 +566,30 @@ Exercises
    normalization". Replace the network definition with the following and
    see if the performance improves:
 
-   .. code-block:: julia
+  .. tabs::
 
-      n_features, n_classes, n_neurons = 4, 3, 10
-      model = Chain(
-                 Dense(n_features, n_neurons),
-                 BatchNorm(n_neurons, relu),
-                 Dense(n_neurons, n_classes),
-                 softmax)
+    .. group-tab:: Flux 
+
+      .. code-block:: julia
+
+          n_features, n_classes, n_neurons = 4, 3, 10
+          model = Chain(
+                    Dense(n_features, n_neurons),
+                    BatchNorm(n_neurons, relu),
+                    Dense(n_neurons, n_classes),
+                    softmax)
+
+    .. group-tab:: Lux 
+
+      .. code-block:: julia 
+
+        model = Chain(
+            Dense(n_features => n_neurons),
+            BatchNorm(n_neurons, relu),
+            Dense(n_neurons => n_classes),
+            softmax
+        )
+
 
    Performance is usually better also if we, instead of training on the entire
    dataset at once, divide the training data into "minibatches" and update
