@@ -581,6 +581,7 @@ Exercises
 
         .. code-block:: julia
 
+            n_features, n_classes, n_neurons = 4, 3, 10
             model = Chain(
                 Dense(n_features => n_neurons),
                 BatchNorm(n_neurons, relu),
@@ -615,40 +616,100 @@ Exercises
 
    .. solution::
 
-      .. code-block:: julia
+      .. tabs:: 
 
-         function create_minibatches(xtrain, ytrain; batch_size=32, n_batch=10)
-             minibatches = Tuple[]
-             for i in 1:n_batch
-                 randinds = sample(1:size(xtrain, 2), batch_size)
-                 push!(minibatches, (xtrain[:, randinds], ytrain[:,randinds]))
-             end
-             return minibatches
-         end
+        .. group-tab:: Flux
 
-         n_features, n_classes, n_neurons = 4, 3, 10
-         model = Chain(
-                 Dense(n_features, n_neurons),
-                 BatchNorm(n_neurons, relu),
-                 Dense(n_neurons, n_classes),
-                 softmax)
+          .. code-block:: julia
 
-         opt_state = Flux.setup(Adam(), model)
+            function create_minibatches(xtrain, ytrain; batch_size=32, n_batch=10)
+                minibatches = Tuple[]
+                for i in 1:n_batch
+                    randinds = sample(1:size(xtrain, 2), batch_size)
+                    push!(minibatches, (xtrain[:, randinds], ytrain[:,randinds]))
+                end
+                return minibatches
+            end
 
-         minibatches = create_minibatches(xtrain, ytrain)
-         for i in 1:100
-             # train on minibatches
-             Flux.train!((m,x,y) -> loss(m, x, y), model, minibatches, opt_state);
-         end
+            n_features, n_classes, n_neurons = 4, 3, 10
+            model = Chain(
+                    Dense(n_features, n_neurons),
+                    BatchNorm(n_neurons, relu),
+                    Dense(n_neurons, n_classes),
+                    softmax)
 
-         accuracy(xtrain, ytrain)
-         # 0.9849624060150376
-         accuracy(xtest, ytest)
-         # 0.9850746268656716
+            opt_state = Flux.setup(Adam(), model)
 
-         predicted_species = Flux.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
-         true_species = Flux.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
-         ConfusionMatrix()(predicted_species, true_species)
+            minibatches = create_minibatches(xtrain, ytrain)
+            for i in 1:100
+                # train on minibatches
+                Flux.train!((m,x,y) -> loss(m, x, y), model, minibatches, opt_state);
+            end
+
+            accuracy(xtrain, ytrain)
+            # 0.9849624060150376
+            accuracy(xtest, ytest)
+            # 0.9850746268656716
+
+            predicted_species = Flux.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
+            true_species = Flux.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+            ConfusionMatrix()(predicted_species, true_species)
+
+        .. group-tab:: Lux 
+
+          .. code-block:: julia 
+
+            function create_minibatches(xtrain, ytrain; batch_size=32, n_batch=10)
+                minibatches = Tuple[]
+                for i in 1:n_batch
+                    randinds = sample(1:size(xtrain, 2), batch_size)
+                    push!(minibatches, (xtrain[:, randinds], ytrain[:,randinds]))
+                end
+                return minibatches
+            end
+
+            
+            n_features, n_classes, n_neurons = 4, 3, 10
+
+            model = Chain(
+                Dense(n_features => n_neurons),
+                BatchNorm(n_neurons, relu),
+                Dense(n_neurons => n_classes),
+                softmax
+            )
+
+            rng = Random.default_rng()
+            ps, st = Lux.setup(rng, model)
+
+            # ----------------------
+            # Optimizer + TrainState
+            # ----------------------
+            opt = Adam(0.01)
+
+            tstate = Lux.Training.TrainState(model, ps, st, opt)
+
+            minibatches = create_minibatches(xtrain, ytrain)
+            
+            for epoch in 1:epochs
+                for batch in minibatches
+                    _, l, _, tstate = Training.single_train_step!(
+                        AutoZygote(),
+                        loss,
+                        batch,
+                        tstate
+                    )
+                end
+            end
+
+            accuracy(Lux.testmode(model), ps, st, xtrain, ytrain)
+            # 0.9849624060150376
+            accuracy(Lux.testmode(model), ps, st, xtest, ytest)
+            # 0.9850746268656716
+
+            predicted_species = OneHotArrays.onecold(first(model(xtest, ps, st)), ["Adelie", "Gentoo", "Chinstrap"])
+            true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+            ConfusionMatrix()(predicted_species, true_species)
+
 
       .. figure:: img/confusion_matrix.png
          :scale: 40 %
