@@ -252,27 +252,242 @@ exercise below, so we will need to add it to our environment:
 Clustering and Classification
 -----------------------------
 
-In this lesson, we will be exploring the use of Julia for HPDA in a Jupyter
-notebook environment within Visual Studio Code (VSCode).
+In this episode, we will go through a *Clustering* example. Clustering is an
+unsupervised learning technique, used to discover "groups" of datapoints (called
+*clusters*) such that:
 
-To set up your environment, you can follow the instructions provided in the
-`JuliaIntro lesson
-<https://enccs.github.io/julia-intro/setup/#optional-installing-jupyterlab-and-a-julia-kernel>`_.
-This guide will walk you through the process of installing Julia, setting up
-JupyterLab, and adding a Julia kernel. Jupyter notebooks offer an interactive
-computing environment where you can combine code execution, rich text,
-mathematics, plots, and rich media.
+- Points belonging to the same cluster are *similar*, in the sense that they
+  share common properties
+- Points in different clusters are not similar
 
-Once your environment is set up, you can start using Julia in Jupyter notebooks
-within VSCode. This setup provides a powerful interface for writing and
-debugging your code. It also allows you to easily visualize your data and
-results.
+Being an unsupervised method, it doesn't need labeled examples, it aims to
+uncover hidden structure in the data.
+It is commonly used in a number of situations, including customer segmentation,
+geospatial analysis, biomedical data analysis, even time series analysis in some
+cases.
 
-After setting up your environment, we will dive into the adapted lessons about
-Clustering and Classification from the `Julia MOOC on Julia Academy
-<https://juliaacademy.com/>`_. These lessons provide comprehensive tutorials on
-various topics in Julia. By following these lessons, you will gain a deeper
-understanding of how to use Julia for high-performance data analysis.
+In Julia, the `Clustering.jl
+<https://juliastats.org/Clustering.jl/stable/index.html>`_ package implements a
+few common clustering algorithms, including *k-means*, density based clustering
+and more, with most algorithms expecting data in a matrix of shape ``(features x
+observations)``.
+
+In this particular example, we will use (a sample of) the published dataset of
+the `New York City yellow taxi rides <https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page>`_.
+This data is published monthly by an agency of the municipality of New York and
+includes data such as pickup and dropoff locations (lat/lon or an "ID" that can
+be mapped to a location) and timestamps, trip length, airport fare surcharge,
+fare mount, tips, and more. This dataset is very big (a few GBs, 12 million rows
+for January 2015), thus we prepared two subsets for local exploration: one
+having `100k rows
+<https://github.com/ENCCS/julia-for-hpda/raw/refs/heads/fix-dl-notebooks/content/data/taxi_100k.parquet>`_
+and one having `50k rows
+<https://github.com/ENCCS/julia-for-hpda/raw/refs/heads/fix-dl-notebooks/content/data/taxi_50k.parquet>`_.
+In our tests, the clustering should be able to run in just a few seconds even
+with 100k rows. Please download the datasets now! The idea is to try to uncover
+patterns in the data, e.g. correlation between location and tipping/fare,
+whether clusters correspond to specific location, and so on. To do this, we will
+use the *k-means* clustering algorithm. The objective is to partition the
+dataset into ``k`` clusters by minimising the distance between points and their
+assigned cluster centre. The algorithm is implemented as follows:
+
+#. Choose the number of clusters ``k``. This can be done either by the user based
+   on preliminary knowledge of the data (e.g. number of cell populations in
+   biomedical data) or with some heuristic (e.g. elbow method)
+#. Initialise ``k`` cluster centres randomly
+#. Assign each point to the nearest centre
+#. Update each centre as the mean of the assigned points
+#. Repeat 3 and 4 until convergence
+
+The function to minimise is:
+
+.. math::
+
+    \sum_{k=1}^{K} \sum_{x_i \in C_k} \|x_i - \mu_k\|^2
+
+where:
+
+- :math:`C_k` is a cluster
+- :math:`\mu_k` is its centroid
+
+There are several other clustering techniques, such as *k-medoids*, DBSCAN and
+hierarchical clustering.
+Now, let us try to apply this to our example dataset!
+
+.. type-along:: Clustering example of NYC yellow taxi rides
+
+    .. code-block:: julia
+
+        using DataFrames, Parquet2
+
+        df = DataFrame(Parquet2.Dataset("taxi_100k.parquet"); copycols=true)
+
+        dropmissing!(df)
+
+        # Remove extreme outliers
+        df = filter(row -> -74.1 < row[:pickup_longitude] < -73.7 && 40.6 < row[:pickup_latitude] < 40.9, df)
+
+
+    We can now select the features we're interested in, such as geographical information (latitude and longitude), distance and fare:
+
+    .. code-block:: julia
+
+        features = select(df, [
+            :pickup_longitude,
+            :pickup_latitude,
+            :fare_amount,
+            :trip_distance,
+        ])
+
+    Moreover, we need to scale the data (we're computing distance between clusters,
+    so we don't want larger fields to be overrepresented):
+
+    .. code-block:: julia
+
+        using Statistics
+
+        X = Matrix(features)
+
+        μ = mean(X, dims=1)
+        σ = std(X, dims=1)
+
+        X_scaled = ((X .- μ) ./ σ)'
+
+    Now we can go for the actual clustering:
+
+    .. code-block:: julia
+
+        using Clustering
+
+        k = 6
+        result = kmeans(X_scaled, k)
+
+        clusters = result.assignments
+
+    Visualisation (plot pickup location, colour by cluster):
+
+    .. code-block:: julia
+
+
+        using Plots
+
+        scatter(
+            df.pickup_longitude,
+            df.pickup_latitude,
+            marker_z = clusters,
+            ms = 2,
+            alpha = 0.5,
+            legend = false,
+            xlabel = "Longitude",
+            ylabel = "Latitude",
+            title = "Taxi Clusters (Location + Price + Distance)"
+        )
+
+    You should hopefully get something similar:
+
+    .. figure:: img/taxi_clusters.png
+        :align: center
+
+.. exercise:: Exercises
+
+    .. exercise:: Exercise1: Spatial clustering only
+
+        Cluster using only longitude and latitude and compare the results with
+        multi-feature clustering.
+
+        .. solution::
+
+            .. code-block:: julia
+
+                X_geo = Matrix(select(df, [:pickup_longitude, :pickup_latitude]))'
+
+                result_geo = kmeans(X_geo, 6)
+
+    .. exercise:: Exercise 2: Add time features
+
+        Try adding the tip amount to the features and see if people in certain areas tip more!
+
+        .. solution::
+
+            .. code-block:: julia
+
+                features = select(df, [
+                    :pickup_longitude,
+                    :pickup_latitude,
+                    :fare_amount,
+                    :tip_amount
+                ])
+                # ... carry on as before
+
+    .. exercise:: Exercise 3: Geospatial plotting
+
+        Let us now try to get a nicer plot by plotting the clusters on the land
+        surface of the city. To do so, we use the ``GeoMakie.jl
+        <https://geo.makie.org/stable/>`_ package, which is suitable for
+        geospatial data plotting, and `NaturalEarth.jl
+        <https://juliageo.org/NaturalEarth.jl/stable/>`_ which is a proxy to the
+        `Natural Earth <https://www.naturalearthdata.com/>`_ dataset, containing
+        the landmass (and other features) of the whole planet.
+
+        .. solution::
+
+            .. code-block:: julia
+
+
+                using NaturalEarth, GeoJSON, CairoMakie, GeoMakie
+
+                geo = NaturalEarth.naturalearth("land", 10)
+
+                lon_min, lon_max = -74.3, -73.65
+                lat_min, lat_max = 40.45, 40.95
+
+                fig = Figure(resolution=(900,700), backgroundcolor=:lightblue);
+                ax = Axis(fig[1,1]);
+
+                for feature in geo.features
+                    geom = feature.geometry
+
+                    if geom isa GeoJSON.Polygon
+                        for ring in geom.coordinates
+                            xs = getindex.(ring, 1)
+                            ys = getindex.(ring, 2)
+
+                            if maximum(xs) > lon_min && minimum(xs) < lon_max
+                                poly!(ax, xs, ys, color=:lightgray)
+                            end
+                        end
+
+                    elseif geom isa GeoJSON.MultiPolygon
+                        for poly_coords in geom.coordinates
+                            for ring in poly_coords
+                                xs = getindex.(ring, 1)
+                                ys = getindex.(ring, 2)
+
+                                if maximum(xs) > lon_min && minimum(xs) < lon_max
+                                    poly!(ax, xs, ys, color=:lightgray)
+                                end
+                            end
+                        end
+                    end
+                end
+                Makie.scatter!(ax, df.pickup_longitude, df.pickup_latitude, color = clusters)
+                Makie.xlims!(ax, lon_min, lon_max)
+                Makie.ylims!(ax, lat_min, lat_max)
+
+                fig
+
+            .. figure:: img/taxi_geoplotting.png
+
+
+Furthermore, we also have a couple of notebooks that deal with clustering and
+classification problems. The first one deals with another example of
+clustering of housing prices in California and follows a similar structure,
+although it uses a different plotting package. The second one shows different
+ways to perform a classification task on the Iris dataset from a previous
+episode, building on our findings to try to predict the three species using a
+variety of traditional machine learning techniques such as Lasso, Support Vector
+Machines (SVM), Ridge regression and more. They can be run in VS Code or through
+the JupyterLab interface.
 
 Clustering notebook:
 https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb
@@ -616,7 +831,7 @@ Exercises
 
    .. solution::
 
-      .. tabs:: 
+      .. tabs::
 
         .. group-tab:: Flux
 
@@ -655,9 +870,9 @@ Exercises
             true_species = Flux.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
             ConfusionMatrix()(predicted_species, true_species)
 
-        .. group-tab:: Lux 
+        .. group-tab:: Lux
 
-          .. code-block:: julia 
+          .. code-block:: julia
 
             function create_minibatches(xtrain, ytrain; batch_size=32, n_batch=10)
                 minibatches = Tuple[]
@@ -668,7 +883,7 @@ Exercises
                 return minibatches
             end
 
-            
+
             n_features, n_classes, n_neurons = 4, 3, 10
 
             model = Chain(
@@ -689,7 +904,7 @@ Exercises
             tstate = Lux.Training.TrainState(model, ps, st, opt)
 
             minibatches = create_minibatches(xtrain, ytrain)
-            
+
             for epoch in 1:epochs
                 for batch in minibatches
                     _, l, _, tstate = Training.single_train_step!(
