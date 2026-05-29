@@ -653,7 +653,7 @@ Background on neural networks can be found here :download:`download slides </sli
 
        println(topredict)
        println("rmse train: ", rmse_train)
-       println("rmse_test: ", rmse_test)
+       println("rmse test: ", rmse_test)
    end
 
    init=Flux.glorot_uniform()
@@ -805,7 +805,7 @@ Let us also check how well a linear model is doing in this case. It turns out it
 
        println(topredict)
        println("rmse train: ", rmse_train)
-       println("rmse_test: ", rmse_test)
+       println("rmse test: ", rmse_test)
    end
 
    draw_results_lin(X_train, X_test, y_train, y_test, model_lin)
