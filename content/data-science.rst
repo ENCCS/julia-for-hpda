@@ -20,166 +20,6 @@ Data science and machine learning
    - 50 min exercises
 
 
-Working with data
------------------
-
-In the Data Formats and Dataframes lesson, we explored a Julian approach
-to manipulation and visualisation of data.
-
-
-Here we will learn and clustering, classification, machine learning and deep learning with some toy examples.
-
-
-Download a dataset
-^^^^^^^^^^^^^^^^^^
-
-We start by downloading a dataset containing measurements
-of characteristic features of different penguin species.
-
-
-.. figure:: img/lter_penguins.png
-   :align: center
-
-   Artwork by @allison_horst
-
-.. exercise::
-
-   To obtain the data we simply add the PalmerPenguins package.
-
-   .. code-block:: julia
-
-      using Pkg
-      Pkg.add("PalmerPenguins")
-      using PalmerPenguins
-
-
-   As it was done in the Data Formats and Dataframes lesson, we can
-
-   .. code-block:: julia
-
-      dropmissing!(df)
-
-The main features we are interested in for each penguin observation are
-`bill_length_mm`, `bill_depth_mm`, `flipper_length_mm` and `body_mass_g`.
-What the first three features mean is illustrated in the picture below.
-
-.. figure:: img/culmen_depth.png
-   :align: center
-
-   Artwork by @allison_horst
-
-
-Saving the Current Setup
-------------------------
-
-There are several ways to save the current setup in Julia.
-This section will cover three parts: saving the environment to
-have reproducible code and saving data using CSV files or ``JLD``.
-
-1. Saving the Environment
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. exercise::
-   To check the current status of your Julia environment, you can use the status command in the package manager.
-
-   .. code-block:: julia
-
-      using Pkg
-      Pkg.status()
-
-   .. code-block:: text
-
-      Status `~/.julia/environments/v1.9/Project.toml`
-         [336ed68f] CSV v0.10.11
-         [aaaa29a8] Clustering v0.15.4
-         [a93c6f00] DataFrames v1.6.1
-         [682c06a0] JSON v0.21.4
-         [8b842266] PalmerPenguins v0.1.4
-
-   This will display the list of packages in the current environment along with their versions.
-
-   To save the state of your environment, Julia uses two files: ``Project.toml`` and ``Manifest.toml``.
-   The ``Project.toml`` file specifies the packages that you explicitly added to your environment,
-   while the ``Manifest.toml`` file records the exact versions of these packages and all their dependencies1.
-
-   When you add packages using ``Pkg.add()``, Julia automatically updates these files.
-   Therefore, your environment’s state (i.e., the set of loaded packages) is automatically saved.
-   ``Project.toml`` and ``Manifest.toml`` are located in the directory of your current Julia environment; in our case, ``~/.julia/environments/v1.9/``.
-
-   If you want to replicate this environment on another machine or in another folder, you can do the following:
-
-   1. Copy both ``Project.toml`` and ``Manifest.toml`` to the new location.
-   2. In Julia, navigate to that folder and activate the environment using ``Pkg.activate(".")``.
-   3. Use ``Pkg.instantiate()`` to download all the necessary packages.
-
-   More information in section `Environments` at https://enccs.github.io/julia-intro/development/
-
-2. Saving Data as a CSV File
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-As shown in the Data Formats and DataFrames lesson, a DataFrame can easily dumped into a CSV file using
-the ``CSV.jl`` package, which also allows for reading tabular data.
-
-.. exercise::
-
-   You can use the CSV.jl package to save a DataFrame as a CSV file, which can be re-read later.
-
-   .. code-block:: julia
-
-         # using Pkg
-         # Pkg.add("CSV")
-         using CSV
-         CSV.write("penguins.csv", df)
-
-   And you can load it back with:
-
-   .. code-block:: julia
-
-         df = CSV.read("penguins.csv", DataFrame)
-
-3. Saving Data Using JLD/JLD2
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-   Another option is to use `JLD.jl <https://github.com/JuliaIO/JLD.jl>`_
-   The ``JLD.jl`` package provides a way to save and load Julia variables while preserving native types.
-   It is based on HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
-   However, it is written in pure Julia and does not require any of the original C HDF5 implementation.
-
-   The ``JLD`` package can be imported in the usual way:
-
-   .. code-block:: julia
-
-      using Pkg
-      Pkg.add("JLD")
-
-   A DataFrame can be saved to file in the following way:
-
-   .. code-block:: julia
-
-      using JLD
-      save("penguins.jld", "df", df)
-
-   Here we're saving ``df`` as "df" within ``penguins.jld``. You can load this DataFrame back in with:
-
-   .. code-block:: julia
-
-      df = load("penguins.jld", "df")
-
-   This will return the DataFrame ``df`` from the file and assign it back to ``df``.
-   In the past years, the ``JLD2.jl`` package came forward as an alternative to ``JLD``. It
-   is also based on HDF5 and can read h5 files saved by other HDF5 implementations. It exposes an interface
-   similar to ``JLD`` with  ``save()`` and ``load()`` functions, but the more user-friendly function ``jldsave()``
-   is also available:
-
-   .. code-block:: julia
-
-      using JLD2
-      jldsave("penguins.jld2"; df) # This is equivalent to the save command above
-      df = load("penguins.jld2", "df")
-
-   Moreover, a ``jldopen()`` function provides a file-like interface. More information can be found
-   `here <https://github.com/JuliaIO/JLD2.jl>`__.
-
 Machine learning
 ----------------
 
@@ -698,6 +538,15 @@ Whereas for Lux:
             true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
             ConfusionMatrix()(predicted_species, true_species)
 
+        The model can be serialised for later inference using JLD2: 
+
+        .. code-block:: julia 
+
+            @save "model_trained.jld2" model_state=Flux.state(model)
+            @load "model_trained.jld2" model_state 
+            model = model(); # So the definition has to be available 
+            Flux.loadmodel!(model, model_state);
+
       .. group-tab:: Lux
 
           .. code-block:: julia
@@ -764,6 +613,15 @@ Whereas for Lux:
             predicted_species = OneHotArrays.onecold(first(model(xtest, ps, st)), ["Adelie", "Gentoo", "Chinstrap"])
             true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
             ConfusionMatrix()(predicted_species, true_species)
+
+        The model parameters can be saved using JLD2:
+
+        .. code-block:: julia 
+
+            @save "trained_model.jld2" ps st 
+            @load "trained_model.jld2" ps st
+
+            y, st = model(x, ps, st)
 
 
 Exercises
