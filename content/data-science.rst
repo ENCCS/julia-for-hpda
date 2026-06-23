@@ -483,7 +483,7 @@ Whereas for Lux:
 
             # onecold (opposite to onehot) gives back the original representation
             function accuracy(x, y)
-                return sum(Flux.onecold(model(x)) .== Flux.onecold(y)) / size(y, 2)
+                return sum(OneHotArrays.onecold(model(x)) .== OneHotArrays.onecold(y)) / size(y, 2)
             end
 
         ``model`` will be our neural network, so we go ahead and define it:
@@ -724,8 +724,8 @@ Exercises
             accuracy(xtest, ytest)
             # 0.9850746268656716
 
-            predicted_species = Flux.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
-            true_species = Flux.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
+            predicted_species = OneHotArrays.onecold(model(xtest), ["Adelie", "Gentoo", "Chinstrap"])
+            true_species = OneHotArrays.onecold(ytest, ["Adelie", "Gentoo", "Chinstrap"])
             ConfusionMatrix()(predicted_species, true_species)
 
         .. group-tab:: Lux
