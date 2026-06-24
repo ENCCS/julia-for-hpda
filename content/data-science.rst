@@ -512,7 +512,6 @@ Whereas for Lux:
             ytrain[:,1:5]
             # accuracy before training
             accuracy(xtrain, ytrain)
-            accuracy(xtest, ytest)
 
         Finally we are ready to train the model. Let's run 100 epochs:
 
@@ -526,9 +525,6 @@ Whereas for Lux:
             # check final accuracy
             accuracy(xtrain, ytrain)
             accuracy(xtest, ytest)
-
-        The performance of the model is probably somewhat underwhelming, but you will
-        fix that in an exercise below!
 
         We finally create a confusion matrix to quantify the performance of the model:
 
@@ -586,7 +582,6 @@ Whereas for Lux:
           .. code-block:: julia
 
               accuracy(model, ps, st, xtrain, ytrain)
-              accuracy(model, ps, st, xtest, ytest)
 
           Now we can start the training loop!
 
@@ -623,6 +618,16 @@ Whereas for Lux:
 
             y, st = model(x, ps, st)
 
+As you can see, the performance of the model is less than optimal. This is due
+to a combination of two effects:
+- The features have very different ranges (from about 15 to 6000)
+- We are using a sigmoid activation function 
+
+The sigmoid function is capped between 0 and 1 and tends to "squish" the very
+large and very small values. When the features have different ranges, sigmoid
+leads to a loss of information, which prevents the network from learning
+effectively. We will try to fix this, as well as apply other optimisations, in
+the exercises below.
 
 Exercises
 ---------
@@ -630,12 +635,9 @@ Exercises
 .. exercise:: Improve the deep learning model
 
    Improve the performance of the neural network we trained above!
-   The network is not improving much because of the large numerical
-   range of the input features (from around 15 to around 6000) combined
-   with the fact that we use a ``sigmoid`` activation function. A standard
-   method in machine learning is to normalize features by "batch
-   normalization". Replace the network definition with the following and
-   see if the performance improves:
+   A standard method in machine learning is to normalize features by "batch
+   normalization". Replace the network definition with the following and see if
+   the performance improves:
 
    .. tabs::
 
