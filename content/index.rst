@@ -53,7 +53,8 @@ please visit the lesson `Julia for high-performance scientific computing <https:
    dataformats-dataframes
    linear-algebra
    data-science
-   regression
+   linear-regression
+   non-linear-regression
    sciml
 
 .. toctree::

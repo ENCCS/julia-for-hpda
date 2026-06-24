@@ -172,6 +172,25 @@ Here's how you can create a new dataframe:
             df = DataFrame(Parquet2.Dataset("penguins.parquet"))
    
    
+Finally, we would also like to introduce a Julia-native format called `JLD2
+<https://github.com/JuliaIO/JLD2.jl>`_. This format is based on HDF5, which is
+a standard format for scientific data, but does not bring external dependencies
+(like the HDF5 headers). It can be used to serialise native Julia *data*,
+including custom structs. While not as interoperable as Arrow, JSON or CSV, it
+*can*, in principle, be opened by any HDF5 compatible client.
+
+Our penguins dataset can be saved and loaded as follows:
+
+.. code-block:: julia 
+
+   using JLD2 
+   @save "penguins.jld2" df 
+   @load "penguins.jld2" df 
+
+It is possible to save and load several variables with a dictionary-like
+syntax, as well as using a file-like syntax with a do-block. For more
+information, the `documentation <https://juliaio.github.io/JLD2.jl/dev/>`_ is a
+good place to start.
 
 Inspect dataset
 ^^^^^^^^^^^^^^^
