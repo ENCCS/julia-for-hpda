@@ -435,7 +435,7 @@ Whereas for Lux:
 
    .. code-block:: julia
 
-      using MLJ: partition, ConfusionMatrix
+      using MLJ: partition, ConfusionMatrix, mean, std
       using DataFrames
       using PalmerPenguins
       using OneHotArrays
