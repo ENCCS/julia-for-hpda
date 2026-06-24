@@ -1,0 +1,1079 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex/"><link rel="search" title="Search" href="../search/"><link rel="next" title="Linear algebra" href="../linear-algebra/"><link rel="prev" title="Motivation" href="../motivation/">
+        <link rel="prefetch" href="../_static/ENCCS_logo_light.png" as="image">
+        <link rel="prefetch" href="../_static/ENCCS_logo_dark.png" as="image">
+
+    <link rel="shortcut icon" href="../_static/favicon.ico"><!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>Data Formats and Dataframes - Julia for high-performance data analytics</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../_static/furo_ext_lesson.css?v=6c0cde2e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../"><div class="brand">Julia for high-performance data analytics</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/ENCCS_logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/ENCCS_logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Julia for high-performance data analytics</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search/" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Prerequisites</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installing packages</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../motivation/">Motivation</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Data Formats and Dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linear-algebra/">Linear algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-science/">Data science and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/">Regression and time-series prediction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sciml/">Scientific Machine Learning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/dataformats-dataframes.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="data-formats-and-dataframes">
+<span id="dataframes-dataformats"></span><h1>Data Formats and Dataframes<a class="headerlink" href="#data-formats-and-dataframes" title="Link to this heading">¶</a></h1>
+<div class="admonition-questions questions admonition" id="questions-0">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How can I manipulate and wrangle dataframes in Julia?</p></li>
+<li><p>How can I handle missing data in a DataFrame in Julia?</p></li>
+<li><p>How can I merge data in Julia?</p></li>
+<li><p>How can I use the Fourier transform to analyze climate data in Julia?</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor-note</p>
+<ul class="simple">
+<li><p>35 min teaching</p></li>
+<li><p>30 min exercises</p></li>
+</ul>
+</div>
+<section id="working-with-data">
+<h2>Working with data<a class="headerlink" href="#working-with-data" title="Link to this heading">¶</a></h2>
+<p>We will now explore a Julian approach to a use case common to
+many scientific disciplines: manipulating data and visualization.
+Julia is a good language to use for data science problems as
+it will perform well and alleviate the need to translate
+computationally demanding parts to another language.</p>
+<p>Here we will learn how to work with data using
+the DataFrames package, visualize it with the Plots and StatsPlots.</p>
+<section id="dataframe-in-julia">
+<h3>DataFrame in Julia<a class="headerlink" href="#dataframe-in-julia" title="Link to this heading">¶</a></h3>
+<p>In Julia, a DataFrame is a two-dimensional table-like data structure,
+similar to a Excel spreadsheet or a SQL table.
+It is part of the DataFrames.jl package, which provides a powerful
+and flexible way to manipulate and analyze data in Julia.</p>
+<p>A DataFrame consists of columns and rows.</p>
+<figure class="align-center">
+<img alt="../_images/01_table_dataframe.svg" src="../_images/01_table_dataframe.svg" />
+</figure>
+<p>The rows usually represent independent observations, while the columns represent the
+features (variables) for each observation.
+You can perform various operations on a DataFrame, such as filtering,
+sorting, grouping, joining, and aggregating data.</p>
+<p>The <a class="reference external" href="https://dataframes.juliadata.org/stable/">DataFrames.jl</a>
+package offers similar functionality as the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library in Python and
+the <code class="docutils literal notranslate"><span class="pre">data.frame()</span></code> function in R.
+<code class="docutils literal notranslate"><span class="pre">DataFrames.jl</span></code> also provides a rich set of functions for data cleaning,
+transformation, and visualization, making it a popular choice for
+data science and machine learning tasks in Julia. Just like in Python and R,
+the <code class="docutils literal notranslate"><span class="pre">DataFrames.jl</span></code> package provides functionality for data manipulation and analysis.</p>
+</section>
+<section id="download-a-dataset">
+<h3>Download a dataset<a class="headerlink" href="#download-a-dataset" title="Link to this heading">¶</a></h3>
+<p>We start by downloading a dataset containing measurements
+of characteristic features of different penguin species.</p>
+<figure class="align-center" id="id2">
+<img alt="../_images/lter_penguins.png" src="../_images/lter_penguins.png" />
+<figcaption>
+<p><span class="caption-text">Artwork by &#64;allison_horst</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The dataset is bundled within the <code class="docutils literal notranslate"><span class="pre">PalmerPenguins</span></code> package, so we need to add that:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;PalmerPenguins&quot;</span><span class="p">)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">PalmerPenguins</span>
+</pre></div>
+</div>
+<p>We will use DataFrames here to analyze the penguins dataset, but first we need to install it:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;DataFrames&quot;</span><span class="p">)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
+</pre></div>
+</div>
+<p>Here’s how you can create a new dataframe:</p>
+<blockquote>
+<div><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
+<span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Ali&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Clara&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jingfei&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Stefan&quot;</span><span class="p">]</span>
+<span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;25&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;39&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;45&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">names</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="o">=</span><span class="n">age</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-julia-repl notranslate"><div class="highlight"><pre><span></span><span class="go">4×2 DataFrame</span>
+<span class="go">Row │ name        age</span>
+<span class="go">    │ String      String</span>
+<span class="go">────┼────────────────────</span>
+<span class="go">  1 │ Ali         25</span>
+<span class="go">  2 │ Clara       39</span>
+<span class="go">  3 │ Jingfei     14</span>
+<span class="go">  4 │ Stefan      45</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-dataframes exercise important admonition" id="exercise-0">
+<p class="admonition-title">Dataframes</p>
+<p>The following code loads the <code class="docutils literal notranslate"><span class="pre">PalmerPenguins</span></code> dataset into a DataFrame.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
+<span class="c">#Load the PalmerPenguins dataset</span>
+<span class="n">table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PalmerPenguins</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table</span><span class="p">);</span>
+<span class="c"># the raw data can be loaded by</span>
+<span class="c">#tableraw = PalmerPenguins.load(; raw = true)</span>
+
+<span class="n">first</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>344×7 DataFrame
+ Row │ species    island     bill_length_mm  bill_depth_mm  flipper_length_mm  body_mass_g  sex
+     │ String     String     Float64?        Float64?       Int64?             Int64?       String?
+─────┼──────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ Adelie   Torgersen            39.1           18.7                181         3750  male
+   2 │ Adelie   Torgersen            39.5           17.4                186         3800  female
+   3 │ Adelie   Torgersen            40.3           18.0                195         3250  female
+   4 │ Adelie   Torgersen       missing        missing              missing      missing  missing
+   5 │ Adelie   Torgersen            36.7           19.3                193         3450  female
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">table</span></code> variable is of type <code class="docutils literal notranslate"><span class="pre">CSV.File</span></code>; the
+PalmerPenguins package uses the <a class="reference external" href="https://csv.juliadata.org/stable/">CSV.jl</a>
+package for fast loading of data. Note further that <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> can
+accept a <code class="docutils literal notranslate"><span class="pre">CSV.File</span></code> object and read it into a dataframe!</p>
+<p>Data can be saved in several common formats such as CSV, JSON, and
+Parquet using the <code class="docutils literal notranslate"><span class="pre">CSV</span></code>, <code class="docutils literal notranslate"><span class="pre">JSONTables</span></code>, and <code class="docutils literal notranslate"><span class="pre">Parquet2</span></code> packages respectively.</p>
+<p>An overview of common data formats for different use cases can be found
+<a class="reference external" href="https://enccs.github.io/hpda-python/scientific-data/#an-overview-of-common-data-formats">here</a>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">CSV</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">JSON</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Parquet</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">CSV</span>
+<span class="n">CSV</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;penguins.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&quot;penguins.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">JSONTables</span>
+<span class="k">using</span><span class="w"> </span><span class="n">JSON3</span>
+<span class="n">open</span><span class="p">(</span><span class="s">&quot;penguins.json&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">io</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">JSONTables</span><span class="o">.</span><span class="n">objecttable</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+<span class="k">end</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">JSON3</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&quot;penguins.json&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Parquet2</span>
+<span class="n">Parquet2</span><span class="o">.</span><span class="n">writefile</span><span class="p">(</span><span class="s">&quot;penguins.parquet&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Parquet2</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="s">&quot;penguins.parquet&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="inspect-dataset">
+<h3>Inspect dataset<a class="headerlink" href="#inspect-dataset" title="Link to this heading">¶</a></h3>
+<div class="admonition-exercise exercise important admonition" id="exercise-1">
+<p class="admonition-title">Exercise</p>
+<p>We can inspect the data using a few basic operations:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># slicing</span>
+<span class="n">df</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="c"># slicing and column name (can also use &quot;island&quot;)</span>
+<span class="n">df</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">20</span><span class="o">:</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="ss">:island</span><span class="p">]</span>
+
+<span class="c"># dot syntax (editing will change the dataframe)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">species</span>
+
+<span class="c"># get a copy of a column</span>
+<span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="ss">:sex</span><span class="p">,</span><span class="w"> </span><span class="ss">:body_mass_g</span><span class="p">]]</span>
+
+<span class="c"># access column directly without copying (editing will change the dataframe)</span>
+<span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">]</span>
+
+<span class="c"># get size</span>
+<span class="n">size</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">ncol</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c"># find unique species</span>
+<span class="n">unique</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Summary statistics can be displayed with the <code class="docutils literal notranslate"><span class="pre">describe</span></code> function:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">describe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>7×7 DataFrame
+ Row │ variable           mean     min     median  max        nmissing  eltype
+     │ Symbol             Union…   Any     Union…  Any        Int64     Type
+─────┼──────────────────────────────────────────────────────────────────────────────────────────
+   1 │ species                     Adelie          Gentoo            0  String
+   2 │ island                      Biscoe          Torgersen         0  String
+   3 │ bill_length_mm     43.9219  32.1    44.45   59.6              2  Union{Missing, Float64}
+   4 │ bill_depth_mm      17.1512  13.1    17.3    21.5              2  Union{Missing, Float64}
+   5 │ flipper_length_mm  200.915  172     197.0   231               2  Union{Missing, Int64}
+   6 │ body_mass_g        4201.75  2700    4050.0  6300              2  Union{Missing, Int64}
+   7 │ sex                         female          male             11  Union{Missing, String}
+</pre></div>
+</div>
+<p>We can see in the output of <code class="docutils literal notranslate"><span class="pre">describe</span></code> that the element type of
+all the columns is a union of <code class="docutils literal notranslate"><span class="pre">missing</span></code> and a numeric type. This
+implies that our dataset contains missing values.
+More about <cite>Tidy Data</cite> concept can be found in the <cite>Python for Scientific Computing</cite> training by <a class="reference external" href="https://scicomp.aalto.fi/">Aalto Scientific Computing</a>: <a class="reference external" href="https://aaltoscicomp.github.io/python-for-scicomp/pandas/#tidy-data">https://aaltoscicomp.github.io/python-for-scicomp/pandas/#tidy-data</a></p>
+<p>We can remove these missing values by the <code class="docutils literal notranslate"><span class="pre">dropmissing</span></code> or <code class="docutils literal notranslate"><span class="pre">dropmissing!</span></code> functions
+(what is the difference between them?):</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dropmissing!</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, we can use:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Missing data</span>
+<span class="c"># Replacing missing values with a specific value</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coalesce</span><span class="o">.</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The code shows how to handle missing data in the <cite>bill_length_mm</cite> column by replacing missing
+values with a specific value using the <cite>coalesce</cite> function or by interpolating missing values
+using the <cite>Interpolations</cite> package.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Interpolating missing values</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Interpolations</span>
+<span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ismissing</span><span class="o">.</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">bill_length_mm</span><span class="p">)</span>
+<span class="n">itp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">][</span><span class="o">.!</span><span class="n">mask</span><span class="p">],</span><span class="w"> </span><span class="n">BSpline</span><span class="p">(</span><span class="n">Linear</span><span class="p">()))</span>
+<span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">][</span><span class="n">mask</span><span class="p">]</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">itp</span><span class="o">.</span><span class="p">(</span><span class="n">findall</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><cite>mask = ismissing.(df.bill_length_mm)</cite>: This line is creating a logical mask that is <cite>true</cite> wherever there are missing values (<cite>NaN</cite>) in the <cite>bill_length_mm</cite> column and <cite>false</cite> elsewhere.</p>
+<p><cite>itp = interpolate(df[!, :bill_length_mm][.!mask], BSpline(Linear()))</cite>: This line is creating an interpolation object <cite>itp</cite>. It’s using only the non-missing values of the <cite>bill_length_mm</cite> column (specified by <cite>df[!, :bill_length_mm][.!mask]</cite>) and a linear B-spline interpolation method (<cite>BSpline(Linear())</cite>).</p>
+<p><cite>df[!, :bill_length_mm][mask] .= itp.(findall(mask))</cite>: This line is replacing the missing values in the <cite>bill_length_mm</cite> column with the interpolated values. It’s finding the indices of the missing values with <cite>findall(mask)</cite> and then using the interpolation object <cite>itp</cite> to estimate values at these indices.</p>
+</div>
+<p>So, in summary, this code is filling in missing values in the <cite>bill_length_mm</cite> column by estimating their value based on a linear interpolation of the non-missing values. This can be a useful way to handle missing data when you don’t want to or can’t simply ignore those missing values. 😊</p>
+</section>
+<section id="optional-long-vs-wide-data-format">
+<h3>(Optional) Long vs Wide Data Format<a class="headerlink" href="#optional-long-vs-wide-data-format" title="Link to this heading">¶</a></h3>
+<p>The data is in a so-called <a class="reference external" href="https://en.wikipedia.org/wiki/Wide_and_narrow_data">wide format</a>.</p>
+<p>In data analysis, we often encounter two types of data formats: <strong>long format</strong> and <strong>wide format</strong>.
+<a class="reference external" href="https://www.statology.org/long-vs-wide-data/">https://www.statology.org/long-vs-wide-data/</a></p>
+<ul class="simple">
+<li><p><strong>Long format</strong>: In this format, each row is a single observation, and each column is a variable. This format is also known as “tidy” data.</p></li>
+<li><p><strong>Wide format</strong>: In this format, each row is a subject, and each column is an observation. This format is also known as “spread” data.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataFrames.jl</span></code> package provides functions to reshape data between long and wide formats. These functions are <code class="docutils literal notranslate"><span class="pre">stack</span></code>, <code class="docutils literal notranslate"><span class="pre">unstack</span></code>, <code class="docutils literal notranslate"><span class="pre">melt</span></code>, and <code class="docutils literal notranslate"><span class="pre">pivot</span></code>.
+Further examples can be found in the <a class="reference external" href="https://dataframes.juliadata.org/stable/man/reshaping_and_pivoting/">official documentation</a>.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># To convert from wide to long format</span>
+
+<span class="c">#First we create an ID column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_long</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">Not</span><span class="p">(</span><span class="ss">:species</span><span class="p">,</span><span class="w"> </span><span class="ss">:id</span><span class="p">))</span>
+
+<span class="c"># To convert from long to wide format</span>
+<span class="n">df_wide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unstack</span><span class="p">(</span><span class="n">df_long</span><span class="p">,</span><span class="w"> </span><span class="ss">:variable</span><span class="p">,</span><span class="w"> </span><span class="ss">:value</span><span class="p">)</span>
+
+<span class="c"># or</span>
+<span class="c"># Custom combine function</span>
+<span class="k">function</span><span class="w"> </span><span class="n">custom_combine</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="n">eltype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="kt">Number</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="w">   </span><span class="k">else</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">first</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="w">   </span><span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c"># Unstack DataFrame with custom combine function</span>
+<span class="n">unstack</span><span class="p">(</span><span class="n">df_long</span><span class="p">,</span><span class="w"> </span><span class="ss">:species</span><span class="p">,</span><span class="w"> </span><span class="ss">:variable</span><span class="p">,</span><span class="w"> </span><span class="ss">:value</span><span class="p">,</span><span class="w"> </span><span class="n">combine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">custom_combine</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="split-apply-combine-workflows">
+<h3>Split-apply-combine workflows<a class="headerlink" href="#split-apply-combine-workflows" title="Link to this heading">¶</a></h3>
+<p>Oftentimes, data analysis workflows include three steps:</p>
+<ul class="simple">
+<li><p>Splitting/stratifying a dataset into different groups;</p></li>
+<li><p>Applying some function/modification to each group;</p></li>
+<li><p>Combining the results.</p></li>
+</ul>
+<p>This is commonly referred to as “split-apply-combine” workflow, which can be
+achieved in Julia with the <code class="docutils literal notranslate"><span class="pre">groupby</span></code> function to stratify and
+the <code class="docutils literal notranslate"><span class="pre">combine</span></code> function to aggregate with some reduction operator.
+An example of this is provided below:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Statistics</span>
+
+<span class="c"># Split-apply-combine</span>
+<span class="n">df_grouped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="ss">:species</span><span class="p">,</span><span class="w"> </span><span class="ss">:island</span><span class="p">])</span>
+<span class="n">df_combined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combine</span><span class="p">(</span><span class="n">df_grouped</span><span class="p">,</span><span class="w"> </span><span class="ss">:body_mass_g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">groupby(df,</span> <span class="pre">[:species,</span> <span class="pre">:island])</span></code> groups the DataFrame by the <code class="docutils literal notranslate"><span class="pre">species</span></code> and <code class="docutils literal notranslate"><span class="pre">island</span></code> columns.
+Then, <code class="docutils literal notranslate"><span class="pre">combine(df_grouped,</span> <span class="pre">:body_mass_g</span> <span class="pre">=&gt;</span> <span class="pre">mean)</span></code> calculates the mean of the <code class="docutils literal notranslate"><span class="pre">:body_mass_g</span></code> column for each group.
+The <code class="docutils literal notranslate"><span class="pre">mean</span></code> function is used for aggregation.</p>
+<p>The result is a new DataFrame where each unique <code class="docutils literal notranslate"><span class="pre">:species</span></code>-<code class="docutils literal notranslate"><span class="pre">:island</span></code> combination forms a row,
+and the mean body mass for each species-island combination fills the DataFrame.</p>
+</section>
+<section id="optional-creating-and-merging-dataframes">
+<h3>(Optional) Creating and merging DataFrames<a class="headerlink" href="#optional-creating-and-merging-dataframes" title="Link to this heading">¶</a></h3>
+<section id="creating-dataframes">
+<h4>Creating DataFrames<a class="headerlink" href="#creating-dataframes" title="Link to this heading">¶</a></h4>
+<p>In Julia, you can create a DataFrame from scratch using the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> constructor from the <code class="docutils literal notranslate"><span class="pre">DataFrames</span></code> package.
+This constructor allows you to create a DataFrame by passing column vectors as keyword arguments or pairs.
+For example, to create a DataFrame with two columns named <code class="docutils literal notranslate"><span class="pre">:A</span></code> and <code class="docutils literal notranslate"><span class="pre">:B</span></code>, the following works:</p>
+<p><code class="docutils literal notranslate"><span class="pre">DataFrame(A</span> <span class="pre">=</span> <span class="pre">1:3,</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">[&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;])</span></code></p>
+<p>A DataFrame can also be created from other data structures such as dictionaries, named tuples, vectors of vectors, matrices, and more.
+You can find more information about creating DataFrames in Julia in the <a class="reference external" href="https://dataframes.juliadata.org/stable/man/getting_started/">official documentation</a></p>
+</section>
+<section id="merging-dataframes">
+<h4>Merging DataFrames<a class="headerlink" href="#merging-dataframes" title="Link to this heading">¶</a></h4>
+<p>Also, you can merge two or more DataFrames using the <code class="docutils literal notranslate"><span class="pre">join</span></code> function from the <code class="docutils literal notranslate"><span class="pre">DataFrames</span></code> package.
+This function allows you to perform various types of joins, such as inner join, left join, right join, outer join, semi join, and anti join.
+You can specify the columns used to determine which rows should be combined during a join by passing them as the <code class="docutils literal notranslate"><span class="pre">on</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">join</span></code> function.
+For example, to perform an inner join on two DataFrames <code class="docutils literal notranslate"><span class="pre">df1</span></code> and <code class="docutils literal notranslate"><span class="pre">df2</span></code> using the <code class="docutils literal notranslate"><span class="pre">:ID</span></code> column as the key, you can use the following code:
+<code class="docutils literal notranslate"><span class="pre">join(df1,</span> <span class="pre">df2,</span> <span class="pre">on</span> <span class="pre">=</span> <span class="pre">:ID,</span> <span class="pre">kind</span> <span class="pre">=</span> <span class="pre">:inner)</span></code>.
+You can find more information about joining DataFrames in Julia in the <a class="reference external" href="https://dataframes.juliadata.org/stable/man/joins/">official documentation</a>.</p>
+</section>
+</section>
+<section id="plotting">
+<h3>Plotting<a class="headerlink" href="#plotting" title="Link to this heading">¶</a></h3>
+<p>Let us now look at different ways to visualize this data.
+Many different plotting libraries exist for Julia and which
+one to use will depend on the specific use case as well as
+personal preference.</p>
+<aside class="topic">
+<p class="topic-title">Some plotting packages in Julia</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://docs.juliaplots.org/latest/">Plots.jl</a>: high-level
+API for working with several different plotting back-ends, including <cite>GR</cite>,
+<cite>Matplotlib.Pyplot</cite>, <cite>Plotly</cite> and <cite>PlotlyJS</cite>.</p></li>
+<li><p><a class="reference external" href="https://docs.juliaplots.org/dev/generated/statsplots/">StatsPlots.jl</a>: focuses on statistical
+use-cases and supports specialized statistical plotting functionalities.</p></li>
+<li><p><a class="reference external" href="http://gadflyjl.org/stable/">GadFly.jl</a>: based largely on
+<a class="reference external" href="https://ggplot2.tidyverse.org/">ggplot2 for R</a> and the book
+<a class="reference external" href="https://www.cs.uic.edu/~wilkinson/TheGrammarOfGraphics/GOG.html">The Grammar of Graphics</a>.
+Well suited for statistics and machine learning.</p></li>
+<li><p><a class="reference external" href="https://www.queryverse.org/VegaLite.jl/stable/">VegaLite.jl</a>: based on
+<a class="reference external" href="https://vega.github.io/vega-lite/">Vega-Lite</a>, a grammar of interactive graphics.
+Great for interactive graphics.</p></li>
+<li><p><a class="reference external" href="https://makie.juliaplots.org/stable/">Makie.jl</a> data visualization ecosystem with backends
+<cite>GLMakie.jl</cite> (OpenCL), <cite>CairoMakie.jl</cite> (Cairo) and <cite>WGLMakie.jl</cite> (WebGL).
+Good for publication-quality plotting but can be a bit slow to load and use.</p></li>
+</ul>
+</aside>
+<p>We will be using <cite>Plots.jl</cite> and <cite>StatsPlots.jl</cite> but we encourage to explore these
+other packages to find the one that best fits your use case.</p>
+<p>First we install <code class="docutils literal notranslate"><span class="pre">Plots.jl</span></code> and <code class="docutils literal notranslate"><span class="pre">StatsPlots</span></code> backend:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Plots&quot;</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;StatsPlots&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here’s how a simple line plot works:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+<span class="n">gr</span><span class="p">()</span><span class="w">  </span><span class="c"># set the backend to GR</span>
+
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Two Lines&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Line 1&quot;</span><span class="w"> </span><span class="s">&quot;Line 2&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">lw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In VSCode, the plot should appear in a new plot pane.
+We can add labels:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xlabel!</span><span class="p">(</span><span class="s">&quot;x label&quot;</span><span class="p">)</span>
+<span class="n">ylabel!</span><span class="p">(</span><span class="s">&quot;y label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To add a line to an existing plot, we mutate it with <code class="docutils literal notranslate"><span class="pre">plot!</span></code>:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally we can save to the plot to a file:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;myplot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id3">
+<img alt="../_images/myplot.png" src="../_images/myplot.png" />
+<figcaption>
+<p><span class="caption-text">myplot.png</span><a class="headerlink" href="#id3" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Multiple subplots can be created by:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="c"># Make a line plot</span>
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="c"># Make a scatter plot</span>
+<span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;This one is labelled&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Subtitle&quot;</span><span class="p">);</span>
+<span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">histogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="c"># Four histograms each with 10 points? Why not!</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-visualizing-the-penguin-dataset exercise important admonition" id="exercise-2">
+<p class="admonition-title">Visualizing the Penguin dataset</p>
+<p>First load <code class="docutils literal notranslate"><span class="pre">Plots</span></code> and set the backend to GR (precompilation of Plots
+might take some time):</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+<span class="n">gr</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For the Penguin dataset it is more appropriate to use scatter plots, for example:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">],</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_depth_mm</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We can adjust the markers by <a class="reference external" href="https://juliagraphics.github.io/Colors.jl/stable/namedcolors/">this list of named colors</a>
+and <a class="reference external" href="https://docs.juliaplots.org/dev/gallery/gr/generated/gr-ref013/#gr_ref013">this list of marker types</a>:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">],</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_depth_mm</span><span class="p">],</span><span class="w"> </span><span class="n">marker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:hexagon</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:magenta</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can also change the plot theme according to <a class="reference external" href="https://docs.juliaplots.org/latest/generated/plotthemes/">this list of themes</a>,
+for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">theme</span><span class="p">(:</span><span class="n">dark</span><span class="p">)</span>
+<span class="c1"># then re-execute the scatter function</span>
+</pre></div>
+</div>
+<p>We can add a dimension to the plot by grouping by another column. Let’s see if
+the different penguin species can be distiguished based on their bill length
+and bill depth. We also set different marker shapes and colors based on the
+grouping, and adjust the markersize and transparency (<code class="docutils literal notranslate"><span class="pre">alpha</span></code>). Note that
+it is also possible to prescribe a palette rather than every colour individually, with
+many common palettes available <a class="reference external" href="https://docs.juliaplots.org/dev/generated/colorschemes/#Pre-defined-ColorSchemes">here</a>:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">],</span>
+<span class="w">        </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_depth_mm</span><span class="p">],</span>
+<span class="w">        </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bill length (mm)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bill depth (mm)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="ss">:species</span><span class="p">],</span>
+<span class="w">        </span><span class="n">marker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:circle</span><span class="w"> </span><span class="ss">:ltriangle</span><span class="w"> </span><span class="ss">:star5</span><span class="p">],</span>
+<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:magenta</span><span class="w"> </span><span class="ss">:springgreen</span><span class="w"> </span><span class="ss">:blue</span><span class="p">],</span>
+<span class="w">        </span><span class="n">markersize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">        </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.8</span>
+<span class="w">        </span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/penguin_scatter.png"><img alt="../_images/penguin_scatter.png" src="../_images/penguin_scatter.png" style="width: 300.0px; height: 200.0px;" />
+</a>
+</figure>
+<p>The <code class="docutils literal notranslate"><span class="pre">scatter</span></code> function comes from the base <cite>Plots</cite> package. <cite>StatsPlots</cite> provides
+many other types of plot types, for example <code class="docutils literal notranslate"><span class="pre">density</span></code>. To use dataframes with <cite>StatsPlots</cite>
+we need to use the <code class="docutils literal notranslate"><span class="pre">&#64;df</span></code> macro which allows passing columns as symbols (this can also be used
+for <code class="docutils literal notranslate"><span class="pre">scatter</span></code> and other plot functions):</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">StatsPlots</span>
+
+<span class="nd">@df</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="n">density</span><span class="p">(</span><span class="ss">:flipper_length_mm</span><span class="p">,</span>
+<span class="w">               </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;flipper length (mm)&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:species</span><span class="p">,</span>
+<span class="w">               </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:magenta</span><span class="w"> </span><span class="ss">:springgreen</span><span class="w"> </span><span class="ss">:blue</span><span class="p">],</span>
+<span class="w">               </span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/penguin_density.png"><img alt="../_images/penguin_density.png" src="../_images/penguin_density.png" style="width: 300.0px; height: 200.0px;" />
+</a>
+</figure>
+</div>
+</section>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">¶</a></h2>
+<div class="admonition-create-a-custom-plotting-function exercise important admonition" id="exercise-3">
+<p class="admonition-title">Create a custom plotting function</p>
+<p>Convert the final <code class="docutils literal notranslate"><span class="pre">scatter</span></code> plot in the type-along section “Visualizing the Penguin dataset”
+and convert it into a <code class="docutils literal notranslate"><span class="pre">create_scatterplot</span></code> function:</p>
+<ul class="simple">
+<li><p>The function should take as arguments a dataframe and two column symbols.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">minimum()</span></code> and <code class="docutils literal notranslate"><span class="pre">maximum()</span></code> functions to automatically set the x-range of the plot
+using the <code class="docutils literal notranslate"><span class="pre">xlim</span> <span class="pre">=</span> <span class="pre">(xmin,</span> <span class="pre">xmax)</span></code> argument to <code class="docutils literal notranslate"><span class="pre">scatter()</span></code>.</p></li>
+<li><p>If you have time, try grouping the data by <code class="docutils literal notranslate"><span class="pre">:island</span></code> or <code class="docutils literal notranslate"><span class="pre">:sex</span></code> instead of <code class="docutils literal notranslate"><span class="pre">:species</span></code>
+(keep in mind that you may need to adjust the number of marker symbols and colors).</p></li>
+<li><p>If you have more time, play around with the plot appearance using <code class="docutils literal notranslate"><span class="pre">theme()</span></code> and the marker symbols and colors.</p></li>
+</ul>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">create_scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">col1</span><span class="p">,</span><span class="w"> </span><span class="n">col2</span><span class="p">,</span><span class="w"> </span><span class="n">groupby</span><span class="p">)</span>
+<span class="w">    </span><span class="n">xmin</span><span class="p">,</span><span class="w"> </span><span class="n">xmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">minimum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">col1</span><span class="p">]),</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">col1</span><span class="p">])</span>
+<span class="w">    </span><span class="c"># markers and colors to use for the groups</span>
+<span class="w">    </span><span class="n">markers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:circle</span><span class="w"> </span><span class="ss">:ltriangle</span><span class="w"> </span><span class="ss">:star5</span><span class="w"> </span><span class="ss">:rect</span><span class="w"> </span><span class="ss">:diamond</span><span class="w"> </span><span class="ss">:hexagon</span><span class="p">]</span>
+<span class="w">    </span><span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:magenta</span><span class="w"> </span><span class="ss">:springgreen</span><span class="w"> </span><span class="ss">:blue</span><span class="w"> </span><span class="ss">:coral2</span><span class="w"> </span><span class="ss">:gold3</span><span class="w"> </span><span class="ss">:purple</span><span class="p">]</span>
+<span class="w">    </span><span class="c"># number of unique groups can&#39;t be larger than the number of colors/markers</span>
+<span class="w">    </span><span class="n">ngroups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">groupby</span><span class="p">]))</span>
+<span class="w">    </span><span class="nd">@assert</span><span class="w"> </span><span class="n">ngroups</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">col1</span><span class="p">],</span>
+<span class="w">            </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">col2</span><span class="p">],</span>
+<span class="w">            </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col1</span><span class="p">,</span>
+<span class="w">            </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col2</span><span class="p">,</span>
+<span class="w">            </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span><span class="w"> </span><span class="n">xmax</span><span class="p">),</span>
+<span class="w">            </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">groupby</span><span class="p">],</span>
+<span class="w">            </span><span class="n">marker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">markers</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">ngroups</span><span class="p">],</span>
+<span class="w">            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colors</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">ngroups</span><span class="p">],</span>
+<span class="w">            </span><span class="n">markersize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">            </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.8</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">create_scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="ss">:bill_length_mm</span><span class="p">,</span><span class="w"> </span><span class="ss">:body_mass_g</span><span class="p">,</span><span class="w"> </span><span class="ss">:sex</span><span class="p">)</span>
+<span class="n">create_scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="ss">:flipper_length_mm</span><span class="p">,</span><span class="w"> </span><span class="ss">:body_mass_g</span><span class="p">,</span><span class="w"> </span><span class="ss">:island</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-working-with-dataframes-in-julia exercise important admonition" id="exercise-4">
+<span id="ddcexercise"></span><p class="admonition-title">Working with DataFrames in Julia</p>
+<p>In this exercise, you will practice reading data from CSV files into DataFrames,
+manipulating data in DataFrames, and visualizing data using a plotting package.</p>
+<ol class="arabic">
+<li><p>Install the <cite>CSV</cite> and <cite>DataFrames</cite> packages by running the following commands in the Julia REPL:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;CSV&quot;</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;DataFrames&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>2. Set the relative path to the <cite>DailyDelhiClimateTest.csv</cite> and <cite>DailyDelhiClimateTrain.csv</cite>
+files in the <cite>path_test</cite> and <cite>path_train</cite> variables. Assume that the path to your files is
+<cite>juliaforhpda/data</cite> and you are currently in the <cite>juliaforhpda/</cite> directory in the Julia REPL.
+The data is available here: <a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/content/data/DailyDelhiClimateTest.csv">https://github.com/ENCCS/julia-for-hpda/blob/main/content/data/DailyDelhiClimateTest.csv</a>
+and <a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/content/data/DailyDelhiClimateTrain.csv">https://github.com/ENCCS/julia-for-hpda/blob/main/content/data/DailyDelhiClimateTrain.csv</a></p>
+<p>This climate data set contains daily mean temperature, humidity, wind speed and mean pressure at a location in Dehli India over a period of several years.
+The data set was downloaded from <a class="reference external" href="https://www.kaggle.com/datasets/sumanthvrao/daily-climate-time-series-data/">here</a>.</p>
+<ol class="arabic" start="3">
+<li><p>Read the data from the CSV files into DataFrames named <cite>df_test</cite> and <cite>df_train</cite> using the <cite>CSV.read</cite> function.</p></li>
+<li><p>Use the functions provided by the <cite>DataFrames</cite> package to manipulate the data in the DataFrames. For example, you can select columns, filter rows, group data, compute summary statistics, and compute aggregate functions.</p></li>
+<li><p>Install a plotting package such as <cite>Plots</cite> or <cite>Gadfly</cite> by running the following command in the Julia REPL:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Plots&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use the plotting package to create a line plot of the mean of the <cite>meantemp</cite> column for each group in a grouped DataFrame. Customize the appearance of the plot by changing its properties such as color, line style, marker style, etc.</p></li>
+</ol>
+<div class="admonition-solution solution important dropdown admonition" id="solution-1">
+<p class="admonition-title">Solution</p>
+<p>Here is one possible solution to this exercise:</p>
+<p>Once you have read the data from the CSV files into DataFrames, you can
+manipulate the data using the functions provided by the <cite>DataFrames</cite> package.
+Here are some examples that show how to manipulate data in a DataFrame:</p>
+<blockquote>
+<div><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">CSV</span>
+
+<span class="c"># Set relative path to CSV files</span>
+<span class="n">path_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;data/DailyDelhiClimateTest.csv&quot;</span>
+<span class="n">path_train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;data/DailyDelhiClimateTrain.csv&quot;</span>
+
+<span class="c"># Read data from CSV files into DataFrames</span>
+<span class="n">df_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path_test</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+<span class="n">df_train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path_train</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
+
+<span class="c"># Select columns</span>
+<span class="n">df_test_selected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">df_test</span><span class="p">,</span><span class="w"> </span><span class="ss">:meantemp</span><span class="p">,</span><span class="w"> </span><span class="ss">:humidity</span><span class="p">)</span>
+
+<span class="c"># Filter rows</span>
+<span class="n">df_test_filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="ss">:meantemp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">df_test</span><span class="p">)</span>
+
+<span class="c"># Group data</span>
+<span class="n">df_test_grouped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">groupby</span><span class="p">(</span><span class="n">df_test</span><span class="p">,</span><span class="w"> </span><span class="ss">:date</span><span class="p">)</span>
+
+<span class="c"># Compute summary statistics</span>
+<span class="n">describe</span><span class="p">(</span><span class="n">df_test</span><span class="p">)</span>
+
+<span class="c"># Compute aggregate functions</span>
+<span class="n">combine</span><span class="p">(</span><span class="n">df_test_grouped</span><span class="p">,</span><span class="w"> </span><span class="ss">:meantemp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This code shows how to select columns, filter rows, group data, compute summary statistics,
+and compute aggregate functions on a DataFrame named <cite>df_test</cite>.
+You can use these and other functions provided by the <cite>DataFrames</cite> package to manipulate the data in the DataFrame.</p>
+<div class="highlight-julia-repl notranslate"><div class="highlight"><pre><span></span><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">combine</span><span class="p">(</span><span class="n">df_test_grouped</span><span class="p">,</span><span class="w"> </span><span class="ss">:meantemp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span>
+<span class="gr">ERROR: UndefVarError: `mean` not defined</span>
+<span class="gr">Stacktrace:</span>
+<span class="gr">[1] top-level scope</span>
+<span class="gr">   @ REPL[39]:1</span>
+</pre></div>
+</div>
+<p>The <cite>mean</cite> function is part of the <cite>Statistics</cite> standard library module in Julia.
+To use the <cite>mean</cite> function, you need to load the <cite>Statistics</cite> module by running <cite>using Statistics</cite>.
+Here is an example that shows how to compute the mean of the <cite>meantemp</cite> column for each group in a grouped DataFrame:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Statistics</span>
+
+<span class="c"># Compute mean of meantemp column for each group</span>
+<span class="n">combine</span><span class="p">(</span><span class="n">df_test_grouped</span><span class="p">,</span><span class="w"> </span><span class="ss">:meantemp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This code loads the <cite>Statistics</cite> module and uses the <cite>mean</cite> function to compute the mean of the <cite>meantemp</cite>
+column for each group in a grouped DataFrame named <cite>df_test_grouped</cite>.</p>
+<p>What can we do with this mean, maybe vizualize?</p>
+<p>Yes, you can visualize the mean of the <cite>meantemp</cite> column for each group in a grouped DataFrame
+using a plotting package such as <cite>Plots</cite> or <cite>Gadfly</cite>.</p>
+<p>Here is an example that shows how to create a bar plot of the mean <cite>meantemp</cite> values for each group using the <cite>Plots</cite> package:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+
+<span class="c"># Compute mean of meantemp column for each group</span>
+<span class="n">df_test_mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combine</span><span class="p">(</span><span class="n">df_test_grouped</span><span class="p">,</span><span class="w"> </span><span class="ss">:meantemp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span>
+
+<span class="c"># Create bar plot of mean meantemp values for each group</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bar</span><span class="p">(</span><span class="n">df_test_mean</span><span class="o">.</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">df_test_mean</span><span class="o">.</span><span class="n">meantemp_mean</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;Date&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Mean Temperature&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Mean Temperature&quot;</span><span class="p">)</span>
+
+<span class="c"># Display plot</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This code computes the mean of the <cite>meantemp</cite> column for each group in a grouped DataFrame named <cite>df_test_grouped</cite>
+and stores the result in a new DataFrame named <cite>df_test_mean</cite>.
+It then uses the <cite>bar</cite> function from the <cite>Plots</cite> package to create a bar plot of the mean <cite>meantemp</cite> values for each group.
+The x-axis shows the date and the y-axis shows the mean temperature.</p>
+<figure class="align-center" id="id4">
+<img alt="../_images/plot.png" src="../_images/plot.png" />
+<figcaption>
+<p><span class="caption-text">plot.png</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Create line plot of meantemp means</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">df_test_mean</span><span class="o">.</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">df_test_mean</span><span class="o">.</span><span class="n">meantemp_mean</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Mean Meantemp&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;Date&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Meantemp (°C)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="o">=</span><span class="s">&quot;Mean Meantemp by Date&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>I hope this exercise helps you practice working with DataFrames in Julia!</p>
+</div>
+</div>
+<div class="admonition-working-with-the-fourier-transform-in-julia exercise important admonition" id="exercise-5">
+<p class="admonition-title">Working with the Fourier Transform in Julia</p>
+<p>In this exercise, you will practice computing the Fourier transform of climate data using the <cite>FFTW</cite> package in Julia.</p>
+<ol class="arabic">
+<li><p>Install the <cite>FFTW</cite> package by running the following command in the Julia REPL:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;FFTW&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>2. Read the data from the <cite>DailyDelhiClimateTest.csv</cite> and <cite>DailyDelhiClimateTrain.csv</cite> files into
+DataFrames named <cite>df_test</cite> and <cite>df_train</cite> using the <cite>CSV.read</cite> function.</p>
+<ol class="arabic simple" start="3">
+<li><p>Compute the Fourier transform of the <cite>meantemp</cite> column in the <cite>df_test</cite> DataFrame using the <cite>fft</cite> function from the <cite>FFTW</cite> package.</p></li>
+<li><p>Compute the frequencies corresponding to each element of the Fourier transform using the <cite>fftfreq</cite> function.</p></li>
+<li><p>Plot the magnitude of the Fourier transform against the frequencies to visualize the frequency spectrum of the signal.</p></li>
+</ol>
+<div class="admonition-solution solution important dropdown admonition" id="solution-2">
+<p class="admonition-title">Solution</p>
+<p>Here is one possible solution to this exercise:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using DataFrames</span>
+<span class="k">using</span><span class="w"> </span><span class="n">FFTW</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+
+<span class="c"># Set relative path to CSV files</span>
+<span class="n">path_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;data/DailyDelhiClimateTest.csv&quot;</span>
+<span class="n">path_train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;data/DailyDelhiClimateTrain.csv&quot;</span>
+
+<span class="c"># Read data from CSV files into DataFrames</span>
+<span class="n">df_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path_test</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+<span class="n">df_train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path_train</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+
+<span class="c"># Compute Fourier transform of meantemp column</span>
+<span class="n">meantemp_fft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fft</span><span class="p">(</span><span class="n">df_test</span><span class="o">.</span><span class="n">meantemp</span><span class="p">)</span>
+
+<span class="c"># Compute frequencies</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">meantemp_fft</span><span class="p">)</span>
+<span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fftfreq</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>114-element Frequencies{Float64}:
+0.0
+0.008771929824561403
+0.017543859649122806
+0.02631578947368421
+0.03508771929824561
+0.043859649122807015
+0.05263157894736842
+⋮
+-0.05263157894736842
+-0.043859649122807015
+-0.03508771929824561
+-0.02631578947368421
+-0.017543859649122806
+-0.008771929824561403
+</pre></div>
+</div>
+<p>This code uses the <cite>fft</cite> function from the <cite>FFTW</cite> package to compute the discrete Fourier transform of the <cite>meantemp</cite> column in a DataFrame
+named <cite>df_test</cite>. It also uses the <cite>fftfreq</cite> function to compute the frequencies corresponding to each element of the Fourier transform.</p>
+<p>Once you have computed the Fourier transform of the data, you can use it to analyze the frequency content of the signal.
+For example, you can plot the magnitude of the Fourier transform to visualize the dominant frequencies in the signal.</p>
+<p>The Fourier transform is a mathematical tool that decomposes a signal into its constituent frequencies.
+It converts a function from the time domain into the frequency domain, where the output is a complex-valued function of frequency. The magnitude of the Fourier transform represents the contribution of each frequency component to the original signal. In other words, it shows how much of each frequency is present in the original signal. The magnitude is usually plotted against the frequencies to visualize the frequency spectrum of the signal.</p>
+<p>Fourier transform can be used to analyze climate data in many ways.
+For example, it can help identify patterns and periodicities in the data, such as seasonal cycles or other recurring phenomena.
+By decomposing the signal into its frequency components, the Fourier transform can highlight the dominant frequencies present in
+the data and help understand the underlying processes that drive climate variability.
+For example, a study used wavelet local multiple correlation (WLMC) to analyze relationships among several large-scale reconstructed
+climate variables characterizing North Atlantic: i.e. sea surface temperatures (SST) from the tropical cyclone main developmental
+region (MDR), the El Niño-Southern Oscillation (ENSO), the North Atlantic Multidecadal Oscillation (AMO), and tropical cyclone counts (TC).</p>
+<p>References:
+(1) Fourier transform - Wikipedia. <a class="reference external" href="https://en.wikipedia.org/wiki/Fourier_transform">https://en.wikipedia.org/wiki/Fourier_transform</a>
+(2) Fourier Transform – from Wolfram MathWorld. <a class="reference external" href="https://mathworld.wolfram.com/FourierTransform.html">https://mathworld.wolfram.com/FourierTransform.html</a>
+(3) Lecture 8: Fourier transforms - Scholars at Harvard. <a class="reference external" href="https://scholar.harvard.edu/files/schwartz/files/lecture8-fouriertransforms.pdf">https://scholar.harvard.edu/files/schwartz/files/lecture8-fouriertransforms.pdf</a>
+(4) NCL: Simple Fourier Analysis of Climate Data - NCAR Command Language (NCL). <a class="reference external" href="https://www.ncl.ucar.edu/Applications/fouranal.shtml">https://www.ncl.ucar.edu/Applications/fouranal.shtml</a>
+(5) Dynamic wavelet correlation analysis for multivariate climate time …. <a class="reference external" href="https://www.nature.com/articles/s41598-020-77767-8">https://www.nature.com/articles/s41598-020-77767-8</a>
+(6) NASA Global Daily Downscaled Projections, CMIP6 | Scientific Data - Nature. <a class="reference external" href="https://www.nature.com/articles/s41597-022-01393-4">https://www.nature.com/articles/s41597-022-01393-4</a></p>
+<p>Here is an example that shows how to create a bar plot of the mean <cite>meantemp</cite> values for each group using the <cite>Plots</cite> package:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+<span class="c"># Compute magnitude of Fourier transform</span>
+<span class="n">meantemp_fft_mag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">meantemp_fft</span><span class="p">)</span>
+
+<span class="c"># Create plot of magnitude of Fourier transform against frequencies</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span><span class="w"> </span><span class="n">meantemp_fft_mag</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;Frequency&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Magnitude&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Magnitude of Fourier Transform&quot;</span><span class="p">)</span>
+
+<span class="c"># Display plot</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">savefig</span><span class="p">(</span><span class="s">&quot;ft.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id5">
+<img alt="../_images/ft.png" src="../_images/ft.png" />
+<figcaption>
+<p><span class="caption-text">ft.png</span><a class="headerlink" href="#id5" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</div>
+<p>I hope this exercise helps you practice working with the Fourier transform in Julia!</p>
+</div>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>You can create interactive 3D scatter plots in Julia using the PlotlyJS package.</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://plotly.com/julia/3d-scatter-plots/">https://plotly.com/julia/3d-scatter-plots/</a></p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/54429429/3d-scatter-plot-in-julia">https://stackoverflow.com/questions/54429429/3d-scatter-plot-in-julia</a></p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../linear-algebra/">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Linear algebra</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../motivation/">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Motivation</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, ENCCS, The contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/ENCCS/julia-for-hpda" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Data Formats and Dataframes</a><ul>
+<li><a class="reference internal" href="#working-with-data">Working with data</a><ul>
+<li><a class="reference internal" href="#dataframe-in-julia">DataFrame in Julia</a></li>
+<li><a class="reference internal" href="#download-a-dataset">Download a dataset</a></li>
+<li><a class="reference internal" href="#inspect-dataset">Inspect dataset</a></li>
+<li><a class="reference internal" href="#optional-long-vs-wide-data-format">(Optional) Long vs Wide Data Format</a></li>
+<li><a class="reference internal" href="#split-apply-combine-workflows">Split-apply-combine workflows</a></li>
+<li><a class="reference internal" href="#optional-creating-and-merging-dataframes">(Optional) Creating and merging DataFrames</a><ul>
+<li><a class="reference internal" href="#creating-dataframes">Creating DataFrames</a></li>
+<li><a class="reference internal" href="#merging-dataframes">Merging DataFrames</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plotting">Plotting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercises">Exercises</a></li>
+<li><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=187304be"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script src="../_static/minipres.js?v=a0d29692"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/tabs.js?v=3030b3cb"></script>
+    <script data-domain="enccs.github.io/julia-for-hpda" defer="defer" src="https://plausible.io/js/script.js"></script>
+    </body>
+</html>

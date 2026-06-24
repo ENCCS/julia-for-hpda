@@ -1,0 +1,1249 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex/"><link rel="search" title="Search" href="../search/"><link rel="next" title="Regression and time-series prediction" href="../regression/"><link rel="prev" title="Linear algebra" href="../linear-algebra/">
+        <link rel="prefetch" href="../_static/ENCCS_logo_light.png" as="image">
+        <link rel="prefetch" href="../_static/ENCCS_logo_dark.png" as="image">
+
+    <link rel="shortcut icon" href="../_static/favicon.ico"><!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>Data science and machine learning - Julia for high-performance data analytics</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=e9df6548" />
+    <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+    <link rel="stylesheet" type="text/css" href="../_static/furo_ext_lesson.css?v=6c0cde2e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../"><div class="brand">Julia for high-performance data analytics</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/ENCCS_logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/ENCCS_logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Julia for high-performance data analytics</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search/" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Prerequisites</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installing packages</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../motivation/">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataformats-dataframes/">Data Formats and Dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linear-algebra/">Linear algebra</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Data science and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/">Regression and time-series prediction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sciml/">Scientific Machine Learning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/data-science.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="data-science-and-machine-learning">
+<span id="data-science"></span><h1>Data science and machine learning<a class="headerlink" href="#data-science-and-machine-learning" title="Link to this heading">¶</a></h1>
+<div class="admonition-questions questions admonition" id="questions-0">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>Can I use Julia for machine learning?</p></li>
+<li><p>What are the key steps in data preprocessing in Julia?</p></li>
+<li><p>How can you handle missing data in Julia?</p></li>
+<li><p>How can you save your current environment in Julia?</p></li>
+<li><p>What are some popular machine learning algorithms available in Julia?</p></li>
+<li><p>How does Julia handle large datasets in machine learning?</p></li>
+<li><p>How can you implement clustering in Julia?</p></li>
+<li><p>What are some classification techniques available in Julia?</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>100 min teaching</p></li>
+<li><p>50 min exercises</p></li>
+</ul>
+</div>
+<section id="working-with-data">
+<h2>Working with data<a class="headerlink" href="#working-with-data" title="Link to this heading">¶</a></h2>
+<p>In the Data Formats and Dataframes lesson, we explored a Julian approach
+to manipulation and visualisation of data.</p>
+<p>Here we will learn and clustering, classification, machine learning and deep learning with some toy examples.</p>
+<section id="download-a-dataset">
+<h3>Download a dataset<a class="headerlink" href="#download-a-dataset" title="Link to this heading">¶</a></h3>
+<p>We start by downloading a dataset containing measurements
+of characteristic features of different penguin species.</p>
+<figure class="align-center" id="id5">
+<img alt="../_images/lter_penguins.png" src="../_images/lter_penguins.png" />
+<figcaption>
+<p><span class="caption-text">Artwork by &#64;allison_horst</span><a class="headerlink" href="#id5" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<div class="admonition-exercise exercise important admonition" id="exercise-0">
+<p class="admonition-title">Exercise</p>
+<p>To obtain the data we simply add the PalmerPenguins package.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;PalmerPenguins&quot;</span><span class="p">)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">PalmerPenguins</span>
+</pre></div>
+</div>
+<p>As it was done in the Data Formats and Dataframes lesson, we can</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dropmissing!</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The main features we are interested in for each penguin observation are
+<cite>bill_length_mm</cite>, <cite>bill_depth_mm</cite>, <cite>flipper_length_mm</cite> and <cite>body_mass_g</cite>.
+What the first three features mean is illustrated in the picture below.</p>
+<figure class="align-center" id="id6">
+<img alt="../_images/culmen_depth.png" src="../_images/culmen_depth.png" />
+<figcaption>
+<p><span class="caption-text">Artwork by &#64;allison_horst</span><a class="headerlink" href="#id6" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="saving-the-current-setup">
+<h2>Saving the Current Setup<a class="headerlink" href="#saving-the-current-setup" title="Link to this heading">¶</a></h2>
+<p>There are several ways to save the current setup in Julia.
+This section will cover three parts: saving the environment to
+have reproducible code and saving data using CSV files or <code class="docutils literal notranslate"><span class="pre">JLD</span></code>.</p>
+<section id="saving-the-environment">
+<h3>1. Saving the Environment<a class="headerlink" href="#saving-the-environment" title="Link to this heading">¶</a></h3>
+<div class="admonition-to-check-the-current-status-of-your-julia-environment-you-can-use-the-status-command-in-the-package-manager exercise important admonition" id="exercise-1">
+<p class="admonition-title">To check the current status of your Julia environment, you can use the status command in the package manager.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Status `~/.julia/environments/v1.9/Project.toml`
+   [336ed68f] CSV v0.10.11
+   [aaaa29a8] Clustering v0.15.4
+   [a93c6f00] DataFrames v1.6.1
+   [682c06a0] JSON v0.21.4
+   [8b842266] PalmerPenguins v0.1.4
+</pre></div>
+</div>
+<p>This will display the list of packages in the current environment along with their versions.</p>
+<p>To save the state of your environment, Julia uses two files: <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> file specifies the packages that you explicitly added to your environment,
+while the <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code> file records the exact versions of these packages and all their dependencies1.</p>
+<p>When you add packages using <code class="docutils literal notranslate"><span class="pre">Pkg.add()</span></code>, Julia automatically updates these files.
+Therefore, your environment’s state (i.e., the set of loaded packages) is automatically saved.
+<code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code> are located in the directory of your current Julia environment; in our case, <code class="docutils literal notranslate"><span class="pre">~/.julia/environments/v1.9/</span></code>.</p>
+<p>If you want to replicate this environment on another machine or in another folder, you can do the following:</p>
+<ol class="arabic simple">
+<li><p>Copy both <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code> to the new location.</p></li>
+<li><p>In Julia, navigate to that folder and activate the environment using <code class="docutils literal notranslate"><span class="pre">Pkg.activate(&quot;.&quot;)</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">Pkg.instantiate()</span></code> to download all the necessary packages.</p></li>
+</ol>
+<p>More information in section <cite>Environments</cite> at <a class="reference external" href="https://enccs.github.io/julia-intro/development/">https://enccs.github.io/julia-intro/development/</a></p>
+</div>
+</section>
+<section id="saving-data-as-a-csv-file">
+<h3>2. Saving Data as a CSV File<a class="headerlink" href="#saving-data-as-a-csv-file" title="Link to this heading">¶</a></h3>
+<p>As shown in the Data Formats and DataFrames lesson, a DataFrame can easily dumped into a CSV file using
+the <code class="docutils literal notranslate"><span class="pre">CSV.jl</span></code> package, which also allows for reading tabular data.</p>
+<div class="admonition-exercise exercise important admonition" id="exercise-2">
+<p class="admonition-title">Exercise</p>
+<p>You can use the CSV.jl package to save a DataFrame as a CSV file, which can be re-read later.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Pkg</span>
+<span class="c"># Pkg.add(&quot;CSV&quot;)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CSV</span>
+<span class="n">CSV</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;penguins.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And you can load it back with:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&quot;penguins.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="saving-data-using-jld-jld2">
+<h3>3. Saving Data Using JLD/JLD2<a class="headerlink" href="#saving-data-using-jld-jld2" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Another option is to use <a class="reference external" href="https://github.com/JuliaIO/JLD.jl">JLD.jl</a>
+The <code class="docutils literal notranslate"><span class="pre">JLD.jl</span></code> package provides a way to save and load Julia variables while preserving native types.
+It is based on HDF5, a cross-platform, multi-language data storage format most frequently used for scientific data.
+However, it is written in pure Julia and does not require any of the original C HDF5 implementation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">JLD</span></code> package can be imported in the usual way:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;JLD&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A DataFrame can be saved to file in the following way:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">JLD</span>
+<span class="n">save</span><span class="p">(</span><span class="s">&quot;penguins.jld&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;df&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here we’re saving <code class="docutils literal notranslate"><span class="pre">df</span></code> as “df” within <code class="docutils literal notranslate"><span class="pre">penguins.jld</span></code>. You can load this DataFrame back in with:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load</span><span class="p">(</span><span class="s">&quot;penguins.jld&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;df&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will return the DataFrame <code class="docutils literal notranslate"><span class="pre">df</span></code> from the file and assign it back to <code class="docutils literal notranslate"><span class="pre">df</span></code>.
+In the past years, the <code class="docutils literal notranslate"><span class="pre">JLD2.jl</span></code> package came forward as an alternative to <code class="docutils literal notranslate"><span class="pre">JLD</span></code>. It
+is also based on HDF5 and can read h5 files saved by other HDF5 implementations. It exposes an interface
+similar to <code class="docutils literal notranslate"><span class="pre">JLD</span></code> with  <code class="docutils literal notranslate"><span class="pre">save()</span></code> and <code class="docutils literal notranslate"><span class="pre">load()</span></code> functions, but the more user-friendly function <code class="docutils literal notranslate"><span class="pre">jldsave()</span></code>
+is also available:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">JLD2</span>
+<span class="n">jldsave</span><span class="p">(</span><span class="s">&quot;penguins.jld2&quot;</span><span class="p">;</span><span class="w"> </span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="c"># This is equivalent to the save command above</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load</span><span class="p">(</span><span class="s">&quot;penguins.jld2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;df&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Moreover, a <code class="docutils literal notranslate"><span class="pre">jldopen()</span></code> function provides a file-like interface. More information can be found
+<a class="reference external" href="https://github.com/JuliaIO/JLD2.jl">here</a>.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="machine-learning">
+<h2>Machine learning<a class="headerlink" href="#machine-learning" title="Link to this heading">¶</a></h2>
+<p>Machine learning (ML) is a branch of artificial intelligence (AI) and computer
+science that focuses on the use of data and algorithms to imitate the way that
+humans learn, gradually improving its accuracy. It is an umbrella term for
+solving problems for which development of algorithms by human programmers would
+be cost-prohibitive, and instead the problems are solved by helping machines
+“discover” patterns and algorithms to deal with data.
+Classical machine learning algorithms include (non-)linear regression, logistic
+regression,support vector machines (SVM), k-Nearest Neigbours, xgboost and many
+others, spanning supervised learning (where the algorithm is shown examples of
+what it should do), unsupservised learning (where it learns autonomously) and
+reinforcement learning (where a reward policy is used to “teach”).
+Deep learning, which will be discussed in more depth in a later section, is a
+type of machine learning algorithm.</p>
+<p>References:</p>
+<ul class="simple">
+<li><p>What is Machine Learning? – IBM. <a class="reference external" href="https://www.ibm.com/topics/machine-learning">https://www.ibm.com/topics/machine-learning</a></p></li>
+<li><p>Machine learning - Wikipedia. <a class="reference external" href="https://en.wikipedia.org/wiki/Machine_learning">https://en.wikipedia.org/wiki/Machine_learning</a></p></li>
+</ul>
+<section id="machine-learning-in-julia">
+<h3>Machine learning in Julia<a class="headerlink" href="#machine-learning-in-julia" title="Link to this heading">¶</a></h3>
+<p>Despite being a relatively new language, Julia already has a strong and rapidly
+expanding ecosystem of libraries for machine learning and deep learning. An
+important advantage of Julia for ML is that it is possible to extract very good
+performance by writing pure Julia code, without resorting to backends written
+in compiled languages.
+A distinct feature of the Julian ML ecosystem is a well-developed stack for
+<a class="reference external" href="https://sciml.ai/">“scientific machine learning” (SciML)</a> (a.k.a.
+physics-informed learning), which is a flavour of machine learning that
+incorporates physics (ODEs, PDEs…) into the learning process instead of
+relying only on data. SciML relies heavily on <cite>automatic differentiation</cite> - the
+ability to automatically compute derivatives of any function and thus
+incorporate it into predictive models.</p>
+</section>
+<section id="traditional-machine-learning">
+<h3>Traditional machine learning<a class="headerlink" href="#traditional-machine-learning" title="Link to this heading">¶</a></h3>
+<p>Julia has packages for traditional (non-deep) machine learning:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://scikitlearnjl.readthedocs.io/en/latest/">ScikitLearn.jl</a> is a port
+of the popular Python package.</p></li>
+<li><p><a class="reference external" href="https://alan-turing-institute.github.io/MLJ.jl/dev/">MLJ.jl</a> provides a common
+interface and meta-algorithms for selecting, tuning, evaluating, composing
+and comparing over 150 machine learning models.</p></li>
+<li><p><a class="reference external" href="https://juliapackages.com/c/machine-learning/">Machine Learning · Julia Packages</a>
+lists various Julia packages related to machine learning, such as MLJ.jl,
+Knet.jl, TensorFlow.jl, DiffEqFlux.jl, FastAI.jl, ScikitLearn.jl, and many
+more. You can browse the packages by their popularity, alphabetical order, or
+update date. Each package has a brief description and a link to its GitHub
+repository.</p></li>
+<li><p><a class="reference external" href="https://www.juliapackages.com/c/ai">AI · Julia Packages</a> lists Julia
+packages related to Artificial Intelligence broadly</p></li>
+</ul>
+<p>We will use a few utility functions from <code class="docutils literal notranslate"><span class="pre">MLJ.jl</span></code> in our deep learning
+exercise below, so we will need to add it to our environment:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;MLJ&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="clustering-and-classification">
+<h2>Clustering and Classification<a class="headerlink" href="#clustering-and-classification" title="Link to this heading">¶</a></h2>
+<p>In this episode, we will go through a <em>Clustering</em> example. Clustering is an
+unsupervised learning technique, used to discover “groups” of datapoints (called
+<em>clusters</em>) such that:</p>
+<ul class="simple">
+<li><p>Points belonging to the same cluster are <em>similar</em>, in the sense that they
+share common properties</p></li>
+<li><p>Points in different clusters are not similar</p></li>
+</ul>
+<p>Being an unsupervised method, it doesn’t need labeled examples, it aims to
+uncover hidden structure in the data.
+It is commonly used in a number of situations, including customer segmentation,
+geospatial analysis, biomedical data analysis, even time series analysis in some
+cases.</p>
+<p>In Julia, the <a class="reference external" href="https://juliastats.org/Clustering.jl/stable/index.html">Clustering.jl</a> package implements a
+few common clustering algorithms, including <em>k-means</em>, density based clustering
+and more, with most algorithms expecting data in a matrix of shape <code class="docutils literal notranslate"><span class="pre">(features</span> <span class="pre">x</span>
+<span class="pre">observations)</span></code>.</p>
+<p>In this particular example, we will use (a sample of) the published dataset of
+the <a class="reference external" href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page">New York City yellow taxi rides</a>.
+This data is published monthly by an agency of the municipality of New York and
+includes data such as pickup and dropoff locations (lat/lon or an “ID” that can
+be mapped to a location) and timestamps, trip length, airport fare surcharge,
+fare mount, tips, and more. This dataset is very big (a few GBs, 12 million rows
+for January 2015), thus we prepared two subsets for local exploration: one
+having <a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/raw/refs/heads/fix-dl-notebooks/content/data/taxi_100k.parquet">100k rows</a>
+and one having <a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/raw/refs/heads/fix-dl-notebooks/content/data/taxi_50k.parquet">50k rows</a>.
+In our tests, the clustering should be able to run in just a few seconds even
+with 100k rows. Please download the datasets now! The idea is to try to uncover
+patterns in the data, e.g. correlation between location and tipping/fare,
+whether clusters correspond to specific location, and so on. To do this, we will
+use the <em>k-means</em> clustering algorithm. The objective is to partition the
+dataset into <code class="docutils literal notranslate"><span class="pre">k</span></code> clusters by minimising the distance between points and their
+assigned cluster centre. The algorithm is implemented as follows:</p>
+<ol class="arabic simple">
+<li><p>Choose the number of clusters <code class="docutils literal notranslate"><span class="pre">k</span></code>. This can be done either by the user based
+on preliminary knowledge of the data (e.g. number of cell populations in
+biomedical data) or with some heuristic (e.g. elbow method)</p></li>
+<li><p>Initialise <code class="docutils literal notranslate"><span class="pre">k</span></code> cluster centres randomly</p></li>
+<li><p>Assign each point to the nearest centre</p></li>
+<li><p>Update each centre as the mean of the assigned points</p></li>
+<li><p>Repeat 3 and 4 until convergence</p></li>
+</ol>
+<p>The function to minimise is:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\sum_{k=1}^{K} \sum_{x_i \in C_k} \|x_i - \mu_k\|^2\]</div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(C_k\)</span> is a cluster</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu_k\)</span> is its centroid</p></li>
+</ul>
+<p>There are several other clustering techniques, such as <em>k-medoids</em>, DBSCAN and
+hierarchical clustering.
+Now, let us try to apply this to our example dataset!</p>
+<div class="admonition-clustering-example-of-nyc-yellow-taxi-rides type-along important admonition" id="type-along-0">
+<p class="admonition-title">Clustering example of NYC yellow taxi rides</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span><span class="p">,</span><span class="w"> </span><span class="n">Parquet2</span>
+
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Parquet2</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="s">&quot;taxi_100k.parquet&quot;</span><span class="p">);</span><span class="w"> </span><span class="n">copycols</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+
+<span class="n">dropmissing!</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c"># Remove extreme outliers</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">-</span><span class="mf">74.1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">row</span><span class="p">[</span><span class="ss">:pickup_longitude</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">-</span><span class="mf">73.7</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="mf">40.6</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">row</span><span class="p">[</span><span class="ss">:pickup_latitude</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">40.9</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now select the features we’re interested in, such as geographical information (latitude and longitude), distance and fare:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="ss">:pickup_longitude</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">:pickup_latitude</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">:fare_amount</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">:trip_distance</span><span class="p">,</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>Moreover, we need to scale the data (we’re computing distance between clusters,
+so we don’t want larger fields to be overrepresented):</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Statistics</span>
+
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Matrix</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="n">μ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">σ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">X_scaled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">X</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">μ</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">σ</span><span class="p">)</span><span class="o">&#39;</span>
+</pre></div>
+</div>
+<p>Now we can go for the actual clustering:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Clustering</span>
+
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmeans</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+
+<span class="n">clusters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">assignments</span>
+</pre></div>
+</div>
+<p>Visualisation (plot pickup location, colour by cluster):</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+
+<span class="n">scatter</span><span class="p">(</span>
+<span class="w">    </span><span class="n">df</span><span class="o">.</span><span class="n">pickup_longitude</span><span class="p">,</span>
+<span class="w">    </span><span class="n">df</span><span class="o">.</span><span class="n">pickup_latitude</span><span class="p">,</span>
+<span class="w">    </span><span class="n">marker_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clusters</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">    </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Longitude&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Latitude&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Taxi Clusters (Location + Price + Distance)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You should hopefully get something similar:</p>
+<figure class="align-center">
+<img alt="../_images/taxi_clusters.png" src="../_images/taxi_clusters.png" />
+</figure>
+</div>
+<div class="admonition-exercises exercise important admonition" id="exercise-6">
+<p class="admonition-title">Exercises</p>
+<div class="admonition-exercise1-spatial-clustering-only exercise important admonition" id="exercise-3">
+<p class="admonition-title">Exercise1: Spatial clustering only</p>
+<p>Cluster using only longitude and latitude and compare the results with
+multi-feature clustering.</p>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X_geo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Matrix</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="ss">:pickup_longitude</span><span class="p">,</span><span class="w"> </span><span class="ss">:pickup_latitude</span><span class="p">]))</span><span class="o">&#39;</span>
+
+<span class="n">result_geo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmeans</span><span class="p">(</span><span class="n">X_geo</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-exercise-2-add-time-features exercise important admonition" id="exercise-4">
+<p class="admonition-title">Exercise 2: Add time features</p>
+<p>Try adding the tip amount to the features and see if people in certain areas tip more!</p>
+<div class="admonition-solution solution important dropdown admonition" id="solution-1">
+<p class="admonition-title">Solution</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="ss">:pickup_longitude</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">:pickup_latitude</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">:fare_amount</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">:tip_amount</span>
+<span class="p">])</span>
+<span class="c"># ... carry on as before</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-exercise-3-geospatial-plotting exercise important admonition" id="exercise-5">
+<p class="admonition-title">Exercise 3: Geospatial plotting</p>
+<p>Let us now try to get a nicer plot by plotting the clusters on the land
+surface of the city. To do so, we use the <a href="#id2"><span class="problematic" id="id3">``</span></a>GeoMakie.jl
+&lt;<a class="reference external" href="https://geo.makie.org/stable/">https://geo.makie.org/stable/</a>&gt;`_ package, which is suitable for
+geospatial data plotting, and <a class="reference external" href="https://juliageo.org/NaturalEarth.jl/stable/">NaturalEarth.jl</a> which is a proxy to the
+<a class="reference external" href="https://www.naturalearthdata.com/">Natural Earth</a> dataset, containing
+the landmass (and other features) of the whole planet.</p>
+<div class="admonition-solution solution important dropdown admonition" id="solution-2">
+<p class="admonition-title">Solution</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">NaturalEarth</span><span class="p">,</span><span class="w"> </span><span class="n">GeoJSON</span><span class="p">,</span><span class="w"> </span><span class="n">CairoMakie</span><span class="p">,</span><span class="w"> </span><span class="n">GeoMakie</span>
+
+<span class="n">geo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NaturalEarth</span><span class="o">.</span><span class="n">naturalearth</span><span class="p">(</span><span class="s">&quot;land&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">lon_min</span><span class="p">,</span><span class="w"> </span><span class="n">lon_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">74.3</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">73.65</span>
+<span class="n">lat_min</span><span class="p">,</span><span class="w"> </span><span class="n">lat_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">40.45</span><span class="p">,</span><span class="w"> </span><span class="mf">40.95</span>
+
+<span class="n">fig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Figure</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span><span class="mi">700</span><span class="p">),</span><span class="w"> </span><span class="n">backgroundcolor</span><span class="o">=</span><span class="ss">:lightblue</span><span class="p">);</span>
+<span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Axis</span><span class="p">(</span><span class="n">fig</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">geo</span><span class="o">.</span><span class="n">features</span>
+<span class="w">    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feature</span><span class="o">.</span><span class="n">geometry</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="k">isa</span><span class="w"> </span><span class="n">GeoJSON</span><span class="o">.</span><span class="n">Polygon</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">ring</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">geom</span><span class="o">.</span><span class="n">coordinates</span>
+<span class="w">            </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getindex</span><span class="o">.</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">ys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getindex</span><span class="o">.</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">lon_min</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">minimum</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lon_max</span>
+<span class="w">                </span><span class="n">poly!</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="n">ys</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:lightgray</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="k">isa</span><span class="w"> </span><span class="n">GeoJSON</span><span class="o">.</span><span class="n">MultiPolygon</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">poly_coords</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">geom</span><span class="o">.</span><span class="n">coordinates</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">ring</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">poly_coords</span>
+<span class="w">                </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getindex</span><span class="o">.</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                </span><span class="n">ys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getindex</span><span class="o">.</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">lon_min</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">minimum</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lon_max</span>
+<span class="w">                    </span><span class="n">poly!</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="n">ys</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:lightgray</span><span class="p">)</span>
+<span class="w">                </span><span class="k">end</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="k">end</span>
+<span class="n">Makie</span><span class="o">.</span><span class="n">scatter!</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">.</span><span class="n">pickup_longitude</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">.</span><span class="n">pickup_latitude</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clusters</span><span class="p">)</span>
+<span class="n">Makie</span><span class="o">.</span><span class="n">xlims!</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">lon_min</span><span class="p">,</span><span class="w"> </span><span class="n">lon_max</span><span class="p">)</span>
+<span class="n">Makie</span><span class="o">.</span><span class="n">ylims!</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">lat_min</span><span class="p">,</span><span class="w"> </span><span class="n">lat_max</span><span class="p">)</span>
+
+<span class="n">fig</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../_images/taxi_geoplotting.png" src="../_images/taxi_geoplotting.png" />
+</figure>
+</div>
+</div>
+</div>
+<p>Furthermore, we also have a couple of notebooks that deal with clustering and
+classification problems. The first one deals with another example of
+clustering of housing prices in California and follows a similar structure,
+although it uses a different plotting package. The second one shows different
+ways to perform a classification task on the Iris dataset from a previous
+episode, building on our findings to try to predict the three species using a
+variety of traditional machine learning techniques such as Lasso, Support Vector
+Machines (SVM), Ridge regression and more. They can be run in VS Code or through
+the JupyterLab interface.</p>
+<p>Clustering notebook:
+<a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb">https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Clustering.ipynb</a></p>
+<p>Classification notebook:
+<a class="reference external" href="https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb">https://github.com/ENCCS/julia-for-hpda/blob/main/notebooks/Classification.ipynb</a></p>
+</section>
+<section id="deep-learning">
+<h2>Deep learning<a class="headerlink" href="#deep-learning" title="Link to this heading">¶</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Deep_learning">Deep learning</a> is a subset of
+ML. Neural networks are a particular type of ML approach which tries to loosely
+mimic the functioning of a human brain and consists of connected computational
+units called <em>neurons</em>; each neuron has one or more inputs and (mostly) performs three fundamental operations:
+- Take a weighted sum of the inputs with a vector of weights
+- Add an extra constant weight (<strong>bias</strong>)
+- Apply an (usually non-linear) <strong>activation function</strong> to this weighted sum.</p>
+<p>In essence, given a input vector <span class="math notranslate nohighlight">\((x_1,x_2,...,x_N)\)</span>, a neuron computes:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[y = f(\sum_i(x_iw_i) + b)\]</div>
+</div>
+<p>where <em>f</em> is the activation function, <span class="math notranslate nohighlight">\(w_i\)</span> are the weights and <em>b</em> is the
+bias.</p>
+<p>These neural networks attempt to simulate the behavior of the human brain —
+albeit far from matching its ability — allowing it to “learn” from large
+amounts of data. Deep learning drives many AI applications and services that
+improve automation, performing analytical and physical tasks without human
+intervention. Large language models and other generative AI models are very
+large neural networks with specific architectures.</p>
+<p>For more detailed information, the <a class="reference external" href="https://enccs.github.io/deep-learning-intro/">Intro to deep learning course</a> gives a good overview of the
+building blocks of a neural network.</p>
+<p>At the time of writing (2026), two main frameworks are used when dealing with
+neural networks in Julia: Flux.jl and Lux.jl.</p>
+<p><a class="reference external" href="https://fluxml.ai/">Flux.jl</a> comes “batteries-included” with many useful
+tools built in, but also enables the user to write own Julia code for DL
+components.</p>
+<ul class="simple">
+<li><p>Flux has relatively few explicit APIs for features like regularisation or
+embeddings. Core components are available, but there are few rigid,
+high-level APIs. Things like regularisation and embeddings are written using
+standard Julia code patterns</p></li>
+<li><p>All of Flux is straightforward Julia code and can be inspected/extended (no DSLs)</p></li>
+<li><p>Flux works well with other Julia libraries, like dataframes, images and
+differential equation solvers. One can build complex data processing
+pipelines that integrate Flux models.</p></li>
+</ul>
+<p><a class="reference external" href="https://lux.csail.mit.edu/stable/">Lux.jl</a>, on the other hand, is a newer
+framework that has a more functional programming style. While the building
+blocks are similar (layers, activation functions,etc.), the models are pure
+functions and the state is passed around as an argument. While this may look
+clunkier at first, it does have some advantages when trying to optimise code,
+and models can be composed, transformed and differentiated with standard Julia
+tools without special abstractions. Moreover, a <a class="reference external" href="https://lux.csail.mit.edu/stable/api/Lux/utilities#Training-API">Training API</a> is available
+to hide some of the boilerplate if needed.</p>
+<p>Generally speaking, Lux shines when integration with SciML is needed, or any
+time neural networks are embedded in larger scientific computing applications,
+and new developments tend to land in Lux first. Conversely, Flux is the more mature,
+general purpose deep learning framework. From a Python perspective, Flux feels
+more like PyTorch/Keras, whereas Lux is more akin to Jax/Flax.</p>
+<p>To install Flux:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Flux&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Whereas for Lux:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Lux&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-training-a-deep-neural-network-to-classify-penguins exercise important admonition" id="exercise-7">
+<p class="admonition-title">Training a deep neural network to classify penguins</p>
+<p>To train a model we need four things:</p>
+<ul class="simple">
+<li><p>A collection of data points that will be provided to the objective
+function.</p></li>
+<li><p>A objective (cost or loss) function, that evaluates how well a model
+is doing given some input data.</p></li>
+<li><p>The definition of a model and access to its trainable parameters.</p></li>
+<li><p>An optimiser that will update the model parameters appropriately.</p></li>
+</ul>
+<p>In this case, we will train a simple neural network to be able to classify
+the four species of penguins from the dataset above based on their anatomical
+features (bill length, depth, etc.).</p>
+<p>First we load the data:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">MLJ</span><span class="o">:</span><span class="w"> </span><span class="n">partition</span><span class="p">,</span><span class="w"> </span><span class="n">ConfusionMatrix</span>
+<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
+<span class="k">using</span><span class="w"> </span><span class="n">PalmerPenguins</span>
+<span class="k">using</span><span class="w"> </span><span class="n">OneHotArrays</span>
+
+<span class="n">table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PalmerPenguins</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="n">dropmissing!</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now preprocess our dataset to make it suitable for training a network:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># select feature and label columns</span>
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">Not</span><span class="p">([</span><span class="ss">:species</span><span class="p">,</span><span class="w"> </span><span class="ss">:sex</span><span class="p">,</span><span class="w"> </span><span class="ss">:island</span><span class="p">]))</span>
+<span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="ss">:species</span><span class="p">]</span>
+
+<span class="c"># split into training and testing parts</span>
+<span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">xtest</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partition</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">),</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="n">multi</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+
+<span class="c"># use single precision and transpose arrays</span>
+<span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">xtest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Float32</span><span class="o">.</span><span class="p">(</span><span class="kt">Array</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="kt">Float32</span><span class="o">.</span><span class="p">(</span><span class="kt">Array</span><span class="p">(</span><span class="n">xtest</span><span class="p">)</span><span class="o">&#39;</span><span class="p">)</span>
+
+<span class="c"># one-hot encoding</span>
+<span class="n">ytrain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onehotbatch</span><span class="p">(</span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ytest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onehotbatch</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+
+<span class="c"># count penguin classes to see if it&#39;s balanced</span>
+<span class="n">sum</span><span class="p">(</span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sum</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next up is the loss function which will be minimized during the training.
+We also define another function which will give us the accuracy of the model:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Rmx1eA==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-Rmx1eA==" name="Rmx1eA==" role="tab" tabindex="0">Flux</button><button aria-controls="panel-0-THV4" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-THV4" name="THV4" role="tab" tabindex="-1">Lux</button></div><div aria-labelledby="tab-0-Rmx1eA==" class="sphinx-tabs-panel group-tab" id="panel-0-Rmx1eA==" name="Rmx1eA==" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Flux</span>
+<span class="c"># we use the cross-entropy loss function typically used for classification</span>
+<span class="n">loss</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">crossentropy</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+
+<span class="c"># onecold (opposite to onehot) gives back the original representation</span>
+<span class="k">function</span><span class="w"> </span><span class="n">accuracy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">.==</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">model</span></code> will be our neural network, so we go ahead and define it:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">sigmoid</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">        </span><span class="n">softmax</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now set up our optimizer. We have selected the standard optimizer ADAM:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">opt_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">Adam</span><span class="p">(),</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Before training the model, let’s have a look at some initial predictions
+and the accuracy:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># predictions before training</span>
+<span class="n">model</span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="c"># accuracy before training</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally we are ready to train the model. Let’s run 100 epochs:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># the training data and the labels can be passed as tuples to train!</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">    </span><span class="n">Flux</span><span class="o">.</span><span class="n">train!</span><span class="p">((</span><span class="n">m</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">loss</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="p">[(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)],</span><span class="w"> </span><span class="n">opt_state</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c"># check final accuracy</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The performance of the model is probably somewhat underwhelming, but you will
+fix that in an exercise below!</p>
+<p>We finally create a confusion matrix to quantify the performance of the model:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xtest</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">true_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ConfusionMatrix</span><span class="p">()(</span><span class="n">predicted_species</span><span class="p">,</span><span class="w"> </span><span class="n">true_species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-THV4" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-THV4" name="THV4" role="tabpanel" tabindex="0"><blockquote>
+<div><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Lux</span><span class="p">,</span><span class="w"> </span><span class="n">Random</span><span class="p">,</span><span class="w"> </span><span class="n">Optimisers</span>
+<span class="c"># cross-entropy loss function</span>
+<span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="c"># accuracy function</span>
+<span class="c"># onecold (inverse of onehot) gives back the original representation</span>
+<span class="k">function</span><span class="w"> </span><span class="n">accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">)))</span><span class="w"> </span><span class="o">.==</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p><cite>model</cite> above is our neural network, so we can go on and create it!</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="n">sigmoid</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now set up the actual training infrastructure. For this case, we’ll use the Lux Training API:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+<span class="n">opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optimisers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="n">train_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">Training</span><span class="o">.</span><span class="n">TrainState</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, we used an Adam optimiser. We can give a look at the initial predictions (i.e. before training)</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can start the training loop!</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="n">epoch</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">  </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">train_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">Training</span><span class="o">.</span><span class="n">single_train_step!</span><span class="p">(</span><span class="n">AutoZygote</span><span class="p">(),</span><span class="w"> </span><span class="n">loss</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">),</span><span class="w"> </span><span class="n">train_state</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">epoch</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Epoch </span><span class="si">$epoch</span><span class="s"> - Loss </span><span class="si">$l</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c"># check final accuracy</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The performance of the model is probably somewhat underwhelming, but you will
+fix that in an exercise below!</p>
+<p>We finally create a confusion matrix to quantify the performance of the model:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">)),</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">true_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ConfusionMatrix</span><span class="p">()(</span><span class="n">predicted_species</span><span class="p">,</span><span class="w"> </span><span class="n">true_species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">¶</a></h2>
+<div class="admonition-improve-the-deep-learning-model exercise important admonition" id="exercise-8">
+<p class="admonition-title">Improve the deep learning model</p>
+<p>Improve the performance of the neural network we trained above!
+The network is not improving much because of the large numerical
+range of the input features (from around 15 to around 6000) combined
+with the fact that we use a <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> activation function. A standard
+method in machine learning is to normalize features by “batch
+normalization”. Replace the network definition with the following and
+see if the performance improves:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Rmx1eA==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-Rmx1eA==" name="Rmx1eA==" role="tab" tabindex="0">Flux</button><button aria-controls="panel-1-THV4" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-THV4" name="THV4" role="tab" tabindex="-1">Lux</button></div><div aria-labelledby="tab-1-Rmx1eA==" class="sphinx-tabs-panel group-tab" id="panel-1-Rmx1eA==" name="Rmx1eA==" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">          </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">),</span>
+<span class="w">          </span><span class="n">BatchNorm</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">          </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">          </span><span class="n">softmax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-THV4" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-THV4" name="THV4" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BatchNorm</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">    </span><span class="n">softmax</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Performance is usually better also if we, instead of training on the entire
+dataset at once, divide the training data into “minibatches” and update
+the network weights on each minibatch separately.
+First define the following function:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">StatsBase</span><span class="o">:</span><span class="w"> </span><span class="n">sample</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">;</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Tuple</span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n_batch</span>
+<span class="w">        </span><span class="n">randinds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">batch_size</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">randinds</span><span class="p">],</span><span class="w"> </span><span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">randinds</span><span class="p">]))</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">minibatches</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>and then create the minibatches by calling the function.</p>
+<p>You will not need to manually loop over the minibatches, simply pass
+the <code class="docutils literal notranslate"><span class="pre">minibatches</span></code> vector of tuples to the <code class="docutils literal notranslate"><span class="pre">Flux.train!</span></code> function.
+Does this make a difference?</p>
+<div class="admonition-solution solution important dropdown admonition" id="solution-3">
+<p class="admonition-title">Solution</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Rmx1eA==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-2-Rmx1eA==" name="Rmx1eA==" role="tab" tabindex="0">Flux</button><button aria-controls="panel-2-THV4" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-THV4" name="THV4" role="tab" tabindex="-1">Lux</button></div><div aria-labelledby="tab-2-Rmx1eA==" class="sphinx-tabs-panel group-tab" id="panel-2-Rmx1eA==" name="Rmx1eA==" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">;</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Tuple</span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n_batch</span>
+<span class="w">        </span><span class="n">randinds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">batch_size</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">randinds</span><span class="p">],</span><span class="w"> </span><span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">randinds</span><span class="p">]))</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">minibatches</span>
+<span class="k">end</span>
+
+<span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">),</span>
+<span class="w">        </span><span class="n">BatchNorm</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">        </span><span class="n">softmax</span><span class="p">)</span>
+
+<span class="n">opt_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">Adam</span><span class="p">(),</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">    </span><span class="c"># train on minibatches</span>
+<span class="w">    </span><span class="n">Flux</span><span class="o">.</span><span class="n">train!</span><span class="p">((</span><span class="n">m</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">loss</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="n">opt_state</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="c"># 0.9849624060150376</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+<span class="c"># 0.9850746268656716</span>
+
+<span class="n">predicted_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xtest</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">true_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ConfusionMatrix</span><span class="p">()(</span><span class="n">predicted_species</span><span class="p">,</span><span class="w"> </span><span class="n">true_species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-THV4" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-THV4" name="THV4" role="tabpanel" tabindex="0"><div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">;</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Tuple</span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n_batch</span>
+<span class="w">        </span><span class="n">randinds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">batch_size</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">minibatches</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">randinds</span><span class="p">],</span><span class="w"> </span><span class="n">ytrain</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">randinds</span><span class="p">]))</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">minibatches</span>
+<span class="k">end</span>
+
+
+<span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BatchNorm</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">    </span><span class="n">softmax</span>
+<span class="p">)</span>
+
+<span class="n">rng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+
+<span class="c"># ----------------------</span>
+<span class="c"># Optimizer + TrainState</span>
+<span class="c"># ----------------------</span>
+<span class="n">opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="n">tstate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lux</span><span class="o">.</span><span class="n">Training</span><span class="o">.</span><span class="n">TrainState</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">)</span>
+
+<span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">epoch</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">epochs</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">batch</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">minibatches</span>
+<span class="w">        </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">tstate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Training</span><span class="o">.</span><span class="n">single_train_step!</span><span class="p">(</span>
+<span class="w">            </span><span class="n">AutoZygote</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">loss</span><span class="p">,</span>
+<span class="w">            </span><span class="n">batch</span><span class="p">,</span>
+<span class="w">            </span><span class="n">tstate</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">accuracy</span><span class="p">(</span><span class="n">Lux</span><span class="o">.</span><span class="n">testmode</span><span class="p">(</span><span class="n">model</span><span class="p">),</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">)</span>
+<span class="c"># 0.9849624060150376</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">Lux</span><span class="o">.</span><span class="n">testmode</span><span class="p">(</span><span class="n">model</span><span class="p">),</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ytest</span><span class="p">)</span>
+<span class="c"># 0.9850746268656716</span>
+
+<span class="n">predicted_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">)),</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">true_species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OneHotArrays</span><span class="o">.</span><span class="n">onecold</span><span class="p">(</span><span class="n">ytest</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Adelie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gentoo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Chinstrap&quot;</span><span class="p">])</span>
+<span class="n">ConfusionMatrix</span><span class="p">()(</span><span class="n">predicted_species</span><span class="p">,</span><span class="w"> </span><span class="n">true_species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/confusion_matrix.png"><img alt="../_images/confusion_matrix.png" src="../_images/confusion_matrix.png" style="width: 343.20000000000005px; height: 128.8px;" />
+</a>
+</figure>
+<p>Much better!</p>
+</div>
+</div>
+<div class="admonition-more-improvements exercise important admonition" id="exercise-9">
+<p class="admonition-title">More improvements</p>
+<p><strong>Exercise: Hyperparameter Tuning</strong></p>
+<p>Experiment with different hyperparameters of the model and the training process.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Try different batch sizes in the minibatch creation.</span>
+<span class="n">minibatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_minibatches</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">ytrain</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">n_batch</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c"># Experiment with different learning rates for the ADAM optimizer.</span>
+<span class="n">opt_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Flux</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+
+<span class="c"># Change the number of neurons in the hidden layer of the model.</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">   </span><span class="n">softmax</span>
+<span class="p">)</span>
+
+<span class="c"># The solution will depend on the specific hyperparameters chosen.</span>
+</pre></div>
+</div>
+<p><strong>Exercise: Feature Engineering</strong></p>
+<p>Consider doing some feature engineering on your input data.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Try normalizing or standardizing the input features.</span>
+<span class="n">xtrain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">xtrain</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">std</span><span class="p">(</span><span class="n">xtrain</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">xtest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">xtest</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">std</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span><span class="w"> </span><span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exercise: Different Model Architectures</strong></p>
+<p>Experiment with different model architectures.</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Try adding more layers to your model.</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Chain</span><span class="p">(</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">),</span>
+<span class="w">   </span><span class="n">Dense</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_classes</span><span class="p">),</span>
+<span class="w">   </span><span class="n">softmax</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Remember to experiment and see how these changes affect your model’s performance! 😊</p>
+</div>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>Many interesting datasets are available in Julia through the
+<a class="reference external" href="https://github.com/JuliaStats/RDatasets.jl">RDatasets</a> package.
+For instance:</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;RDatasets&quot;</span><span class="p">)</span>
+<span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
+<span class="c"># load a couple of datasets</span>
+<span class="n">iris</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;datasets&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iris&quot;</span><span class="p">)</span>
+<span class="n">neuro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;boot&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;neuro&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference external" href="http://fluxml.ai/Flux.jl/stable/tutorials/2020-09-15-deep-learning-flux/">Deep Learning with Flux - A 60 Minute Blitz</a></p></li>
+<li><p><a class="reference external" href="http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-08-dcgan-mnist/">Deep Convolutional Generative Adversarial Network (DCGAN)</a></p></li>
+<li><p><a class="reference external" href="https://lux.csail.mit.edu/stable/tutorials/">Lux tutorials</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=bLNH8L6Zubg">Lux + Reactant</a></p></li>
+<li><p><a class="reference external" href="https://neroblackstone.github.io/D2lJulia/README.html">Deep learning with Flux (online book)</a></p></li>
+</ul>
+<section id="neuromorphic-probabilistic-learning">
+<h3>Neuromorphic | Probabilistic learning<a class="headerlink" href="#neuromorphic-probabilistic-learning" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://darsnack.github.io/SpikingNN.jl/dev/">https://darsnack.github.io/SpikingNN.jl/dev/</a></p></li>
+<li><p><a class="reference external" href="https://turinglang.org/v0.24/tutorials/">https://turinglang.org/v0.24/tutorials/</a></p></li>
+<li><p>Nordic Neuromorphs | NorN Discord Community – <a class="reference external" href="https://discord.gg/5Qq6yX5">https://discord.gg/5Qq6yX5</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../regression/">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Regression and time-series prediction</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../linear-algebra/">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Linear algebra</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, ENCCS, The contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/ENCCS/julia-for-hpda" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Data science and machine learning</a><ul>
+<li><a class="reference internal" href="#working-with-data">Working with data</a><ul>
+<li><a class="reference internal" href="#download-a-dataset">Download a dataset</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#saving-the-current-setup">Saving the Current Setup</a><ul>
+<li><a class="reference internal" href="#saving-the-environment">1. Saving the Environment</a></li>
+<li><a class="reference internal" href="#saving-data-as-a-csv-file">2. Saving Data as a CSV File</a></li>
+<li><a class="reference internal" href="#saving-data-using-jld-jld2">3. Saving Data Using JLD/JLD2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine-learning">Machine learning</a><ul>
+<li><a class="reference internal" href="#machine-learning-in-julia">Machine learning in Julia</a></li>
+<li><a class="reference internal" href="#traditional-machine-learning">Traditional machine learning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clustering-and-classification">Clustering and Classification</a></li>
+<li><a class="reference internal" href="#deep-learning">Deep learning</a></li>
+<li><a class="reference internal" href="#exercises">Exercises</a></li>
+<li><a class="reference internal" href="#see-also">See also</a><ul>
+<li><a class="reference internal" href="#neuromorphic-probabilistic-learning">Neuromorphic | Probabilistic learning</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=187304be"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script src="../_static/minipres.js?v=a0d29692"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/tabs.js?v=3030b3cb"></script>
+    </body>
+</html>
